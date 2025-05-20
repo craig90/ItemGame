@@ -24,7 +24,7 @@ int main () {
     // list = createRecord("Craig", 35);
     // list->next = createRecord("Jerf", 35);
     // list->next->next = createRecord("Meg", 34);
-    printList(list);
+    // printList(list);
     
     menu(list);
 
