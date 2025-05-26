@@ -126,7 +126,7 @@ public class Character {
 
         for (int i = 0; i < itemList.size(); i++) {
             System.out.println(this.itemList.get(i).getItemType() + " " + " " + this.itemList.get(i).getItemName() );
-            for (int j = 0; j < itemList.size(); j++) {
+            for (int j = 0; j < itemList.get(i).getStatList().size(); j++) {
                 System.out.println( this.itemList.get(i).getStatList().get(j).type + " " + this.itemList.get(i).getStatList().get(j).value );
             }
         }
