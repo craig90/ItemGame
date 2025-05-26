@@ -24,4 +24,9 @@ public class Item {
         return this.statList;
     }
 
+    // TODO: add logic for number of stats an item can hold once I figure out what the limit should be
+    public void addStat(Stat stat) {
+        this.statList.add(stat);
+    }
+
 }

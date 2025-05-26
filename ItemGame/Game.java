@@ -15,7 +15,11 @@ public class Game {
 
         character = new Character();
         character.dummyData();
-        // character.health.updateValue();
+        System.out.println("Character Without Gear");
+        character.displayCharacter();
+        
+        character.dummyItems();
+        System.out.println("Character With Gear");
         character.displayCharacter();
 
 
