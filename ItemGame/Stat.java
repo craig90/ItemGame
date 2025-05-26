@@ -2,9 +2,8 @@ public class Stat {
 
     // start with this for now - maybe becomes an abstract class in the future
 
-    // type should be moved to a list of limited options
-    private String type;
-    private double value;
+    protected String type;
+    protected double value;
 
     public Stat() {
         this.type = "";
@@ -17,11 +16,12 @@ public class Stat {
         this.value = value;
     }
 
+    // TODO: this might need to be changed or moved out of abstract class Stat
     public void setValue(double value) {
         this.value = value;
     }
 
-    public String getName() {
+    public String getStatType() {
         return this.type;
     }
     public double getValue() {
