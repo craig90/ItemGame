@@ -26,18 +26,19 @@ public class Character {
     // eventually this should be read in from a file
     public Character () {
         
-        // TODO: constructor should initialize these values instead of class Character
+        // TODO: Character Stat constructor should initialize these values instead of class Character
         characterName = "";
-        level = new CharacterStat(this, StatNames.LEVEL, 0);
-        health = new CharacterStat(this, StatNames.HEALTH, 0);
-        damage = new CharacterStat(this, StatNames.DAMAGE, 0);
-        defence = new CharacterStat(this, StatNames.DEFENSE, 0);
+        level = new CharacterStat(this, StatNames.LEVEL, 0.0);
+        experience = new CharacterStat(this, StatNames.EXPERIENCE, 0.0);
+        health = new CharacterStat(this, StatNames.HEALTH, 0.0);
+        damage = new CharacterStat(this, StatNames.DAMAGE, 0.0);
+        defence = new CharacterStat(this, StatNames.DEFENSE, 0.0);
         
-        fireResistance = new CharacterStat(this, StatNames.FIRE_RESISTANCE, 0);
-        coldResistance = new CharacterStat(this, StatNames.COLD_RESISTANCE, 0);
-        lightningResistance = new CharacterStat(this, StatNames.LIGHTNING_RESISTANCE, 0);
-        poisonResistance = new CharacterStat(this, StatNames.POISON_RESISTANCE, 0);
-        magicResistance = new CharacterStat(this, StatNames.MAGIC_RESISTANCE, 0);
+        fireResistance = new CharacterStat(this, StatNames.FIRE_RESISTANCE, 0.0);
+        coldResistance = new CharacterStat(this, StatNames.COLD_RESISTANCE, 0.0);
+        lightningResistance = new CharacterStat(this, StatNames.LIGHTNING_RESISTANCE, 0.0);
+        poisonResistance = new CharacterStat(this, StatNames.POISON_RESISTANCE, 0.0);
+        magicResistance = new CharacterStat(this, StatNames.MAGIC_RESISTANCE, 0.0);
 
         statList = new ArrayList<CharacterStat>();
 
@@ -63,8 +64,18 @@ public class Character {
         return this.itemList;
     }
     
+    public void setName(String name) {
+        this.characterName = name;
+    }
 
+    // TODO: this should only by done at initialization unless I want to make the game much more complex in the future
+    public void setLevel(double level) {
+        this.level.setValue(level);
+    }
 
+    public void setExperience(double experience) {
+        this.experience.setValue(experience);
+    }
 
     // just for testing purposes - fill this with dummy data
     public void dummyData(){
@@ -110,12 +121,10 @@ public class Character {
 
     // temporary method - the model should not be printing a display 
     public void displayCharacter() {
-        System.out.println("\n" + this.characterName + " " + level.getStatType() + " " + level.getValue() + "\n");
+        System.out.println("\n" + this.characterName + " " + level.getStatType() + " " + level.getValue() + " " + 
+        experience.getStatType() + " " + experience.getValue() + "\n");
         
         System.out.println("Stats:");
-        // System.out.println(health.getStatType() + ": " + health.getValue());
-        // System.out.println(damage.getStatType() + ": " + damage.getValue());
-        // System.out.println(defence.getStatType() + ": " + defence.getValue());
 
         for (int i = 0; i < this.statList.size(); i ++) {
             System.out.println(this.statList.get(i).getStatType() + ": " + this.statList.get(i).getValue());
@@ -129,6 +138,7 @@ public class Character {
             for (int j = 0; j < itemList.get(i).getStatList().size(); j++) {
                 System.out.println( this.itemList.get(i).getStatList().get(j).type + " " + this.itemList.get(i).getStatList().get(j).value );
             }
+            System.out.println("");
         }
 
     }

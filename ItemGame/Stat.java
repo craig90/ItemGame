@@ -24,6 +24,7 @@ public class Stat {
     public String getStatType() {
         return this.type;
     }
+    
     public double getValue() {
         return this.value;
     }

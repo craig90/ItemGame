@@ -2,6 +2,12 @@ public class CharacterStat extends Stat {
 
     Character character;
 
+    public static final double HEALTH_LEVEL_MODIFIER = 2.0;
+    public static final double RESISTANCE_LEVEL_MODIFIER = 0.5;
+    public static final double DEFENCE_LEVEL_MODIFIER = 3.0;
+    public static final double DAMAGE_LEVEL_MODIFIER = 1.0;
+
+
     public CharacterStat() {
 
     }
@@ -13,11 +19,25 @@ public class CharacterStat extends Stat {
     }
 
 
-    // Character Stats that share the same updateLogic will use this function instead of using a subClass
+    /*
+     * Update the value of the character stat
+     * 
+     * This will take into acoount the character's level and any gear they are wearing
+     */
     void updateValue() {
 
-        // this will work for resistence and maybe a few others
-        this.value = character.getLevel();
+        // set stats first depending on level -- TODO: this can probably be moved to its own method
+        if (this.type == StatNames.HEALTH) {
+            this.value = character.getLevel() * HEALTH_LEVEL_MODIFIER;
+        } else if (this.type == StatNames.DEFENSE) {
+            this.value = character.getLevel() * DEFENCE_LEVEL_MODIFIER;
+        } else if (this.type == StatNames.DAMAGE) {
+            this.value = character.getLevel() * DAMAGE_LEVEL_MODIFIER;
+        } else if (this.type == StatNames.COLD_RESISTANCE || this.type == StatNames.FIRE_RESISTANCE || 
+            this.type == StatNames.LIGHTNING_RESISTANCE || this.type == StatNames.MAGIC_RESISTANCE || 
+            this.type == StatNames.POISON_RESISTANCE) {
+            this.value = character.getLevel() * RESISTANCE_LEVEL_MODIFIER; 
+        }
 
         // System.out.println("We have " + this.character.getItemList().size() + " items");
         // go through the list of items
