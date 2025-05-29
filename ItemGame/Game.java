@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Game {
 
@@ -13,21 +14,48 @@ public class Game {
 
     public void runGame() {
 
-        this.initializeGame();
-
-        // this.character = new Character();
-        // System.out.println("Character Without Gear");
-        this.character.updateStats();
+        Scanner scanner = new Scanner(System.in);
+        int input = -1;
         
-        System.out.println("Character With Gear");
-        this.character.displayCharacter();
+        System.out.println("Welcome to the Item Game");
+        System.out.println("Enter the Character File You'd Like to Load");
+        // TODO: for now lets not implment this - later on read from user selected file
 
-        // write to file when we're done
-        // fileIO.write();
+        this.initializeGame();
+        this.character.updateStats();
+
+        while (input != 0) {
+
+            System.out.println("1 - Show Character's Base Stats");
+            System.out.println("2 - Show Character's Stats");
+            System.out.println("3 - Show Character's Items");
+            System.out.println("4 - Get a New Item");
+            System.out.println("0 - Exit Program");
+            input = scanner.nextInt();
+
+            if (input == 1) {
+                System.out.println("Not yet implemented");
+            } else if (input == 2) {
+                this.character.displayStats();
+            } else if (input == 3) {
+                this.character.displayItems();
+            } else if (input == 4 ) {
+                System.out.println("Not yet implemented");
+            }
+
+        }
+        
+        scanner.close();
+        
+        // TODO: write to file when we're done
 
     }
 
-
+    /**
+     * TODO: this should not be in this file LOL
+     * @param string
+     * @return
+     */
     private double StringToDouble(String string) {
 
         double number = 0.0;

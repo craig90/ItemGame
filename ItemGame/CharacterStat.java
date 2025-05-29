@@ -52,7 +52,7 @@ public class CharacterStat extends Stat {
                 // see if its the same type
                 if (this.type.equals(this.character.getItemList().get(i).getStatList().get(j).getStatType())) {
 
-                    System.out.println(this.type + " is being updated");
+                    // System.out.println(this.type + " is being updated");
                     this.value += this.character.getItemList().get(i).getStatList().get(j).getValue();
                 } 
         
