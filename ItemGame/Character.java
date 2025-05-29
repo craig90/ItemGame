@@ -77,40 +77,10 @@ public class Character {
         this.experience.setValue(experience);
     }
 
-    // just for testing purposes - fill this with dummy data
-    public void dummyData(){
 
-        // we set the character name and level then update function because stats are partially based on level
-        this.characterName = "Duder";
-        this.level.setValue(15);
-
-        updateStats();
-
-    }
-
-    // just come up with some items to test things out
-    public void dummyItems() {
-
-        // TODO: item types need to be defined somewhere
-        Item gloves = new Item("Gloves", "Gold Gloves");
-        Stat stat1 = new Stat(StatNames.DAMAGE, 15.0);
-        Stat stat2 = new Stat(StatNames.DEFENSE, 67.0);
-        gloves.addStat(stat1);
-        gloves.addStat(stat2);
-
-        Item helm = new Item("Helm", "Green Helm");
-        Stat stat3 = new Stat(StatNames.DEFENSE, 50.0);
-        Stat stat4 = new Stat(StatNames.HEALTH, 60.0);
-        helm.addStat(stat3);
-        helm.addStat(stat4);
-
-        this.itemList.add(gloves);
-        this.itemList.add(helm);
-
-        updateStats();
-
-    }
-
+    /*
+     * 
+     */
     public void updateStats() {
 
         for (int i = 0; i < this.statList.size(); i++) {
@@ -134,7 +104,7 @@ public class Character {
         System.out.println("Items:");
 
         for (int i = 0; i < itemList.size(); i++) {
-            System.out.println(this.itemList.get(i).getItemType() + " " + " " + this.itemList.get(i).getItemName() );
+            System.out.println(this.itemList.get(i).getItemType() + " " + this.itemList.get(i).getItemName() );
             for (int j = 0; j < itemList.get(i).getStatList().size(); j++) {
                 System.out.println( this.itemList.get(i).getStatList().get(j).type + " " + this.itemList.get(i).getStatList().get(j).value );
             }

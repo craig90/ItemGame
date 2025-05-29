@@ -20,6 +20,15 @@ public class Item {
         return this.itemName;
     }
 
+    // TODO: this should not be changed more than once... could add code to prevent that
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
     public ArrayList<Stat> getStatList() {
         return this.statList;
     }

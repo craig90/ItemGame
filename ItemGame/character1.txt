@@ -1,31 +1,31 @@
-Character-Name DixieNormus
-Level 20
-Experience 12345
+Character Name:Dixie Normus
+Level:20
+Experience:12345
 
 Item-Start
-Item-Type Gloves
-Item-Name Gold-Gloves
-Damage 15.0
-Defense 67.0
+Item Type:Gloves
+Item Name:Gold Gloves
+Damage:15.0
+Defense:67.0
 Item-End
 
 Item-Start
-Item-Type Helm
-Item-Name Green-Helm
-Defense 50.0
-Health 60.0
+Item Type:Helm
+Item Name:Green Helm
+Defense:50.0
+Health:60.0
 Item-End
 
 Item-Start
-Item-Type Shield
-Item-Name Cool-Shield
-Defense 200.0
-Fire_Resistance 20.0
+Item Type:Shield
+Item Name:Cool Shield
+Defense:200.0
+Fire Resistance:20.0
 Item-End
 
 Item-Start
-Item-Type Chest
-Item-Name Bronze-Chest
-Defense 300.0
-Magic_Resistance 25.0
+Item Type:Chest
+Item Name:Bronze Chest
+Defense:300.0
+Magic Resistance:25.0
 Item-End
