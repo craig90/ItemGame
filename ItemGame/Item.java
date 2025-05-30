@@ -38,4 +38,16 @@ public class Item {
         this.statList.add(stat);
     }
 
+    /**
+     * TODO I feel like this needs to be called from somewhere else
+     */
+    public void displayItem() {
+        System.out.println(this.itemName + " " + this.itemType);
+        
+        for (int i = 0; i < this.statList.size(); i++) {
+            System.out.println(this.statList.get(i).type + this.statList.get(i).value);
+        }
+
+    }
+
 }

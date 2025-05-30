@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Game {
 
     Character character;
+    ItemGenerator itemGenerator;
 
     // maybe initialize the GUI, and Character here?
     public Game () {
@@ -23,6 +24,7 @@ public class Game {
 
         this.initializeGame();
         this.character.updateStats();
+        this.itemGenerator = new ItemGenerator();
 
         while (input != 0) {
 
@@ -40,7 +42,10 @@ public class Game {
             } else if (input == 3) {
                 this.character.displayItems();
             } else if (input == 4 ) {
-                System.out.println("Not yet implemented");
+                Item newItem = itemGenerator.createNewItem();
+                System.out.println("Your new Item");
+                newItem.displayItem();
+                // do some sort of comparason here
             }
 
         }

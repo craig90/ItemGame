@@ -19,7 +19,7 @@ public class FileReader {
             scanner = new Scanner(file);
                     
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred locating the file");
             e.printStackTrace();
         }
 
@@ -33,7 +33,7 @@ public class FileReader {
             return line;
         } else {
             scanner.close();
-            return "EndOfFile";
+            return FileKeywords.END_OF_FILE;
         }
     }
 
