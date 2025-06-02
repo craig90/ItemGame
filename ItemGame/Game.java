@@ -43,9 +43,24 @@ public class Game {
                 this.character.displayItems();
             } else if (input == 4 ) {
                 Item newItem = itemGenerator.createNewItem();
-                System.out.println("Your new Item");
+                System.out.println("Your new item: ");
                 newItem.displayItem();
-                // do some sort of comparason here
+                itemComparison(newItem);
+                System.out.println("Would you like to equip this item? 1 - yes");
+                if (scanner.nextInt() == 1){
+                    
+                    // we have to remove the old item if we're adding a new one of the same type
+                    for (int i = 0; i < this.character.getItemList().size(); i++) {
+                        if (this.character.getItemList().get(i).getItemType().equals(newItem.getItemType())){
+                            System.out.println("Removing the old item " + this.character.getItemList().get(i).getItemName());
+                            this.character.getItemList().remove(i);
+                        }
+                    }
+
+                    this.character.getItemList().add(newItem);
+                    this.character.updateStats();
+                }
+
             }
 
         }
@@ -53,6 +68,76 @@ public class Game {
         scanner.close();
         
         // TODO: write to file when we're done
+
+    }
+
+    /**
+     * TODO: this method should not be in this class
+     * TODO: also clean this up a bit
+     */
+    private void itemComparison(Item newItem) {
+        
+        Item equippedItem = null;
+                
+        // see if we have this item type equiped
+        boolean isEquipped = false;
+        for (int i = 0; i < character.getItemList().size(); i++) {
+            if (character.getItemList().get(i).getItemType().equals(newItem.getItemType())) {
+                System.out.println("\nCurrent " + character.getItemList().get(i).getItemType());
+                character.getItemList().get(i).displayItem();
+                equippedItem = character.getItemList().get(i);
+                isEquipped = true;
+            }
+        }
+
+        // if this type of item is not already equipped - we're just adding all the new stats from this item
+        if (isEquipped == false) {
+            System.out.println("\nCurrently there is/are no " + newItem.getItemType() + "(s) equipped");
+            System.out.println("Equipping this item will add: ");
+            for (int i = 0; i < newItem.getStatList().size(); i++) {
+                System.out.println(newItem.getStatList().get(i).type + " " + newItem.getStatList().get(i).value);
+            }
+        }
+        
+        // this is a bit more complicated, we're going to have to run through all the stats from the equipped item
+        // and new item to compare and see what will increase and what will decrease
+        else {
+            boolean[] foundEquippedStat = new boolean[equippedItem.getStatList().size()];
+        
+            for (int i = 0; i < equippedItem.getStatList().size(); i++) { // initialize the array to false
+                foundEquippedStat[i] = false;
+            }
+
+            System.out.println("Equipping this item will change the following stats: ");
+            for (int i = 0; i < newItem.getStatList().size(); i++) {
+                
+                Stat newStat = newItem.getStatList().get(i);
+                boolean foundNewStat = false;
+                for (int j = 0; j < equippedItem.getStatList().size(); j++) {
+                    
+                    Stat equippedStat = equippedItem.getStatList().get(j);
+                    
+                    if (newStat.type.equals(equippedStat.type)) {
+                        foundEquippedStat[j] = true;
+                        foundNewStat = true;
+                        // System.out.println("It has the same stat");
+                        double difference = newStat.value - equippedStat.value;
+                        System.out.println(newStat.type + " " + difference);
+                    }
+
+                }
+                if (foundNewStat == false) {
+                    System.out.println(newStat.type + " +" + newStat.value);
+                }
+
+            }
+
+            for (int i = 0; i < equippedItem.getStatList().size(); i++) {
+                if (foundEquippedStat[i] == false ) {
+                    System.out.println(equippedItem.getStatList().get(i).type + " -" + equippedItem.getStatList().get(i).value);
+                }
+            }
+        }
 
     }
 
