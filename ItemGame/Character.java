@@ -78,7 +78,7 @@ public class Character {
     }
 
 
-    /*
+    /**
      * 
      */
     public void updateStats() {
@@ -113,37 +113,9 @@ public class Character {
         System.out.println("Items:");
 
         for (int i = 0; i < this.itemList.size(); i++) {
-            System.out.println(this.itemList.get(i).getItemType() + " " + this.itemList.get(i).getItemName() );
-            for (int j = 0; j < this.itemList.get(i).getStatList().size(); j++) {
-                System.out.println( this.itemList.get(i).getStatList().get(j).type + " " + this.itemList.get(i).getStatList().get(j).value );
-            }
+            this.itemList.get(i).displayItem();
             System.out.println("");
         }
-    }
-    
-
-    // temporary method - the model should not be printing a display 
-    public void displayCharacter() {
-        System.out.println("\n" + this.characterName + " " + level.getStatType() + " " + level.getValue() + " " + 
-        experience.getStatType() + " " + experience.getValue() + "\n");
-        
-        System.out.println("Stats:");
-
-        for (int i = 0; i < this.statList.size(); i ++) {
-            System.out.println(this.statList.get(i).getStatType() + ": " + this.statList.get(i).getValue());
-        }
-
-        System.out.println("");
-        System.out.println("Items:");
-
-        for (int i = 0; i < itemList.size(); i++) {
-            System.out.println(this.itemList.get(i).getItemType() + " " + this.itemList.get(i).getItemName() );
-            for (int j = 0; j < itemList.get(i).getStatList().size(); j++) {
-                System.out.println( this.itemList.get(i).getStatList().get(j).type + " " + this.itemList.get(i).getStatList().get(j).value );
-            }
-            System.out.println("");
-        }
-
     }
 
 }

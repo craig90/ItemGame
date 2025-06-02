@@ -46,7 +46,7 @@ public class Item {
     }
 
     /**
-     * TODO I feel like this needs to be called from somewhere else
+     * Display the item, including item type, name, and all of its stats
      */
     public void displayItem() {
         System.out.println(this.itemType + " " + this.itemName);
