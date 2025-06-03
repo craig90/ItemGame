@@ -19,7 +19,7 @@ public class Game {
         int input = -1;
         
         System.out.println("Welcome to the Item Game");
-        System.out.println("Enter the Character File You'd Like to Load");
+        // System.out.println("Enter the Character File You'd Like to Load");
         // TODO: for now lets not implment this - later on read from user selected file
 
         this.initializeGame();
@@ -42,22 +42,16 @@ public class Game {
             } else if (input == 3) {
                 this.character.displayItems();
             } else if (input == 4 ) {
+                
                 Item newItem = itemGenerator.createNewItem();
                 System.out.println("Your new item: ");
                 newItem.displayItem();
                 itemComparison(newItem);
-                System.out.println("Would you like to equip this item? 1 - yes");
-                if (scanner.nextInt() == 1) {
-                    
-                    // we have to remove the old item if we're adding a new one of the same type
-                    for (int i = 0; i < this.character.getItemList().size(); i++) {
-                        if (this.character.getItemList().get(i).getItemType().equals(newItem.getItemType())){
-                            System.out.println("Removing the old item " + this.character.getItemList().get(i).getItemName());
-                            this.character.getItemList().remove(i);
-                        }
-                    }
 
-                    this.character.getItemList().add(newItem);
+                System.out.println("Would you like to equip this item? 1 - yes");
+                System.out.println("Press any other key to discard the item");
+                if (scanner.nextInt() == 1) {
+                    this.character.addItem(newItem);
                     this.character.updateStats();
                 }
 
@@ -251,7 +245,7 @@ public class Game {
                 } else if (item.getStatList().size() == 0) {
                     System.out.println("Error: Item has no stats!");
                 } else {
-                    this.character.getItemList().add(item);
+                    this.character.addItem(item);
                     
                 }
                 return lineNumber;

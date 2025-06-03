@@ -9,15 +9,14 @@ public class CharacterStat extends Stat {
 
     private double baseValue = 0.0;
     private double itemValue = 0.0;
+    private static final double INIT_VALUE = 0.0;
 
-    public CharacterStat() {
+    public CharacterStat() { } // needed for potential subclasses
 
-    }
-
-    public CharacterStat(Character character, String type, double value) {
+    public CharacterStat(Character character, String type) {
         this.character = character;
         this.type = type;
-        this.value = value;
+        this.value = INIT_VALUE;
     }
 
     /**
@@ -48,14 +47,14 @@ public class CharacterStat extends Stat {
         this.itemValue = 0.0;
 
         // go through the list of items
-        for (int i = 0; i < this.character.getItemList().size(); i++) {
+        for (int i = 0; i < this.character.getItemListSize(); i++) {
             
             // go through the list of stats
-            for (int j = 0; j < this.character.getItemList().get(i).getStatList().size(); j++) {
+            for (int j = 0; j < this.character.getItem(i).getStatList().size(); j++) {
                 
                 // see if its the same type
-                if (this.type.equals(this.character.getItemList().get(i).getStatList().get(j).getStatType())) {
-                    this.itemValue += this.character.getItemList().get(i).getStatList().get(j).getValue();
+                if (this.type.equals(this.character.getItem(i).getStatList().get(j).getStatType())) {
+                    this.itemValue += this.character.getItem(i).getStatList().get(j).getValue();
                 } 
             }
         }

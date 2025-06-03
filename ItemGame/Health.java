@@ -22,7 +22,7 @@ public class Health extends CharacterStat {
     public void updateValue() {
 
         System.out.println("Updooting the health stat");
-        for (int i = 0; i < this.character.getItemList().size(); i++ ) {
+        for (int i = 0; i < this.character.getItemListSize(); i++ ) {
             
             System.out.println("Checking item list for any health modifiers");
             // dummy update for now

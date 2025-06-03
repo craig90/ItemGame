@@ -26,19 +26,18 @@ public class Character {
     // eventually this should be read in from a file
     public Character () {
         
-        // TODO: Character Stat constructor should initialize these values instead of class Character
         characterName = "";
-        level = new CharacterStat(this, StatNames.LEVEL, 0.0);
-        experience = new CharacterStat(this, StatNames.EXPERIENCE, 0.0);
-        health = new CharacterStat(this, StatNames.HEALTH, 0.0);
-        damage = new CharacterStat(this, StatNames.DAMAGE, 0.0);
-        defence = new CharacterStat(this, StatNames.DEFENSE, 0.0);
+        level = new CharacterStat(this, StatNames.LEVEL);
+        experience = new CharacterStat(this, StatNames.EXPERIENCE);
+        health = new CharacterStat(this, StatNames.HEALTH);
+        damage = new CharacterStat(this, StatNames.DAMAGE);
+        defence = new CharacterStat(this, StatNames.DEFENSE);
         
-        fireResistance = new CharacterStat(this, StatNames.FIRE_RESISTANCE, 0.0);
-        coldResistance = new CharacterStat(this, StatNames.COLD_RESISTANCE, 0.0);
-        lightningResistance = new CharacterStat(this, StatNames.LIGHTNING_RESISTANCE, 0.0);
-        poisonResistance = new CharacterStat(this, StatNames.POISON_RESISTANCE, 0.0);
-        magicResistance = new CharacterStat(this, StatNames.MAGIC_RESISTANCE, 0.0);
+        fireResistance = new CharacterStat(this, StatNames.FIRE_RESISTANCE);
+        coldResistance = new CharacterStat(this, StatNames.COLD_RESISTANCE);
+        lightningResistance = new CharacterStat(this, StatNames.LIGHTNING_RESISTANCE);
+        poisonResistance = new CharacterStat(this, StatNames.POISON_RESISTANCE);
+        magicResistance = new CharacterStat(this, StatNames.MAGIC_RESISTANCE);
 
         statList = new ArrayList<CharacterStat>();
 
@@ -60,9 +59,9 @@ public class Character {
         return this.level.getValue();
     }
     
-    public ArrayList<Item> getItemList() {
+    /*public ArrayList<Item> getItemList() {
         return this.itemList;
-    }
+    }*/
     
     public void setName(String name) {
         this.characterName = name;
@@ -153,7 +152,7 @@ public class Character {
      */
     public Item getItem(String itemType) {
 
-        for (int i = 0; i <this.itemList.size(); i++) {
+        for (int i = 0; i < this.itemList.size(); i++) {
             if (this.itemList.get(i).getItemType().equals(itemType)) {
                 return this.itemList.get(i);
             }
@@ -162,5 +161,51 @@ public class Character {
         return null;
     }
 
+    /**
+     * return an item at the specified index
+     * @param index
+     * @return
+     */
+    public Item getItem(int index) {
+        return this.itemList.get(index);
+    }
+ 
+
+    /**
+     * this will remove an item from the character's item list with type itemType
+     * @param itemType
+     */
+    public void removeItem(String itemType) {
+
+        for (int i = 0; i < this.itemList.size(); i++) {
+            if (this.itemList.get(i).getItemType().equals(itemType)) {
+                System.out.println("Removing item " + this.itemList.get(i).getItemName());
+                this.itemList.remove(i);
+            }
+        }
+
+    }
+
+    /**
+     * this will add the item to the list and remove any existing item of the same item type
+     * @param item
+     */
+    public void addItem(Item item) {
+
+        // see if we have to remove the item first
+        if (isEquipped(item.getItemType())) {
+            removeItem(item.getItemType());
+        }
+
+        this.itemList.add(item);
+    }
+
+    /**
+     * returns the number of items the character has equipped
+     * @return
+     */
+    public int getItemListSize() {
+        return this.itemList.size();
+    }
 
 }
