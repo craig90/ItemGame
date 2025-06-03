@@ -106,6 +106,18 @@ public class Character {
     }
 
     /**
+     * displays the base stats for the character
+     */
+    public void displayBaseStats() {
+        System.out.println("Character's base stats (not taking item stats into account):");
+
+        for (int i = 0; i < this.statList.size(); i++) {
+            System.out.println(this.statList.get(i).getStatType() + ": " + this.statList.get(i).getBaseValue());
+        }
+
+    }
+
+    /**
      * Displays the character's items
      */
     public void displayItems() {
@@ -117,5 +129,38 @@ public class Character {
             System.out.println("");
         }
     }
+
+
+    // TODO: I'm wondering about potentially moving this shit to an item manager class..
+    // I'm not sure if it makes complete sense for the character class to be aware of this logic
+
+    /**
+     * This will return wheather a specific item type is already equipped
+     * @return boolean
+     */
+    public boolean isEquipped(String itemType) {
+
+        if (this.getItem(itemType) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns the character's item specified by itemType
+     * @param itemType
+     * @return will return an item if it exists, otherwise returns null
+     */
+    public Item getItem(String itemType) {
+
+        for (int i = 0; i <this.itemList.size(); i++) {
+            if (this.itemList.get(i).getItemType().equals(itemType)) {
+                return this.itemList.get(i);
+            }
+        }
+
+        return null;
+    }
+
 
 }

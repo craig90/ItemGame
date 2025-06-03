@@ -36,7 +36,7 @@ public class Game {
             input = scanner.nextInt();
 
             if (input == 1) {
-                System.out.println("Not yet implemented");
+                this.character.displayBaseStats();
             } else if (input == 2) {
                 this.character.displayStats();
             } else if (input == 3) {
@@ -47,7 +47,7 @@ public class Game {
                 newItem.displayItem();
                 itemComparison(newItem);
                 System.out.println("Would you like to equip this item? 1 - yes");
-                if (scanner.nextInt() == 1){
+                if (scanner.nextInt() == 1) {
                     
                     // we have to remove the old item if we're adding a new one of the same type
                     for (int i = 0; i < this.character.getItemList().size(); i++) {
@@ -78,43 +78,34 @@ public class Game {
     private void itemComparison(Item newItem) {
         
         Item equippedItem = null;
-                
-        // see if we have this item type equiped
-        boolean isEquipped = false;
-        for (int i = 0; i < character.getItemList().size(); i++) {
-            if (character.getItemList().get(i).getItemType().equals(newItem.getItemType())) {
-                System.out.println("\nCurrent " + character.getItemList().get(i).getItemType());
-                character.getItemList().get(i).displayItem();
-                equippedItem = character.getItemList().get(i);
-                isEquipped = true;
-            }
-        }
-
-        // if this type of item is not already equipped - we're just adding all the new stats from this item
-        if (isEquipped == false) {
+            
+        // the easy case where this item type is not currently equipped - any stat will help the character
+        if (character.isEquipped(newItem.getItemType()) != true) {
             System.out.println("\nCurrently there is/are no " + newItem.getItemType() + "(s) equipped");
             System.out.println("Equipping this item will add: ");
             for (int i = 0; i < newItem.getStatList().size(); i++) {
                 System.out.println(newItem.getStatList().get(i).type + " " + newItem.getStatList().get(i).value);
             }
         }
-        
-        // this is a bit more complicated, we're going to have to run through all the stats from the equipped item
-        // and new item to compare and see what will increase and what will decrease
+
         else {
+
+            // this is a bit more complicated, we're going to have to run through all the stats from the equipped item
+            // and new item to compare and see what will increase and what will decrease
+            equippedItem = character.getItem(newItem.getItemType());
+            System.out.println("\nEquipped item " + equippedItem.getItemType());
+            equippedItem.displayItem();
+
+            // automatically initialized false
             boolean[] foundEquippedStat = new boolean[equippedItem.getStatList().size()];
         
-            for (int i = 0; i < equippedItem.getStatList().size(); i++) { // initialize the array to false
-                foundEquippedStat[i] = false;
-            }
-
             System.out.println("Equipping this item will change the following stats: ");
+            
             for (int i = 0; i < newItem.getStatList().size(); i++) {
-                
                 Stat newStat = newItem.getStatList().get(i);
                 boolean foundNewStat = false;
+                
                 for (int j = 0; j < equippedItem.getStatList().size(); j++) {
-                    
                     Stat equippedStat = equippedItem.getStatList().get(j);
                     
                     if (newStat.type.equals(equippedStat.type)) {
@@ -132,6 +123,7 @@ public class Game {
 
             }
 
+            // the stats that will be lost since they don't exist on the new item
             for (int i = 0; i < equippedItem.getStatList().size(); i++) {
                 if (foundEquippedStat[i] == false ) {
                     System.out.println(equippedItem.getStatList().get(i).type + " -" + equippedItem.getStatList().get(i).value);
