@@ -1,5 +1,3 @@
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -46,7 +44,11 @@ public class Game {
                 Item newItem = itemGenerator.createNewItem();
                 System.out.println("Your new item: ");
                 newItem.displayItem();
-                itemComparison(newItem);
+                
+                Item existingItem = this.character.getItem(newItem.getItemType());
+                if (existingItem != null) {
+                    existingItem.itemComparison(newItem);                    
+                }
 
                 System.out.println("Would you like to equip this item? 1 - yes");
                 System.out.println("Press any other key to discard the item");
@@ -62,68 +64,6 @@ public class Game {
         scanner.close();
         
         // TODO: write to file when we're done
-
-    }
-
-    /**
-     * TODO: this method should not be in this class
-     * TODO: also clean this up a bit
-     */
-    private void itemComparison(Item newItem) {
-        
-        Item equippedItem = null;
-            
-        // the easy case where this item type is not currently equipped - any stat will help the character
-        if (character.isEquipped(newItem.getItemType()) != true) {
-            System.out.println("\nCurrently there is/are no " + newItem.getItemType() + "(s) equipped");
-            System.out.println("Equipping this item will add: ");
-            for (int i = 0; i < newItem.getStatList().size(); i++) {
-                System.out.println(newItem.getStatList().get(i).type + " " + newItem.getStatList().get(i).value);
-            }
-        }
-
-        else {
-
-            // this is a bit more complicated, we're going to have to run through all the stats from the equipped item
-            // and new item to compare and see what will increase and what will decrease
-            equippedItem = character.getItem(newItem.getItemType());
-            System.out.println("\nEquipped item " + equippedItem.getItemType());
-            equippedItem.displayItem();
-
-            // automatically initialized false
-            boolean[] foundEquippedStat = new boolean[equippedItem.getStatList().size()];
-        
-            System.out.println("Equipping this item will change the following stats: ");
-            
-            for (int i = 0; i < newItem.getStatList().size(); i++) {
-                Stat newStat = newItem.getStatList().get(i);
-                boolean foundNewStat = false;
-                
-                for (int j = 0; j < equippedItem.getStatList().size(); j++) {
-                    Stat equippedStat = equippedItem.getStatList().get(j);
-                    
-                    if (newStat.type.equals(equippedStat.type)) {
-                        foundEquippedStat[j] = true;
-                        foundNewStat = true;
-                        // System.out.println("It has the same stat");
-                        double difference = newStat.value - equippedStat.value;
-                        System.out.println(newStat.type + " " + difference);
-                    }
-
-                }
-                if (foundNewStat == false) {
-                    System.out.println(newStat.type + " +" + newStat.value);
-                }
-
-            }
-
-            // the stats that will be lost since they don't exist on the new item
-            for (int i = 0; i < equippedItem.getStatList().size(); i++) {
-                if (foundEquippedStat[i] == false ) {
-                    System.out.println(equippedItem.getStatList().get(i).type + " -" + equippedItem.getStatList().get(i).value);
-                }
-            }
-        }
 
     }
 

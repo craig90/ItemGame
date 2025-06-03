@@ -54,7 +54,68 @@ public class Item {
         for (int i = 0; i < this.statList.size(); i++) {
             System.out.println(this.statList.get(i).type + ": " + this.statList.get(i).value);
         }
+        System.out.println("");
 
     }
+
+    /**
+     * compares a new item to this item and prints any differences
+     * @param newItem
+     */
+    public void itemComparison(Item newItem) {
+
+        // do a quick error check to see if these items are of the same type
+        if (this.itemType.equals(newItem.getItemType()) == false) {
+            System.out.println("These items are not of the same type... comparison is pointless");
+            return;
+        }
+
+        // this is a little complicated, we're going to have to run through all the stats from each item
+        // and compare and see what will increase and what will decrease
+        // show the two items for testing purposes
+        this.displayItem();
+        newItem.displayItem();
+
+        // automatically initialized false
+        // these help track stats that are unique to each item
+        boolean[] foundOldStat = new boolean[this.getStatList().size()];
+        boolean[] foundNewStat = new boolean[newItem.getStatList().size()];
+    
+        System.out.println("Stat Differences: ");
+        
+        for (int i = 0; i < this.getStatList().size(); i++) {
+            Stat itemStat = this.getStatList().get(i);
+            
+            for (int j = 0; j < newItem.getStatList().size(); j++) {
+                Stat newStat = newItem.getStatList().get(j);
+                
+                if (itemStat.type.equals(newStat.type)) {
+                    foundOldStat[i] = true;
+                    foundNewStat[j] = true;
+                    // System.out.println("It has the same stat");
+                    double difference = newStat.value - itemStat.value;
+                    System.out.println(newStat.type + " " + difference);
+                }
+
+            }
+
+        }
+
+        // the stats that only exist on the old item
+        for (int i = 0; i < this.getStatList().size(); i++) {
+            if (foundOldStat[i] == false) {
+                System.out.println(this.getStatList().get(i).type + " -" + this.getStatList().get(i).value);
+            }
+        }
+
+        // these are stats that only exist on the new item
+        for (int i = 0; i < newItem.getStatList().size(); i++) {
+            if (foundNewStat[i] == false) {
+                System.out.println(newItem.getStatList().get(i).type + " +" + newItem.getStatList().get(i).value);
+            }
+        }
+
+    }
+
 
 }

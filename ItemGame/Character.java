@@ -125,7 +125,6 @@ public class Character {
 
         for (int i = 0; i < this.itemList.size(); i++) {
             this.itemList.get(i).displayItem();
-            System.out.println("");
         }
     }
 
