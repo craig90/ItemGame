@@ -1,9 +1,9 @@
-public class StatNames {
+public class CharacterStatNames {
     public static final String HEALTH = "Health";
     public static final String LEVEL = "Level";
     public static final String EXPERIENCE = "Experience";
     public static final String DAMAGE = "Damage";
-    public static final String DEFENSE = "Defense";
+    public static final String DEFENCE = "Defence";
     public static final String FIRE_RESISTANCE = "Fire Resistance";
     public static final String POISON_RESISTANCE = "Poison Resistance";
     public static final String LIGHTNING_RESISTANCE = "Lightning Resistance";

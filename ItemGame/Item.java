@@ -3,7 +3,9 @@ import java.util.ArrayList;
 public class Item {
 
     public static final String[] ITEM_TYPES = {"Amulet", "Chest", "Ring", "Gloves", "Weapon", "Shield", "Belt", "Pants", "Boots"};
-    public static final String[] ITEM_STAT_TYPE = {"Defense", "Damage", "Health", "Poison Resistance", "Lightning Resistance", "Fire Resistance", "Magic Resistance", "Cold Resistance"};
+   
+   // TODO: this needs to be cleaned up because they're being defined in more than one place
+    public static final String[] ITEM_STAT_TYPE = {"Damage", "Defence", "Health", "Poison Resistance", "Lightning Resistance", "Fire Resistance", "Cold Resistance", "Magic Resistance"};
 
     public static final String[] ITEM_ADJECTIVES = {"Green", "Yellow", "Red", "Purple", "Orange", "Blue", "Gold", "Silver", 
     "Bronze", "Cool"};

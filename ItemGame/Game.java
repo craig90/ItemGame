@@ -120,11 +120,11 @@ public class Game {
                 this.character.setName(stringArray[1]);
             } 
             
-            else if (stringArray[0].equals(StatNames.LEVEL)) {
+            else if (stringArray[0].equals(CharacterStatNames.LEVEL)) {
                 this.character.setLevel(StringToDouble(stringArray[1]));
             }
 
-            else if (stringArray[0].equals(StatNames.EXPERIENCE)) {
+            else if (stringArray[0].equals(CharacterStatNames.EXPERIENCE)) {
                 this.character.setExperience(StringToDouble(stringArray[1]));
             } 
             
@@ -168,10 +168,10 @@ public class Game {
             }
 
             // check the stat type and add it to the stat list
-            if ((stringArray[0].equals(StatNames.DAMAGE)) || (stringArray[0].equals(StatNames.DEFENSE))
-                || (stringArray[0].equals(StatNames.HEALTH)) || (stringArray[0].equals(StatNames.FIRE_RESISTANCE))
-                || (stringArray[0].equals(StatNames.POISON_RESISTANCE)) || (stringArray[0].equals(StatNames.MAGIC_RESISTANCE))
-                || (stringArray[0].equals(StatNames.LIGHTNING_RESISTANCE)) || (stringArray[0].equals(StatNames.COLD_RESISTANCE))) {
+            if ((stringArray[0].equals(ItemStatNames.DAMAGE)) || (stringArray[0].equals(ItemStatNames.DEFENCE))
+                || (stringArray[0].equals(ItemStatNames.HEALTH)) || (stringArray[0].equals(ItemStatNames.FIRE_RESISTANCE))
+                || (stringArray[0].equals(ItemStatNames.POISON_RESISTANCE)) || (stringArray[0].equals(ItemStatNames.MAGIC_RESISTANCE))
+                || (stringArray[0].equals(ItemStatNames.LIGHTNING_RESISTANCE)) || (stringArray[0].equals(ItemStatNames.COLD_RESISTANCE))) {
                 Stat stat = new Stat(stringArray[0], StringToDouble(stringArray[1]));
                 item.getStatList().add(stat);
             }

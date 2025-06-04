@@ -24,15 +24,15 @@ public class CharacterStat extends Stat {
      */
     private void updateBaseValue() {
 
-        if (this.type == StatNames.HEALTH) {
+        if (this.type == CharacterStatNames.HEALTH) {
             this.baseValue = character.getLevel() * HEALTH_LEVEL_MODIFIER;
-        } else if (this.type == StatNames.DEFENSE) {
+        } else if (this.type == CharacterStatNames.DEFENCE) {
             this.baseValue = character.getLevel() * DEFENCE_LEVEL_MODIFIER;
-        } else if (this.type == StatNames.DAMAGE) {
+        } else if (this.type == CharacterStatNames.DAMAGE) {
             this.baseValue = character.getLevel() * DAMAGE_LEVEL_MODIFIER;
-        } else if (this.type == StatNames.COLD_RESISTANCE || this.type == StatNames.FIRE_RESISTANCE || 
-            this.type == StatNames.LIGHTNING_RESISTANCE || this.type == StatNames.MAGIC_RESISTANCE || 
-            this.type == StatNames.POISON_RESISTANCE) {
+        } else if (this.type == CharacterStatNames.COLD_RESISTANCE || this.type == CharacterStatNames.FIRE_RESISTANCE || 
+            this.type == CharacterStatNames.LIGHTNING_RESISTANCE || this.type == CharacterStatNames.MAGIC_RESISTANCE || 
+            this.type == CharacterStatNames.POISON_RESISTANCE) {
             this.baseValue = character.getLevel() * RESISTANCE_LEVEL_MODIFIER; 
         }
     

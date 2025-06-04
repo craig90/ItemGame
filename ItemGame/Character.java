@@ -27,17 +27,17 @@ public class Character {
     public Character () {
         
         characterName = "";
-        level = new CharacterStat(this, StatNames.LEVEL);
-        experience = new CharacterStat(this, StatNames.EXPERIENCE);
-        health = new CharacterStat(this, StatNames.HEALTH);
-        damage = new CharacterStat(this, StatNames.DAMAGE);
-        defence = new CharacterStat(this, StatNames.DEFENSE);
+        level = new CharacterStat(this, CharacterStatNames.LEVEL);
+        experience = new CharacterStat(this, CharacterStatNames.EXPERIENCE);
+        health = new CharacterStat(this, CharacterStatNames.HEALTH);
+        damage = new CharacterStat(this, CharacterStatNames.DAMAGE);
+        defence = new CharacterStat(this, CharacterStatNames.DEFENCE);
         
-        fireResistance = new CharacterStat(this, StatNames.FIRE_RESISTANCE);
-        coldResistance = new CharacterStat(this, StatNames.COLD_RESISTANCE);
-        lightningResistance = new CharacterStat(this, StatNames.LIGHTNING_RESISTANCE);
-        poisonResistance = new CharacterStat(this, StatNames.POISON_RESISTANCE);
-        magicResistance = new CharacterStat(this, StatNames.MAGIC_RESISTANCE);
+        fireResistance = new CharacterStat(this, CharacterStatNames.FIRE_RESISTANCE);
+        coldResistance = new CharacterStat(this, CharacterStatNames.COLD_RESISTANCE);
+        lightningResistance = new CharacterStat(this, CharacterStatNames.LIGHTNING_RESISTANCE);
+        poisonResistance = new CharacterStat(this, CharacterStatNames.POISON_RESISTANCE);
+        magicResistance = new CharacterStat(this, CharacterStatNames.MAGIC_RESISTANCE);
 
         statList = new ArrayList<CharacterStat>();
 

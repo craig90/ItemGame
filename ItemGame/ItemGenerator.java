@@ -1,4 +1,33 @@
 import java.util.Random;
+import java.util.Comparator;
+
+/**
+ * The StatComparator Class sorts the stats by their type
+ * The order of the types correspons to their order on the ITEM_STAT_TYPE array
+ */
+class StatComparator implements Comparator<Stat> {
+    @Override
+    public int compare(Stat statA, Stat statB) {
+        
+        // return - integer if b comes first // return 0 if even // return + integer if a comes first
+        int aIndex = -1;
+        int bIndex = -1;
+
+        for (int i = 0; i < Item.ITEM_STAT_TYPE.length; i++) {
+            
+            if (statA.getStatType().equals(Item.ITEM_STAT_TYPE[i])) {
+                aIndex = i;
+            }
+
+            if (statB.getStatType().equals(Item.ITEM_STAT_TYPE[i])) {
+                bIndex = i; 
+            }
+
+        }
+
+        return aIndex - bIndex;
+    }
+}
 
 public class ItemGenerator {
 
@@ -6,12 +35,50 @@ public class ItemGenerator {
     public static final int MIN_STATS = 2;
     
     // TODO: I don't think that these should be define here - Probably should be defined in subclass ItemStat
-    public static final int STAT_MIN_VALUE = 5;
-    public static final int STAT_MAX_VALUE = 20;
+    public static final int RESISTANCE_MIN_VALUE = 5;
+    public static final int RESISTANCE_MAX_VALUE = 20;
+
+    public static final int ALL_RESISTANCE_MIN_VALUE = 5;
+    public static final int ALL_RESISTANCE_MAX_VALUE = 10;
+    
+    public static final int HEALTH_MIN_VALUE = 20;
+    public static final int HEALTH_MAX_VALUE = 60;
+
+    public static final int DEFENCE_MIN_VALUE = 25;
+    public static final int DEFENCE_MAX_VALUE = 100;
+
+    public static final int CHEST_SHIELD_DEFENCE_MIN_VALUE = 100;
+    public static final int CHEST_SHIELD_DEFENCE_MAX_VALUE = 500;
+
+    public static final int DAMAGE_MIN_VALUE = 25;
+    public static final int DAMAGE_MAX_VALUE = 100;
+
+    public static final int WEAPON_DAMAGE_MIN_VALUE = 100;
+    public static final int WEAPON_DAMGE_MAX_VALUE = 500;
+
 
     public ItemGenerator () {
 
     }
+
+    /**
+     * TODO: potentially should be in stat class? 
+     * @param newItem
+     * @return
+     */
+    private boolean statIsUnique(Item item, int statType) {
+
+        for (int i = 0; i < item.getStatList().size(); i++ ){
+            if (item.getStatList().get(i).type == Item.ITEM_STAT_TYPE[statType]) {
+                // System.out.println("Trying to add " + ItemConstants.ITEM_STAT_TYPE[statType] + 
+                // " but already have " + newItem.getStatList().get(j).type );
+                return false;
+            }
+        }
+        return true;
+
+    }
+
 
 
     // TODO: we could add a lot more logic over different stat types
@@ -43,22 +110,27 @@ public class ItemGenerator {
         int i = 0;
         while (i < numberOfStats) {
             
-            boolean uniqueStatType = true;
+            int statValue = -1;
             int statType = random.nextInt(Item.ITEM_STAT_TYPE.length);
-            // System.out.println("Adding stat " + ItemConstants.ITEM_STAT_TYPE[statType]);
-            int statValue = random.nextInt(STAT_MIN_VALUE, STAT_MAX_VALUE);
+            
+            // stat ranges are going to vary a bit depending on the type
+            if (Item.ITEM_STAT_TYPE[statType].equals(ItemStatNames.HEALTH)) {
+                statValue = random.nextInt(HEALTH_MIN_VALUE, HEALTH_MAX_VALUE);
+            } else if (Item.ITEM_STAT_TYPE[statType].equals(ItemStatNames.DEFENCE)) {
+                statValue = random.nextInt(DEFENCE_MIN_VALUE, DEFENCE_MAX_VALUE);
+            } else if (Item.ITEM_STAT_TYPE[statType].equals(ItemStatNames.DAMAGE)) {
+                statValue = random.nextInt(DAMAGE_MIN_VALUE, DAMAGE_MAX_VALUE);    
+            } else if (Item.ITEM_STAT_TYPE[statType].equals(ItemStatNames.ALL_RESISTANCE)) {
+                statValue = random.nextInt(ALL_RESISTANCE_MIN_VALUE, ALL_RESISTANCE_MAX_VALUE);    
+            } else {
+                statValue = random.nextInt(RESISTANCE_MIN_VALUE, RESISTANCE_MAX_VALUE);
+            }
+
+            // System.out.println("Adding stat " + ItemConstants.ITEM_STAT_TYPE[statType]);s
             // System.out.println("with value: " + statValue);
 
             // make sure the stat is unique
-            for (int j = 0; j < newItem.getStatList().size(); j++ ){
-                if (newItem.getStatList().get(j).type == Item.ITEM_STAT_TYPE[statType]) {
-                    uniqueStatType = false;
-                    // System.out.println("Trying to add " + ItemConstants.ITEM_STAT_TYPE[statType] + 
-                    // " but already have " + newItem.getStatList().get(j).type );
-                }
-            }
-
-            if (uniqueStatType == true) {
+            if (statIsUnique(newItem, statType) == true) {
                 Stat stat = new Stat(Item.ITEM_STAT_TYPE[statType], statValue);
                 newItem.addStat(stat);
                 i++;
@@ -66,15 +138,21 @@ public class ItemGenerator {
         
         }
 
+        // sort the stats on the new item - makes it easier to view and compare
+        newItem.getStatList().sort(new StatComparator());
         return newItem;
 
     }
 
-
+    /**
+     * this main method is purely for resting the ItemGenerator
+     * @param args
+     */
     public static void main(String args[]){
 
         ItemGenerator itemGenerator = new ItemGenerator();
-        itemGenerator.createNewItem();
+        Item item = itemGenerator.createNewItem();
+        item.displayItem();
 
     }    
 

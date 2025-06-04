@@ -5,7 +5,7 @@ public class Health extends CharacterStat {
 
     // we want to initiatlize this with full health
     public Health(Character character) {
-        this.type = StatNames.HEALTH;
+        this.type = CharacterStatNames.HEALTH;
         this.character = character;
 
         // find the max value which will be determined by the items and the level
