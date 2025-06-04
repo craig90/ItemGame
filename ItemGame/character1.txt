@@ -27,5 +27,5 @@ Item-Start
 Item Type:Chest
 Item Name:Bronze Chest
 Defence:300.0
-Magic Resistance:25.0
+Magic Resistance:20.0
 Item-End

@@ -168,10 +168,10 @@ public class Game {
             }
 
             // check the stat type and add it to the stat list
-            if ((stringArray[0].equals(ItemStatNames.DAMAGE)) || (stringArray[0].equals(ItemStatNames.DEFENCE))
-                || (stringArray[0].equals(ItemStatNames.HEALTH)) || (stringArray[0].equals(ItemStatNames.FIRE_RESISTANCE))
-                || (stringArray[0].equals(ItemStatNames.POISON_RESISTANCE)) || (stringArray[0].equals(ItemStatNames.MAGIC_RESISTANCE))
-                || (stringArray[0].equals(ItemStatNames.LIGHTNING_RESISTANCE)) || (stringArray[0].equals(ItemStatNames.COLD_RESISTANCE))) {
+            if ((stringArray[0].equals(Item.DAMAGE_STAT_NAME)) || (stringArray[0].equals(Item.DEFENCE_STAT_NAME))
+                || (stringArray[0].equals(Item.HEALTH_STAT_NAME)) || (stringArray[0].equals(Item.FIRE_RESISTANCE_STAT_NAME))
+                || (stringArray[0].equals(Item.POISON_RESISTANCE_STAT_NAME)) || (stringArray[0].equals(Item.MAGIC_RESISTANCE_STAT_NAME))
+                || (stringArray[0].equals(Item.LIGHTNING_RESISTANCE_STAT_NAME)) || (stringArray[0].equals(Item.COLD_RESISTANCE_STAT_NAME))) {
                 Stat stat = new Stat(stringArray[0], StringToDouble(stringArray[1]));
                 item.getStatList().add(stat);
             }

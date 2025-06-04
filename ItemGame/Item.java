@@ -2,11 +2,37 @@ import java.util.ArrayList;
 
 public class Item {
 
-    public static final String[] ITEM_TYPES = {"Amulet", "Chest", "Ring", "Gloves", "Weapon", "Shield", "Belt", "Pants", "Boots"};
-   
-   // TODO: this needs to be cleaned up because they're being defined in more than one place
-    public static final String[] ITEM_STAT_TYPE = {"Damage", "Defence", "Health", "Poison Resistance", "Lightning Resistance", "Fire Resistance", "Cold Resistance", "Magic Resistance"};
+    // all the different Item Types
+    public static final String WEAPON = "Weapon";
+    public static final String CHEST = "Chest";
+    public static final String SHIELD = "Shield";
+    public static final String AMULET = "Amulet";
+    public static final String RING = "Ring";
+    public static final String GLOVES = "Gloves";
+    public static final String BELT = "Belt";
+    public static final String PANTS = "Pants";
+    public static final String BOOTS = "Boots";
 
+    // these needs to be placed in an array for RNG purposes
+    public static final String[] ITEM_TYPES = {WEAPON, CHEST, SHIELD, AMULET, RING, GLOVES, BELT, PANTS, BOOTS};
+   
+    // Item Stat Types
+    public static final String HEALTH_STAT_NAME = "Health";
+    public static final String DAMAGE_STAT_NAME = "Damage";
+    public static final String DEFENCE_STAT_NAME = "Defence";
+    public static final String ALL_RESISTANCE_STAT_NAME = "All Resistance";
+    public static final String FIRE_RESISTANCE_STAT_NAME = "Fire Resistance";
+    public static final String POISON_RESISTANCE_STAT_NAME = "Poison Resistance";
+    public static final String LIGHTNING_RESISTANCE_STAT_NAME = "Lightning Resistance";
+    public static final String COLD_RESISTANCE_STAT_NAME = "Cold Resistance";
+    public static final String MAGIC_RESISTANCE_STAT_NAME = "Magic Resistance";
+
+    // these need to be in an array for RNG purposes
+    public static final String[] ITEM_STAT_TYPE = {HEALTH_STAT_NAME, DAMAGE_STAT_NAME, DEFENCE_STAT_NAME, 
+        ALL_RESISTANCE_STAT_NAME, FIRE_RESISTANCE_STAT_NAME, POISON_RESISTANCE_STAT_NAME, 
+        LIGHTNING_RESISTANCE_STAT_NAME, COLD_RESISTANCE_STAT_NAME, MAGIC_RESISTANCE_STAT_NAME};
+
+    // these need to be in an array for RNG purposes
     public static final String[] ITEM_ADJECTIVES = {"Green", "Yellow", "Red", "Purple", "Orange", "Blue", "Gold", "Silver", 
     "Bronze", "Cool"};
 
@@ -30,6 +56,7 @@ public class Item {
     }
 
     // TODO: this should not be changed more than once... could add code to prevent that
+    // TODO: this needs to be verified that its a legit type
     public void setItemType(String itemType) {
         this.itemType = itemType;
     }
@@ -43,6 +70,7 @@ public class Item {
     }
 
     // TODO: add logic for number of stats an item can hold once I figure out what the limit should be
+    // TODO: check if is unique here
     public void addStat(Stat stat) {
         this.statList.add(stat);
     }
