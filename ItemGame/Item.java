@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Item {
 
@@ -85,8 +86,16 @@ public class Item {
         return true;
     }
 
-    public ArrayList<Stat> getStatList() {
+    /*public ArrayList<Stat> getStatList() {
         return this.statList;
+    }*/
+
+    /**
+     * returns the number of stats the Item has
+     * @return
+     */
+    public int statListSize() {
+        return this.statList.size();
     }
 
     // TODO: check if is unique here
@@ -98,6 +107,10 @@ public class Item {
         this.statList.add(stat);
         return true;
     
+    }
+
+    public Stat getStat(int index) {
+        return this.statList.get(index);
     }
 
     /**
@@ -133,16 +146,16 @@ public class Item {
 
         // automatically initialized false
         // these help track stats that are unique to each item
-        boolean[] foundOldStat = new boolean[this.getStatList().size()];
-        boolean[] foundNewStat = new boolean[newItem.getStatList().size()];
+        boolean[] foundOldStat = new boolean[this.statList.size()];
+        boolean[] foundNewStat = new boolean[newItem.statList.size()];
     
         System.out.println("Stat Differences: ");
         
-        for (int i = 0; i < this.getStatList().size(); i++) {
-            Stat itemStat = this.getStatList().get(i);
+        for (int i = 0; i < this.statList.size(); i++) {
+            Stat itemStat = this.statList.get(i);
             
-            for (int j = 0; j < newItem.getStatList().size(); j++) {
-                Stat newStat = newItem.getStatList().get(j);
+            for (int j = 0; j < newItem.statListSize(); j++) {
+                Stat newStat = newItem.getStat(j);
                 
                 if (itemStat.type.equals(newStat.type)) {
                     foundOldStat[i] = true;
@@ -157,20 +170,53 @@ public class Item {
         }
 
         // the stats that only exist on the old item
-        for (int i = 0; i < this.getStatList().size(); i++) {
+        for (int i = 0; i < this.statList.size(); i++) {
             if (foundOldStat[i] == false) {
-                System.out.println(this.getStatList().get(i).type + " -" + this.getStatList().get(i).value);
+                System.out.println(this.statList.get(i).type + " -" + this.statList.get(i).value);
             }
         }
 
         // these are stats that only exist on the new item
-        for (int i = 0; i < newItem.getStatList().size(); i++) {
+        for (int i = 0; i < newItem.statListSize(); i++) {
             if (foundNewStat[i] == false) {
-                System.out.println(newItem.getStatList().get(i).type + " +" + newItem.getStatList().get(i).value);
+                System.out.println(newItem.getStat(i).type + " +" + newItem.getStat(i).value);
             }
         }
 
     }
 
+    /** sorts the stat list based on the order we defined in comparator */
+    public void sortStats() {
+        this.statList.sort(new StatComparator());
+    }
 
+}
+
+
+/**
+ * The StatComparator Class sorts the stats by their type
+ * The order of the types correspons to their order on the ITEM_STAT_TYPE array
+ */
+class StatComparator implements Comparator<Stat> {
+    @Override
+    public int compare(Stat statA, Stat statB) {
+        
+        // return - integer if b comes first // return 0 if even // return + integer if a comes first
+        int aIndex = -1;
+        int bIndex = -1;
+
+        for (int i = 0; i < Item.ITEM_STAT_TYPE.length; i++) {
+            
+            if (statA.getStatType().equals(Item.ITEM_STAT_TYPE[i])) {
+                aIndex = i;
+            }
+
+            if (statB.getStatType().equals(Item.ITEM_STAT_TYPE[i])) {
+                bIndex = i; 
+            }
+
+        }
+
+        return aIndex - bIndex;
+    }
 }

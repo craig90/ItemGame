@@ -1,33 +1,5 @@
 import java.util.Random;
-import java.util.Comparator;
 
-/**
- * The StatComparator Class sorts the stats by their type
- * The order of the types correspons to their order on the ITEM_STAT_TYPE array
- */
-class StatComparator implements Comparator<Stat> {
-    @Override
-    public int compare(Stat statA, Stat statB) {
-        
-        // return - integer if b comes first // return 0 if even // return + integer if a comes first
-        int aIndex = -1;
-        int bIndex = -1;
-
-        for (int i = 0; i < Item.ITEM_STAT_TYPE.length; i++) {
-            
-            if (statA.getStatType().equals(Item.ITEM_STAT_TYPE[i])) {
-                aIndex = i;
-            }
-
-            if (statB.getStatType().equals(Item.ITEM_STAT_TYPE[i])) {
-                bIndex = i; 
-            }
-
-        }
-
-        return aIndex - bIndex;
-    }
-}
 
 public class ItemGenerator {
 
@@ -68,8 +40,8 @@ public class ItemGenerator {
      */
     private boolean statIsUnique(Item item, int statType) {
 
-        for (int i = 0; i < item.getStatList().size(); i++ ){
-            if (item.getStatList().get(i).type == Item.ITEM_STAT_TYPE[statType]) {
+        for (int i = 0; i < item.statListSize(); i++ ){
+            if (item.getStat(i).type.equals(Item.ITEM_STAT_TYPE[statType])) {
                 // System.out.println("Trying to add " + ItemConstants.ITEM_STAT_TYPE[statType] + 
                 // " but already have " + newItem.getStatList().get(j).type );
                 return false;
@@ -91,8 +63,8 @@ public class ItemGenerator {
         Item newItem = new Item("", "");
         Random random = new Random();
 
-        // decide how many stats the item will have
-        int numberOfStats = random.nextInt(Item.MIN_STATS, Item.MAX_STATS);
+        // decide how many stats the item will have +1 since upper end of range is exclusive
+        int numberOfStats = random.nextInt(Item.MIN_STATS, Item.MAX_STATS+1);
         
         // decide the item type
         int itemNumber = random.nextInt(Item.ITEM_TYPES.length);
@@ -131,7 +103,7 @@ public class ItemGenerator {
         } 
 
         // create a new UNIQUE stat - this loop will create new stats and also make sure we're not adding the same stat more than once
-        while (newItem.getStatList().size() < numberOfStats) {
+        while (newItem.statListSize() < numberOfStats) {
             
             int statValue = -1;
             int statType = random.nextInt(Item.ITEM_STAT_TYPE.length);
@@ -161,7 +133,7 @@ public class ItemGenerator {
         }
 
         // sort the stats on the new item - makes it easier to view and compare
-        newItem.getStatList().sort(new StatComparator());
+        newItem.sortStats();
         return newItem;
 
     }

@@ -237,7 +237,7 @@ public class Game {
                     System.out.println("Error With Item Name or Type");
                     // weird case
                     return false;
-                } else if (item.getStatList().size() < Item.MIN_STATS) {
+                } else if (item.statListSize() < Item.MIN_STATS) {
                     System.out.println("Error: doesn't have enough stats!");
                     return false;
                 } else {

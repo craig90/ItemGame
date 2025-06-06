@@ -50,21 +50,20 @@ public class CharacterStat extends Stat {
         for (int i = 0; i < this.character.getItemListSize(); i++) {
             
             // go through the list of stats
-            for (int j = 0; j < this.character.getItem(i).getStatList().size(); j++) {
+            for (int j = 0; j < this.character.getItem(i).statListSize(); j++) {
                 
                 // see if its the same type
-                if (this.type.equals(this.character.getItem(i).getStatList().get(j).getStatType())) {
-                    this.itemValue += this.character.getItem(i).getStatList().get(j).getValue();
+                if (this.type.equals(this.character.getItem(i).getStat(j).getStatType())) {
+                    this.itemValue += this.character.getItem(i).getStat(j).getValue();
                 }
 
                 // special case for All Resistance as it will increase each resitance type
-                if (this.character.getItem(i).getStatList().get(j).getStatType().equals(Item.ALL_RESISTANCE_STAT_NAME) &&
+                if (this.character.getItem(i).getStat(j).getStatType().equals(Item.ALL_RESISTANCE_STAT_NAME) &&
                     (this.type.equals(Item.FIRE_RESISTANCE_STAT_NAME) || this.type.equals(Item.COLD_RESISTANCE_STAT_NAME)
                     || this.type.equals(Item.POISON_RESISTANCE_STAT_NAME) || this.type.equals(Item.MAGIC_RESISTANCE_STAT_NAME)
                     || this.type.equals(Item.LIGHTNING_RESISTANCE_STAT_NAME))) {
 
-                    System.out.println("Adding all resistance");
-                    this.itemValue += this.character.getItem(i).getStatList().get(j).getValue();   
+                    this.itemValue += this.character.getItem(i).getStat(j).getValue();   
                     
                 }
 
