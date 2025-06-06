@@ -2,6 +2,9 @@ import java.util.Scanner;
 
 public class Game {
 
+    private static final int CHARACTER_FILES_LINES = 3; // TODO: move this later, it should not be here
+
+
     Character character;
     ItemGenerator itemGenerator;
 
@@ -85,6 +88,43 @@ public class Game {
     }
 
     /**
+     * pulls the character data out of the file with some error checking
+     * TODO: define some more constants somewhere and add error logic in character class
+     * @param lineArray
+     * @param lineNumber
+     * @return
+     */
+    private boolean parceCharacter(String lineArray[], IntegerWrapper lineNumber) {
+        
+        if (lineNumber.getNumber() == 1) {
+            if (lineArray[0].equals(FileKeywords.CHARACTER_NAME)) {
+                this.character.setName(lineArray[1]);
+            } else {
+                return false;
+            }
+        } 
+        
+        if (lineNumber.getNumber() == 2) {
+            if (lineArray[0].equals(CharacterStatNames.LEVEL)) {
+                this.character.setLevel(StringToDouble(lineArray[1]));
+            } else {
+                return false;
+            }
+        }
+
+        if (lineNumber.getNumber() == 3) {
+            if (lineArray[0].equals(CharacterStatNames.EXPERIENCE)) {
+                this.character.setExperience(StringToDouble(lineArray[1]));
+            } else {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+
+    /**
      * intialize the character and item list from file data
      */
     public void initializeGame() {
@@ -97,50 +137,54 @@ public class Game {
 
         String line;
         String regex = "[:]";
-        String[] stringArray;
+        String[] lineArray;
         
-        int lineNumber = 1;
+        IntegerWrapper lineNumber = new IntegerWrapper();
+        lineNumber.setNumber(1);
 
-        // TODO: EndOfFile needs to be defined somewhere
         while ((line = fileReader.getLine()) != FileKeywords.END_OF_FILE) {
             
-            stringArray = line.split(regex);
+            lineArray = line.split(regex);
             
             // some error checking, every line should return an arguement
             // most lines should have two, the exception is a blank line, Item-Start and Item-End
-            if (stringArray.length < 1) {
-                System.out.println("Error reading file, insufficient arguements on a line .." + lineNumber);
-            } else if (stringArray.length < 2 && (!(stringArray[0].equals("") 
-                || stringArray[0].equals(FileKeywords.ITEM_START) || stringArray[0].equals(FileKeywords.ITEM_END)))) {
+            if (lineArray.length < 1) {
+                System.out.println("Error reading file, insufficient arguements on a line " + lineNumber);
+            } else if (lineArray.length < 2 && (!(lineArray[0].equals("") 
+                || lineArray[0].equals(FileKeywords.ITEM_START) || lineArray[0].equals(FileKeywords.ITEM_END)))) {
                 System.out.println("Error reading file, insufficient arguements on line " + lineNumber);
-                System.out.println("The error string " + stringArray[0]);
+                System.out.println("The error string " + lineArray[0]);
             }
 
-            if (stringArray[0].equals(FileKeywords.CHARACTER_NAME)) {
-                this.character.setName(stringArray[1]);
-            } 
-            
-            else if (stringArray[0].equals(CharacterStatNames.LEVEL)) {
-                this.character.setLevel(StringToDouble(stringArray[1]));
+            // we start by reading the character at the beginning of the file
+            if (lineNumber.getNumber() <= CHARACTER_FILES_LINES) {
+                if (parceCharacter(lineArray, lineNumber) == false ) {
+                    System.out.println("Error reading character at line " + lineNumber.getNumber());
+                    return;
+                }
             }
-
-            else if (stringArray[0].equals(CharacterStatNames.EXPERIENCE)) {
-                this.character.setExperience(StringToDouble(stringArray[1]));
-            } 
             
             // item start - this is still ugly
-            else if (stringArray[0].equals(FileKeywords.ITEM_START)) {
-                lineNumber = initItem(fileReader, regex, lineNumber);
+            else if (lineArray[0].equals(FileKeywords.ITEM_START)) {
+                // System.out.println(lineNumber.getNumber() + ": " + lineArray[0]);
+                lineNumber.setNumber(lineNumber.getNumber()+1);
+                if (parceItem(fileReader, regex, lineNumber) == false) {
+                    System.out.println("Error reading item at line " + lineNumber.getNumber());
+                    return;
+                }
+            
             }
             
-            else if (stringArray[0].equals(FileKeywords.EMPTY_LINE)) { // emptyline
+            else if (lineArray[0].equals(FileKeywords.EMPTY_LINE)) { // emptyline
             }
             
             else {
-                System.out.println("Error in file: invalid identifier at line " + lineNumber);
+                System.out.println("Error in file: invalid identifier at line " + lineNumber.getNumber());
             }
             
-            lineNumber++;
+            // System.out.println(lineNumber.getNumber() + ": " + lineArray[0]);
+            lineNumber.setNumber(lineNumber.getNumber()+1);
+
         }
         
     }
@@ -148,51 +192,65 @@ public class Game {
     /*
      * 
      */
-    private int initItem(FileReader fileReader, String regex, int lineNumber) {
+    private boolean parceItem(FileReader fileReader, String regex, IntegerWrapper lineNumber) {
 
         String line;
-        String[] stringArray;
+        String[] lineArray;
         Item item = new Item("", "");
 
         while((line = fileReader.getLine()) != FileKeywords.END_OF_FILE) {
 
-            stringArray = line.split(regex);
+            lineArray = line.split(regex);
 
-            // TODO: define these somewhere
-            if (stringArray[0].equals(FileKeywords.ITEM_TYPE)) {
-                item.setItemType(stringArray[1]);
+            if (lineArray[0].equals(FileKeywords.ITEM_TYPE)) {
+                if (item.setItemType(lineArray[1]) == false) {
+                    return false;
+                }
             }
 
-            if (stringArray[0].equals(FileKeywords.ITEM_NAME)) {
-                item.setItemName(stringArray[1]);
+            if (lineArray[0].equals(FileKeywords.ITEM_NAME)) {
+                if (item.setItemName(lineArray[1]) == false) {
+                    return false;
+                }
             }
 
             // check the stat type and add it to the stat list
-            if ((stringArray[0].equals(Item.DAMAGE_STAT_NAME)) || (stringArray[0].equals(Item.DEFENCE_STAT_NAME))
-                || (stringArray[0].equals(Item.HEALTH_STAT_NAME)) || (stringArray[0].equals(Item.FIRE_RESISTANCE_STAT_NAME))
-                || (stringArray[0].equals(Item.POISON_RESISTANCE_STAT_NAME)) || (stringArray[0].equals(Item.MAGIC_RESISTANCE_STAT_NAME))
-                || (stringArray[0].equals(Item.LIGHTNING_RESISTANCE_STAT_NAME)) || (stringArray[0].equals(Item.COLD_RESISTANCE_STAT_NAME))) {
-                Stat stat = new Stat(stringArray[0], StringToDouble(stringArray[1]));
-                item.getStatList().add(stat);
+            if ((lineArray[0].equals(Item.DAMAGE_STAT_NAME)) || (lineArray[0].equals(Item.DEFENCE_STAT_NAME))
+                || (lineArray[0].equals(Item.HEALTH_STAT_NAME)) || (lineArray[0].equals(Item.FIRE_RESISTANCE_STAT_NAME))
+                || (lineArray[0].equals(Item.POISON_RESISTANCE_STAT_NAME)) || (lineArray[0].equals(Item.MAGIC_RESISTANCE_STAT_NAME))
+                || (lineArray[0].equals(Item.LIGHTNING_RESISTANCE_STAT_NAME)) || (lineArray[0].equals(Item.COLD_RESISTANCE_STAT_NAME))) {
+                Stat stat = new Stat(lineArray[0], StringToDouble(lineArray[1]));
+                item.addStat(stat);
             }
 
             // found the end of the item - do a few error checks to make sure the item is legit
             // TODO: some of this logic should potentially be moved to the item class
-            if (stringArray[0].equals(FileKeywords.ITEM_END)) {
+            if (lineArray[0].equals(FileKeywords.ITEM_END)) {
+                
+                // if (item.isLegit() == false) {
+                //    return false;
+                //} else {
+                // this.character.addItem(item);
+                //}
                 
                 if (item.getItemName().equals("") || item.getItemType().equals("")) {
                     System.out.println("Error With Item Name or Type");
-                } else if (item.getStatList().size() == 0) {
-                    System.out.println("Error: Item has no stats!");
+                    // weird case
+                    return false;
+                } else if (item.getStatList().size() < Item.MIN_STATS) {
+                    System.out.println("Error: doesn't have enough stats!");
+                    return false;
                 } else {
                     this.character.addItem(item);
-                    
+                    return true;       
                 }
-                return lineNumber;
             }
-
+            
+            // System.out.println(lineNumber.getNumber() + ": " + lineArray[0]);
+            lineNumber.setNumber(lineNumber.getNumber()+1);
+        
         }
-        return lineNumber;
+        return false;
     }
 
 }

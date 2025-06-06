@@ -2,8 +2,12 @@ import java.util.ArrayList;
 
 public class Item {
 
+    public static final int MAX_STATS = 5; // will generate MAX_STATS - 1 due to how random() method works
+    public static final int MIN_STATS = 2;    
+
     // all the different Item Types
     public static final String WEAPON = "Weapon";
+    public static final String HELM = "Helm";
     public static final String CHEST = "Chest";
     public static final String SHIELD = "Shield";
     public static final String AMULET = "Amulet";
@@ -14,7 +18,7 @@ public class Item {
     public static final String BOOTS = "Boots";
 
     // these needs to be placed in an array for RNG purposes
-    public static final String[] ITEM_TYPES = {WEAPON, CHEST, SHIELD, AMULET, RING, GLOVES, BELT, PANTS, BOOTS};
+    public static final String[] ITEM_TYPES = {WEAPON, HELM, CHEST, SHIELD, AMULET, RING, GLOVES, BELT, PANTS, BOOTS};
    
     // Item Stat Types
     public static final String HEALTH_STAT_NAME = "Health";
@@ -56,23 +60,44 @@ public class Item {
     }
 
     // TODO: this should not be changed more than once... could add code to prevent that
-    // TODO: this needs to be verified that its a legit type
-    public void setItemType(String itemType) {
-        this.itemType = itemType;
+    public boolean setItemType(String itemType) {
+        
+        // make sure its a legit item type
+        for (int i = 0; i < ITEM_TYPES.length; i++) {
+            if (itemType.equals(ITEM_TYPES[i])) {
+                this.itemType = itemType;
+                return true;
+            }
+        }
+        
+        System.out.println("Invalid item type " + itemType);
+        return false;
+
     }
 
-    public void setItemName(String itemName) {
+    /**
+     * TODO: add name verification logic
+     * @param itemName
+     * @return
+     */
+    public boolean setItemName(String itemName) {
         this.itemName = itemName;
+        return true;
     }
 
     public ArrayList<Stat> getStatList() {
         return this.statList;
     }
 
-    // TODO: add logic for number of stats an item can hold once I figure out what the limit should be
     // TODO: check if is unique here
-    public void addStat(Stat stat) {
+    public boolean addStat(Stat stat) {
+        
+        if (this.statList.size() >= Item.MAX_STATS) {
+            return false;
+        }
         this.statList.add(stat);
+        return true;
+    
     }
 
     /**

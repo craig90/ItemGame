@@ -31,9 +31,6 @@ class StatComparator implements Comparator<Stat> {
 
 public class ItemGenerator {
 
-    public static final int MAX_STATS = 5; // will generate MAX_STATS - 1 due to how random() method works
-    public static final int MIN_STATS = 2;
-    
     // TODO: I don't think that these should be define here - Probably should be defined in subclass ItemStat
     public static final int RESISTANCE_MIN_VALUE = 5;
     public static final int RESISTANCE_MAX_VALUE = 20;
@@ -95,7 +92,7 @@ public class ItemGenerator {
         Random random = new Random();
 
         // decide how many stats the item will have
-        int numberOfStats = random.nextInt(MIN_STATS, MAX_STATS);
+        int numberOfStats = random.nextInt(Item.MIN_STATS, Item.MAX_STATS);
         
         // decide the item type
         int itemNumber = random.nextInt(Item.ITEM_TYPES.length);
@@ -111,7 +108,7 @@ public class ItemGenerator {
 
         // TODO: define item type names somewhere
         // Weapon is a special case where Damage has to be the main stat
-        if (newItem.getItemType() == "Weapon") {
+        if (newItem.getItemType() == Item.WEAPON) {
             System.out.println("Weapon has to have damage");
             int statValue = random.nextInt(WEAPON_DAMAGE_MIN_VALUE, WEAPON_DAMGE_MAX_VALUE);
             Stat stat = new Stat(Item.DAMAGE_STAT_NAME, statValue);
@@ -119,14 +116,14 @@ public class ItemGenerator {
         }
         
         // these are special cases where the first stat must be defense
-        else if (newItem.getItemType() == "Chest") {
+        else if (newItem.getItemType() == Item.CHEST) {
             System.out.println("Chest has to have defence");
             int statValue = random.nextInt(CHEST_DEFENCE_MIN_VALUE, CHEST_DEFENCE_MAX_VALUE);
             Stat stat = new Stat(Item.DEFENCE_STAT_NAME, statValue);
             newItem.addStat(stat);
         }
 
-        else if (newItem.getItemType() == "Shield") {
+        else if (newItem.getItemType() == Item.SHIELD) {
             System.out.println("Shield has to have defence");
             int statValue = random.nextInt(SHIELD_DEFENCE_MIN_VALUE, SHIELD_DEFENCE_MAX_VALUE);
             Stat stat = new Stat(Item.DEFENCE_STAT_NAME, statValue);
