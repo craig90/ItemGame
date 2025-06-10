@@ -93,8 +93,9 @@ public class Character {
      */
     public void displayStats() {
         
-        System.out.println("\n" + this.characterName + " " + level.getStatType() + " " + level.getValue() + " " + 
-        experience.getStatType() + " " + experience.getValue() + "\n");
+        System.out.println("\n" + this.characterName);
+        System.out.println(level.getStatType() + " " + level.getValue()); 
+        System.out.println(experience.getStatType() + " " + experience.getValue() + "\n");
         
         System.out.println("Stats:");
 
@@ -108,7 +109,10 @@ public class Character {
      * displays the base stats for the character
      */
     public void displayBaseStats() {
-        System.out.println("Character's base stats (not taking item stats into account):");
+        System.out.println("\nCharacter's base stats (not taking item stats into account):\n");
+        System.out.println(this.characterName);
+        System.out.println(this.level.getStatType() + " " + this.level.getValue());
+        System.out.println(this.experience.getStatType() + " " + this.experience.getValue() + "\n");
 
         for (int i = 0; i < this.statList.size(); i++) {
             System.out.println(this.statList.get(i).getStatType() + ": " + this.statList.get(i).getBaseValue());
