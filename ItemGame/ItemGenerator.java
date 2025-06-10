@@ -33,26 +33,6 @@ public class ItemGenerator {
 
     }
 
-    /**
-     * TODO: potentially should be in stat class? 
-     * @param newItem
-     * @return
-     */
-    private boolean statIsUnique(Item item, int statType) {
-
-        for (int i = 0; i < item.statListSize(); i++ ){
-            if (item.getStat(i).type.equals(Item.ITEM_STAT_TYPE[statType])) {
-                // System.out.println("Trying to add " + ItemConstants.ITEM_STAT_TYPE[statType] + 
-                // " but already have " + newItem.getStatList().get(j).type );
-                return false;
-            }
-        }
-        return true;
-
-    }
-
-
-
     // TODO: we could add a lot more logic over different stat types
     // Do certain items have a smaller subset of stat types - it's possible that each item type has seperate logic
     // for stat creation
@@ -78,7 +58,6 @@ public class ItemGenerator {
         int itemNameAdjective = random.nextInt(Item.ITEM_ADJECTIVES.length);
         newItem.setItemName(Item.ITEM_ADJECTIVES[itemNameAdjective] + " " + Item.ITEM_TYPES[itemNumber]);
 
-        // TODO: define item type names somewhere
         // Weapon is a special case where Damage has to be the main stat
         if (newItem.getItemType() == Item.WEAPON) {
             System.out.println("Weapon has to have damage");
@@ -125,7 +104,7 @@ public class ItemGenerator {
             // System.out.println("with value: " + statValue);
 
             // make sure the stat is unique
-            if (statIsUnique(newItem, statType) == true) {
+            if (newItem.statIsUnique(statType) == true) {
                 Stat stat = new Stat(Item.ITEM_STAT_TYPE[statType], statValue);
                 newItem.addStat(stat);
             }

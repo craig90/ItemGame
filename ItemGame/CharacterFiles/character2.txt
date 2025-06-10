@@ -1,0 +1,31 @@
+Character Name:Willie Nailor
+Level:30
+Experience:55466
+
+Item-Start
+Item Type:Gloves
+Item Name:Gold Gloves
+Damage:15.0
+Defence:67.0
+Item-End
+
+Item-Start
+Item Type:Helm
+Item Name:Green Helm
+Defence:50.0
+Health:60.0
+Item-End
+
+Item-Start
+Item Type:Shield
+Item Name:Cool Shield
+Defence:200.0
+Fire Resistance:20.0
+Item-End
+
+Item-Start
+Item Type:Chest
+Item Name:Bronze Chest
+Defence:300.0
+Magic Resistance:20.0
+Item-End

@@ -190,6 +190,28 @@ public class Item {
         this.statList.sort(new StatComparator());
     }
 
+
+    /**
+     * 
+     * @param newItem
+     * @return
+     */
+    public boolean statIsUnique(int statType) {
+
+        for (int i = 0; i < this.statList.size(); i++ ) {
+            
+            if (this.statList.get(i).type.equals(Item.ITEM_STAT_TYPE[statType])) {
+                // System.out.println("Trying to add " + ItemConstants.ITEM_STAT_TYPE[statType] + 
+                // " but already have " + newItem.getStatList().get(j).type );
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+
 }
 
 
@@ -219,4 +241,5 @@ class StatComparator implements Comparator<Stat> {
 
         return aIndex - bIndex;
     }
+
 }

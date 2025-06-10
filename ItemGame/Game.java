@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -14,16 +15,82 @@ public class Game {
 
     }
 
+    private int introScreen(Scanner scanner) {
+
+        int input = -1;
+        
+        while (input != 1 && input != 2) {
+            System.out.println("Welcome to the Item Game");
+            System.out.println("Would you like to create a new character or load one from file?");
+            System.out.println("1 - Load From File");
+            System.out.println("2 - Create New Character");
+            input = scanner.nextInt();
+        }
+
+        return input;
+
+    }
+
+    
+    private String loadFromFile(Scanner scanner) {
+
+        ArrayList <String> fileNames = new ArrayList <String>();
+        ArrayList <String> characterNames = new ArrayList<String>();
+
+        FileReader file = new FileReader();
+        FileParcer fileParcer = new FileParcer();
+
+        int input = -1;
+
+        // get the file Names from the directory
+        FileReader.readFileNames(fileNames);
+
+        // load the character Names
+        for (int i = 0; i <fileNames.size(); i++) {
+            String characterName = "";
+            characterName = fileParcer.parceCharacterName(file, fileNames.get(i));
+            
+            if (characterName.equals("")) {
+                System.out.println("Error reading character name");
+            }
+            characterNames.add(characterName);
+        }
+
+        System.out.println("Press the Number which coorespons to the character you'd like to load");
+        // show the characters that we can load from file
+        for (int i = 0; i < characterNames.size(); i++) {
+            System.out.println(i + " - " + characterNames.get(i));
+        }
+
+        input = scanner.nextInt();
+
+        System.out.println("Loading character: " + characterNames.get(input));
+        return fileNames.get(input);
+
+    }
+
+
     public void runGame() {
 
+        // TODO: take input as String and convert to int to prevent program from crashing
+        // test what happens if a string is entered
         Scanner scanner = new Scanner(System.in);
         int input = -1;
         
-        System.out.println("Welcome to the Item Game");
-        // System.out.println("Enter the Character File You'd Like to Load");
-        // TODO: for now lets not implment this - later on read from user selected file
+        input = introScreen(scanner);
 
-        this.initializeGame();
+        if (input == 1) {
+            String fileName = loadFromFile(scanner);
+            this.loadCharacterFromFile(fileName);
+        } else if (input == 2) {
+            System.out.println("Create new Character... yet to be implemented");
+            return;
+        } else {
+            System.out.println("Error");
+            return;
+        }
+        
+        
         this.character.updateStats();
         this.itemGenerator = new ItemGenerator();
 
@@ -127,13 +194,13 @@ public class Game {
     /**
      * intialize the character and item list from file data
      */
-    public void initializeGame() {
+    public void loadCharacterFromFile(String filename) {
 
         this.character = new Character();
 
         FileReader fileReader;
         fileReader = new FileReader();
-        fileReader.openFile();
+        fileReader.openFile(filename);
 
         String line;
         String regex = "[:]";
