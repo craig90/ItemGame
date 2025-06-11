@@ -33,7 +33,7 @@ public class Item {
     public static final String MAGIC_RESISTANCE_STAT_NAME = "Magic Resistance";
 
     // these need to be in an array for RNG purposes
-    public static final String[] ITEM_STAT_TYPE = {HEALTH_STAT_NAME, DAMAGE_STAT_NAME, DEFENCE_STAT_NAME, 
+    public static final String[] ITEM_STAT_TYPE = {DAMAGE_STAT_NAME, HEALTH_STAT_NAME, DEFENCE_STAT_NAME, 
         ALL_RESISTANCE_STAT_NAME, FIRE_RESISTANCE_STAT_NAME, POISON_RESISTANCE_STAT_NAME, 
         LIGHTNING_RESISTANCE_STAT_NAME, COLD_RESISTANCE_STAT_NAME, MAGIC_RESISTANCE_STAT_NAME};
 
