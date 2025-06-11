@@ -4,12 +4,11 @@ public class Character {
 
     String characterName;
 
-    // TODO: these top three will likely have to be subclassed
+    // TODO: might have to subclass some of these
     private CharacterStat level;
     private CharacterStat experience;
-    private CharacterStat health;
-    
     private CharacterStat damage;
+    private CharacterStat health;
     private CharacterStat defence;
     private CharacterStat fireResistance;
     private CharacterStat coldResistance;
@@ -29,8 +28,8 @@ public class Character {
         characterName = "";
         level = new CharacterStat(this, CharacterStatNames.LEVEL);
         experience = new CharacterStat(this, CharacterStatNames.EXPERIENCE);
-        health = new CharacterStat(this, CharacterStatNames.HEALTH);
         damage = new CharacterStat(this, CharacterStatNames.DAMAGE);
+        health = new CharacterStat(this, CharacterStatNames.HEALTH);
         defence = new CharacterStat(this, CharacterStatNames.DEFENCE);
         
         fireResistance = new CharacterStat(this, CharacterStatNames.FIRE_RESISTANCE);
@@ -41,8 +40,8 @@ public class Character {
 
         statList = new ArrayList<CharacterStat>();
 
-        statList.add(health);
         statList.add(damage);
+        statList.add(health);
         statList.add(defence);
         statList.add(fireResistance);
         statList.add(coldResistance);
@@ -89,7 +88,7 @@ public class Character {
     }
 
     /**
-     * Displays the character's stats - not sure if this should be moved? TODO
+     * Displays the character's stats
      */
     public void displayStats() {
         
@@ -125,6 +124,11 @@ public class Character {
      */
     public void displayItems() {
         
+        if (this.itemList.size() == 0) {
+            System.out.println("No items equipped");
+            return;
+        }
+
         System.out.println("Items:");
 
         for (int i = 0; i < this.itemList.size(); i++) {

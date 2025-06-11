@@ -7,7 +7,7 @@ public class Game {
     ItemGenerator itemGenerator;
     FileParcer fileParcer;
 
-    // maybe initialize the GUI, and Character here?
+    // maybe initialize the GUI
     public Game () {
         this.itemGenerator = new ItemGenerator();
         this.fileParcer = new FileParcer();
@@ -98,7 +98,6 @@ public class Game {
         
         if (scanner.nextInt() == 1) {
             this.character.addItem(newItem);
-            this.character.updateStats();
         }
 
     }
@@ -111,17 +110,17 @@ public class Game {
 
         int input = -1;
         input = introScreen(scanner);
+        this.character = new Character();
 
         if (input == 1) {
             String fileName = selectCharacterFromFile(scanner);
-            this.character = new Character();
             this.fileParcer.loadCharacterFromFile(fileName, character);
         } else if (input == 2) {
             System.out.println("Create new Character... yet to be implemented");
             return;
         } else {
-            System.out.println("Invalid input");
-            return;
+            System.out.println("Closing game");
+            System.exit(0);
         }
 
     }
@@ -132,9 +131,13 @@ public class Game {
      */
     public int characterScreen(Scanner scanner) {
 
+        // TODO: handle these loop conditions with constants?
         int input = -1;
 
         while (input != 0) {
+
+            // update the stats each loop interation so we don't have to worry about calling it throughout the program
+            this.character.updateStats();
 
             System.out.println("\n1 - Show Character's Base Stats");
             System.out.println("2 - Show Character's Stats");
@@ -151,7 +154,7 @@ public class Game {
                 this.character.displayStats();
             } else if (input == 3) {
                 this.character.displayItems();
-            } else if (input == 4 ) {
+            } else if (input == 4) {
                 itemCreationMenu(scanner);
             } else if (input == 5) {
                 System.out.println("Implement file save here");
@@ -179,7 +182,6 @@ public class Game {
 
         while (input != 0) { 
             gameInitialization(scanner);
-            this.character.updateStats(); // TODO: find out whats going on with this
             input = characterScreen(scanner);
         }
         
