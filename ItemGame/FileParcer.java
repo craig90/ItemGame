@@ -132,9 +132,6 @@ public class FileParcer {
             
             }
             
-            else if (lineArray[0].equals(FileKeywords.EMPTY_LINE)) { // emptyline
-            }
-            
             else {
                 System.out.println("Error in file: invalid identifier at line " + lineNumber.getNumber());
             }

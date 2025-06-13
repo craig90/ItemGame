@@ -11,7 +11,9 @@ public class CharacterSaver {
     }
 
     
-
+    /**
+     * Writes the character out to file
+     */
     public void saveCharacter() {
 
         if (this.character == null) {
@@ -20,19 +22,11 @@ public class CharacterSaver {
 
         this.fileWrite.openFile(testFileName);
 
-        // first thing is character name
+        // follow the ordre Charcter Name, Level, Experience
         this.fileWrite.writeLine(FileKeywords.CHARACTER_NAME + lineSeparator + this.character.getName());
-
-        // next is level
         this.fileWrite.writeLine(CharacterStatNames.LEVEL + lineSeparator + this.character.getLevel());
+        this.fileWrite.writeLine(CharacterStatNames.EXPERIENCE + lineSeparator + this.character.getExperience());
 
-        // next is experience
-        this.fileWrite.writeLine(CharacterStatNames.EXPERIENCE + lineSeparator + this.character.getLevel());
-        System.out.println(CharacterStatNames.EXPERIENCE + lineSeparator + this.character.getLevel());
-
-        // character end.. write extra line
-        this.fileWrite.writeLine("");
-        
         // write character's items
         for (int i = 0; i < this.character.getItemListSize(); i++) {
             

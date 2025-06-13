@@ -1,28 +1,24 @@
 Character Name:Dixie Normus
-Level:20
-Experience:12345
-
+Level:20.0
+Experience:12345.0
 Item-Start
 Item Type:Gloves
 Item Name:Gold Gloves
 Damage:15.0
 Defence:67.0
 Item-End
-
 Item-Start
 Item Type:Helm
 Item Name:Green Helm
 Health:60.0
 Defence:50.0
 Item-End
-
 Item-Start
 Item Type:Shield
 Item Name:Cool Shield
 Defence:200.0
 Fire Resistance:20.0
 Item-End
-
 Item-Start
 Item Type:Chest
 Item Name:Bronze Chest

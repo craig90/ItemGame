@@ -16,7 +16,7 @@ public class FileWrite {
         }
     }
 
-    /** TODO: last line doesn't need \n -- but it's not really important */
+    /** TODO: last line doesn't need \n -- but it's not really important - not worth implementing a  workaround */
     public void writeLine(String line) {
         try {
             this.fileWriter.write(line + "\n");

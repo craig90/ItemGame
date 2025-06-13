@@ -1,17 +1,18 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Game {
 
     Character character;
     ItemGenerator itemGenerator;
     FileParcer fileParcer;
-    CharacterSaver characterSaver;
+    CharacterSaver characterSaver; // instiantiate early TODO:?
+    CommandLineReader commandLineReader;
 
     // maybe initialize the GUI
     public Game () {
         this.itemGenerator = new ItemGenerator();
         this.fileParcer = new FileParcer();
+        this.commandLineReader = new CommandLineReader();
     }
 
     /**
@@ -19,16 +20,17 @@ public class Game {
      * @param scanner
      * @return
      */
-    private int introScreen(Scanner scanner) {
+    private int introScreen() {
 
         int input = -1;
         
+        System.out.println("\nWelcome to the Item Game");
+        System.out.println("Would you like to create a new character or load one from file?");
+        System.out.println("1 - Load From File");
+        System.out.println("2 - Create New Character");
+
         while (input != 1 && input != 2) {
-            System.out.println("\nWelcome to the Item Game");
-            System.out.println("Would you like to create a new character or load one from file?");
-            System.out.println("1 - Load From File");
-            System.out.println("2 - Create New Character");
-            input = scanner.nextInt();
+            input = this.commandLineReader.getInteger();
         }
 
         return input;
@@ -41,7 +43,7 @@ public class Game {
      * @param scanner
      * @return
      */
-    private boolean selectCharacterFromFile(Scanner scanner, StringBuilder characterFileName) {
+    private boolean selectCharacterFromFile(StringBuilder characterFileName) {
 
         ArrayList <String> fileNames = new ArrayList <String>();
         ArrayList <String> characterNames = new ArrayList<String>();
@@ -56,7 +58,6 @@ public class Game {
             return false;
         }
         
-
         // load the character Names
         for (int i = 0; i <fileNames.size(); i++) {
             String characterName = "";
@@ -75,7 +76,7 @@ public class Game {
             System.out.println(i + " - " + characterNames.get(i));
         }
 
-        input = scanner.nextInt();
+        input = commandLineReader.getInteger();
 
         if (input < 0 || input >= characterNames.size()) {
             System.out.println("Error, input is not valid"); // TODO: what to do here
@@ -88,8 +89,11 @@ public class Game {
 
     }
 
-
-    public void itemCreationMenu(Scanner scanner) {
+    /**
+     * Brings up the menu to create and possibly equip a new item
+     * @param scanner
+     */
+    public void itemCreationMenu() {
 
         Item newItem = this.itemGenerator.createNewItem();
         System.out.println("Your new item: ");
@@ -103,7 +107,7 @@ public class Game {
         System.out.println("Would you like to equip this item? 1 - yes");
         System.out.println("Press any other key to discard the item");
         
-        if (scanner.nextInt() == 1) {
+        if (commandLineReader.getInteger() == 1) {
             this.character.addItem(newItem);
         }
 
@@ -113,15 +117,15 @@ public class Game {
      * Determine if user wants to create a new character or load one from file
      * @param scanner
      */
-    public void gameInitialization(Scanner scanner) {
+    public void gameInitialization() {
 
         int input = -1;
-        input = introScreen(scanner);
+        input = introScreen();
         this.character = new Character();
 
         if (input == 1) {
             StringBuilder fileName = new StringBuilder("");
-            if (selectCharacterFromFile(scanner, fileName) == true) {
+            if (selectCharacterFromFile(fileName) == true) {
                 this.fileParcer.loadCharacterFromFile(fileName.toString(), character);
             } else {
                 System.out.println("Not sure what we do here"); // TODO
@@ -140,7 +144,7 @@ public class Game {
      * shows the main menu of thing the user can view and change for the character
      * @param scanner
      */
-    public int characterScreen(Scanner scanner) {
+    public int characterScreen() {
 
         // TODO: handle these loop conditions with constants?
         int input = -1;
@@ -157,7 +161,7 @@ public class Game {
             System.out.println("5 - Save Changes");
             System.out.println("6 - Return to Character Selection Screen");
             System.out.println("0 - Exit Program - note any unsaved changes will be lost");
-            input = scanner.nextInt();
+            input = commandLineReader.getInteger();
 
             if (input == 1) {
                 this.character.displayBaseStats();
@@ -166,7 +170,7 @@ public class Game {
             } else if (input == 3) {
                 this.character.displayItems();
             } else if (input == 4) {
-                itemCreationMenu(scanner);
+                itemCreationMenu();
             } else if (input == 5) {
                 this.characterSaver = new CharacterSaver(character); // TODO: does it make sense to create object here?
                 this.characterSaver.saveCharacter();
@@ -190,14 +194,13 @@ public class Game {
         // TODO: take input as String and convert to int to prevent program from crashing
         // test what happens if a string is entered
         int input = -1;
-        Scanner scanner = new Scanner(System.in);
 
         while (input != 0) { 
-            gameInitialization(scanner);
-            input = characterScreen(scanner);
+            gameInitialization();
+            input = characterScreen();
         }
         
-        scanner.close();
+        this.commandLineReader.scanner.close();
 
     }
 
