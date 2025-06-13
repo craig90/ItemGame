@@ -9,16 +9,17 @@ public class FileReader {
     public static final String directoryPath = "ItemGame/CharacterFiles/";
 
     Scanner scanner;
-    String fileName;
+    // String fileName;
 
     FileReader() {
         this.scanner = null;
-        this.fileName = "";
+        // this.fileName = "";
     }
 
     public void openFile(String fileName) {
 
         try {
+            // System.out.println(fileName);
             File file = new File(fileName);
             scanner = new Scanner(file);
         } catch (FileNotFoundException e) {
@@ -45,11 +46,10 @@ public class FileReader {
     }
 
     /**
-     * TODO: what to do if there are no files in the directory?
      * returns the names of the files in the specified directory as an ArrayList of Strings
-     * @return
+     * @return false if no files are found
      */
-    public static void readFileNames(ArrayList<String> fileNames) {
+    public static boolean readFileNames(ArrayList<String> fileNames) {
         
         File directory = new File(directoryPath);
         File[] files = directory.listFiles();
@@ -59,8 +59,10 @@ public class FileReader {
                 // System.out.println(file.getName());
                 fileNames.add(directoryPath + file.getName());
             }
+            return true;
         } else {
-            System.out.println("No files");
+            System.out.println("No files in directory " + directoryPath);
+            return false;
         }
 
     }

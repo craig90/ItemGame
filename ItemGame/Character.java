@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Character {
 
-    String characterName;
+    private String characterName;
 
     // TODO: might have to subclass some of these
     private CharacterStat level;
@@ -53,6 +53,14 @@ public class Character {
     
     }
     
+    public double getExperience() {
+        return this.experience.getValue();
+    }
+
+    public String getName() {
+        return this.characterName;
+    }
+
     // return a double version of the level
     public double getLevel() {
         return this.level.getValue();

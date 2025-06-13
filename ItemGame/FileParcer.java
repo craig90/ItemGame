@@ -87,11 +87,11 @@ public class FileParcer {
     /**
      * intialize the character and item list from file data
      */
-    public void loadCharacterFromFile(String filename, Character character) {
+    public void loadCharacterFromFile(String fileName, Character character) {
 
         FileReader fileReader;
         fileReader = new FileReader();
-        fileReader.openFile(filename);
+        fileReader.openFile(fileName);
 
         String line;
         String[] lineArray;

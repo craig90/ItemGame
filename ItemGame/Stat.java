@@ -1,7 +1,5 @@
 public class Stat {
 
-    // start with this for now - maybe becomes an abstract class in the future
-
     protected String type;
     protected double value;
 

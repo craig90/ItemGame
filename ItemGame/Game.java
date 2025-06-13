@@ -6,6 +6,7 @@ public class Game {
     Character character;
     ItemGenerator itemGenerator;
     FileParcer fileParcer;
+    CharacterSaver characterSaver;
 
     // maybe initialize the GUI
     public Game () {
@@ -40,7 +41,7 @@ public class Game {
      * @param scanner
      * @return
      */
-    private String selectCharacterFromFile(Scanner scanner) {
+    private boolean selectCharacterFromFile(Scanner scanner, StringBuilder characterFileName) {
 
         ArrayList <String> fileNames = new ArrayList <String>();
         ArrayList <String> characterNames = new ArrayList<String>();
@@ -50,15 +51,20 @@ public class Game {
         int input = -1;
 
         // get the file Names from the directory
-        FileReader.readFileNames(fileNames);
+        if (FileReader.readFileNames(fileNames) == false) {
+            System.out.println("No characters to load from file");
+            return false;
+        }
+        
 
         // load the character Names
         for (int i = 0; i <fileNames.size(); i++) {
             String characterName = "";
             characterName = this.fileParcer.parceCharacterName(file, fileNames.get(i));
-            
+
             if (characterName.equals("")) {
                 System.out.println("Error reading character name");
+                return false;
             }
             characterNames.add(characterName);
         }
@@ -73,11 +79,12 @@ public class Game {
 
         if (input < 0 || input >= characterNames.size()) {
             System.out.println("Error, input is not valid"); // TODO: what to do here
-            System.exit(0);
+            return false;
         }
 
         System.out.println("\nLoading character: " + characterNames.get(input));
-        return fileNames.get(input);
+        characterFileName.append(fileNames.get(input));
+        return true;
 
     }
 
@@ -113,8 +120,12 @@ public class Game {
         this.character = new Character();
 
         if (input == 1) {
-            String fileName = selectCharacterFromFile(scanner);
-            this.fileParcer.loadCharacterFromFile(fileName, character);
+            StringBuilder fileName = new StringBuilder("");
+            if (selectCharacterFromFile(scanner, fileName) == true) {
+                this.fileParcer.loadCharacterFromFile(fileName.toString(), character);
+            } else {
+                System.out.println("Not sure what we do here"); // TODO
+            }
         } else if (input == 2) {
             System.out.println("Create new Character... yet to be implemented");
             return;
@@ -157,7 +168,8 @@ public class Game {
             } else if (input == 4) {
                 itemCreationMenu(scanner);
             } else if (input == 5) {
-                System.out.println("Implement file save here");
+                this.characterSaver = new CharacterSaver(character); // TODO: does it make sense to create object here?
+                this.characterSaver.saveCharacter();
             } else if (input == 6) {
                 return -1;
             }
