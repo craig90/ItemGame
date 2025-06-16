@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Game {
@@ -43,31 +44,29 @@ public class Game {
      * @param scanner
      * @return
      */
-    private boolean selectCharacterFromFile(StringBuilder characterFileName) {
+    private String selectCharacterFromFile(ArrayList<String> fileNames) throws FileNotFoundException {
 
-        ArrayList <String> fileNames = new ArrayList <String>();
         ArrayList <String> characterNames = new ArrayList<String>();
 
         FileReader file = new FileReader();
-
+        String characterFileName;
         int input = -1;
 
-        // get the file Names from the directory
-        if (FileReader.readFileNames(fileNames) == false) {
-            System.out.println("No characters to load from file");
-            return false;
-        }
-        
         // load the character Names
-        for (int i = 0; i <fileNames.size(); i++) {
+        for (int i = 0; i < fileNames.size(); i++) {
             String characterName = "";
             characterName = this.fileParcer.parceCharacterName(file, fileNames.get(i));
 
-            if (characterName.equals("")) {
-                System.out.println("Error reading character name");
-                return false;
+            if (characterName.equals("")) { // invalid file
+                System.out.println("Error reading character name from file" + fileNames.get(i));
+                fileNames.remove(i);
+            } else {
+                characterNames.add(characterName);
             }
-            characterNames.add(characterName);
+        }
+
+        if (fileNames.size() == 0) {
+            throw new FileNotFoundException("No valid character files found");
         }
 
         System.out.println("\nPress the Number which cooresponds to the character you'd like to load");
@@ -76,41 +75,44 @@ public class Game {
             System.out.println(i + " - " + characterNames.get(i));
         }
 
-        input = commandLineReader.getInteger();
-
-        if (input < 0 || input >= characterNames.size()) {
-            System.out.println("Error, input is not valid"); // TODO: what to do here
-            return false;
+        while (input < 0 || input >= characterNames.size()) {
+            input = commandLineReader.getInteger();
         }
 
         System.out.println("\nLoading character: " + characterNames.get(input));
-        characterFileName.append(fileNames.get(input));
-        return true;
+        characterFileName = (fileNames.get(input));
+        return characterFileName;
+    }
+
+
+    /**
+     * This function will call the appropriate funtions to read the possible character names from file and ask the user
+     * which they would like to load
+     */    
+    private boolean loadFromFile() {
+
+        ArrayList<String> fileNames = new ArrayList<String>();
+        String fileToLoad = "";
+        this.character = new Character();
+
+        try {
+            // grab file names, read character names then load selected character from file
+            fileNames = FileReader.readFileNames();
+            fileToLoad = selectCharacterFromFile(fileNames);
+            this.fileParcer.loadCharacterFromFile(fileToLoad, this.character);
+            return true;
+        } catch (FileNotFoundException e) {
+            System.out.println("Did not find any valid files");
+            return false;
+        } 
 
     }
 
-    /**
-     * Brings up the menu to create and possibly equip a new item
-     * @param scanner
-     */
-    public void itemCreationMenu() {
 
-        Item newItem = this.itemGenerator.createNewItem();
-        System.out.println("Your new item: ");
-        newItem.displayItem();
-        
-        Item existingItem = this.character.getItem(newItem.getItemType());
-        if (existingItem != null) {
-            existingItem.itemComparison(newItem);                    
-        }
-
-        System.out.println("Would you like to equip this item? 1 - yes");
-        System.out.println("Press any other key to discard the item");
-        
-        if (commandLineReader.getInteger() == 1) {
-            this.character.addItem(newItem);
-        }
-
+    private boolean createNewCharacter() {
+        System.out.println("Create new Character here");
+        this.character = new Character();
+        return true;
     }
 
     /**
@@ -120,24 +122,25 @@ public class Game {
     public void gameInitialization() {
 
         int input = -1;
-        input = introScreen();
-        this.character = new Character();
+        
+        while (input != 0) {
 
-        if (input == 1) {
-            StringBuilder fileName = new StringBuilder("");
-            if (selectCharacterFromFile(fileName) == true) {
-                this.fileParcer.loadCharacterFromFile(fileName.toString(), character);
+            input = introScreen();
+            
+            if (input == 1) {
+                if (loadFromFile() == true) {
+                    return;
+                }
+            } else if (input == 2) {
+                if (createNewCharacter() == true) {
+                    return;
+                }
             } else {
-                System.out.println("Not sure what we do here"); // TODO
+                System.out.println("Invalid input.. try agian");
             }
-        } else if (input == 2) {
-            System.out.println("Create new Character... yet to be implemented");
-            return;
-        } else {
-            System.out.println("Closing game");
-            System.exit(0);
+            
         }
-
+        
     }
 
     /**
@@ -201,6 +204,30 @@ public class Game {
         }
         
         this.commandLineReader.scanner.close();
+
+    }
+
+    /**
+     * Brings up the menu to create and possibly equip a new item
+     * @param scanner
+     */
+    public void itemCreationMenu() {
+
+        Item newItem = this.itemGenerator.createNewItem();
+        System.out.println("Your new item: ");
+        newItem.displayItem();
+        
+        Item existingItem = this.character.getItem(newItem.getItemType());
+        if (existingItem != null) {
+            existingItem.itemComparison(newItem);                    
+        }
+
+        System.out.println("Would you like to equip this item? 1 - yes");
+        System.out.println("Press any other key to discard the item");
+        
+        if (commandLineReader.getInteger() == 1) {
+            this.character.addItem(newItem);
+        }
 
     }
 

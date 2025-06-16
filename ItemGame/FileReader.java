@@ -49,20 +49,20 @@ public class FileReader {
      * returns the names of the files in the specified directory as an ArrayList of Strings
      * @return false if no files are found
      */
-    public static boolean readFileNames(ArrayList<String> fileNames) {
+    public static ArrayList<String> readFileNames() throws FileNotFoundException {
         
         File directory = new File(directoryPath);
         File[] files = directory.listFiles();
+        ArrayList<String> fileNames = new ArrayList<String>();
 
         if (files != null) {
             for (File file : files) {
                 // System.out.println(file.getName());
                 fileNames.add(directoryPath + file.getName());
             }
-            return true;
+            return fileNames;
         } else {
-            System.out.println("No files in directory " + directoryPath);
-            return false;
+            throw new FileNotFoundException("No files found in " + directoryPath);
         }
 
     }
@@ -75,8 +75,12 @@ public class FileReader {
     public static void main(String args[]){
 
         ArrayList<String> fileNames = new ArrayList<String>();
-        // FileReader fileReader = new FileReader();
-        readFileNames(fileNames);
+        //FileReader fileReader = new FileReader();
+        try {
+            fileNames = readFileNames();
+        } catch (FileNotFoundException e) {
+            System.out.println("Ahhh, No files found");
+        }
 
     }    
 
