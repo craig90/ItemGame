@@ -222,7 +222,6 @@ public class FileParcer {
 
     /**
      * Auxilary method - Attempts to convert a String to a double
-     * TODO: could be used to check command line input too
      * @param string
      * @return
      */

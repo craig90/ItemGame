@@ -110,8 +110,15 @@ public class Game {
 
 
     private boolean createNewCharacter() {
-        System.out.println("Create new Character here");
+        
+        String characterName = "";
+        System.out.println("Enter a character name");
+        characterName = this.commandLineReader.getLine();
         this.character = new Character();
+        this.character.setName(characterName);
+        this.character.setLevel(20); // TODO: implement this later
+        this.character.setExperience(12345); // dummy data
+        
         return true;
     }
 
@@ -194,8 +201,6 @@ public class Game {
      */
     public void runGame() {
 
-        // TODO: take input as String and convert to int to prevent program from crashing
-        // test what happens if a string is entered
         int input = -1;
 
         while (input != 0) { 
