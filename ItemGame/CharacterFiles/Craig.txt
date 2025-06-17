@@ -1,0 +1,11 @@
+Character Name:Craig
+Level:20.0
+Experience:12345.0
+Item-Start
+Item Type:Boots
+Item Name:Bronze Boots
+Defence:87.0
+Lightning Resistance:14.0
+Cold Resistance:5.0
+Magic Resistance:13.0
+Item-End
