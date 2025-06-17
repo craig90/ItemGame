@@ -21,22 +21,6 @@ public class Item {
     // these needs to be placed in an array for RNG purposes
     public static final String[] ITEM_TYPES = {WEAPON, HELM, CHEST, SHIELD, AMULET, RING, GLOVES, BELT, PANTS, BOOTS};
    
-    // Item Stat Types
-    public static final String HEALTH_STAT_NAME = "Health";
-    public static final String DAMAGE_STAT_NAME = "Damage";
-    public static final String DEFENCE_STAT_NAME = "Defence";
-    public static final String ALL_RESISTANCE_STAT_NAME = "All Resistance";
-    public static final String FIRE_RESISTANCE_STAT_NAME = "Fire Resistance";
-    public static final String POISON_RESISTANCE_STAT_NAME = "Poison Resistance";
-    public static final String LIGHTNING_RESISTANCE_STAT_NAME = "Lightning Resistance";
-    public static final String COLD_RESISTANCE_STAT_NAME = "Cold Resistance";
-    public static final String MAGIC_RESISTANCE_STAT_NAME = "Magic Resistance";
-
-    // these need to be in an array for RNG purposes
-    public static final String[] ITEM_STAT_TYPE = {DAMAGE_STAT_NAME, HEALTH_STAT_NAME, DEFENCE_STAT_NAME, 
-        ALL_RESISTANCE_STAT_NAME, FIRE_RESISTANCE_STAT_NAME, POISON_RESISTANCE_STAT_NAME, 
-        LIGHTNING_RESISTANCE_STAT_NAME, COLD_RESISTANCE_STAT_NAME, MAGIC_RESISTANCE_STAT_NAME};
-
     // these need to be in an array for RNG purposes
     public static final String[] ITEM_ADJECTIVES = {"Green", "Yellow", "Red", "Purple", "Orange", "Blue", "Gold", "Silver", 
     "Bronze", "Cool"};
@@ -63,18 +47,32 @@ public class Item {
     // TODO: this should not be changed more than once... could add code to prevent that
     public boolean setItemType(String itemType) {
         
-        // make sure its a legit item type
-        for (int i = 0; i < ITEM_TYPES.length; i++) {
-            if (itemType.equals(ITEM_TYPES[i])) {
-                this.itemType = itemType;
-                return true;
-            }
+        if (isLegitItemType(itemType) == true) {
+            this.itemType = itemType;
+            return true;
         }
         
         System.out.println("Invalid item type " + itemType);
         return false;
 
     }
+
+    /**
+     * verifies that the item type is one of the designated item types
+     * @param itemType
+     * @return
+     */
+    public static boolean isLegitItemType(String itemType) {
+        
+        // make sure its a legit item type
+        for (int i = 0; i < ITEM_TYPES.length; i++) {
+            if (itemType.equals(ITEM_TYPES[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * TODO: add name verification logic
@@ -200,7 +198,7 @@ public class Item {
 
         for (int i = 0; i < this.statList.size(); i++ ) {
             
-            if (this.statList.get(i).type.equals(Item.ITEM_STAT_TYPE[statType])) {
+            if (this.statList.get(i).type.equals(ItemStat.ITEM_STAT_TYPE[statType])) {
                 // System.out.println("Trying to add " + ItemConstants.ITEM_STAT_TYPE[statType] + 
                 // " but already have " + newItem.getStatList().get(j).type );
                 return false;
@@ -211,8 +209,31 @@ public class Item {
 
     }
 
+    /**
+     * returns true if the item has an appropriate name, type, and correct sized statlist
+     * @return
+     */
+    public boolean isLegit() {
+
+        if (this.itemName.equals("")) {
+            System.out.println("Error: Item Name is not set or is empty");
+            return false;
+        } else if (isLegitItemType(this.itemType) == false) {
+            return false;
+        } else if (this.statList.size() < Item.MIN_STATS) {
+            System.out.println("Error: Item doesn't have enough stats!");
+            return false;
+        } else if (this.statList.size() > Item.MAX_STATS) {
+            System.out.println("Error: Item has too many stats!");
+            return false;
+        } else {
+            return true;       
+        }
+
+    }
 
 }
+
 
 
 /**
@@ -227,13 +248,13 @@ class StatComparator implements Comparator<Stat> {
         int aIndex = -1;
         int bIndex = -1;
 
-        for (int i = 0; i < Item.ITEM_STAT_TYPE.length; i++) {
+        for (int i = 0; i < ItemStat.ITEM_STAT_TYPE.length; i++) {
             
-            if (statA.getStatType().equals(Item.ITEM_STAT_TYPE[i])) {
+            if (statA.getStatType().equals(ItemStat.ITEM_STAT_TYPE[i])) {
                 aIndex = i;
             }
 
-            if (statB.getStatType().equals(Item.ITEM_STAT_TYPE[i])) {
+            if (statB.getStatType().equals(ItemStat.ITEM_STAT_TYPE[i])) {
                 bIndex = i; 
             }
 

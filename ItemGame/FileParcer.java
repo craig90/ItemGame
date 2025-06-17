@@ -136,7 +136,6 @@ public class FileParcer {
                 System.out.println("Error in file: invalid identifier at line " + lineNumber.getNumber());
             }
             
-            // System.out.println(lineNumber.getNumber() + ": " + lineArray[0]);
             lineNumber.setNumber(lineNumber.getNumber()+1);
 
         }
@@ -174,12 +173,8 @@ public class FileParcer {
             }
 
             // check the stat type and add it to the stat list
-            if ((lineArray[0].equals(Item.DAMAGE_STAT_NAME)) || (lineArray[0].equals(Item.DEFENCE_STAT_NAME))
-                || (lineArray[0].equals(Item.HEALTH_STAT_NAME)) || (lineArray[0].equals(Item.ALL_RESISTANCE_STAT_NAME)) 
-                || (lineArray[0].equals(Item.FIRE_RESISTANCE_STAT_NAME)) || (lineArray[0].equals(Item.POISON_RESISTANCE_STAT_NAME))
-                || (lineArray[0].equals(Item.MAGIC_RESISTANCE_STAT_NAME)) || (lineArray[0].equals(Item.LIGHTNING_RESISTANCE_STAT_NAME))
-                || (lineArray[0].equals(Item.COLD_RESISTANCE_STAT_NAME))) {
-
+            if (ItemStat.isLegit(lineArray[0]) == true) {
+                
                 DoubleWrapper statValue = new DoubleWrapper();
                 
                 if (StringToDouble(lineArray[1], statValue) == true) { // check to make sure it's a legit value
@@ -191,25 +186,13 @@ public class FileParcer {
             }
 
             // found the end of the item - do a few error checks to make sure the item is legit
-            // TODO: some of this logic should potentially be moved to the item class
             if (lineArray[0].equals(FileKeywords.ITEM_END)) {
                 
-                // if (item.isLegit() == false) {
-                //    return false;
-                //} else {
-                // this.character.addItem(item);
-                //}
-                
-                if (item.getItemName().equals("") || item.getItemType().equals("")) {
-                    System.out.println("Error With Item Name or Type");
-                    // weird case
-                    return false;
-                } else if (item.statListSize() < Item.MIN_STATS) {
-                    System.out.println("Error: doesn't have enough stats!");
-                    return false;
+                if (item.isLegit() == false) {
+                   return false;
                 } else {
                     character.addItem(item);
-                    return true;       
+                    return true;
                 }
             }
             

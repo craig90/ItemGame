@@ -62,7 +62,7 @@ public class ItemGenerator {
         if (newItem.getItemType() == Item.WEAPON) {
             System.out.println("Weapon has to have damage");
             int statValue = random.nextInt(WEAPON_DAMAGE_MIN_VALUE, WEAPON_DAMGE_MAX_VALUE);
-            Stat stat = new Stat(Item.DAMAGE_STAT_NAME, statValue);
+            Stat stat = new Stat(ItemStat.DAMAGE_STAT_NAME, statValue);
             newItem.addStat(stat);
         }
         
@@ -70,14 +70,14 @@ public class ItemGenerator {
         else if (newItem.getItemType() == Item.CHEST) {
             System.out.println("Chest has to have defence");
             int statValue = random.nextInt(CHEST_DEFENCE_MIN_VALUE, CHEST_DEFENCE_MAX_VALUE);
-            Stat stat = new Stat(Item.DEFENCE_STAT_NAME, statValue);
+            Stat stat = new Stat(ItemStat.DEFENCE_STAT_NAME, statValue);
             newItem.addStat(stat);
         }
 
         else if (newItem.getItemType() == Item.SHIELD) {
             System.out.println("Shield has to have defence");
             int statValue = random.nextInt(SHIELD_DEFENCE_MIN_VALUE, SHIELD_DEFENCE_MAX_VALUE);
-            Stat stat = new Stat(Item.DEFENCE_STAT_NAME, statValue);
+            Stat stat = new Stat(ItemStat.DEFENCE_STAT_NAME, statValue);
             newItem.addStat(stat);
         } 
 
@@ -85,16 +85,16 @@ public class ItemGenerator {
         while (newItem.statListSize() < numberOfStats) {
             
             int statValue = -1;
-            int statType = random.nextInt(Item.ITEM_STAT_TYPE.length);
+            int statType = random.nextInt(ItemStat.ITEM_STAT_TYPE.length);
             
             // stat ranges are going to vary a bit depending on the type
-            if (Item.ITEM_STAT_TYPE[statType].equals(Item.HEALTH_STAT_NAME)) {
+            if (ItemStat.ITEM_STAT_TYPE[statType].equals(ItemStat.HEALTH_STAT_NAME)) {
                 statValue = random.nextInt(HEALTH_MIN_VALUE, HEALTH_MAX_VALUE);
-            } else if (Item.ITEM_STAT_TYPE[statType].equals(Item.DEFENCE_STAT_NAME)) {
+            } else if (ItemStat.ITEM_STAT_TYPE[statType].equals(ItemStat.DEFENCE_STAT_NAME)) {
                 statValue = random.nextInt(DEFENCE_MIN_VALUE, DEFENCE_MAX_VALUE);
-            } else if (Item.ITEM_STAT_TYPE[statType].equals(Item.DAMAGE_STAT_NAME)) {
+            } else if (ItemStat.ITEM_STAT_TYPE[statType].equals(ItemStat.DAMAGE_STAT_NAME)) {
                 statValue = random.nextInt(DAMAGE_MIN_VALUE, DAMAGE_MAX_VALUE);    
-            } else if (Item.ITEM_STAT_TYPE[statType].equals(Item.ALL_RESISTANCE_STAT_NAME)) {
+            } else if (ItemStat.ITEM_STAT_TYPE[statType].equals(ItemStat.ALL_RESISTANCE_STAT_NAME)) {
                 statValue = random.nextInt(ALL_RESISTANCE_MIN_VALUE, ALL_RESISTANCE_MAX_VALUE);    
             } else {
                 statValue = random.nextInt(RESISTANCE_MIN_VALUE, RESISTANCE_MAX_VALUE);
@@ -105,7 +105,7 @@ public class ItemGenerator {
 
             // make sure the stat is unique
             if (newItem.statIsUnique(statType) == true) {
-                Stat stat = new Stat(Item.ITEM_STAT_TYPE[statType], statValue);
+                Stat stat = new Stat(ItemStat.ITEM_STAT_TYPE[statType], statValue);
                 newItem.addStat(stat);
             }
         

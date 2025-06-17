@@ -58,10 +58,10 @@ public class CharacterStat extends Stat {
                 }
 
                 // special case for All Resistance as it will increase each resitance type
-                if (this.character.getItem(i).getStat(j).getStatType().equals(Item.ALL_RESISTANCE_STAT_NAME) &&
-                    (this.type.equals(Item.FIRE_RESISTANCE_STAT_NAME) || this.type.equals(Item.COLD_RESISTANCE_STAT_NAME)
-                    || this.type.equals(Item.POISON_RESISTANCE_STAT_NAME) || this.type.equals(Item.MAGIC_RESISTANCE_STAT_NAME)
-                    || this.type.equals(Item.LIGHTNING_RESISTANCE_STAT_NAME))) {
+                if (this.character.getItem(i).getStat(j).getStatType().equals(ItemStat.ALL_RESISTANCE_STAT_NAME) &&
+                    (this.type.equals(ItemStat.FIRE_RESISTANCE_STAT_NAME) || this.type.equals(ItemStat.COLD_RESISTANCE_STAT_NAME)
+                    || this.type.equals(ItemStat.POISON_RESISTANCE_STAT_NAME) || this.type.equals(ItemStat.MAGIC_RESISTANCE_STAT_NAME)
+                    || this.type.equals(ItemStat.LIGHTNING_RESISTANCE_STAT_NAME))) {
 
                     this.itemValue += this.character.getItem(i).getStat(j).getValue();   
                     
