@@ -1,4 +1,4 @@
-public class Stat {
+public abstract class Stat {
 
     protected String type;
     protected double value;
@@ -8,7 +8,6 @@ public class Stat {
         this.value = 0.0;
     }
 
-    // dummy constructor for initializing with dummy data
     public Stat(String type, double value) {
         this.type = type;
         this.value = value;

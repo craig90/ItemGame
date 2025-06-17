@@ -9,3 +9,18 @@ Lightning Resistance:14.0
 Cold Resistance:5.0
 Magic Resistance:13.0
 Item-End
+Item-Start
+Item Type:Belt
+Item Name:Yellow Belt
+Health:26.0
+Defence:34.0
+Item-End
+Item-Start
+Item Type:Ring
+Item Name:Green Ring
+Defence:40.0
+All Resistance:6.0
+Fire Resistance:18.0
+Poison Resistance:10.0
+Magic Resistance:13.0
+Item-End

@@ -178,7 +178,7 @@ public class FileParcer {
                 DoubleWrapper statValue = new DoubleWrapper();
                 
                 if (StringToDouble(lineArray[1], statValue) == true) { // check to make sure it's a legit value
-                    Stat stat = new Stat(lineArray[0], statValue.getNumber());
+                    ItemStat stat = new ItemStat(lineArray[0], statValue.getNumber());
                     item.addStat(stat);
                 } else {
                     return false;

@@ -62,7 +62,7 @@ public class ItemGenerator {
         if (newItem.getItemType() == Item.WEAPON) {
             System.out.println("Weapon has to have damage");
             int statValue = random.nextInt(WEAPON_DAMAGE_MIN_VALUE, WEAPON_DAMGE_MAX_VALUE);
-            Stat stat = new Stat(ItemStat.DAMAGE_STAT_NAME, statValue);
+            ItemStat stat = new ItemStat(ItemStat.DAMAGE_STAT_NAME, statValue);
             newItem.addStat(stat);
         }
         
@@ -70,14 +70,14 @@ public class ItemGenerator {
         else if (newItem.getItemType() == Item.CHEST) {
             System.out.println("Chest has to have defence");
             int statValue = random.nextInt(CHEST_DEFENCE_MIN_VALUE, CHEST_DEFENCE_MAX_VALUE);
-            Stat stat = new Stat(ItemStat.DEFENCE_STAT_NAME, statValue);
+            ItemStat stat = new ItemStat(ItemStat.DEFENCE_STAT_NAME, statValue);
             newItem.addStat(stat);
         }
 
         else if (newItem.getItemType() == Item.SHIELD) {
             System.out.println("Shield has to have defence");
             int statValue = random.nextInt(SHIELD_DEFENCE_MIN_VALUE, SHIELD_DEFENCE_MAX_VALUE);
-            Stat stat = new Stat(ItemStat.DEFENCE_STAT_NAME, statValue);
+            ItemStat stat = new ItemStat(ItemStat.DEFENCE_STAT_NAME, statValue);
             newItem.addStat(stat);
         } 
 
@@ -104,8 +104,8 @@ public class ItemGenerator {
             // System.out.println("with value: " + statValue);
 
             // make sure the stat is unique
-            if (newItem.statIsUnique(statType) == true) {
-                Stat stat = new Stat(ItemStat.ITEM_STAT_TYPE[statType], statValue);
+            if (newItem.statIsUnique(ItemStat.ITEM_STAT_TYPE[statType]) == true) {
+                ItemStat stat = new ItemStat(ItemStat.ITEM_STAT_TYPE[statType], statValue);
                 newItem.addStat(stat);
             }
         

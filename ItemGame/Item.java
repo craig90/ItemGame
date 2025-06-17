@@ -28,12 +28,12 @@ public class Item {
 
     private String itemType;
     private String itemName;
-    private ArrayList<Stat> statList;
+    private ArrayList<ItemStat> statList;
 
     public Item(String itemType, String itemName) {
         this.itemType = itemType;
         this.itemName = itemName;
-        this.statList = new ArrayList<Stat>();
+        this.statList = new ArrayList<ItemStat>();
     }
 
     public String getItemType() {
@@ -96,9 +96,18 @@ public class Item {
         return this.statList.size();
     }
 
-    // TODO: check if is unique here
-    public boolean addStat(Stat stat) {
+    /**
+     * will add a an stat to the Item's statlist only if it is unique and there are not too many stats already
+     * @param stat
+     * @return
+     */
+    public boolean addStat(ItemStat stat) {
         
+        // needs uniquness check
+        if (this.statIsUnique(stat.getStatType()) == false) {
+            return false;
+        }
+
         if (this.statList.size() >= Item.MAX_STATS) {
             return false;
         }
@@ -107,7 +116,7 @@ public class Item {
     
     }
 
-    public Stat getStat(int index) {
+    public ItemStat getStat(int index) {
         return this.statList.get(index);
     }
 
@@ -150,10 +159,10 @@ public class Item {
         System.out.println("Stat Differences: ");
         
         for (int i = 0; i < this.statList.size(); i++) {
-            Stat itemStat = this.statList.get(i);
+            ItemStat itemStat = this.statList.get(i);
             
             for (int j = 0; j < newItem.statListSize(); j++) {
-                Stat newStat = newItem.getStat(j);
+                ItemStat newStat = newItem.getStat(j);
                 
                 if (itemStat.type.equals(newStat.type)) {
                     foundOldStat[i] = true;
@@ -194,11 +203,11 @@ public class Item {
      * @param newItem
      * @return
      */
-    public boolean statIsUnique(int statType) {
+    public boolean statIsUnique(String statType) {
 
         for (int i = 0; i < this.statList.size(); i++ ) {
             
-            if (this.statList.get(i).type.equals(ItemStat.ITEM_STAT_TYPE[statType])) {
+            if (this.statList.get(i).type.equals(statType)) {
                 // System.out.println("Trying to add " + ItemConstants.ITEM_STAT_TYPE[statType] + 
                 // " but already have " + newItem.getStatList().get(j).type );
                 return false;

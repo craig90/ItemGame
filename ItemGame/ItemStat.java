@@ -16,9 +16,12 @@ public class ItemStat extends Stat {
         ALL_RESISTANCE_STAT_NAME, FIRE_RESISTANCE_STAT_NAME, POISON_RESISTANCE_STAT_NAME, 
         LIGHTNING_RESISTANCE_STAT_NAME, COLD_RESISTANCE_STAT_NAME, MAGIC_RESISTANCE_STAT_NAME};
 
-    public ItemStat() {
 
+    public ItemStat(String type, double value) {
+        this.type = type;
+        this.value = value;
     }
+
 
     /**
      * returns true if sent a valid stat type, otherwise false
