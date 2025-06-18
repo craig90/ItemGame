@@ -102,7 +102,7 @@ public class Game {
             this.fileParcer.loadCharacterFromFile(fileToLoad, this.character);
             return true;
         } catch (FileNotFoundException e) {
-            System.out.println("Did not find any valid files");
+            System.out.println("Error loading character from file");
             return false;
         } 
 

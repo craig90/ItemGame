@@ -17,6 +17,31 @@ public class ItemStat extends Stat {
         LIGHTNING_RESISTANCE_STAT_NAME, COLD_RESISTANCE_STAT_NAME, MAGIC_RESISTANCE_STAT_NAME};
 
 
+    public static final int RESISTANCE_MIN_VALUE = 5;
+    public static final int RESISTANCE_MAX_VALUE = 20;
+
+    public static final int ALL_RESISTANCE_MIN_VALUE = 5;
+    public static final int ALL_RESISTANCE_MAX_VALUE = 10;
+    
+    public static final int HEALTH_MIN_VALUE = 20;
+    public static final int HEALTH_MAX_VALUE = 60;
+
+    public static final int DEFENCE_MIN_VALUE = 25;
+    public static final int DEFENCE_MAX_VALUE = 100;
+
+    public static final int CHEST_DEFENCE_MIN_VALUE = 100;
+    public static final int CHEST_DEFENCE_MAX_VALUE = 500;
+
+    public static final int SHIELD_DEFENCE_MIN_VALUE = 100;
+    public static final int SHIELD_DEFENCE_MAX_VALUE = 600;
+
+    public static final int DAMAGE_MIN_VALUE = 25;
+    public static final int DAMAGE_MAX_VALUE = 100;
+
+    public static final int WEAPON_DAMAGE_MIN_VALUE = 100;
+    public static final int WEAPON_DAMGE_MAX_VALUE = 500;
+
+
     public ItemStat(String type, double value) {
         this.type = type;
         this.value = value;

@@ -3,32 +3,6 @@ import java.util.Random;
 
 public class ItemGenerator {
 
-    // TODO: I don't think that these should be define here - Probably should be defined in subclass ItemStat
-    public static final int RESISTANCE_MIN_VALUE = 5;
-    public static final int RESISTANCE_MAX_VALUE = 20;
-
-    public static final int ALL_RESISTANCE_MIN_VALUE = 5;
-    public static final int ALL_RESISTANCE_MAX_VALUE = 10;
-    
-    public static final int HEALTH_MIN_VALUE = 20;
-    public static final int HEALTH_MAX_VALUE = 60;
-
-    public static final int DEFENCE_MIN_VALUE = 25;
-    public static final int DEFENCE_MAX_VALUE = 100;
-
-    public static final int CHEST_DEFENCE_MIN_VALUE = 100;
-    public static final int CHEST_DEFENCE_MAX_VALUE = 500;
-
-    public static final int SHIELD_DEFENCE_MIN_VALUE = 100;
-    public static final int SHIELD_DEFENCE_MAX_VALUE = 600;
-
-    public static final int DAMAGE_MIN_VALUE = 25;
-    public static final int DAMAGE_MAX_VALUE = 100;
-
-    public static final int WEAPON_DAMAGE_MIN_VALUE = 100;
-    public static final int WEAPON_DAMGE_MAX_VALUE = 500;
-
-
     public ItemGenerator () {
 
     }
@@ -61,7 +35,7 @@ public class ItemGenerator {
         // Weapon is a special case where Damage has to be the main stat
         if (newItem.getItemType() == Item.WEAPON) {
             System.out.println("Weapon has to have damage");
-            int statValue = random.nextInt(WEAPON_DAMAGE_MIN_VALUE, WEAPON_DAMGE_MAX_VALUE);
+            int statValue = random.nextInt(ItemStat.WEAPON_DAMAGE_MIN_VALUE, ItemStat.WEAPON_DAMGE_MAX_VALUE);
             ItemStat stat = new ItemStat(ItemStat.DAMAGE_STAT_NAME, statValue);
             newItem.addStat(stat);
         }
@@ -69,14 +43,14 @@ public class ItemGenerator {
         // these are special cases where the first stat must be defense
         else if (newItem.getItemType() == Item.CHEST) {
             System.out.println("Chest has to have defence");
-            int statValue = random.nextInt(CHEST_DEFENCE_MIN_VALUE, CHEST_DEFENCE_MAX_VALUE);
+            int statValue = random.nextInt(ItemStat.CHEST_DEFENCE_MIN_VALUE, ItemStat.CHEST_DEFENCE_MAX_VALUE);
             ItemStat stat = new ItemStat(ItemStat.DEFENCE_STAT_NAME, statValue);
             newItem.addStat(stat);
         }
 
         else if (newItem.getItemType() == Item.SHIELD) {
             System.out.println("Shield has to have defence");
-            int statValue = random.nextInt(SHIELD_DEFENCE_MIN_VALUE, SHIELD_DEFENCE_MAX_VALUE);
+            int statValue = random.nextInt(ItemStat.SHIELD_DEFENCE_MIN_VALUE, ItemStat.SHIELD_DEFENCE_MAX_VALUE);
             ItemStat stat = new ItemStat(ItemStat.DEFENCE_STAT_NAME, statValue);
             newItem.addStat(stat);
         } 
@@ -89,15 +63,15 @@ public class ItemGenerator {
             
             // stat ranges are going to vary a bit depending on the type
             if (ItemStat.ITEM_STAT_TYPE[statType].equals(ItemStat.HEALTH_STAT_NAME)) {
-                statValue = random.nextInt(HEALTH_MIN_VALUE, HEALTH_MAX_VALUE);
+                statValue = random.nextInt(ItemStat.HEALTH_MIN_VALUE, ItemStat.HEALTH_MAX_VALUE);
             } else if (ItemStat.ITEM_STAT_TYPE[statType].equals(ItemStat.DEFENCE_STAT_NAME)) {
-                statValue = random.nextInt(DEFENCE_MIN_VALUE, DEFENCE_MAX_VALUE);
+                statValue = random.nextInt(ItemStat.DEFENCE_MIN_VALUE, ItemStat.DEFENCE_MAX_VALUE);
             } else if (ItemStat.ITEM_STAT_TYPE[statType].equals(ItemStat.DAMAGE_STAT_NAME)) {
-                statValue = random.nextInt(DAMAGE_MIN_VALUE, DAMAGE_MAX_VALUE);    
+                statValue = random.nextInt(ItemStat.DAMAGE_MIN_VALUE, ItemStat.DAMAGE_MAX_VALUE);    
             } else if (ItemStat.ITEM_STAT_TYPE[statType].equals(ItemStat.ALL_RESISTANCE_STAT_NAME)) {
-                statValue = random.nextInt(ALL_RESISTANCE_MIN_VALUE, ALL_RESISTANCE_MAX_VALUE);    
+                statValue = random.nextInt(ItemStat.ALL_RESISTANCE_MIN_VALUE, ItemStat.ALL_RESISTANCE_MAX_VALUE);    
             } else {
-                statValue = random.nextInt(RESISTANCE_MIN_VALUE, RESISTANCE_MAX_VALUE);
+                statValue = random.nextInt(ItemStat.RESISTANCE_MIN_VALUE, ItemStat.RESISTANCE_MAX_VALUE);
             }
 
             // System.out.println("Adding stat " + ItemConstants.ITEM_STAT_TYPE[statType]);s

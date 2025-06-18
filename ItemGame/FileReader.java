@@ -82,6 +82,10 @@ public class FileReader {
             System.out.println("Ahhh, No files found");
         }
 
+        for (int i = 0; i < fileNames.size(); i++) {
+            System.out.println(fileNames.get(i));
+        }
+
     }    
 
 

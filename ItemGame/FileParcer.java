@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+
 public class FileParcer {
 
     private static final String REGEX = "[:]";
@@ -54,13 +56,14 @@ public class FileParcer {
         
         if (lineNumber.getNumber() == 2) {
             if (lineArray[0].equals(CharacterStatNames.LEVEL)) {
-                DoubleWrapper level = new DoubleWrapper();
-                if (StringToDouble(lineArray[1], level) == true) {
-                    character.setLevel(level.getNumber());
-                } else {
+                double level = 0.0;
+                try {
+                    level = Double.parseDouble(lineArray[1]);
+                } catch (NumberFormatException e) {
                     System.out.println("Error with character level at line " + lineNumber);
                     return false;
                 }
+                character.setLevel(level);
             } else {
                 return false;
             }
@@ -68,13 +71,15 @@ public class FileParcer {
 
         if (lineNumber.getNumber() == 3) {
             if (lineArray[0].equals(CharacterStatNames.EXPERIENCE)) {
-                DoubleWrapper experience = new DoubleWrapper();
-                if (StringToDouble(lineArray[1], experience) == true) {
-                    character.setExperience(experience.getNumber());
-                } else {
+                double experience = 0.0;
+                try {
+                    experience = Double.parseDouble(lineArray[1]);
+                } catch (NumberFormatException e) {
                     System.out.println("Error with character experience at line " + lineNumber);
                     return false;
                 }
+                character.setExperience(experience);
+
             } else {
                 return false;
             }
@@ -87,7 +92,7 @@ public class FileParcer {
     /**
      * intialize the character and item list from file data
      */
-    public void loadCharacterFromFile(String fileName, Character character) {
+    public void loadCharacterFromFile(String fileName, Character character) throws FileNotFoundException {
 
         FileReader fileReader;
         fileReader = new FileReader();
@@ -106,18 +111,16 @@ public class FileParcer {
             // some error checking, every line should return an arguement
             // most lines should have two, the exception is a blank line, Item-Start and Item-End
             if (lineArray.length < 1) {
-                System.out.println("Error reading file, insufficient arguements on a line " + lineNumber);
+                throw new FileNotFoundException("Error reading file, insufficient arguements on a line " + lineNumber);
             } else if (lineArray.length < 2 && (!(lineArray[0].equals("") 
                 || lineArray[0].equals(FileKeywords.ITEM_START) || lineArray[0].equals(FileKeywords.ITEM_END)))) {
-                System.out.println("Error reading file, insufficient arguements on line " + lineNumber);
-                System.out.println("The error string " + lineArray[0]);
+                throw new FileNotFoundException("Error reading file, insufficient arguements on line " + lineNumber);
             }
 
             // we start by reading the character at the beginning of the file
             if (lineNumber.getNumber() <= CHARACTER_FILES_LINES) {
                 if (parceCharacter(character, lineArray, lineNumber) == false ) {
-                    System.out.println("Error reading character at line " + lineNumber.getNumber());
-                    return;
+                    throw new FileNotFoundException("Error reading character at line " + lineNumber.getNumber());
                 }
             }
             
@@ -126,14 +129,12 @@ public class FileParcer {
                 // System.out.println(lineNumber.getNumber() + ": " + lineArray[0]);
                 lineNumber.setNumber(lineNumber.getNumber()+1);
                 if (parceItem(character, fileReader, lineNumber) == false) {
-                    System.out.println("Error reading item at line " + lineNumber.getNumber());
-                    return;
+                    throw new FileNotFoundException("Error reading item at line " + lineNumber.getNumber());
                 }
-            
             }
             
             else {
-                System.out.println("Error in file: invalid identifier at line " + lineNumber.getNumber());
+                throw new FileNotFoundException("Error in file: invalid identifier at line " + lineNumber.getNumber());
             }
             
             lineNumber.setNumber(lineNumber.getNumber()+1);
@@ -166,27 +167,30 @@ public class FileParcer {
                 }
             }
 
-            if (lineArray[0].equals(FileKeywords.ITEM_NAME)) {
+            else if (lineArray[0].equals(FileKeywords.ITEM_NAME)) {
                 if (item.setItemName(lineArray[1]) == false) {
                     return false;
                 }
             }
 
             // check the stat type and add it to the stat list
-            if (ItemStat.isLegit(lineArray[0]) == true) {
+            else if (ItemStat.isLegit(lineArray[0]) == true) {
                 
-                DoubleWrapper statValue = new DoubleWrapper();
-                
-                if (StringToDouble(lineArray[1], statValue) == true) { // check to make sure it's a legit value
-                    ItemStat stat = new ItemStat(lineArray[0], statValue.getNumber());
-                    item.addStat(stat);
-                } else {
+                double statValue = 0.0;
+                try {
+                    statValue = Double.parseDouble(lineArray[1]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Error reading stat value at line " + lineNumber.getNumber());
                     return false;
                 }
+
+                ItemStat stat = new ItemStat(lineArray[0], statValue);
+                item.addStat(stat);
+                
             }
 
             // found the end of the item - do a few error checks to make sure the item is legit
-            if (lineArray[0].equals(FileKeywords.ITEM_END)) {
+            else if (lineArray[0].equals(FileKeywords.ITEM_END)) {
                 
                 if (item.isLegit() == false) {
                    return false;
@@ -194,6 +198,9 @@ public class FileParcer {
                     character.addItem(item);
                     return true;
                 }
+            } else {
+                System.out.println("Error reading in item at line " + lineNumber.getNumber());
+                return false;
             }
             
             // System.out.println(lineNumber.getNumber() + ": " + lineArray[0]);
@@ -208,19 +215,19 @@ public class FileParcer {
      * @param string
      * @return
      */
-    public static boolean StringToDouble(String string, DoubleWrapper doubleWrapper) {
+    // public static boolean StringToDouble(String string, DoubleWrapper doubleWrapper) {
 
-        double number = 0.0;
-        try {
-            number = Double.parseDouble(string);
-            doubleWrapper.setNumber(number);
-            return true;
-        } catch (NumberFormatException e) {
-            System.out.println("Error converting string to double");
-            return false;
-        }
+    //     double number = 0.0;
+    //     try {
+    //         number = Double.parseDouble(string);
+    //         doubleWrapper.setNumber(number);
+    //         return true;
+    //     } catch (NumberFormatException e) {
+    //         System.out.println("Error converting string to double");
+    //         return false;
+    //     }
 
-    }
+    // }
 
     /**
      * this main method is purely for testing file parcer class
