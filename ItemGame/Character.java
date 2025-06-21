@@ -66,9 +66,38 @@ public class Character {
         return this.level.getValue();
     }
     
-    /*public ArrayList<Item> getItemList() {
-        return this.itemList;
-    }*/
+    public double getHealth() {
+        return this.health.getValue();
+    }
+
+    public double getDamage() {
+        return this.damage.getValue();
+    }
+
+    public double getDefence() {
+        return this.damage.getValue();
+    }
+
+    public double getPoisonResistance() {
+        return this.poisonResistance.getValue();
+    }
+
+    public double getLightningResistance() {
+        return this.lightningResistance.getValue();
+    }
+
+    public double getFireResistance() {
+        return this.fireResistance.getValue();
+    }
+
+    public double getColdResistance() {
+        return this.coldResistance.getValue();
+    }
+
+    public double getMagicResistance() {
+        return this.magicResistance.getValue();
+    }
+
     
     public void setName(String name) {
         this.characterName = name;

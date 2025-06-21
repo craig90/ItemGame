@@ -14,6 +14,7 @@ public class Game {
         this.itemGenerator = new ItemGenerator();
         this.fileParcer = new FileParcer();
         this.commandLineReader = new CommandLineReader();
+        this.character = new Character(); // TODO: this needs to be thought through a little more
     }
 
     /**
@@ -44,13 +45,10 @@ public class Game {
      * @param scanner
      * @return
      */
-    private String selectCharacterFromFile(ArrayList<String> fileNames) throws FileNotFoundException {
+    public ArrayList<String> getCharacterNamesFromFile(ArrayList<String> fileNames) throws FileNotFoundException {
 
         ArrayList <String> characterNames = new ArrayList<String>();
-
         FileReader file = new FileReader();
-        String characterFileName;
-        int input = -1;
 
         // load the character Names
         for (int i = 0; i < fileNames.size(); i++) {
@@ -69,6 +67,20 @@ public class Game {
             throw new FileNotFoundException("No valid character files found");
         }
 
+        return characterNames;
+
+    }
+
+    /**
+     * TODO: this should really by using an object to pass things around
+     * @param characterNames
+     * @return
+     */
+    private String chooseCharacterScreen(ArrayList<String> characterNames, ArrayList<String> fileNames) {
+
+        String characterFileName;
+        
+        int input = -1;
         System.out.println("\nPress the Number which cooresponds to the character you'd like to load");
         // show the characters that we can load from file
         for (int i = 0; i < characterNames.size(); i++) {
@@ -92,13 +104,15 @@ public class Game {
     private boolean loadFromFile() {
 
         ArrayList<String> fileNames = new ArrayList<String>();
+        ArrayList<String> characterNames = new ArrayList<String>();
         String fileToLoad = "";
         this.character = new Character();
 
         try {
             // grab file names, read character names then load selected character from file
             fileNames = FileReader.readFileNames();
-            fileToLoad = selectCharacterFromFile(fileNames);
+            characterNames = getCharacterNamesFromFile(fileNames);
+            fileToLoad = chooseCharacterScreen(characterNames, fileNames);
             this.fileParcer.loadCharacterFromFile(fileToLoad, this.character);
             return true;
         } catch (FileNotFoundException e) {
