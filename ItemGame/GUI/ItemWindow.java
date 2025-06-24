@@ -1,11 +1,10 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JButton;
+import javax.swing.BoxLayout;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.Color;
 import javax.swing.JLayeredPane;
 
@@ -16,8 +15,6 @@ public class ItemWindow extends JFrame {
 
     JPanel itemPanel;
     JPanel hoverPanel;
-
-    JLabel hoverLabel;
 
     JLabel helm;
     JLabel weapon;
@@ -44,16 +41,16 @@ public class ItemWindow extends JFrame {
 
         this.itemPanel = new JPanel(new FlowLayout());
 
-        this.helm = new JLabel("Helm place holder");
-        this.weapon = new JLabel("Weapon place holder");
-        this.amulet = new JLabel("Amulet place holder");
-        this.ring = new JLabel("Ring place holder");
-        this.chest = new JLabel("Chest place holder");
-        this.gloves = new JLabel("Gloves place holder");
-        this.shield = new JLabel("Shield place holder");
-        this.belt = new JLabel("Belt place holder");
-        this.pants = new JLabel("Pants place holder");
-        this.boots = new JLabel("Boots place holder");
+        this.helm = new JLabel("Helm");
+        this.weapon = new JLabel("Weapon");
+        this.amulet = new JLabel("Amulet");
+        this.ring = new JLabel("Ring");
+        this.chest = new JLabel("Chest");
+        this.gloves = new JLabel("Gloves");
+        this.shield = new JLabel("Shield");
+        this.belt = new JLabel("Belt");
+        this.pants = new JLabel("Pants");
+        this.boots = new JLabel("Boots");
 
         this.itemPanel.add(this.helm);
         this.itemPanel.add(this.weapon);
@@ -73,11 +70,9 @@ public class ItemWindow extends JFrame {
         this.setLocationRelativeTo(this);
 
         this.hoverPanel = new JPanel();
-        this.hoverLabel = new JLabel();
-
-        this.hoverPanel.setBounds(0, 0, 200,200);
-        // this.hoverPanel.setBackground(Color.BLUE);
-        this.hoverPanel.add(this.hoverLabel);
+        this.hoverPanel.setLayout(new BoxLayout(this.hoverPanel, BoxLayout.PAGE_AXIS));
+        // this.hoverPanel.setBounds(0, 0, 200,200);
+        this.hoverPanel.setBackground(Color.WHITE);
         this.hoverPanel.setVisible(false);
 
         this.layeredPane.add(this.itemPanel, 1);
@@ -85,42 +80,54 @@ public class ItemWindow extends JFrame {
 
         this.setVisible(true);
 
-
-        this.helm.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                updateHoverWindow();
-                hoverPanel.setVisible(true);
-                hoverPanel.revalidate(); // Revalidate the layout to ensure it's displayed correctly
-                hoverPanel.repaint();
-                
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                hoverPanel.setVisible(false);
-                hoverPanel.revalidate();
-                hoverPanel.repaint();
-            }
-        });
-
+        MyMouseListener mouseListener = new MyMouseListener(this, this.hoverPanel);
+        this.helm.addMouseListener(mouseListener);
+        this.weapon.addMouseListener(mouseListener);
+        this.amulet.addMouseListener(mouseListener);
+        this.ring.addMouseListener(mouseListener);
+        this.belt.addMouseListener(mouseListener);
+        this.pants.addMouseListener(mouseListener);
+        this.gloves.addMouseListener(mouseListener);
+        this.shield.addMouseListener(mouseListener);
+        this.chest.addMouseListener(mouseListener);
+        this.boots.addMouseListener(mouseListener);
 
     }
 
-    public void updateHoverWindow() {
+    public void updateHoverWindow(JLabel hoverdLabel) {
+
+        removeAllLabels();
+
+        String itemType = hoverdLabel.getText();
+        // System.out.println(itemType);
 
         Item item;
-        if ((item = this.character.getItem("Helm")) == null) {
+        if ((item = this.character.getItem(itemType)) == null) {
             return;
         }
 
-        this.hoverLabel.setText(item.getItemName());
+        JLabel itemName = new JLabel(item.getItemName());
+        this.hoverPanel.add(itemName);
 
         for (int i = 0; i < item.statListSize(); i++) {
             JLabel label = new JLabel(item.getStat(i).getStatType() + " " + item.getStat(i).getValue());
             this.hoverPanel.add(label);
         }
 
+        this.hoverPanel.setBounds(hoverdLabel.getX(), hoverdLabel.getY(), 200, 200);
+        this.hoverPanel.setSize(this.hoverPanel.getPreferredSize());
+    }
+
+    private void removeAllLabels() {
+        Component[] components = this.hoverPanel.getComponents();
+        for (Component component : components) {
+            if (component instanceof JLabel) {
+                this.hoverPanel.remove(component);
+            }
+        }
+        this.hoverPanel.setSize(this.hoverPanel.getPreferredSize());
+        this.hoverPanel.revalidate();
+        this.hoverPanel.repaint();
     }
 
 }
