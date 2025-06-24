@@ -18,10 +18,10 @@ public class CharacterScreen extends JPanel {
     JLabel characterMagicResistance;
 
     JButton showItemScreenButton;
-    JButton returnToHomeScreenButton;
     JButton getNewItemButton;
+    JButton returnToHomeScreenButton;
+    JButton saveChangesButton;
 
-    // TODO: this may have to be rethought
     Character character;
     Gui gui;
 
@@ -32,22 +32,23 @@ public class CharacterScreen extends JPanel {
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-        // TODO: need to think about when we're going to run updates of stats
+        // TODO: use constants for labels
         // character screen
-        this.characterName = new JLabel("Name: " + this.character.getName());
-        this.characterLevel = new JLabel("Level: " + this.character.getLevel());
-        this.characterExperience = new JLabel("Experience: " + this.character.getExperience());
-        this.characterDamage = new JLabel("Damage: " + this.character.getDamage());
-        this.characterHealth = new JLabel("Health: " + this.character.getHealth());
-        this.characterDefence = new JLabel("Defence: " + this.character.getDefence());
-        this.characterFireResistance = new JLabel("Fire Resistance: " + this.character.getFireResistance());
-        this.characterColdResistance = new JLabel("Cold Resistance: " + this.character.getColdResistance());
-        this.characterLightningResistance = new JLabel("Lightning Resistance: " + this.character.getLightningResistance());
-        this.characterPoisonResistance = new JLabel("Poison Resistance: " + this.character.getPoisonResistance());
-        this.characterMagicResistance = new JLabel("Magic Resistance: " + this.character.getMagicResistance());
+        this.characterName = new JLabel("Name: ");
+        this.characterLevel = new JLabel("Level: ");
+        this.characterExperience = new JLabel("Experience: ");
+        this.characterDamage = new JLabel("Damage: ");
+        this.characterHealth = new JLabel("Health: ");
+        this.characterDefence = new JLabel("Defence: ");
+        this.characterFireResistance = new JLabel("Fire Resistance: ");
+        this.characterColdResistance = new JLabel("Cold Resistance: ");
+        this.characterLightningResistance = new JLabel("Lightning Resistance: ");
+        this.characterPoisonResistance = new JLabel("Poison Resistance: ");
+        this.characterMagicResistance = new JLabel("Magic Resistance: ");
 
         this.showItemScreenButton = new JButton("Show Items");
         this.getNewItemButton = new JButton("Get New Item");
+        this.saveChangesButton = new JButton("Save Changes");
         this.returnToHomeScreenButton = new JButton("Return to Home Screen");
 
         this.add(characterName);
@@ -64,6 +65,7 @@ public class CharacterScreen extends JPanel {
 
         this.add(showItemScreenButton);
         this.add(getNewItemButton);
+        this.add(saveChangesButton);
         this.add(returnToHomeScreenButton);
 
         // TODO: hook this button up
@@ -78,9 +80,15 @@ public class CharacterScreen extends JPanel {
 
     }
 
-    // TODO: shouldn't be writing all this shit out twice
-
+    /**
+     * updates all the character stats in the gui
+     */
     public void update() {
+
+        if (this.character == null) {
+            System.out.println("Error - we have no loaded character");
+            return;
+        }
 
         this.character.updateStats();
         this.characterName.setText("Name: " + this.character.getName());
@@ -97,5 +105,12 @@ public class CharacterScreen extends JPanel {
 
     }
 
+    /**
+     * Used to update the Character Screen's character since the character can change
+     * @param character
+     */
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
 
 }

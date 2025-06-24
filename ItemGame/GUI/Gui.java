@@ -72,10 +72,12 @@ public class Gui extends JFrame {
             String fileName = fileNames.get(i);
             button.addActionListener(e -> {
                 this.cardLayout.show(this.mainPanel, "Character Screen");
-                System.out.println(fileName);
+                // System.out.println(fileName);
                 try {
+                    this.game.character = new Character();// TODO: I don't really think this should be done here
                     this.game.fileParcer.loadCharacterFromFile(fileName, this.game.character);
                     this.game.character.updateStats();
+                    this.characterScreen.setCharacter(this.game.character); // TODO: not sure if this is the best way 
                     this.characterScreen.update();
                 } catch (FileNotFoundException ex) {
 

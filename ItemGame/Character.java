@@ -75,7 +75,7 @@ public class Character {
     }
 
     public double getDefence() {
-        return this.damage.getValue();
+        return this.defence.getValue();
     }
 
     public double getPoisonResistance() {

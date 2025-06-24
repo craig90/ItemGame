@@ -14,7 +14,6 @@ public class Game {
         this.itemGenerator = new ItemGenerator();
         this.fileParcer = new FileParcer();
         this.commandLineReader = new CommandLineReader();
-        this.character = new Character(); // TODO: this needs to be thought through a little more
     }
 
     /**
