@@ -53,31 +53,30 @@ public class Gui extends JFrame {
         // load character screen
         JPanel loadCharacterScreen = new JPanel();
         
+        ArrayList<CharacterFile> characterFiles = new ArrayList<CharacterFile>();
         ArrayList<String> fileNames = new ArrayList<String>();
-        ArrayList<String> characterNames = new ArrayList<String>();
 
         try {
             fileNames = FileReader.readFileNames();
-            characterNames = this.game.getCharacterNamesFromFile(fileNames);
+            characterFiles = this.game.getCharacterNamesFromFile(fileNames);
         } catch (FileNotFoundException e) {
            // TODO: catch here -- say no files found then return to home screen
            // maybe make a new screen to illustrate it
         }
 
-        for (int i = 0; i < characterNames.size(); i++) {
-            JLabel label = new JLabel(characterNames.get(i) + " Level: 20"); // TODO: level is hard coded for now
+        for (int i = 0; i < characterFiles.size(); i++) {
+            JLabel label = new JLabel(characterFiles.get(i).getCharacterName() + " " + characterFiles.get(i).getLevel());
             JButton button = new JButton("Load");
             loadCharacterScreen.add(label);
             loadCharacterScreen.add(button);
-            String fileName = fileNames.get(i);
+            CharacterFile characterFile = characterFiles.get(i);
             button.addActionListener(e -> {
                 this.cardLayout.show(this.mainPanel, "Character Screen");
                 // System.out.println(fileName);
                 try {
-                    this.game.character = new Character();// TODO: I don't really think this should be done here
-                    this.game.fileParcer.loadCharacterFromFile(fileName, this.game.character);
-                    this.game.character.updateStats();
-                    this.characterScreen.setCharacter(this.game.character); // TODO: not sure if this is the best way 
+                    this.game.setCharacter(this.game.fileParcer.loadCharacterFromFile(characterFile));
+                    this.game.getCharacter().updateStats();
+                    this.characterScreen.setCharacter(this.game.getCharacter()); // TODO: not sure if this is the best way 
                     this.characterScreen.update();
                 } catch (FileNotFoundException ex) {
 
@@ -97,7 +96,7 @@ public class Gui extends JFrame {
 
 
 
-        this.characterScreen = new CharacterScreen(this.game.character, this);
+        this.characterScreen = new CharacterScreen(this.game.getCharacter(), this);
 
 
 

@@ -15,25 +15,30 @@ public class FileParcer {
      * @param characterName
      * @return the characterName or "" if not is found
      */
-    public String parceCharacterName(FileReader file, String fileName) {
+    public void parceCharacterNameAndLevel(FileReader file, CharacterFile characterFile) {
 
-        String characterName = "";
         String line;
         String[] lineArray;
 
-        file.openFile(fileName);
+        file.openFile(characterFile.getFileName());
 
         line = file.getLine();
         lineArray = line.split(REGEX);
 
         // check if the file line starts with Character Name keyword, if so grab the Character Name
         if (lineArray[0].equals(FileKeywords.CHARACTER_NAME)) {
-            characterName = lineArray[1];
-            // System.out.println(characterName);
+            characterFile.setCharacterName(lineArray[1]);
+        }
+
+        line = file.getLine();
+        lineArray = line.split(REGEX);
+        
+        // check if the file line starts with Character Level keyword, if so grab the Character Name
+        if (lineArray[0].equals(CharacterStatNames.LEVEL)) {
+            characterFile.setLevel(Double.parseDouble(lineArray[1]));
         }
 
         file.closeFile();
-        return characterName;
 
     }
 
@@ -92,11 +97,13 @@ public class FileParcer {
     /**
      * intialize the character and item list from file data
      */
-    public void loadCharacterFromFile(String fileName, Character character) throws FileNotFoundException {
+    public Character loadCharacterFromFile(CharacterFile characterFile) throws FileNotFoundException {
+
+        Character character = new Character();
 
         FileReader fileReader;
         fileReader = new FileReader();
-        fileReader.openFile(fileName);
+        fileReader.openFile(characterFile.getFileName());
 
         String line;
         String[] lineArray;
@@ -141,6 +148,7 @@ public class FileParcer {
 
         }
         
+        return character;
     }
 
 
@@ -237,7 +245,9 @@ public class FileParcer {
 
         FileReader file = new FileReader();
         FileParcer fileParcer = new FileParcer();
-        fileParcer.parceCharacterName(file, "ItemGame/CharacterFiles/character1.txt");
+        CharacterFile characterFile = new CharacterFile();
+        characterFile.setCharacterName("ItemGame/CharacterFiles/character1.txt");
+        fileParcer.parceCharacterNameAndLevel(file, characterFile);
 
     }    
 

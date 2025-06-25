@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Game {
 
-    Character character;
+    private Character character;
     ItemGenerator itemGenerator;
     FileParcer fileParcer;
     CharacterSaver characterSaver; // instiantiate early TODO:?
@@ -14,6 +14,18 @@ public class Game {
         this.itemGenerator = new ItemGenerator();
         this.fileParcer = new FileParcer();
         this.commandLineReader = new CommandLineReader();
+    }
+
+    public Character getCharacter() {
+        return this.character;
+    }
+
+    /**
+     * used by the GUI to set the character based on the user's choice
+     * @param character
+     */
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 
     /**
@@ -44,21 +56,22 @@ public class Game {
      * @param scanner
      * @return
      */
-    public ArrayList<String> getCharacterNamesFromFile(ArrayList<String> fileNames) throws FileNotFoundException {
+    public ArrayList<CharacterFile> getCharacterNamesFromFile(ArrayList<String> fileNames) throws FileNotFoundException {
 
-        ArrayList <String> characterNames = new ArrayList<String>();
+        ArrayList <CharacterFile> characterFiles = new ArrayList<CharacterFile>();
         FileReader file = new FileReader();
 
         // load the character Names
         for (int i = 0; i < fileNames.size(); i++) {
-            String characterName = "";
-            characterName = this.fileParcer.parceCharacterName(file, fileNames.get(i));
+            CharacterFile characterFile = new CharacterFile();
+            characterFile.setFileName(fileNames.get(i));
+            this.fileParcer.parceCharacterNameAndLevel(file, characterFile);
 
-            if (characterName.equals("")) { // invalid file
+            if (characterFile.getCharacterName().equals("")) { // invalid file
                 System.out.println("Error reading character name from file" + fileNames.get(i));
-                fileNames.remove(i);
             } else {
-                characterNames.add(characterName);
+                characterFile.setFileName(fileNames.get(i));
+                characterFiles.add(characterFile);
             }
         }
 
@@ -66,33 +79,30 @@ public class Game {
             throw new FileNotFoundException("No valid character files found");
         }
 
-        return characterNames;
+        return characterFiles;
 
     }
 
     /**
-     * TODO: this should really by using an object to pass things around
+     * 
      * @param characterNames
      * @return
      */
-    private String chooseCharacterScreen(ArrayList<String> characterNames, ArrayList<String> fileNames) {
+    private CharacterFile chooseCharacterScreen(ArrayList<CharacterFile> characterFiles) {
 
-        String characterFileName;
-        
         int input = -1;
         System.out.println("\nPress the Number which cooresponds to the character you'd like to load");
         // show the characters that we can load from file
-        for (int i = 0; i < characterNames.size(); i++) {
-            System.out.println(i + " - " + characterNames.get(i));
+        for (int i = 0; i < characterFiles.size(); i++) {
+            System.out.println(i + " - " + characterFiles.get(i).getCharacterName());
         }
 
-        while (input < 0 || input >= characterNames.size()) {
+        while (input < 0 || input >= characterFiles.size()) {
             input = commandLineReader.getInteger();
         }
 
-        System.out.println("\nLoading character: " + characterNames.get(input));
-        characterFileName = (fileNames.get(input));
-        return characterFileName;
+        System.out.println("\nLoading character: " + characterFiles.get(input).getCharacterName());
+        return characterFiles.get(input);
     }
 
 
@@ -103,16 +113,15 @@ public class Game {
     private boolean loadFromFile() {
 
         ArrayList<String> fileNames = new ArrayList<String>();
-        ArrayList<String> characterNames = new ArrayList<String>();
-        String fileToLoad = "";
-        this.character = new Character();
+        ArrayList<CharacterFile> characterFiles = new ArrayList<CharacterFile>();
+        CharacterFile characterToLoad;
 
         try {
             // grab file names, read character names then load selected character from file
             fileNames = FileReader.readFileNames();
-            characterNames = getCharacterNamesFromFile(fileNames);
-            fileToLoad = chooseCharacterScreen(characterNames, fileNames);
-            this.fileParcer.loadCharacterFromFile(fileToLoad, this.character);
+            characterFiles = getCharacterNamesFromFile(fileNames);
+            characterToLoad = chooseCharacterScreen(characterFiles);
+            this.character = this.fileParcer.loadCharacterFromFile(characterToLoad);
             return true;
         } catch (FileNotFoundException e) {
             System.out.println("Error loading character from file");
