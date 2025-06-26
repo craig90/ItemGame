@@ -68,7 +68,6 @@ public class CharacterScreen extends JPanel {
         this.add(saveChangesButton);
         this.add(returnToHomeScreenButton);
 
-        // TODO: hook this button up
         this.showItemScreenButton.addActionListener(e -> {
             ItemWindow itemWindow = new ItemWindow(this.character);
         });

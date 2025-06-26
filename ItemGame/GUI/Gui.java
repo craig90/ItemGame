@@ -65,7 +65,7 @@ public class Gui extends JFrame {
         }
 
         for (int i = 0; i < characterFiles.size(); i++) {
-            JLabel label = new JLabel(characterFiles.get(i).getCharacterName() + " " + characterFiles.get(i).getLevel());
+            JLabel label = new JLabel(characterFiles.get(i).getCharacterName() + " Level: " + characterFiles.get(i).getLevel());
             JButton button = new JButton("Load");
             loadCharacterScreen.add(label);
             loadCharacterScreen.add(button);

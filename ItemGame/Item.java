@@ -3,6 +3,18 @@ import java.util.Comparator;
 
 public class Item {
 
+    private static String IMAGE_DIR = "ItemGame/Images/";
+    private static String WEAPON_FILE = "shield.png";
+    private static String HELM_FILE = "helm.jpeg";
+    private static String SHIELD_FILE = "shield.png";
+    private static String CHEST_FILE = "helm.jpeg";
+    private static String AMULET_FILE = "helm.jpeg";
+    private static String RING_FILE = "helm.jpeg";
+    private static String GLOVES_FILE = "helm.jpeg";
+    private static String BELT_FILE = "helm.jpeg";
+    private static String PANTS_FILE = "helm.jpeg";
+    private static String BOOTS_FILE = "helm.jpeg";
+
     public static final int MAX_STATS = 5; // will generate MAX_STATS - 1 due to how random() method works
     public static final int MIN_STATS = 2;    
 
@@ -55,6 +67,37 @@ public class Item {
         System.out.println("Invalid item type " + itemType);
         return false;
 
+    }
+
+
+    /**
+     * Returns the File Image for the cooresonpding item
+     * @return
+     */
+    public String getImageFile() {
+        
+        if (this.itemType.equals(WEAPON)) {
+            return IMAGE_DIR + WEAPON_FILE;
+        } else if (this.itemType.equals(HELM)) {
+            return IMAGE_DIR + HELM_FILE;
+        } else if (this.itemType.equals(SHIELD)) {
+            return IMAGE_DIR + SHIELD_FILE;
+        } else if (this.itemType.equals(CHEST)) {
+            return IMAGE_DIR + CHEST_FILE;
+        } else if (this.itemType.equals(AMULET)) {
+            return IMAGE_DIR + AMULET_FILE;
+        } else if (this.itemType.equals(RING)) {
+            return IMAGE_DIR + RING_FILE;
+        } else if (this.itemType.equals(GLOVES)) {
+            return IMAGE_DIR + GLOVES_FILE;
+        } else if (this.itemType.equals(BELT)) {
+            return IMAGE_DIR + BELT_FILE;
+        } else if (this.itemType.equals(PANTS)) {
+            return IMAGE_DIR + PANTS_FILE;
+        } else if (this.itemType.equals(BOOTS)) {
+            return IMAGE_DIR + BOOTS_FILE;
+        }
+        return "";
     }
 
     /**
