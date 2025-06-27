@@ -52,20 +52,23 @@ public class ItemWindow extends JFrame {
         
         // TODO: try catch
 
-        this.helmIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.character.getItem(Item.HELM).getImageFile()), 125, 125);
-        this.shieldIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.character.getItem(Item.SHIELD).getImageFile()), 125, 175);
-
+        
         // helm creation
         this.helmPanel = new JLayeredPane();
         this.helmPanel.setBackground(Color.GRAY);
         this.helmPanel.setPreferredSize(new Dimension(125, 125));
         this.helmPanel.setOpaque(true);
+        
         this.helm = new JLabel("Helm");
-        JLabel helmIconLabel = new JLabel(this.helmIcon);
         this.helm.setBounds(0,0,125,125);
         this.helmPanel.add(this.helm, 1);
-        helmIconLabel.setBounds(0,0,125,125);
-        this.helmPanel.add(helmIconLabel, 0);
+        
+        if (this.character.isEquipped(Item.HELM) == true) {
+            this.helmIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.character.getItem(Item.HELM).getImageFile()), 125, 125);
+            JLabel helmIconLabel = new JLabel(this.helmIcon);
+            helmIconLabel.setBounds(0,0,125,125);
+            this.helmPanel.add(helmIconLabel, 0);
+        }
         
         // constraints for helm panel alignment
         c.gridx = 2;
@@ -133,15 +136,22 @@ public class ItemWindow extends JFrame {
         this.shieldPanel.setBackground(Color.GRAY);
         this.shieldPanel.setPreferredSize(new Dimension(125, 175));
         this.shieldPanel.setOpaque(true);
+        
         this.shieldLabel = new JLabel("Shield");
-        JLabel shieldIconLabel = new JLabel(this.shieldIcon);
-        c.gridx = 4;
-        c.gridy = 1;
         this.shieldLabel.setBounds(0,0,125,175);
         this.shieldPanel.add(this.shieldLabel, 1);
-        shieldIconLabel.setBounds(0,0,125, 175);
-        this.shieldPanel.add(shieldIconLabel, 0);
+        
+        c.gridx = 4;
+        c.gridy = 1;
         this.itemPanel.add(this.shieldPanel, c);
+
+        if (this.character.isEquipped(Item.SHIELD)) {
+            this.shieldIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.character.getItem(Item.SHIELD).getImageFile()), 125, 175);
+            JLabel shieldIconLabel = new JLabel(this.shieldIcon);
+            shieldIconLabel.setBounds(0,0,125, 175);
+            this.shieldPanel.add(shieldIconLabel, 0);
+        }
+
 
         // create belt
         this.beltPanel = new JPanel();
