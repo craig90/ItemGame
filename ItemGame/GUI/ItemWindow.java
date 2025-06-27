@@ -1,9 +1,11 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
+import java.awt.Point;
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -21,11 +23,12 @@ public class ItemWindow extends JFrame {
     JPanel itemPanel;
     JPanel hoverPanel;
 
-    JLabel helm, weapon, amulet, ring, ringTwo, belt, pants, gloves, shield, chest, boots;
+    JLabel helm, weapon, amulet, ring, ringTwo, belt, pants, gloves, shieldLabel, chest, boots;
 
-    JLayeredPane helmPanel;
+    JLayeredPane helmPanel, shieldPanel;
+    
     JPanel weaponPanel, amuletPanel, ringPanel, ringTwoPanel, beltPanel, pantsPanel, glovesPanel;
-    JPanel shieldPanel, chestPanel, bootsPanel;
+    JPanel chestPanel, bootsPanel;
 
     ImageIcon helmIcon, shieldIcon;
 
@@ -48,24 +51,25 @@ public class ItemWindow extends JFrame {
         c.insets = new Insets(4, 4, 4, 4);
         
         // TODO: try catch
-        // this.helmIcon = new ImageIcon(this.character.getItem(Item.HELM).getImageFile());
 
         this.helmIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.character.getItem(Item.HELM).getImageFile()), 125, 125);
         this.shieldIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.character.getItem(Item.SHIELD).getImageFile()), 125, 175);
 
+        // helm creation
         this.helmPanel = new JLayeredPane();
         this.helmPanel.setBackground(Color.GRAY);
         this.helmPanel.setPreferredSize(new Dimension(125, 125));
         this.helmPanel.setOpaque(true);
         this.helm = new JLabel("Helm");
-        // this.helm.setIcon(this.helmIcon);
         JLabel helmIconLabel = new JLabel(this.helmIcon);
+        this.helm.setBounds(0,0,125,125);
+        this.helmPanel.add(this.helm, 1);
+        helmIconLabel.setBounds(0,0,125,125);
+        this.helmPanel.add(helmIconLabel, 0);
+        
+        // constraints for helm panel alignment
         c.gridx = 2;
         c.gridy = 0;
-        this.helm.setBounds(0,0,125,125);
-        helmPanel.add(this.helm, 1);
-        helmIconLabel.setBounds(0,0,125,125);
-        helmPanel.add(helmIconLabel, 0);
         this.itemPanel.add(this.helmPanel, c);
 
         this.weaponPanel = new JPanel();
@@ -124,16 +128,22 @@ public class ItemWindow extends JFrame {
         this.glovesPanel.add(this.gloves);
         this.itemPanel.add(this.glovesPanel, c);
 
-        this.shieldPanel = new JPanel();
+        // create shield
+        this.shieldPanel = new JLayeredPane();
         this.shieldPanel.setBackground(Color.GRAY);
         this.shieldPanel.setPreferredSize(new Dimension(125, 175));
-        this.shield = new JLabel("Shield");
-        this.shield.setIcon(this.shieldIcon);
+        this.shieldPanel.setOpaque(true);
+        this.shieldLabel = new JLabel("Shield");
+        JLabel shieldIconLabel = new JLabel(this.shieldIcon);
         c.gridx = 4;
         c.gridy = 1;
-        this.shieldPanel.add(this.shield);
+        this.shieldLabel.setBounds(0,0,125,175);
+        this.shieldPanel.add(this.shieldLabel, 1);
+        shieldIconLabel.setBounds(0,0,125, 175);
+        this.shieldPanel.add(shieldIconLabel, 0);
         this.itemPanel.add(this.shieldPanel, c);
 
+        // create belt
         this.beltPanel = new JPanel();
         this.beltPanel.setBackground(Color.GRAY);
         this.beltPanel.setPreferredSize(new Dimension(125, 55));
@@ -170,7 +180,8 @@ public class ItemWindow extends JFrame {
         this.hoverPanel = new JPanel();
         this.hoverPanel.setLayout(new BoxLayout(this.hoverPanel, BoxLayout.PAGE_AXIS));
         // this.hoverPanel.setBounds(0, 0, 200,200);
-        this.hoverPanel.setBackground(Color.WHITE);
+        // this.hoverPanel.setBackground(Color.WHITE);
+        this.hoverPanel.setBackground(new Color(0,0,0,150));
         this.hoverPanel.setVisible(false);
 
         this.layeredPane.add(this.itemPanel, 1);
@@ -186,7 +197,7 @@ public class ItemWindow extends JFrame {
         this.belt.addMouseListener(mouseListener);
         this.pants.addMouseListener(mouseListener);
         this.gloves.addMouseListener(mouseListener);
-        this.shield.addMouseListener(mouseListener);
+        this.shieldLabel.addMouseListener(mouseListener);
         this.chest.addMouseListener(mouseListener);
         this.boots.addMouseListener(mouseListener);
 
@@ -198,7 +209,6 @@ public class ItemWindow extends JFrame {
         removeAllLabels();
 
         String itemType = hoverdLabel.getText();
-        // System.out.println(itemType);
 
         Item item;
         if ((item = this.character.getItem(itemType)) == null) {
@@ -206,15 +216,24 @@ public class ItemWindow extends JFrame {
         }
 
         JLabel itemName = new JLabel(item.getItemName());
+        itemName.setForeground(Color.WHITE);
         this.hoverPanel.add(itemName);
 
         for (int i = 0; i < item.statListSize(); i++) {
             JLabel label = new JLabel(item.getStat(i).getStatType() + " " + item.getStat(i).getValue());
+            label.setForeground(Color.WHITE);
             this.hoverPanel.add(label);
         }
 
-        this.hoverPanel.setBounds(hoverdLabel.getX(), hoverdLabel.getY(), 200, 200);
+        // Get the absolute position of the label
+        Point locationOnScreen = SwingUtilities.convertPoint(hoverdLabel, 0, 0, this);
+        
+        this.hoverPanel.setBounds(locationOnScreen.x, locationOnScreen.y, 200, 200);
         this.hoverPanel.setSize(this.hoverPanel.getPreferredSize());
+
+        // System.out.println("Button's absolute X position: " + locationOnScreen.x);
+        // System.out.println("Button's absolute Y position: " + locationOnScreen.y);
+
     }
 
     private void removeAllLabels() {
