@@ -18,7 +18,6 @@ public class CharacterScreen extends JPanel {
     JLabel characterMagicResistance;
 
     JButton showItemScreenButton;
-    JButton getNewItemButton;
     JButton returnToHomeScreenButton;
     JButton saveChangesButton;
 
@@ -47,7 +46,6 @@ public class CharacterScreen extends JPanel {
         this.characterMagicResistance = new JLabel("Magic Resistance: ");
 
         this.showItemScreenButton = new JButton("Show Items");
-        this.getNewItemButton = new JButton("Get New Item");
         this.saveChangesButton = new JButton("Save Changes");
         this.returnToHomeScreenButton = new JButton("Return to Home Screen");
 
@@ -64,7 +62,6 @@ public class CharacterScreen extends JPanel {
         this.add(characterMagicResistance);
 
         this.add(showItemScreenButton);
-        this.add(getNewItemButton);
         this.add(saveChangesButton);
         this.add(returnToHomeScreenButton);
 
