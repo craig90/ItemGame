@@ -15,19 +15,20 @@ public class ItemLayeredPane extends JLayeredPane {
     public static final int AMULET_HEIGHT = 55, RING_HEIGHT = 55, GLOVES_HEIGHT = 125, BELT_HEIGHT = 55;
     public static final int PANTS_HEIGHT = 175, BOOTS_HEIGHT = 125;
 
+    public static final int SPARE_WIDTH = 125, SPARE_HEIGHT = 175;
+
     JLabel itemLabel;
     JLabel itemIconLabel;
     ImageIcon itemImageIcon;
 
-    Character character;
+    Item item;
     String itemType;
 
-    // TODO: this should not have access to the character class, but item is not always initialized - have to think a bit more
     // about how this will work
-    public ItemLayeredPane(String itemType, Character character) {
+    public ItemLayeredPane(String itemType, Item item) {
 
         this.itemType = itemType;
-        this.character = character;
+        this.item = item;
 
         this.setBackground(Color.GRAY);
         this.setPreferredSize(new Dimension(getItemWidth(), getItemHeight()));
@@ -39,13 +40,30 @@ public class ItemLayeredPane extends JLayeredPane {
         this.itemLabel.setVerticalAlignment(JLabel.TOP);
         this.add(this.itemLabel, 1);
         
-        if (this.character.isEquipped(this.itemType) == true) {
-            this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.character.getItem(this.itemType).getImageFile()), getItemWidth(), getItemHeight());
+        if (this.item != null) {
+            this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.item.getImageFile()), getItemWidth(), getItemHeight());
             this.itemIconLabel = new JLabel(this.itemImageIcon);
             this.itemIconLabel.setBounds(0, 0, getItemWidth(), getItemHeight());
             this.add(this.itemIconLabel, 0);
         }
 
+    }
+
+    public void updateItem() {
+        if (this.item != null) {
+            this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.item.getImageFile()), getItemWidth(), getItemHeight());
+            this.itemIconLabel = new JLabel(this.itemImageIcon);
+            this.itemIconLabel.setBounds(0, 0, getItemWidth(), getItemHeight());
+            this.add(this.itemIconLabel, 0);
+        }
+
+        this.revalidate();
+        this.repaint();
+    }
+
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     /**
@@ -74,8 +92,10 @@ public class ItemLayeredPane extends JLayeredPane {
             return PANTS_HEIGHT;
         } else if (this.itemType == Item.BOOTS ) {
             return BOOTS_HEIGHT;
+        } else if (this.itemType == "New Item") {
+            return SPARE_HEIGHT;
         } else {
-            return 0;  // TODO: this shouln't be reacher - throw exception?
+            return 0;  // TODO: this shouln't be reached - throw exception?
         }
 
     }
@@ -106,8 +126,10 @@ public class ItemLayeredPane extends JLayeredPane {
             return PANTS_WIDTH;
         } else if (this.itemType == Item.BOOTS ) {
             return BOOTS_WIDTH;
+        } else if (this.itemType == "New Item") { // TODO: define this somehere
+            return SPARE_WIDTH;
         } else {
-            return 0;  // TODO: this shouln't be reacher - throw exception?
+            return 0;  // TODO: this shouln't be reached - throw exception?
         }
 
     }

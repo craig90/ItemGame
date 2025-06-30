@@ -9,7 +9,7 @@ public class Item {
     private static String SHIELD_FILE = "shield.png";
     private static String CHEST_FILE = "chest.png";
     private static String AMULET_FILE = "amulet.png";
-    private static String RING_FILE = "helm.png";
+    private static String RING_FILE = "ring.png";
     private static String GLOVES_FILE = "gloves.png";
     private static String BELT_FILE = "belt.png";
     private static String PANTS_FILE = "pants.png";
