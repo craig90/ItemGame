@@ -4,16 +4,16 @@ import java.util.Comparator;
 public class Item {
 
     private static String IMAGE_DIR = "ItemGame/Images/";
-    private static String WEAPON_FILE = "shield.png";
-    private static String HELM_FILE = "helm.jpeg";
+    private static String WEAPON_FILE = "weapon.png";
+    private static String HELM_FILE = "helm.png";
     private static String SHIELD_FILE = "shield.png";
-    private static String CHEST_FILE = "helm.jpeg";
-    private static String AMULET_FILE = "helm.jpeg";
-    private static String RING_FILE = "helm.jpeg";
-    private static String GLOVES_FILE = "helm.jpeg";
-    private static String BELT_FILE = "helm.jpeg";
-    private static String PANTS_FILE = "helm.jpeg";
-    private static String BOOTS_FILE = "helm.jpeg";
+    private static String CHEST_FILE = "chest.png";
+    private static String AMULET_FILE = "amulet.png";
+    private static String RING_FILE = "helm.png";
+    private static String GLOVES_FILE = "gloves.png";
+    private static String BELT_FILE = "belt.png";
+    private static String PANTS_FILE = "pants.png";
+    private static String BOOTS_FILE = "boots.png";
 
     public static final int MAX_STATS = 5; // will generate MAX_STATS - 1 due to how random() method works
     public static final int MIN_STATS = 2;    
