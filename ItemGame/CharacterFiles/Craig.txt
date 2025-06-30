@@ -24,3 +24,35 @@ Fire Resistance:18.0
 Poison Resistance:10.0
 Magic Resistance:13.0
 Item-End
+Item-Start
+Item Type:Pants
+Item Name:Yellow Pants
+Damage:45.0
+Defence:80.0
+All Resistance:9.0
+Lightning Resistance:11.0
+Magic Resistance:14.0
+Item-End
+Item-Start
+Item Type:Weapon
+Item Name:Cool Weapon
+Damage:402.0
+All Resistance:8.0
+Magic Resistance:17.0
+Item-End
+Item-Start
+Item Type:Helm
+Item Name:Blue Helm
+Damage:61.0
+Fire Resistance:16.0
+Poison Resistance:7.0
+Cold Resistance:19.0
+Item-End
+Item-Start
+Item Type:Amulet
+Item Name:Green Amulet
+Health:46.0
+All Resistance:9.0
+Fire Resistance:11.0
+Cold Resistance:13.0
+Item-End
