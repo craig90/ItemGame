@@ -25,10 +25,8 @@ public class ItemWindow extends JFrame {
 
     JLabel helm, weapon, amulet, ring, ringTwo, belt, pants, gloves, shieldLabel, chest, boots;
 
-    JLayeredPane helmPanel, shieldPanel;
-    
-    JPanel weaponPanel, amuletPanel, ringPanel, ringTwoPanel, beltPanel, pantsPanel, glovesPanel;
-    JPanel chestPanel, bootsPanel;
+    ItemLayeredPane helmPanel, weaponPanel, amuletPanel, shieldPanel, ringOnePanel, ringTwoPanel;
+    ItemLayeredPane beltPanel, pantsPanel, glovesPanel, chestPanel, bootsPanel;
 
     ImageIcon helmIcon, shieldIcon;
 
@@ -50,135 +48,70 @@ public class ItemWindow extends JFrame {
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(4, 4, 4, 4);
         
-        // TODO: try catch
-
-        
-        // helm creation
-        this.helmPanel = new JLayeredPane();
-        this.helmPanel.setBackground(Color.GRAY);
-        this.helmPanel.setPreferredSize(new Dimension(125, 125));
-        this.helmPanel.setOpaque(true);
-        
-        this.helm = new JLabel("Helm");
-        this.helm.setBounds(0,0,125,125);
-        this.helmPanel.add(this.helm, 1);
-        
-        if (this.character.isEquipped(Item.HELM) == true) {
-            this.helmIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.character.getItem(Item.HELM).getImageFile()), 125, 125);
-            JLabel helmIconLabel = new JLabel(this.helmIcon);
-            helmIconLabel.setBounds(0,0,125,125);
-            this.helmPanel.add(helmIconLabel, 0);
-        }
-        
-        // constraints for helm panel alignment
+        // helm
+        this.helmPanel = new ItemLayeredPane(Item.HELM, character);
         c.gridx = 2;
         c.gridy = 0;
         this.itemPanel.add(this.helmPanel, c);
 
-        this.weaponPanel = new JPanel();
-        this.weaponPanel.setBackground(Color.GRAY);
-        this.weaponPanel.setPreferredSize(new Dimension(125, 175));
-        this.weapon = new JLabel("Weapon");
+        // weapon
+        this.weaponPanel = new ItemLayeredPane(Item.WEAPON, character);
         c.gridx = 0;
         c.gridy = 1;
-        this.weaponPanel.add(this.weapon);
         this.itemPanel.add(this.weaponPanel, c);
 
-
-        this.amuletPanel = new JPanel();
-        this.amuletPanel.setBackground(Color.GRAY);
-        this.amuletPanel.setPreferredSize(new Dimension(55, 55));
-        this.amulet = new JLabel("Amulet");
+        // amulet
+        this.amuletPanel = new ItemLayeredPane(Item.AMULET, character);
         c.gridx = 3;
         c.gridy = 0;
-        this.amuletPanel.add(this.amulet);
         this.itemPanel.add(this.amuletPanel, c);
         
-        this.ringPanel = new JPanel();
-        this.ringPanel.setBackground(Color.GRAY);
-        this.ringPanel.setPreferredSize(new Dimension(55, 55));
-        this.ring = new JLabel("Ring1");
+        // ring
+        this.ringOnePanel = new ItemLayeredPane(Item.RING, character);
         c.gridx = 1;
         c.gridy = 2;
-        this.ringPanel.add(this.ring);
-        this.itemPanel.add(ringPanel, c);
+        this.itemPanel.add(this.ringOnePanel, c);
         
         //TODO: how do we implement this? - It's currently just a placeholder
-        this.ringTwoPanel = new JPanel();
-        this.ringTwoPanel.setBackground(Color.GRAY);
-        this.ringTwoPanel.setPreferredSize(new Dimension(55, 55));
-        this.ringTwo = new JLabel("Ring2");
+        this.ringTwoPanel = new ItemLayeredPane(Item.RING, character);
         c.gridx = 3;
         c.gridy = 2;
-        this.ringTwoPanel.add(this.ringTwo);
         this.itemPanel.add(this.ringTwoPanel, c);
 
-        this.chestPanel = new JPanel();
-        this.chestPanel.setBackground(Color.GRAY);
-        this.chestPanel.setPreferredSize(new Dimension(125, 175));
-        this.chest = new JLabel("Chest");
+        // chest panel
+        this.chestPanel = new ItemLayeredPane(Item.CHEST, this.character);
         c.gridx = 2;
         c.gridy = 1;
-        this.chestPanel.add(this.chest);
         this.itemPanel.add(this.chestPanel, c);
 
-        this.glovesPanel = new JPanel();
-        this.glovesPanel.setBackground(Color.GRAY);
-        this.glovesPanel.setPreferredSize(new Dimension(125, 125));
-        this.gloves = new JLabel("Gloves");
+        // gloves
+        this.glovesPanel = new ItemLayeredPane(Item.GLOVES, this.character);
         c.gridx = 0;
         c.gridy = 2;
-        this.glovesPanel.add(this.gloves);
         this.itemPanel.add(this.glovesPanel, c);
 
-        // create shield
-        this.shieldPanel = new JLayeredPane();
-        this.shieldPanel.setBackground(Color.GRAY);
-        this.shieldPanel.setPreferredSize(new Dimension(125, 175));
-        this.shieldPanel.setOpaque(true);
-        
-        this.shieldLabel = new JLabel("Shield");
-        this.shieldLabel.setBounds(0,0,125,175);
-        this.shieldPanel.add(this.shieldLabel, 1);
-        
+        // shield
+        this.shieldPanel = new ItemLayeredPane(Item.SHIELD, this.character);
         c.gridx = 4;
         c.gridy = 1;
         this.itemPanel.add(this.shieldPanel, c);
 
-        if (this.character.isEquipped(Item.SHIELD)) {
-            this.shieldIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.character.getItem(Item.SHIELD).getImageFile()), 125, 175);
-            JLabel shieldIconLabel = new JLabel(this.shieldIcon);
-            shieldIconLabel.setBounds(0,0,125, 175);
-            this.shieldPanel.add(shieldIconLabel, 0);
-        }
-
-
-        // create belt
-        this.beltPanel = new JPanel();
-        this.beltPanel.setBackground(Color.GRAY);
-        this.beltPanel.setPreferredSize(new Dimension(125, 55));
-        this.belt = new JLabel("Belt");
+        // belt
+        this.beltPanel = new ItemLayeredPane(Item.BELT, this.character);
         c.gridx = 2;
         c.gridy = 2;
-        this.beltPanel.add(this.belt);
         this.itemPanel.add(this.beltPanel, c);
 
-        this.pantsPanel = new JPanel();
-        this.pantsPanel.setBackground(Color.GRAY);
-        this.pantsPanel.setPreferredSize(new Dimension(125, 175));
-        this.pants = new JLabel("Pants");
+        // pants
+        this.pantsPanel = new ItemLayeredPane(Item.PANTS, this.character);
         c.gridx = 2;
         c.gridy = 3;
-        this.pantsPanel.add(this.pants);
         this.itemPanel.add(this.pantsPanel, c);
 
-        this.bootsPanel = new JPanel();
-        this.bootsPanel.setBackground(Color.GRAY);
-        this.bootsPanel.setPreferredSize(new Dimension(125, 125));
-        this.boots = new JLabel("Boots");
+        // boots
+        this.bootsPanel = new ItemLayeredPane(Item.BOOTS, this.character);
         c.gridx = 4;
         c.gridy = 2;
-        this.bootsPanel.add(this.boots);
         this.itemPanel.add(this.bootsPanel, c);
 
         this.itemPanel.setBounds(0, 0, 700, 700);
@@ -200,16 +133,17 @@ public class ItemWindow extends JFrame {
         this.setVisible(true);
 
         MyMouseListener mouseListener = new MyMouseListener(this, this.hoverPanel);
-        this.helm.addMouseListener(mouseListener);
-        this.weapon.addMouseListener(mouseListener);
-        this.amulet.addMouseListener(mouseListener);
-        this.ring.addMouseListener(mouseListener);
-        this.belt.addMouseListener(mouseListener);
-        this.pants.addMouseListener(mouseListener);
-        this.gloves.addMouseListener(mouseListener);
-        this.shieldLabel.addMouseListener(mouseListener);
-        this.chest.addMouseListener(mouseListener);
-        this.boots.addMouseListener(mouseListener);
+        this.helmPanel.itemLabel.addMouseListener(mouseListener);
+        this.weaponPanel.itemLabel.addMouseListener(mouseListener);
+        this.amuletPanel.itemLabel.addMouseListener(mouseListener);
+        this.ringOnePanel.itemLabel.addMouseListener(mouseListener);
+        this.ringTwoPanel.itemLabel.addMouseListener(mouseListener);
+        this.beltPanel.itemLabel.addMouseListener(mouseListener);
+        this.pantsPanel.itemLabel.addMouseListener(mouseListener);
+        this.glovesPanel.itemLabel.addMouseListener(mouseListener);
+        this.shieldPanel.itemLabel.addMouseListener(mouseListener);
+        this.chestPanel.itemLabel.addMouseListener(mouseListener);
+        this.bootsPanel.itemLabel.addMouseListener(mouseListener);
 
         // this.itemPanel.setSize(this.itemPanel.getPreferredSize());
     }
