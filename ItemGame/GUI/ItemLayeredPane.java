@@ -50,9 +50,17 @@ public class ItemLayeredPane extends JLayeredPane {
     }
 
     public void updateItem() {
+
+        if (this.itemIconLabel != null) {
+            this.remove(this.itemIconLabel);
+            // this.remove(this.itemLabel);
+        }
+
         if (this.item != null) {
             this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.item.getImageFile()), getItemWidth(), getItemHeight());
             this.itemIconLabel = new JLabel(this.itemImageIcon);
+            this.itemIconLabel.setVerticalAlignment(JLabel.BOTTOM);
+            this.itemIconLabel.setHorizontalAlignment(JLabel.CENTER);
             this.itemIconLabel.setBounds(0, 0, getItemWidth(), getItemHeight());
             this.add(this.itemIconLabel, 0);
         }
@@ -64,6 +72,7 @@ public class ItemLayeredPane extends JLayeredPane {
 
     public void setItem(Item item) {
         this.item = item;
+        this.itemType = item.getItemType();
     }
 
     /**
