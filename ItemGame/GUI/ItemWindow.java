@@ -146,7 +146,7 @@ public class ItemWindow extends JFrame {
         this.hoverPanel.setLayout(new BoxLayout(this.hoverPanel, BoxLayout.PAGE_AXIS));
         // this.hoverPanel.setBounds(0, 0, 200,200);
         // this.hoverPanel.setBackground(Color.WHITE);
-        this.hoverPanel.setBackground(new Color(0,0,0,150));
+        this.hoverPanel.setBackground(new Color(0,0,0,180));
         this.hoverPanel.setVisible(false);
 
         this.layeredPane.add(this.itemPanel, 1);
@@ -230,13 +230,13 @@ public class ItemWindow extends JFrame {
                 
                 // stat only exists on the old item
                 else {
-                    JLabel statLabel = new JLabel(statDiff.getStat().getStatType() + " -" +
-                    statDiff.getStat().getValue());
+                    JLabel statLabel = new JLabel(statDiff.getStat().getStatType());
+                    JLabel diffLabel = new JLabel("(-" + statDiff.getStat().getValue() + ")");
                     statLabel.setForeground(Color.RED);
+                    diffLabel.setForeground(Color.RED);
                     this.hoverPanel.add(statLabel);
+                    this.hoverPanel.add(diffLabel);
                 }
-
-
 
             }
 
@@ -259,6 +259,9 @@ public class ItemWindow extends JFrame {
 
     }
 
+    /**
+     * Removes all the components from the hoverPanel
+     */
     private void removeAllLabels() {
         Component[] components = this.hoverPanel.getComponents();
         for (Component component : components) {
