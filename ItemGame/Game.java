@@ -247,7 +247,7 @@ public class Game {
         // check if this type of item is already equipped
         Item existingItem = this.character.getItem(newItem.getItemType());
         if (existingItem != null) {
-            existingItem.itemComparison(newItem);                    
+            Item.itemComparison(existingItem, newItem);
         }
 
         System.out.println("Would you like to equip this item? 1 - yes");

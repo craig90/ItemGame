@@ -1,14 +1,12 @@
 public class StatDifference {
 
     private ItemStat stat;
-    private boolean isNewStat;
     private boolean isOldOnlyStat;
     private boolean isBetter;
     private double difference;
 
     public StatDifference (ItemStat stat) {
         this.stat = stat;
-        this.isNewStat = false;
         this.isBetter = false;
         this.isOldOnlyStat = false;
         this.difference = 0.0;
@@ -16,10 +14,6 @@ public class StatDifference {
 
     public ItemStat getStat() {
         return this.stat;
-    }
-
-    public boolean isNewStat() {
-        return this.isNewStat;
     }
 
     public boolean isBetter() {
@@ -32,10 +26,6 @@ public class StatDifference {
 
     public boolean isOldStatOnly() {
         return this.isOldOnlyStat;
-    }
-
-    public void setIsNewStat(boolean isNewStat) {
-        this.isNewStat = isNewStat;
     }
 
     public void setIsBetterStat(boolean isBetter) {
