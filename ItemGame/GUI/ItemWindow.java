@@ -15,6 +15,8 @@ import java.awt.Insets;
 import java.awt.Color;
 import javax.swing.JLayeredPane;
 
+import java.util.ArrayList;
+
 
 public class ItemWindow extends JFrame {
 
@@ -164,7 +166,7 @@ public class ItemWindow extends JFrame {
         this.shieldPanel.itemLabel.addMouseListener(mouseListener);
         this.chestPanel.itemLabel.addMouseListener(mouseListener);
         this.bootsPanel.itemLabel.addMouseListener(mouseListener);
-        // this.spareItemPanel.itemLabel.addMouseListener(mouseListener);
+        this.spareItemPanel.itemLabel.addMouseListener(mouseListener);
 
         this.getNewItemButton.addActionListener(e -> {
             Item newItem = this.itemGenerator.createNewItem();
@@ -181,8 +183,16 @@ public class ItemWindow extends JFrame {
 
         String itemType = hoverdLabel.getText();
 
+        // TODO: i really think I need an Item Manager Class
+        // TODO: save New Item constant somewhere
         Item item;
-        if ((item = this.character.getItem(itemType)) == null) {
+        if (itemType.equals("New Item")) {
+            item = this.spareItemPanel.getItem();
+        } else {
+            item = this.character.getItem(itemType);
+        }
+
+        if (item == null){
             return;
         }
 
@@ -190,20 +200,62 @@ public class ItemWindow extends JFrame {
         itemName.setForeground(Color.WHITE);
         this.hoverPanel.add(itemName);
 
-        for (int i = 0; i < item.statListSize(); i++) {
-            JLabel label = new JLabel(item.getStat(i).getStatType() + " " + item.getStat(i).getValue());
-            label.setForeground(Color.WHITE);
-            this.hoverPanel.add(label);
+        if (itemType.equals("New Item")) {
+            Item equippedItem = this.character.getItem(item.getItemType());
+            ArrayList<StatDifference> statDifferences = Item.itemComparison(equippedItem, item);
+        
+            for (int i = 0; i < statDifferences.size(); i ++) {
+                
+                StatDifference statDiff = statDifferences.get(i);
+
+                if (statDiff.isOldStatOnly() == false) {
+
+                    JLabel statLabel = new JLabel(statDiff.getStat().getStatType() + " " +
+                    statDiff.getStat().getValue());
+                    JLabel diffLabel;
+                    
+                    if (statDiff.isBetter() == true) {
+                        diffLabel = new JLabel(" (+" + statDiff.getDifference() + ")");
+                        diffLabel.setForeground(Color.GREEN);
+                    } else {
+                        diffLabel = new JLabel(" (" + statDiff.getDifference() + ")");
+                        diffLabel.setForeground(Color.RED);
+                    }
+                    
+                    statLabel.setForeground(Color.WHITE);
+
+                    this.hoverPanel.add(statLabel);
+                    this.hoverPanel.add(diffLabel);
+                }
+                
+                // stat only exists on the old item
+                else {
+                    JLabel statLabel = new JLabel(statDiff.getStat().getStatType() + " -" +
+                    statDiff.getStat().getValue());
+                    statLabel.setForeground(Color.RED);
+                    this.hoverPanel.add(statLabel);
+                }
+
+
+
+            }
+
+        } 
+        
+        else {
+            for (int i = 0; i < item.statListSize(); i++) {
+                JLabel label = new JLabel(item.getStat(i).getStatType() + " " + item.getStat(i).getValue());
+                label.setForeground(Color.WHITE);
+                this.hoverPanel.add(label);
+            }
         }
+        
 
         // Get the absolute position of the label
         Point locationOnScreen = SwingUtilities.convertPoint(hoverdLabel, 0, 0, this);
         
         this.hoverPanel.setBounds(locationOnScreen.x, locationOnScreen.y, 200, 200);
         this.hoverPanel.setSize(this.hoverPanel.getPreferredSize());
-
-        // System.out.println("Button's absolute X position: " + locationOnScreen.x);
-        // System.out.println("Button's absolute Y position: " + locationOnScreen.y);
 
     }
 

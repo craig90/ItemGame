@@ -180,12 +180,117 @@ public class Item {
      * compares a new item to this item and prints any differences
      * @param newItem
      */
-    public void itemComparison(Item newItem) {
+    public static ArrayList<StatDifference> itemComparison(Item itemOne, Item itemTwo) {
+
+        ArrayList<StatDifference> statDifferences = new ArrayList<StatDifference>();
+
+        if (itemOne == null) {
+
+            for (int i = 0; i < itemTwo.statListSize(); i++) {
+                ItemStat newStat = itemTwo.getStat(i);
+                
+                double difference = newStat.value;
+                System.out.println(newStat.type + " " + difference);
+                StatDifference statDifference = new StatDifference(newStat);
+            
+                statDifference.setIsBetterStat(true);
+                statDifference.setDifference(difference);
+                statDifferences.add(statDifference);
+            }
+            return statDifferences;
+        }
+
+        // do a quick error check to see if these items are of the same type
+        if (itemOne.itemType.equals(itemTwo.getItemType()) == false) {
+            System.out.println("These items are not of the same type... comparison is pointless");
+            //return;
+        }
+
+        // this is a little complicated, we're going to have to run through all the stats from each item
+        // and compare and see what will increase and what will decrease
+        // show the two items for testing purposes
+        itemOne.displayItem();
+        itemTwo.displayItem();
+
+        // automatically initialized false
+        // these help track stats that are unique to each item
+        boolean[] foundOldStat = new boolean[itemOne.statList.size()];
+        boolean[] foundNewStat = new boolean[itemTwo.statList.size()];
+    
+        System.out.println("Stat Differences: ");
+        
+        for (int i = 0; i < itemOne.statListSize(); i++) {
+            ItemStat itemStat = itemOne.statList.get(i);
+            
+            for (int j = 0; j < itemTwo.statListSize(); j++) {
+                ItemStat newStat = itemTwo.getStat(j);
+                
+                if (itemStat.type.equals(newStat.type)) {
+                    foundOldStat[i] = true;
+                    foundNewStat[j] = true;
+                    // System.out.println("It has the same stat");
+                    double difference = newStat.value - itemStat.value;
+                    System.out.println(newStat.type + " " + difference);
+                    StatDifference statDifference = new StatDifference(newStat);
+                
+                    if (newStat.value >= itemStat.value) {
+                        statDifference.setIsBetterStat(true);
+                    } else {
+                        statDifference.setIsBetterStat(false);
+                    }
+                    statDifference.setDifference(difference);
+                    statDifferences.add(statDifference);
+
+                }
+
+            }
+
+        }
+
+        // these are stats that only exist on the new item
+        for (int i = 0; i < itemTwo.statListSize(); i++) {
+            if (foundNewStat[i] == false) {
+                System.out.println(itemTwo.getStat(i).type + " +" + itemTwo.getStat(i).value);
+                StatDifference statDifference = new StatDifference(itemTwo.getStat(i));
+                statDifference.setIsNewStat(true);
+                statDifference.setIsBetterStat(true); // redundant
+                statDifference.setDifference(itemTwo.getStat(i).value);
+                statDifferences.add(statDifference);
+            }
+        }
+
+
+        // the stats that only exist on the old item
+        for (int i = 0; i < itemOne.statList.size(); i++) {
+            if (foundOldStat[i] == false) {
+                System.out.println(itemOne.statList.get(i).type + " -" + itemOne.statList.get(i).value);
+                StatDifference statDifference = new StatDifference(itemOne.statList.get(i));
+                statDifference.setIsNewStat(false);
+                statDifference.setIsBetterStat(false);
+                statDifference.setIsOldStatOnly(true);
+                statDifference.setDifference(itemTwo.statList.get(i).value);
+                statDifferences.add(statDifference);
+            }
+        }
+        
+        return statDifferences;
+
+    }
+
+
+
+    /**
+     * compares a new item to this item and prints any differences
+     * @param newItem
+     */
+    public ArrayList<StatDifference> itemComparison(Item newItem) {
+
+        ArrayList<StatDifference> statDifferences = new ArrayList<StatDifference>();
 
         // do a quick error check to see if these items are of the same type
         if (this.itemType.equals(newItem.getItemType()) == false) {
             System.out.println("These items are not of the same type... comparison is pointless");
-            return;
+            //return;
         }
 
         // this is a little complicated, we're going to have to run through all the stats from each item
@@ -213,25 +318,47 @@ public class Item {
                     // System.out.println("It has the same stat");
                     double difference = newStat.value - itemStat.value;
                     System.out.println(newStat.type + " " + difference);
+                    StatDifference statDifference = new StatDifference(itemStat);
+                
+                    if (newStat.value >= itemStat.value) {
+                        statDifference.setIsBetterStat(true);
+                    } else {
+                        statDifference.setIsBetterStat(false);
+                    }
+                    statDifference.setDifference(difference);
+                    statDifferences.add(statDifference);
+
                 }
 
             }
 
         }
 
-        // the stats that only exist on the old item
-        for (int i = 0; i < this.statList.size(); i++) {
-            if (foundOldStat[i] == false) {
-                System.out.println(this.statList.get(i).type + " -" + this.statList.get(i).value);
-            }
-        }
-
         // these are stats that only exist on the new item
         for (int i = 0; i < newItem.statListSize(); i++) {
             if (foundNewStat[i] == false) {
                 System.out.println(newItem.getStat(i).type + " +" + newItem.getStat(i).value);
+                StatDifference statDifference = new StatDifference(newItem.getStat(i));
+                statDifference.setIsNewStat(true);
+                statDifference.setIsBetterStat(true); // redundant
+                statDifference.setDifference(newItem.getStat(i).value);
+                statDifferences.add(statDifference);
             }
         }
+
+
+        // the stats that only exist on the old item
+        for (int i = 0; i < this.statList.size(); i++) {
+            if (foundOldStat[i] == false) {
+                System.out.println(this.statList.get(i).type + " -" + this.statList.get(i).value);
+                StatDifference statDifference = new StatDifference(this.statList.get(i));
+                statDifference.setIsNewStat(false);
+                statDifference.setIsBetterStat(false);
+                statDifference.setDifference(this.statList.get(i).value);
+                statDifferences.add(statDifference);
+            }
+        }
+        return statDifferences;
 
     }
 
