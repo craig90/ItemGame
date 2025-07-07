@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 public class Item {
 
     private static String IMAGE_DIR = "ItemGame/Images/";
@@ -37,6 +40,8 @@ public class Item {
     public static final String[] ITEM_ADJECTIVES = {"Green", "Yellow", "Red", "Purple", "Orange", "Blue", "Gold", "Silver", 
     "Bronze", "Cool"};
 
+    private JLabel itemImageLabel;
+    private ImageIcon itemImageIcon;
 
     private String itemType;
     private String itemName;
@@ -56,6 +61,22 @@ public class Item {
         return this.itemName;
     }
 
+    private void setImageIcon() {
+        // TODO: get size - I don't know if it's being stored and accessed in the correct place
+        this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(getImageFile()), 
+            ItemLayeredPane.getItemWidth(this.itemType), ItemLayeredPane.getItemHeight(this.itemType));
+    }
+
+    public void setImageLabel() {
+        setImageIcon();
+        this.itemImageLabel = new JLabel(this.itemImageIcon);
+        System.out.println("Setting icon for item type " + this.itemName);
+    }
+
+    public JLabel getItemImageLabel() {
+        return this.itemImageLabel;
+    }
+
     // TODO: this should not be changed more than once... could add code to prevent that
     public boolean setItemType(String itemType) {
         
@@ -68,7 +89,6 @@ public class Item {
         return false;
 
     }
-
 
     /**
      * Returns the File Image for the cooresonpding item

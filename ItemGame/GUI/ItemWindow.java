@@ -6,6 +6,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Component;
 import java.awt.GridBagLayout;
@@ -17,6 +18,9 @@ import javax.swing.JLayeredPane;
 
 import java.util.ArrayList;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseEvent;
 
 public class ItemWindow extends JFrame {
 
@@ -41,7 +45,6 @@ public class ItemWindow extends JFrame {
     public ItemWindow(Character character) {
 
         this.character = character;
-
         this.itemGenerator = new ItemGenerator();
 
         this.setTitle("Items");
@@ -55,6 +58,7 @@ public class ItemWindow extends JFrame {
         // creates a constraints object
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(4, 4, 4, 4);
+        
         
         // TODO: wondering if the get method and how the character stores items should be rethought a bit
         // helm
@@ -135,6 +139,8 @@ public class ItemWindow extends JFrame {
         c.gridy = 1;
         this.itemPanel.add(spareItemPanel, c);
 
+        generateItemIcons();
+        setItemsInPanes();
 
         this.itemPanel.setBounds(0, 0, 700, 700);
 
@@ -170,11 +176,11 @@ public class ItemWindow extends JFrame {
 
         this.getNewItemButton.addActionListener(e -> {
             Item newItem = this.itemGenerator.createNewItem();
+            newItem.setImageLabel(); // TODO: this should be called in a better place
             this.spareItemPanel.setItem(newItem);
             this.spareItemPanel.updateItem();
         });
 
-        // this.itemPanel.setSize(this.itemPanel.getPreferredSize());
     }
 
     public void updateHoverWindow(JLabel hoverdLabel) {
@@ -274,4 +280,72 @@ public class ItemWindow extends JFrame {
         this.hoverPanel.repaint();
     }
 
+
+    /**
+     * TODO: I'm not sure if this should be done here, but this will generate the Image Icons for currently 
+     * equippied items
+     */
+    private void generateItemIcons() {
+
+        for (int i = 0; i < this.character.getItemListSize(); i++) {
+            Item item = this.character.getItem(i);
+            item.setImageLabel();
+        }
+
+    }
+
+    /**
+     * sets whichever items the character has in their respective item panes
+     * TODO: add rings and blings
+     * 
+     */
+    private void setItemsInPanes() {
+
+        if (this.character.getItem(Item.HELM) != null) {
+            this.helmPanel.setItem(this.character.getItem(Item.HELM));
+            this.helmPanel.updateItem();
+        }
+
+        if (this.character.getItem(Item.WEAPON) != null) {
+            this.weaponPanel.setItem(this.character.getItem(Item.WEAPON));
+            this.weaponPanel.updateItem();
+        }
+
+        if (this.character.getItem(Item.AMULET) != null) {
+            this.amuletPanel.setItem(this.character.getItem(Item.AMULET));
+            this.amuletPanel.updateItem();
+        }
+        
+        if (this.character.getItem(Item.CHEST) != null) {
+            this.chestPanel.setItem(this.character.getItem(Item.CHEST));
+            this.chestPanel.updateItem();
+        }
+
+        if (this.character.getItem(Item.SHIELD) != null) {
+            this.shieldPanel.setItem(this.character.getItem(Item.SHIELD));
+            this.shieldPanel.updateItem();
+        }
+        
+        if (this.character.getItem(Item.BOOTS) != null) {
+            this.bootsPanel.setItem(this.character.getItem(Item.BOOTS));
+            this.bootsPanel.updateItem();
+        }
+
+        if (this.character.getItem(Item.BELT) != null) {
+            this.beltPanel.setItem(this.character.getItem(Item.BELT));
+            this.beltPanel.updateItem();
+        }
+
+        if (this.character.getItem(Item.GLOVES) != null) {
+            this.glovesPanel.setItem(this.character.getItem(Item.GLOVES));
+            this.glovesPanel.updateItem();
+        }
+
+        if (this.character.getItem(Item.PANTS) != null) {
+            this.pantsPanel.setItem(this.character.getItem(Item.PANTS));
+            this.pantsPanel.updateItem();
+        }
+    }
+
 }
+

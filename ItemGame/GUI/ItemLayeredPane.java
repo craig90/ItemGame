@@ -31,21 +31,21 @@ public class ItemLayeredPane extends JLayeredPane {
         this.item = item;
 
         this.setBackground(Color.GRAY);
-        this.setPreferredSize(new Dimension(getItemWidth(), getItemHeight()));
+        this.setPreferredSize(new Dimension(getItemWidth(itemType), getItemHeight(itemType)));
         this.setOpaque(true);
         
         this.itemLabel = new JLabel(this.itemType);
-        this.itemLabel.setBounds(0, 0, getItemWidth(), getItemHeight());
+        this.itemLabel.setBounds(0, 0, getItemWidth(itemType), getItemHeight(itemType));
         this.itemLabel.setHorizontalAlignment(JLabel.CENTER);
         this.itemLabel.setVerticalAlignment(JLabel.TOP);
         this.add(this.itemLabel, 1);
         
-        if (this.item != null) {
+        /*if (this.item != null) {
             this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.item.getImageFile()), getItemWidth(), getItemHeight());
             this.itemIconLabel = new JLabel(this.itemImageIcon);
             this.itemIconLabel.setBounds(0, 0, getItemWidth(), getItemHeight());
             this.add(this.itemIconLabel, 0);
-        }
+        }*/
 
     }
 
@@ -57,11 +57,12 @@ public class ItemLayeredPane extends JLayeredPane {
         }
 
         if (this.item != null) {
-            this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.item.getImageFile()), getItemWidth(), getItemHeight());
-            this.itemIconLabel = new JLabel(this.itemImageIcon);
+            //this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.item.getImageFile()), getItemWidth(), getItemHeight());
+            this.itemIconLabel = this.item.getItemImageLabel();
+            //this.itemIconLabel = this.item.getItemImageLabel();
             this.itemIconLabel.setVerticalAlignment(JLabel.BOTTOM);
             this.itemIconLabel.setHorizontalAlignment(JLabel.CENTER);
-            this.itemIconLabel.setBounds(0, 0, getItemWidth(), getItemHeight());
+            this.itemIconLabel.setBounds(0, 0, getItemWidth(this.itemType), getItemHeight(this.itemType));
             this.add(this.itemIconLabel, 0);
         }
 
@@ -83,29 +84,29 @@ public class ItemLayeredPane extends JLayeredPane {
      * return the height in pixels of the layered pain depending on the item type
      * @return
      */
-    private int getItemHeight() {
+    public static int getItemHeight(String itemType) {
 
-        if (this.itemType == Item.WEAPON) {
+        if (itemType.equals(Item.WEAPON)) {
             return WEAPON_HEIGHT;
-        } else if (this.itemType == Item.HELM) {
+        } else if (itemType.equals(Item.HELM)) {
             return HELM_HEIGHT;
-        } else if (this.itemType == Item.CHEST) {
+        } else if (itemType.equals(Item.CHEST)) {
             return CHEST_HEIGHT;
-        } else if (this.itemType == Item.SHIELD) {
+        } else if (itemType.equals(Item.SHIELD)) {
             return SHIELD_HEIGHT;
-        } else if (this.itemType == Item.AMULET) {
+        } else if (itemType.equals(Item.AMULET)) {
             return AMULET_HEIGHT;
-        } else if (this.itemType == Item.RING) {
+        } else if (itemType.equals(Item.RING)) {
             return RING_HEIGHT;
-        } else if (this.itemType == Item.GLOVES) {
+        } else if (itemType.equals(Item.GLOVES)) {
             return GLOVES_HEIGHT;
-        } else if (this.itemType == Item.BELT) {
+        } else if (itemType.equals(Item.BELT)) {
             return BELT_HEIGHT;
-        } else if (this.itemType == Item.PANTS) {
+        } else if (itemType.equals(Item.PANTS)) {
             return PANTS_HEIGHT;
-        } else if (this.itemType == Item.BOOTS ) {
+        } else if (itemType.equals(Item.BOOTS)) {
             return BOOTS_HEIGHT;
-        } else if (this.itemType == "New Item") {
+        } else if (itemType.equals("New Item")) { // TODO: define this
             return SPARE_HEIGHT;
         } else {
             return 0;  // TODO: this shouln't be reached - throw exception?
@@ -117,29 +118,29 @@ public class ItemLayeredPane extends JLayeredPane {
      * returns the width of the layered pain in pixels cooresponding to the item type
      * @return
      */
-    private int getItemWidth() {
+    public static int getItemWidth(String itemType) {
 
-        if (this.itemType == Item.WEAPON) {
+        if (itemType.equals(Item.WEAPON)) {
             return WEAPON_WIDTH;
-        } else if (this.itemType == Item.HELM) {
+        } else if (itemType.equals(Item.HELM)) {
             return HELM_WIDTH;
-        } else if (this.itemType == Item.CHEST) {
+        } else if (itemType.equals(Item.CHEST)) {
             return CHEST_WIDTH;
-        } else if (this.itemType == Item.SHIELD) {
+        } else if (itemType.equals(Item.SHIELD)) {
             return SHIELD_WIDTH;
-        } else if (this.itemType == Item.AMULET) {
+        } else if (itemType.equals(Item.AMULET)) {
             return AMULET_WIDTH;
-        } else if (this.itemType == Item.RING) {
+        } else if (itemType.equals(Item.RING)) {
             return RING_WIDTH;
-        } else if (this.itemType == Item.GLOVES) {
+        } else if (itemType.equals(Item.GLOVES)) {
             return GLOVES_WIDTH;
-        } else if (this.itemType == Item.BELT) {
+        } else if (itemType.equals(Item.BELT)) {
             return BELT_WIDTH;
-        } else if (this.itemType == Item.PANTS) {
+        } else if (itemType.equals(Item.PANTS)) {
             return PANTS_WIDTH;
-        } else if (this.itemType == Item.BOOTS ) {
+        } else if (itemType.equals(Item.BOOTS)) {
             return BOOTS_WIDTH;
-        } else if (this.itemType == "New Item") { // TODO: define this somehere
+        } else if (itemType.equals("New Item")) { // TODO: define this somehere
             return SPARE_WIDTH;
         } else {
             return 0;  // TODO: this shouln't be reached - throw exception?
