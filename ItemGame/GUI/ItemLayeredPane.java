@@ -15,54 +15,47 @@ public class ItemLayeredPane extends JLayeredPane {
     public static final int AMULET_HEIGHT = 55, RING_HEIGHT = 55, GLOVES_HEIGHT = 125, BELT_HEIGHT = 55;
     public static final int PANTS_HEIGHT = 175, BOOTS_HEIGHT = 125;
 
-    public static final int SPARE_WIDTH = 125, SPARE_HEIGHT = 175;
+    public static final int NEW_SLOT_WIDTH = 125, NEW_SLOT_HEIGHT = 175;
+
+    public static final String NEW_ITEM_SLOT = "New Item";
 
     JLabel itemLabel;
     JLabel itemIconLabel;
     ImageIcon itemImageIcon;
 
     Item item;
-    String itemType;
+    String itemSlotType;
 
     // about how this will work
-    public ItemLayeredPane(String itemType, Item item) {
+    public ItemLayeredPane(String itemSlotType, Item item) {
 
-        this.itemType = itemType;
+        this.itemSlotType = itemSlotType;
         this.item = item;
 
         this.setBackground(Color.GRAY);
-        this.setPreferredSize(new Dimension(getItemWidth(itemType), getItemHeight(itemType)));
+        this.setPreferredSize(new Dimension(getItemWidth(itemSlotType), getItemHeight(itemSlotType)));
         this.setOpaque(true);
         
-        this.itemLabel = new JLabel(this.itemType);
-        this.itemLabel.setBounds(0, 0, getItemWidth(itemType), getItemHeight(itemType));
+        this.itemLabel = new JLabel(this.itemSlotType);
+        this.itemLabel.setBounds(0, 0, getItemWidth(itemSlotType), getItemHeight(itemSlotType));
         this.itemLabel.setHorizontalAlignment(JLabel.CENTER);
         this.itemLabel.setVerticalAlignment(JLabel.TOP);
         this.add(this.itemLabel, 1);
         
-        /*if (this.item != null) {
-            this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.item.getImageFile()), getItemWidth(), getItemHeight());
-            this.itemIconLabel = new JLabel(this.itemImageIcon);
-            this.itemIconLabel.setBounds(0, 0, getItemWidth(), getItemHeight());
-            this.add(this.itemIconLabel, 0);
-        }*/
-
     }
 
     public void updateItem() {
 
         if (this.itemIconLabel != null) {
             this.remove(this.itemIconLabel);
-            // this.remove(this.itemLabel);
         }
 
         if (this.item != null) {
-            //this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(this.item.getImageFile()), getItemWidth(), getItemHeight());
             this.itemIconLabel = this.item.getItemImageLabel();
-            //this.itemIconLabel = this.item.getItemImageLabel();
-            this.itemIconLabel.setVerticalAlignment(JLabel.BOTTOM);
+            this.itemIconLabel.setName(this.itemSlotType);
+            this.itemIconLabel.setVerticalAlignment(JLabel.CENTER);
             this.itemIconLabel.setHorizontalAlignment(JLabel.CENTER);
-            this.itemIconLabel.setBounds(0, 0, getItemWidth(this.itemType), getItemHeight(this.itemType));
+            this.itemIconLabel.setBounds(0, 0, getItemWidth(this.itemSlotType), getItemHeight(this.itemSlotType));
             this.add(this.itemIconLabel, 0);
         }
 
@@ -74,10 +67,8 @@ public class ItemLayeredPane extends JLayeredPane {
         return this.item;
     }
 
-
     public void setItem(Item item) {
         this.item = item;
-        this.itemType = item.getItemType();
     }
 
     /**
@@ -106,8 +97,8 @@ public class ItemLayeredPane extends JLayeredPane {
             return PANTS_HEIGHT;
         } else if (itemType.equals(Item.BOOTS)) {
             return BOOTS_HEIGHT;
-        } else if (itemType.equals("New Item")) { // TODO: define this
-            return SPARE_HEIGHT;
+        } else if (itemType.equals(NEW_ITEM_SLOT)) {
+            return NEW_SLOT_HEIGHT;
         } else {
             return 0;  // TODO: this shouln't be reached - throw exception?
         }
@@ -140,8 +131,8 @@ public class ItemLayeredPane extends JLayeredPane {
             return PANTS_WIDTH;
         } else if (itemType.equals(Item.BOOTS)) {
             return BOOTS_WIDTH;
-        } else if (itemType.equals("New Item")) { // TODO: define this somehere
-            return SPARE_WIDTH;
+        } else if (itemType.equals(NEW_ITEM_SLOT)) {
+            return NEW_SLOT_WIDTH;
         } else {
             return 0;  // TODO: this shouln't be reached - throw exception?
         }

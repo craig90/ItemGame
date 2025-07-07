@@ -1,22 +1,14 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import java.awt.Color;
 import javax.swing.JLayeredPane;
-
-import java.util.ArrayList;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseMotionAdapter;
@@ -24,10 +16,14 @@ import java.awt.event.MouseEvent;
 
 public class ItemWindow extends JFrame {
 
+    final static int ITEM_WINDOW_WIDTH = 700;
+    final static int ITEM_WINDOW_HEIGHT = 700;
+
     JLayeredPane layeredPane;
 
     JPanel itemPanel;
-    JPanel hoverPanel;
+    // JPanel hoverPanel;
+    HoverPanel hoverPanel;
 
     JLabel helm, weapon, amulet, ring, ringTwo, belt, pants, gloves, shieldLabel, chest, boots;
 
@@ -48,7 +44,7 @@ public class ItemWindow extends JFrame {
         this.itemGenerator = new ItemGenerator();
 
         this.setTitle("Items");
-        this.setSize(700, 700);
+        this.setSize(ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
 
         this.layeredPane = new JLayeredPane();
 
@@ -134,7 +130,7 @@ public class ItemWindow extends JFrame {
         this.itemPanel.add(this.getNewItemButton, c);
 
         // holder for extra item
-        spareItemPanel = new ItemLayeredPane("New Item", null);
+        spareItemPanel = new ItemLayeredPane(ItemLayeredPane.NEW_ITEM_SLOT, null);
         c.gridx = 5;
         c.gridy = 1;
         this.itemPanel.add(spareItemPanel, c);
@@ -142,142 +138,35 @@ public class ItemWindow extends JFrame {
         generateItemIcons();
         setItemsInPanes();
 
-        this.itemPanel.setBounds(0, 0, 700, 700);
+        this.itemPanel.setBounds(0, 0, ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
 
         this.add(this.layeredPane);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close only this window
         this.setLocationRelativeTo(this);
 
-        this.hoverPanel = new JPanel();
-        this.hoverPanel.setLayout(new BoxLayout(this.hoverPanel, BoxLayout.PAGE_AXIS));
-        // this.hoverPanel.setBounds(0, 0, 200,200);
-        // this.hoverPanel.setBackground(Color.WHITE);
-        this.hoverPanel.setBackground(new Color(0,0,0,180));
-        this.hoverPanel.setVisible(false);
+        this.hoverPanel = new HoverPanel(this.character, this.spareItemPanel);
 
         this.layeredPane.add(this.itemPanel, 1);
         this.layeredPane.add(this.hoverPanel, 0);
 
         this.setVisible(true);
 
-        MyMouseListener mouseListener = new MyMouseListener(this, this.hoverPanel);
-        this.helmPanel.itemLabel.addMouseListener(mouseListener);
-        this.weaponPanel.itemLabel.addMouseListener(mouseListener);
-        this.amuletPanel.itemLabel.addMouseListener(mouseListener);
-        this.ringOnePanel.itemLabel.addMouseListener(mouseListener);
-        this.ringTwoPanel.itemLabel.addMouseListener(mouseListener);
-        this.beltPanel.itemLabel.addMouseListener(mouseListener);
-        this.pantsPanel.itemLabel.addMouseListener(mouseListener);
-        this.glovesPanel.itemLabel.addMouseListener(mouseListener);
-        this.shieldPanel.itemLabel.addMouseListener(mouseListener);
-        this.chestPanel.itemLabel.addMouseListener(mouseListener);
-        this.bootsPanel.itemLabel.addMouseListener(mouseListener);
-        this.spareItemPanel.itemLabel.addMouseListener(mouseListener);
+        MyMouseListener mouseListener = new MyMouseListener(this);
+
+        // add mouse listeners to the current item image icons
+        for (int i = 0; i < this.character.getItemListSize(); i++) {
+            this.character.getItem(i).getItemImageLabel().addMouseListener(mouseListener);
+        }
 
         this.getNewItemButton.addActionListener(e -> {
             Item newItem = this.itemGenerator.createNewItem();
             newItem.setImageLabel(); // TODO: this should be called in a better place
+            newItem.getItemImageLabel().addMouseListener(mouseListener);
             this.spareItemPanel.setItem(newItem);
             this.spareItemPanel.updateItem();
+            
         });
 
-    }
-
-    public void updateHoverWindow(JLabel hoverdLabel) {
-
-        removeAllLabels();
-
-        String itemType = hoverdLabel.getText();
-
-        // TODO: i really think I need an Item Manager Class
-        // TODO: save New Item constant somewhere
-        Item item;
-        if (itemType.equals("New Item")) {
-            item = this.spareItemPanel.getItem();
-        } else {
-            item = this.character.getItem(itemType);
-        }
-
-        if (item == null){
-            return;
-        }
-
-        JLabel itemName = new JLabel(item.getItemName());
-        itemName.setForeground(Color.WHITE);
-        this.hoverPanel.add(itemName);
-
-        if (itemType.equals("New Item")) {
-            Item equippedItem = this.character.getItem(item.getItemType());
-            ArrayList<StatDifference> statDifferences = Item.itemComparison(equippedItem, item);
-        
-            for (int i = 0; i < statDifferences.size(); i ++) {
-                
-                StatDifference statDiff = statDifferences.get(i);
-
-                if (statDiff.isOldStatOnly() == false) {
-
-                    JLabel statLabel = new JLabel(statDiff.getStat().getStatType() + " " +
-                    statDiff.getStat().getValue());
-                    JLabel diffLabel;
-                    
-                    if (statDiff.isBetter() == true) {
-                        diffLabel = new JLabel(" (+" + statDiff.getDifference() + ")");
-                        diffLabel.setForeground(Color.GREEN);
-                    } else {
-                        diffLabel = new JLabel(" (" + statDiff.getDifference() + ")");
-                        diffLabel.setForeground(Color.RED);
-                    }
-                    
-                    statLabel.setForeground(Color.WHITE);
-
-                    this.hoverPanel.add(statLabel);
-                    this.hoverPanel.add(diffLabel);
-                }
-                
-                // stat only exists on the old item
-                else {
-                    JLabel statLabel = new JLabel(statDiff.getStat().getStatType());
-                    JLabel diffLabel = new JLabel("(-" + statDiff.getStat().getValue() + ")");
-                    statLabel.setForeground(Color.RED);
-                    diffLabel.setForeground(Color.RED);
-                    this.hoverPanel.add(statLabel);
-                    this.hoverPanel.add(diffLabel);
-                }
-
-            }
-
-        } 
-        
-        else {
-            for (int i = 0; i < item.statListSize(); i++) {
-                JLabel label = new JLabel(item.getStat(i).getStatType() + " " + item.getStat(i).getValue());
-                label.setForeground(Color.WHITE);
-                this.hoverPanel.add(label);
-            }
-        }
-        
-
-        // Get the absolute position of the label
-        Point locationOnScreen = SwingUtilities.convertPoint(hoverdLabel, 0, 0, this);
-        
-        this.hoverPanel.setBounds(locationOnScreen.x, locationOnScreen.y, 200, 200);
-        this.hoverPanel.setSize(this.hoverPanel.getPreferredSize());
-
-    }
-
-    /**
-     * Removes all the components from the hoverPanel
-     */
-    private void removeAllLabels() {
-        Component[] components = this.hoverPanel.getComponents();
-        for (Component component : components) {
-            if (component instanceof JLabel) {
-                this.hoverPanel.remove(component);
-            }
-        }
-        this.hoverPanel.setSize(this.hoverPanel.getPreferredSize());
-        this.hoverPanel.revalidate();
-        this.hoverPanel.repaint();
     }
 
 
