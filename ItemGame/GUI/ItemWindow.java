@@ -163,7 +163,7 @@ public class ItemWindow extends JFrame {
             newItem.setImageLabel(); // TODO: this should be called in a better place
             newItem.getItemImageLabel().addMouseListener(mouseListener);
             this.spareItemPanel.setItem(newItem);
-            this.spareItemPanel.updateItem();
+            this.spareItemPanel.addItemToSlot();
             
         });
 
@@ -192,47 +192,47 @@ public class ItemWindow extends JFrame {
 
         if (this.character.getItem(Item.HELM) != null) {
             this.helmPanel.setItem(this.character.getItem(Item.HELM));
-            this.helmPanel.updateItem();
+            this.helmPanel.addItemToSlot();
         }
 
         if (this.character.getItem(Item.WEAPON) != null) {
             this.weaponPanel.setItem(this.character.getItem(Item.WEAPON));
-            this.weaponPanel.updateItem();
+            this.weaponPanel.addItemToSlot();
         }
 
         if (this.character.getItem(Item.AMULET) != null) {
             this.amuletPanel.setItem(this.character.getItem(Item.AMULET));
-            this.amuletPanel.updateItem();
+            this.amuletPanel.addItemToSlot();
         }
         
         if (this.character.getItem(Item.CHEST) != null) {
             this.chestPanel.setItem(this.character.getItem(Item.CHEST));
-            this.chestPanel.updateItem();
+            this.chestPanel.addItemToSlot();
         }
 
         if (this.character.getItem(Item.SHIELD) != null) {
             this.shieldPanel.setItem(this.character.getItem(Item.SHIELD));
-            this.shieldPanel.updateItem();
+            this.shieldPanel.addItemToSlot();
         }
         
         if (this.character.getItem(Item.BOOTS) != null) {
             this.bootsPanel.setItem(this.character.getItem(Item.BOOTS));
-            this.bootsPanel.updateItem();
+            this.bootsPanel.addItemToSlot();
         }
 
         if (this.character.getItem(Item.BELT) != null) {
             this.beltPanel.setItem(this.character.getItem(Item.BELT));
-            this.beltPanel.updateItem();
+            this.beltPanel.addItemToSlot();
         }
 
         if (this.character.getItem(Item.GLOVES) != null) {
             this.glovesPanel.setItem(this.character.getItem(Item.GLOVES));
-            this.glovesPanel.updateItem();
+            this.glovesPanel.addItemToSlot();
         }
 
         if (this.character.getItem(Item.PANTS) != null) {
             this.pantsPanel.setItem(this.character.getItem(Item.PANTS));
-            this.pantsPanel.updateItem();
+            this.pantsPanel.addItemToSlot();
         }
     }
 

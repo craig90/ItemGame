@@ -21,7 +21,7 @@ public class ItemLayeredPane extends JLayeredPane {
 
     JLabel itemLabel;
     JLabel itemIconLabel;
-    ImageIcon itemImageIcon;
+    // ImageIcon itemImageIcon;
 
     Item item;
     String itemSlotType;
@@ -44,7 +44,7 @@ public class ItemLayeredPane extends JLayeredPane {
         
     }
 
-    public void updateItem() {
+    public void addItemToSlot() {
 
         if (this.itemIconLabel != null) {
             this.remove(this.itemIconLabel);
@@ -61,6 +61,19 @@ public class ItemLayeredPane extends JLayeredPane {
 
         this.revalidate();
         this.repaint();
+
+    }
+
+    public void removeItemFromSlot() {
+        
+        // remove the item from the slot
+        this.remove(this.itemIconLabel);
+        this.revalidate();
+        this.repaint();
+
+        // set things to null
+        this.itemIconLabel = null;
+        this.item = null;
     }
 
     public Item getItem() {
