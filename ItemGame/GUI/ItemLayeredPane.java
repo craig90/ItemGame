@@ -44,19 +44,23 @@ public class ItemLayeredPane extends JLayeredPane {
         
     }
 
-    public void addItemToSlot() {
+    public void addItemToSlot(Item item) {
 
+        this.item = item;
+        
         if (this.itemIconLabel != null) {
             this.remove(this.itemIconLabel);
         }
 
         if (this.item != null) {
+            System.out.println("Adding item " + this.item.getItemName());
             this.itemIconLabel = this.item.getItemImageLabel();
             this.itemIconLabel.setName(this.itemSlotType);
             this.itemIconLabel.setVerticalAlignment(JLabel.CENTER);
             this.itemIconLabel.setHorizontalAlignment(JLabel.CENTER);
             this.itemIconLabel.setBounds(0, 0, getItemWidth(this.itemSlotType), getItemHeight(this.itemSlotType));
             this.add(this.itemIconLabel, 0);
+            System.out.println("Panel " + this.itemSlotType);
         }
 
         this.revalidate();
@@ -71,6 +75,7 @@ public class ItemLayeredPane extends JLayeredPane {
         this.revalidate();
         this.repaint();
 
+        System.out.println("Removing item" + this.itemIconLabel.getName());
         // set things to null
         this.itemIconLabel = null;
         this.item = null;

@@ -17,16 +17,12 @@ public class MyMouseListener extends MouseAdapter {
         JLabel hoveredLabel = (JLabel) e.getSource();
         // System.out.println("Hover over: " + hoveredLabel.getText());
         this.hoverPanel.updateHoverWindow(hoveredLabel);
-        this.hoverPanel.setVisible(true);
-        this.hoverPanel.revalidate(); // Revalidate the layout to ensure it's displayed correctly
-        this.hoverPanel.repaint();
+        this.hoverPanel.showHoverPanel();
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        this.hoverPanel.setVisible(false);
-        this.hoverPanel.revalidate();
-        this.hoverPanel.repaint();
+        this.hoverPanel.hideHoverPanel();
     }
 
 }
