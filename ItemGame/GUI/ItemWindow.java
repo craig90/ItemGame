@@ -1,8 +1,10 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.TransferHandler;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -11,8 +13,14 @@ import java.awt.Insets;
 import javax.swing.JLayeredPane;
 
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseMotionAdapter;
+import java.io.IOException;
 import java.awt.event.MouseEvent;
+
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 
 public class ItemWindow extends JFrame {
 
@@ -37,6 +45,9 @@ public class ItemWindow extends JFrame {
 
     Character character;
     ItemGenerator itemGenerator;
+
+    Item draggedItem;
+    Item newItem; // TODO: this needs to be moved to another class, but we'll put it here for now
 
     public ItemWindow(Character character) {
 
@@ -130,10 +141,10 @@ public class ItemWindow extends JFrame {
         this.itemPanel.add(this.getNewItemButton, c);
 
         // holder for extra item
-        spareItemPanel = new ItemLayeredPane(ItemLayeredPane.NEW_ITEM_SLOT, null);
+        this.spareItemPanel = new ItemLayeredPane(ItemLayeredPane.NEW_ITEM_SLOT, null);
         c.gridx = 5;
         c.gridy = 1;
-        this.itemPanel.add(spareItemPanel, c);
+        this.itemPanel.add(this.spareItemPanel, c);
 
         generateItemIcons();
         setItemsInPanes();
@@ -159,13 +170,24 @@ public class ItemWindow extends JFrame {
         }
 
         this.getNewItemButton.addActionListener(e -> {
-            Item newItem = this.itemGenerator.createNewItem();
-            newItem.setImageLabel(); // TODO: this should be called in a better place
-            newItem.getItemImageLabel().addMouseListener(mouseListener);
-            this.spareItemPanel.setItem(newItem);
-            this.spareItemPanel.addItemToSlot();
+            this.newItem = this.itemGenerator.createNewItem();
+            this.newItem.setImageLabel(); // TODO: this should be called in a better place
+            this.newItem.getItemImageLabel().addMouseListener(mouseListener);
+            this.spareItemPanel.addItemToSlot(this.newItem);
+            this.spareItemPanel.itemIconLabel.setTransferHandler(new MyLabelTransferHandler(this));
+            this.spareItemPanel.itemIconLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    JComponent c = (JComponent) e.getSource();
+                    TransferHandler handler = c.getTransferHandler();
+                    handler.exportAsDrag(c, e, DnDConstants.ACTION_MOVE);
+                }
+            });
             
         });
+
+
+        this.weaponPanel.setTransferHandler(new MyPanelTransferHandler(this));
 
     }
 
@@ -184,6 +206,28 @@ public class ItemWindow extends JFrame {
     }
 
     /**
+     * used to track the item that is currently being dragged
+     */
+    public void setDraggedItem(String name) {
+        System.out.println(name);
+        if (name.equals(ItemLayeredPane.NEW_ITEM_SLOT)) {
+            this.draggedItem = this.newItem;
+        } else {
+            this.draggedItem = this.character.getItem(name);
+        }
+
+        // TODO: maybe throw exception if the item is null
+    }
+
+    /**
+     * gets the item that is being dragged
+     * @return
+     */
+    public Item getDraggedItem() {
+        return this.draggedItem;
+    }
+
+    /**
      * sets whichever items the character has in their respective item panes
      * TODO: add rings and blings
      * 
@@ -191,50 +235,138 @@ public class ItemWindow extends JFrame {
     private void setItemsInPanes() {
 
         if (this.character.getItem(Item.HELM) != null) {
-            this.helmPanel.setItem(this.character.getItem(Item.HELM));
-            this.helmPanel.addItemToSlot();
+            this.helmPanel.addItemToSlot(this.character.getItem(Item.HELM));
         }
 
         if (this.character.getItem(Item.WEAPON) != null) {
-            this.weaponPanel.setItem(this.character.getItem(Item.WEAPON));
-            this.weaponPanel.addItemToSlot();
+            this.weaponPanel.addItemToSlot(this.character.getItem(Item.WEAPON));
         }
 
         if (this.character.getItem(Item.AMULET) != null) {
-            this.amuletPanel.setItem(this.character.getItem(Item.AMULET));
-            this.amuletPanel.addItemToSlot();
+            this.amuletPanel.addItemToSlot(this.character.getItem(Item.AMULET));
         }
         
         if (this.character.getItem(Item.CHEST) != null) {
-            this.chestPanel.setItem(this.character.getItem(Item.CHEST));
-            this.chestPanel.addItemToSlot();
+            this.chestPanel.addItemToSlot(this.character.getItem(Item.CHEST));
         }
 
         if (this.character.getItem(Item.SHIELD) != null) {
-            this.shieldPanel.setItem(this.character.getItem(Item.SHIELD));
-            this.shieldPanel.addItemToSlot();
+            this.shieldPanel.addItemToSlot(this.character.getItem(Item.SHIELD));
         }
         
         if (this.character.getItem(Item.BOOTS) != null) {
-            this.bootsPanel.setItem(this.character.getItem(Item.BOOTS));
-            this.bootsPanel.addItemToSlot();
+            this.bootsPanel.addItemToSlot(this.character.getItem(Item.BOOTS));
         }
 
         if (this.character.getItem(Item.BELT) != null) {
-            this.beltPanel.setItem(this.character.getItem(Item.BELT));
-            this.beltPanel.addItemToSlot();
+            this.beltPanel.addItemToSlot(this.character.getItem(Item.BELT));
         }
 
         if (this.character.getItem(Item.GLOVES) != null) {
-            this.glovesPanel.setItem(this.character.getItem(Item.GLOVES));
-            this.glovesPanel.addItemToSlot();
+            this.glovesPanel.addItemToSlot(this.character.getItem(Item.GLOVES));
         }
 
         if (this.character.getItem(Item.PANTS) != null) {
-            this.pantsPanel.setItem(this.character.getItem(Item.PANTS));
-            this.pantsPanel.addItemToSlot();
+            this.pantsPanel.addItemToSlot(this.character.getItem(Item.PANTS));
         }
     }
 
+    static class MyLabelTransferHandler extends TransferHandler {
+        
+        ItemWindow itemWindow;
+
+        public MyLabelTransferHandler(ItemWindow itemWindow) {
+            this.itemWindow = itemWindow;
+        }
+        
+        @Override
+        protected Transferable createTransferable(JComponent c) {
+            JLabel label = (JLabel) c;
+            this.itemWindow.setDraggedItem(c.getName());
+            this.itemWindow.hoverPanel.hideHoverPanel();
+            return new ImageTransferable((ImageIcon)label.getIcon());
+        }
+
+        @Override
+        public int getSourceActions(JComponent c) {
+            return DnDConstants.ACTION_MOVE;
+        }
+
+        @Override
+        protected void exportDone(JComponent source, Transferable data, int action) {
+            if (action == DnDConstants.ACTION_MOVE) {
+                // Optionally remove the label from the source panel after a successful move
+                ItemLayeredPane parentPanel = (ItemLayeredPane)source.getParent();
+                System.out.println("Source Panel: " + parentPanel.itemSlotType);
+                // parentPanel.removeItemFromSlot();
+                // parentPanel.revalidate();
+                // parentPanel.repaint();
+            }
+        }
+    }
+
+    static class MyPanelTransferHandler extends TransferHandler {
+        
+
+        ItemWindow itemWindow;
+
+        public MyPanelTransferHandler(ItemWindow itemWindow) {
+            this.itemWindow = itemWindow;
+        }
+
+        @Override
+        public boolean canImport(TransferSupport support) {
+            return support.isDataFlavorSupported(java.awt.datatransfer.DataFlavor.imageFlavor);
+        }
+
+        @Override
+        public boolean importData(TransferSupport support) {
+            if (!canImport(support)) {
+                return false;
+            }
+            try {
+                //Image data = (Image) support.getTransferable().getTransferData(java.awt.datatransfer.DataFlavor.imageFlavor);
+                ItemLayeredPane targetPanel = (ItemLayeredPane) support.getComponent();
+                System.out.println("Supports drop");
+                //targetPanel.add(new JLabel(data + " (dropped)"));
+                Item draggedItem = this.itemWindow.getDraggedItem();
+                System.out.println(draggedItem.getItemName());
+                targetPanel.addItemToSlot(draggedItem);
+                targetPanel.revalidate();
+                targetPanel.repaint();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+    }
+
+    static class ImageTransferable implements Transferable {
+
+        private ImageIcon imageIcon;
+
+        public ImageTransferable(ImageIcon imageIcon) {
+            this.imageIcon = imageIcon;
+        }
+
+        @Override
+        public DataFlavor[] getTransferDataFlavors() {
+            return new DataFlavor[]{DataFlavor.imageFlavor};
+        }
+
+        @Override
+        public boolean isDataFlavorSupported(DataFlavor flavor) {
+            return flavor.equals(DataFlavor.imageFlavor);
+        }
+
+        @Override
+        public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+            if (flavor.equals(DataFlavor.imageFlavor)) {
+                return imageIcon.getImage();
+            }
+            throw new UnsupportedFlavorException(flavor);
+        }
+    }
 }
 

@@ -144,5 +144,22 @@ public class HoverPanel extends JPanel {
         this.repaint();
     }
 
+    /**
+     * Makes the hover panel visible
+     */
+    public void showHoverPanel() {
+        this.setVisible(true);
+        this.revalidate(); // Revalidate the layout to ensure it's displayed correctly
+        this.repaint();
+    }
+
+    /**
+     * Hides the hover panel
+     */
+    public void hideHoverPanel() {
+        this.setVisible(false);
+        this.revalidate();
+        this.repaint();
+    }
 
 }
