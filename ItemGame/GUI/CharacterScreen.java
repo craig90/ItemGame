@@ -66,7 +66,7 @@ public class CharacterScreen extends JPanel {
         this.add(returnToHomeScreenButton);
 
         this.showItemScreenButton.addActionListener(e -> {
-            ItemWindow itemWindow = new ItemWindow(this.character);
+            ItemWindow itemWindow = new ItemWindow(this, this.character);
         });
 
         this.returnToHomeScreenButton.addActionListener(e -> {
