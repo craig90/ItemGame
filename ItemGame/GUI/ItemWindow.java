@@ -191,13 +191,24 @@ public class ItemWindow extends JFrame {
         });
 
 
+        this.helmPanel.setTransferHandler(new MyPanelTransferHandler(this));
         this.weaponPanel.setTransferHandler(new MyPanelTransferHandler(this));
+        this.amuletPanel.setTransferHandler(new MyPanelTransferHandler(this));
+        this.shieldPanel.setTransferHandler(new MyPanelTransferHandler(this));
+        // this.ringOnePanel.setTransferHandler(new MyPanelTransferHandler(this));
+        // this.ringTwoPanel.setTransferHandler(new MyPanelTransferHandler(this));
+        this.beltPanel.setTransferHandler(new MyPanelTransferHandler(this));
+        this.pantsPanel.setTransferHandler(new MyPanelTransferHandler(this));
+        this.glovesPanel.setTransferHandler(new MyPanelTransferHandler(this));
+        this.chestPanel.setTransferHandler(new MyPanelTransferHandler(this));
+        this.bootsPanel.setTransferHandler(new MyPanelTransferHandler(this));
 
     }
 
 
     /**
-     * TODO: I'm not sure if this should be done here, but this will generate the Image Icons for currently 
+     * TODO: I'm not sure if this should be done here, but this will generate the Image Icons for currently
+     * this should probably be done when the game initializes
      * equippied items
      */
     private void generateItemIcons() {
@@ -339,6 +350,11 @@ public class ItemWindow extends JFrame {
             
             // make sure the item being dragged matches the itemslot type
             if (!this.itemWindow.draggedItem.getItemType().equals(targetPanel.itemSlotType)) {
+                return false;
+            }
+
+            // make sure the target panel is empty
+            if (targetPanel.isEmpty() == false) {
                 return false;
             }
 
