@@ -24,10 +24,13 @@ public class CharacterScreen extends JPanel {
     Character character;
     Gui gui;
 
+    ItemWindow itemWindow;
+
     public CharacterScreen(Character character, Gui gui) {
 
         this.character = character;
         this.gui = gui;
+        this.itemWindow = null;
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -66,11 +69,23 @@ public class CharacterScreen extends JPanel {
         this.add(returnToHomeScreenButton);
 
         this.showItemScreenButton.addActionListener(e -> {
-            ItemWindow itemWindow = new ItemWindow(this, this.character);
+            if (this.itemWindow == null) {
+                this.itemWindow = new ItemWindow(this, this.character);
+            } else {
+                this.itemWindow.toFront();
+                this.itemWindow.setVisible(true);
+            }
         });
 
         this.returnToHomeScreenButton.addActionListener(e -> {
+            
+            if (this.itemWindow != null) {
+                this.itemWindow.dispose();
+                this.itemWindow = null; // dispose then set to null since a disposed frame can be redrawn
+            }
+
             this.gui.cardLayout.show(this.gui.mainPanel, "Intro Screen");
+
         });
 
 

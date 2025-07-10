@@ -53,7 +53,6 @@ public class ItemWindow extends JFrame {
 
     public ItemWindow(CharacterScreen characterScreen, Character character) {
 
-        
         this.characterScreen = characterScreen;
         this.character = character;
         this.itemGenerator = new ItemGenerator();
