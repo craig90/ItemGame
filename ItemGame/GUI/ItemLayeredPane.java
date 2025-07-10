@@ -81,6 +81,17 @@ public class ItemLayeredPane extends JLayeredPane {
         this.item = null;
     }
 
+    /**
+     * if there is no item in the slot return true
+     * @return
+     */
+    public boolean isEmpty() {
+        if (this.item == null) {
+            return true;
+        }
+        return false;
+    }
+
     public Item getItem() {
         return this.item;
     }
