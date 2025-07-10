@@ -43,14 +43,18 @@ public class ItemWindow extends JFrame {
     JButton getNewItemButton;
     ItemLayeredPane spareItemPanel;
 
+    CharacterScreen characterScreen;
     Character character;
     ItemGenerator itemGenerator;
 
+    ItemLayeredPane sourcePanel;
     Item draggedItem;
     Item newItem; // TODO: this needs to be moved to another class, but we'll put it here for now
 
-    public ItemWindow(Character character) {
+    public ItemWindow(CharacterScreen characterScreen, Character character) {
 
+        
+        this.characterScreen = characterScreen;
         this.character = character;
         this.itemGenerator = new ItemGenerator();
 
@@ -209,7 +213,7 @@ public class ItemWindow extends JFrame {
      * used to track the item that is currently being dragged
      */
     public void setDraggedItem(String name) {
-        System.out.println(name);
+        
         if (name.equals(ItemLayeredPane.NEW_ITEM_SLOT)) {
             this.draggedItem = this.newItem;
         } else {
@@ -217,6 +221,16 @@ public class ItemWindow extends JFrame {
         }
 
         // TODO: maybe throw exception if the item is null
+    }
+
+    public void setSourcePanel(ItemLayeredPane panel) {
+        this.sourcePanel = panel;
+    }
+
+    public void initializeDrag(JLabel label) {
+        setDraggedItem(label.getName());
+        setSourcePanel((ItemLayeredPane)label.getParent());
+        hoverPanel.hideHoverPanel();
     }
 
     /**
@@ -271,6 +285,7 @@ public class ItemWindow extends JFrame {
         }
     }
 
+
     static class MyLabelTransferHandler extends TransferHandler {
         
         ItemWindow itemWindow;
@@ -282,8 +297,7 @@ public class ItemWindow extends JFrame {
         @Override
         protected Transferable createTransferable(JComponent c) {
             JLabel label = (JLabel) c;
-            this.itemWindow.setDraggedItem(c.getName());
-            this.itemWindow.hoverPanel.hideHoverPanel();
+            this.itemWindow.initializeDrag(label);
             return new ImageTransferable((ImageIcon)label.getIcon());
         }
 
@@ -295,19 +309,13 @@ public class ItemWindow extends JFrame {
         @Override
         protected void exportDone(JComponent source, Transferable data, int action) {
             if (action == DnDConstants.ACTION_MOVE) {
-                // Optionally remove the label from the source panel after a successful move
-                ItemLayeredPane parentPanel = (ItemLayeredPane)source.getParent();
-                System.out.println("Source Panel: " + parentPanel.itemSlotType);
-                // parentPanel.removeItemFromSlot();
-                // parentPanel.revalidate();
-                // parentPanel.repaint();
+                this.itemWindow.sourcePanel.removeItemFromSlot();
             }
         }
     }
 
     static class MyPanelTransferHandler extends TransferHandler {
         
-
         ItemWindow itemWindow;
 
         public MyPanelTransferHandler(ItemWindow itemWindow) {
@@ -316,7 +324,25 @@ public class ItemWindow extends JFrame {
 
         @Override
         public boolean canImport(TransferSupport support) {
-            return support.isDataFlavorSupported(java.awt.datatransfer.DataFlavor.imageFlavor);
+
+            ItemLayeredPane targetPanel;
+
+            if (support.isDataFlavorSupported(java.awt.datatransfer.DataFlavor.imageFlavor) == false) {
+                return false;
+            }
+            
+            try {
+                targetPanel = (ItemLayeredPane) support.getComponent();
+            } catch (Exception e) {
+                return false;
+            }
+            
+            // make sure the item being dragged matches the itemslot type
+            if (!this.itemWindow.draggedItem.getItemType().equals(targetPanel.itemSlotType)) {
+                return false;
+            }
+
+            return true;
         }
 
         @Override
@@ -330,10 +356,13 @@ public class ItemWindow extends JFrame {
                 System.out.println("Supports drop");
                 //targetPanel.add(new JLabel(data + " (dropped)"));
                 Item draggedItem = this.itemWindow.getDraggedItem();
-                System.out.println(draggedItem.getItemName());
+                // System.out.println(draggedItem.getItemName());
+                
+                // this needs to be moved to a function somewhere
+                this.itemWindow.character.addItem(draggedItem);
+                this.itemWindow.characterScreen.update();
                 targetPanel.addItemToSlot(draggedItem);
-                targetPanel.revalidate();
-                targetPanel.repaint();
+                
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
