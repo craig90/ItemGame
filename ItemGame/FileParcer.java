@@ -135,7 +135,7 @@ public class FileParcer {
             else if (lineArray[0].equals(FileKeywords.ITEM_START)) {
                 // System.out.println(lineNumber.getNumber() + ": " + lineArray[0]);
                 lineNumber.setNumber(lineNumber.getNumber()+1);
-                if (parceItem(character, fileReader, lineNumber) == false) {
+                if (parceItem(character.getItemManager(), fileReader, lineNumber) == false) {
                     throw new FileNotFoundException("Error reading item at line " + lineNumber.getNumber());
                 }
             }
@@ -159,7 +159,7 @@ public class FileParcer {
      * @param lineNumber
      * @return
      */
-    private boolean parceItem (Character character, FileReader fileReader, IntegerWrapper lineNumber) {
+    private boolean parceItem (ItemManager itemManager, FileReader fileReader, IntegerWrapper lineNumber) {
 
         String line;
         String[] lineArray;
@@ -203,7 +203,7 @@ public class FileParcer {
                 if (item.isLegit() == false) {
                    return false;
                 } else {
-                    character.addItem(item);
+                    itemManager.addItem(item);
                     return true;
                 }
             } else {

@@ -132,14 +132,6 @@ public class Gui extends JFrame {
 
     }
     
-    
-    public void introScreen() {
-
-    }
-
-
-
-
 
     public static void main(String[] args) {
         
