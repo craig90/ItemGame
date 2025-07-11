@@ -21,6 +21,8 @@ public class Character {
 
     // list of the character's items
     private ArrayList<Item> itemList;
+    private ItemManager itemManager;
+
 
     // eventually this should be read in from a file
     public Character () {
@@ -49,6 +51,7 @@ public class Character {
         statList.add(poisonResistance);
         statList.add(magicResistance);
 
+        itemManager = new ItemManager();
         itemList = new ArrayList<Item>();
     
     }
@@ -103,7 +106,6 @@ public class Character {
         this.characterName = name;
     }
 
-    // TODO: this should only by done at initialization unless I want to make the game much more complex in the future
     public void setLevel(double level) {
         this.level.setValue(level);
     }
@@ -123,6 +125,7 @@ public class Character {
         }        
 
     }
+
 
     /**
      * Displays the character's stats
@@ -156,100 +159,9 @@ public class Character {
 
     }
 
-    /**
-     * Displays the character's items
-     */
-    public void displayItems() {
-        
-        if (this.itemList.size() == 0) {
-            System.out.println("No items equipped");
-            return;
-        }
 
-        System.out.println("Items:");
-
-        for (int i = 0; i < this.itemList.size(); i++) {
-            this.itemList.get(i).displayItem();
-        }
-    }
-
-
-    // TODO: I'm wondering about potentially moving this shit to an item manager class..
-    // I'm not sure if it makes complete sense for the character class to be aware of this logic
-
-    /**
-     * This will return wheather a specific item type is already equipped
-     * @return boolean
-     */
-    public boolean isEquipped(String itemType) {
-
-        if (this.getItem(itemType) != null) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Returns the character's item specified by itemType
-     * @param itemType
-     * @return will return an item if it exists, otherwise returns null
-     */
-    public Item getItem(String itemType) {
-
-        for (int i = 0; i < this.itemList.size(); i++) {
-            if (this.itemList.get(i).getItemType().equals(itemType)) {
-                return this.itemList.get(i);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * return an item at the specified index
-     * @param index
-     * @return
-     */
-    public Item getItem(int index) {
-        return this.itemList.get(index);
-    }
- 
-
-    /**
-     * this will remove an item from the character's item list with type itemType
-     * @param itemType
-     */
-    public void removeItem(String itemType) {
-
-        for (int i = 0; i < this.itemList.size(); i++) {
-            if (this.itemList.get(i).getItemType().equals(itemType)) {
-                System.out.println("Removing item " + this.itemList.get(i).getItemName());
-                this.itemList.remove(i);
-            }
-        }
-
-    }
-
-    /**
-     * this will add the item to the list and remove any existing item of the same item type
-     * @param item
-     */
-    public void addItem(Item item) {
-
-        // see if we have to remove the item first
-        if (isEquipped(item.getItemType())) {
-            removeItem(item.getItemType());
-        }
-
-        this.itemList.add(item);
-    }
-
-    /**
-     * returns the number of items the character has equipped
-     * @return
-     */
-    public int getItemListSize() {
-        return this.itemList.size();
+    public ItemManager getItemManager() {
+        return this.itemManager;
     }
 
 }

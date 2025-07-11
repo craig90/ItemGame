@@ -44,17 +44,20 @@ public class ItemWindow extends JFrame {
     ItemLayeredPane spareItemPanel;
 
     CharacterScreen characterScreen;
-    Character character;
+    // Character character;
     ItemGenerator itemGenerator;
+    ItemManager itemManager;
+
 
     ItemLayeredPane sourcePanel;
     Item draggedItem;
     Item newItem; // TODO: this needs to be moved to another class, but we'll put it here for now
 
-    public ItemWindow(CharacterScreen characterScreen, Character character) {
+    public ItemWindow(CharacterScreen characterScreen, ItemManager itemManager) {
 
         this.characterScreen = characterScreen;
-        this.character = character;
+        // this.character = character;
+        this.itemManager = itemManager;
         this.itemGenerator = new ItemGenerator();
 
         this.setTitle("Items");
@@ -69,70 +72,67 @@ public class ItemWindow extends JFrame {
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(4, 4, 4, 4);
         
-        
-        // TODO: wondering if the get method and how the character stores items should be rethought a bit
         // helm
-        this.helmPanel = new ItemLayeredPane(Item.HELM, character.getItem(Item.HELM));
+        this.helmPanel = new ItemLayeredPane(Item.HELM, this.itemManager.getHelm());
         c.gridx = 2;
         c.gridy = 0;
         this.itemPanel.add(this.helmPanel, c);
 
         // weapon
-        this.weaponPanel = new ItemLayeredPane(Item.WEAPON, this.character.getItem(Item.WEAPON));
+        this.weaponPanel = new ItemLayeredPane(Item.WEAPON, this.itemManager.getWeapon());
         c.gridx = 0;
         c.gridy = 1;
         this.itemPanel.add(this.weaponPanel, c);
 
         // amulet
-        this.amuletPanel = new ItemLayeredPane(Item.AMULET, this.character.getItem(Item.AMULET));
+        this.amuletPanel = new ItemLayeredPane(Item.AMULET, this.itemManager.getAmulet());
         c.gridx = 3;
         c.gridy = 0;
         this.itemPanel.add(this.amuletPanel, c);
         
         // ring
-        this.ringOnePanel = new ItemLayeredPane(Item.RING, this.character.getItem(Item.RING));
+        this.ringOnePanel = new ItemLayeredPane(Item.RING, this.itemManager.getRingOne());
         c.gridx = 1;
         c.gridy = 2;
         this.itemPanel.add(this.ringOnePanel, c);
         
-        //TODO: how do we implement this? - It's currently just a placeholder
-        this.ringTwoPanel = new ItemLayeredPane(Item.RING, this.character.getItem(Item.RING));
+        this.ringTwoPanel = new ItemLayeredPane(Item.RING, this.itemManager.getRingTwo());
         c.gridx = 3;
         c.gridy = 2;
         this.itemPanel.add(this.ringTwoPanel, c);
 
         // chest panel
-        this.chestPanel = new ItemLayeredPane(Item.CHEST, this.character.getItem(Item.CHEST));
+        this.chestPanel = new ItemLayeredPane(Item.CHEST, this.itemManager.getChest());
         c.gridx = 2;
         c.gridy = 1;
         this.itemPanel.add(this.chestPanel, c);
 
         // gloves
-        this.glovesPanel = new ItemLayeredPane(Item.GLOVES, this.character.getItem(Item.GLOVES));
+        this.glovesPanel = new ItemLayeredPane(Item.GLOVES, this.itemManager.getGloves());
         c.gridx = 0;
         c.gridy = 2;
         this.itemPanel.add(this.glovesPanel, c);
 
         // shield
-        this.shieldPanel = new ItemLayeredPane(Item.SHIELD, this.character.getItem(Item.SHIELD));
+        this.shieldPanel = new ItemLayeredPane(Item.SHIELD, this.itemManager.getShield());
         c.gridx = 4;
         c.gridy = 1;
         this.itemPanel.add(this.shieldPanel, c);
 
         // belt
-        this.beltPanel = new ItemLayeredPane(Item.BELT, this.character.getItem(Item.BELT));
+        this.beltPanel = new ItemLayeredPane(Item.BELT, this.itemManager.getBelt());
         c.gridx = 2;
         c.gridy = 2;
         this.itemPanel.add(this.beltPanel, c);
 
         // pants
-        this.pantsPanel = new ItemLayeredPane(Item.PANTS, this.character.getItem(Item.PANTS));
+        this.pantsPanel = new ItemLayeredPane(Item.PANTS, this.itemManager.getPants());
         c.gridx = 2;
         c.gridy = 3;
         this.itemPanel.add(this.pantsPanel, c);
 
         // boots
-        this.bootsPanel = new ItemLayeredPane(Item.BOOTS, this.character.getItem(Item.BOOTS));
+        this.bootsPanel = new ItemLayeredPane(Item.BOOTS, this.itemManager.getBoots());
         c.gridx = 4;
         c.gridy = 2;
         this.itemPanel.add(this.bootsPanel, c);
@@ -158,7 +158,7 @@ public class ItemWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close only this window
         this.setLocationRelativeTo(this);
 
-        this.hoverPanel = new HoverPanel(this.character, this.spareItemPanel);
+        this.hoverPanel = new HoverPanel(this.itemManager, this.spareItemPanel);
 
         this.layeredPane.add(this.itemPanel, 1);
         this.layeredPane.add(this.hoverPanel, 0);
@@ -168,8 +168,8 @@ public class ItemWindow extends JFrame {
         MyMouseListener mouseListener = new MyMouseListener(this);
 
         // add mouse listeners to the current item image icons
-        for (int i = 0; i < this.character.getItemListSize(); i++) {
-            this.character.getItem(i).getItemImageLabel().addMouseListener(mouseListener);
+        for (int i = 0; i < this.itemManager.getItemListSize(); i++) {
+            this.itemManager.getItem(i).getItemImageLabel().addMouseListener(mouseListener);
         }
 
         this.getNewItemButton.addActionListener(e -> {
@@ -194,7 +194,7 @@ public class ItemWindow extends JFrame {
         this.weaponPanel.setTransferHandler(new MyPanelTransferHandler(this));
         this.amuletPanel.setTransferHandler(new MyPanelTransferHandler(this));
         this.shieldPanel.setTransferHandler(new MyPanelTransferHandler(this));
-        // this.ringOnePanel.setTransferHandler(new MyPanelTransferHandler(this));
+        // this.ringOnePanel.setTransferHandler(new MyPanelTransferHandler(this)); // TODO: rings
         // this.ringTwoPanel.setTransferHandler(new MyPanelTransferHandler(this));
         this.beltPanel.setTransferHandler(new MyPanelTransferHandler(this));
         this.pantsPanel.setTransferHandler(new MyPanelTransferHandler(this));
@@ -212,8 +212,8 @@ public class ItemWindow extends JFrame {
      */
     private void generateItemIcons() {
 
-        for (int i = 0; i < this.character.getItemListSize(); i++) {
-            Item item = this.character.getItem(i);
+        for (int i = 0; i < this.itemManager.getItemListSize(); i++) {
+            Item item = this.itemManager.getItem(i);
             item.setImageLabel();
         }
 
@@ -227,7 +227,7 @@ public class ItemWindow extends JFrame {
         if (name.equals(ItemLayeredPane.NEW_ITEM_SLOT)) {
             this.draggedItem = this.newItem;
         } else {
-            this.draggedItem = this.character.getItem(name);
+            this.draggedItem = this.itemManager.getItem(name);
         }
 
         // TODO: maybe throw exception if the item is null
@@ -253,46 +253,53 @@ public class ItemWindow extends JFrame {
 
     /**
      * sets whichever items the character has in their respective item panes
-     * TODO: add rings and blings
-     * 
      */
     private void setItemsInPanes() {
 
-        if (this.character.getItem(Item.HELM) != null) {
-            this.helmPanel.addItemToSlot(this.character.getItem(Item.HELM));
+        if (this.itemManager.getHelm() != null) {
+            this.helmPanel.addItemToSlot(this.itemManager.getHelm());
         }
 
-        if (this.character.getItem(Item.WEAPON) != null) {
-            this.weaponPanel.addItemToSlot(this.character.getItem(Item.WEAPON));
+        if (this.itemManager.getWeapon() != null) {
+            this.weaponPanel.addItemToSlot(this.itemManager.getWeapon());
         }
 
-        if (this.character.getItem(Item.AMULET) != null) {
-            this.amuletPanel.addItemToSlot(this.character.getItem(Item.AMULET));
+        if (this.itemManager.getAmulet() != null) {
+            this.amuletPanel.addItemToSlot(this.itemManager.getAmulet());
         }
         
-        if (this.character.getItem(Item.CHEST) != null) {
-            this.chestPanel.addItemToSlot(this.character.getItem(Item.CHEST));
+        if (this.itemManager.getChest() != null) {
+            this.chestPanel.addItemToSlot(this.itemManager.getChest());
         }
 
-        if (this.character.getItem(Item.SHIELD) != null) {
-            this.shieldPanel.addItemToSlot(this.character.getItem(Item.SHIELD));
+        if (this.itemManager.getShield() != null) {
+            this.shieldPanel.addItemToSlot(this.itemManager.getShield());
         }
         
-        if (this.character.getItem(Item.BOOTS) != null) {
-            this.bootsPanel.addItemToSlot(this.character.getItem(Item.BOOTS));
+        if (this.itemManager.getBoots() != null) {
+            this.bootsPanel.addItemToSlot(this.itemManager.getBoots());
         }
 
-        if (this.character.getItem(Item.BELT) != null) {
-            this.beltPanel.addItemToSlot(this.character.getItem(Item.BELT));
+        if (this.itemManager.getBelt() != null) {
+            this.beltPanel.addItemToSlot(this.itemManager.getBelt());
         }
 
-        if (this.character.getItem(Item.GLOVES) != null) {
-            this.glovesPanel.addItemToSlot(this.character.getItem(Item.GLOVES));
+        if (this.itemManager.getGloves() != null) {
+            this.glovesPanel.addItemToSlot(this.itemManager.getGloves());
         }
 
-        if (this.character.getItem(Item.PANTS) != null) {
-            this.pantsPanel.addItemToSlot(this.character.getItem(Item.PANTS));
+        if (this.itemManager.getPants() != null) {
+            this.pantsPanel.addItemToSlot(this.itemManager.getPants());
         }
+
+        if (this.itemManager.getRingOne() != null) {
+            this.ringOnePanel.addItemToSlot(this.itemManager.getRingOne());
+        }
+
+        if (this.itemManager.getRingTwo() != null) {
+            this.ringTwoPanel.addItemToSlot(this.itemManager.getRingTwo());
+        }
+
     }
 
 
@@ -372,9 +379,11 @@ public class ItemWindow extends JFrame {
                 //targetPanel.add(new JLabel(data + " (dropped)"));
                 Item draggedItem = this.itemWindow.getDraggedItem();
                 // System.out.println(draggedItem.getItemName());
-                
+                // TODO: targetPanel.getName() would return ring one or ring two
+                // ring doesn't know which ring it is but itemManager does
+
                 // this needs to be moved to a function somewhere
-                this.itemWindow.character.addItem(draggedItem);
+                this.itemWindow.itemManager.addItem(draggedItem);
                 this.itemWindow.characterScreen.update();
                 targetPanel.addItemToSlot(draggedItem);
                 

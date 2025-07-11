@@ -200,7 +200,7 @@ public class Game {
             } else if (input == 2) {
                 this.character.displayStats();
             } else if (input == 3) {
-                this.character.displayItems();
+                this.character.getItemManager().displayItems();
             } else if (input == 4) {
                 itemCreationMenu();
             } else if (input == 5) {
@@ -245,7 +245,7 @@ public class Game {
         newItem.displayItem();
         
         // check if this type of item is already equipped
-        Item existingItem = this.character.getItem(newItem.getItemType());
+        Item existingItem = this.character.getItemManager().getItem(newItem.getItemType());
         if (existingItem != null) {
             Item.itemComparison(existingItem, newItem);
         }
@@ -254,7 +254,7 @@ public class Game {
         System.out.println("Press any other key to discard the item");
         
         if (commandLineReader.getInteger() == 1) {
-            this.character.addItem(newItem);
+            this.character.getItemManager().addItem(newItem);
         }
 
     }

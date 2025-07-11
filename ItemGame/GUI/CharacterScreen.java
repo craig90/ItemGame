@@ -69,19 +69,23 @@ public class CharacterScreen extends JPanel {
         this.add(returnToHomeScreenButton);
 
         this.showItemScreenButton.addActionListener(e -> {
+            
+            // make sure we are only opening one window at a time
             if (this.itemWindow == null) {
-                this.itemWindow = new ItemWindow(this, this.character);
+                this.itemWindow = new ItemWindow(this, this.character.getItemManager());
             } else {
                 this.itemWindow.toFront();
                 this.itemWindow.setVisible(true);
             }
+       
         });
 
         this.returnToHomeScreenButton.addActionListener(e -> {
             
+            // dispose then set to null since a disposed frame can be redrawn
             if (this.itemWindow != null) {
                 this.itemWindow.dispose();
-                this.itemWindow = null; // dispose then set to null since a disposed frame can be redrawn
+                this.itemWindow = null;
             }
 
             this.gui.cardLayout.show(this.gui.mainPanel, "Intro Screen");

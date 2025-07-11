@@ -11,15 +11,15 @@ import java.awt.Point;
 
 public class HoverPanel extends JPanel {
 
-    // TODO: this class really shouldn't have access to the entire character, once agian going back to item manager
-    // class or sending in an item list
-    Character character;
+    //Character character;
+    ItemManager itemManager;
     // this should not be sent in either -- need item manager TODO
     ItemLayeredPane spareItemPane;
 
-    public HoverPanel(Character character, ItemLayeredPane spareItemPane) {
+    public HoverPanel(ItemManager itemManager, ItemLayeredPane spareItemPane) {
 
-        this.character = character;
+        // this.character = character;
+        this.itemManager = itemManager;
         this.spareItemPane = spareItemPane;
         
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -43,7 +43,7 @@ public class HoverPanel extends JPanel {
         if (panelType.equals(ItemLayeredPane.NEW_ITEM_SLOT)) {
             item = this.spareItemPane.getItem();
         } else {
-            item = this.character.getItem(panelType);
+            item = this.itemManager.getItem(panelType);
         }
 
         // shouldn't happen but just incase the item is null we just won't bother generating the panel to avoid crashing
@@ -90,7 +90,7 @@ public class HoverPanel extends JPanel {
      */
     private void generateNewItemHoverPanel(Item item) {
 
-        Item equippedItem = this.character.getItem(item.getItemType());
+        Item equippedItem = this.itemManager.getItem(item.getItemType());
         ArrayList<StatDifference> statDifferences = Item.itemComparison(equippedItem, item);
 
         for (int i = 0; i < statDifferences.size(); i ++) {
