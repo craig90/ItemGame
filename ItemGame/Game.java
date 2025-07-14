@@ -9,11 +9,15 @@ public class Game {
     CharacterSaver characterSaver; // instiantiate early TODO:?
     CommandLineReader commandLineReader;
 
-    // maybe initialize the GUI
     public Game () {
         this.itemGenerator = new ItemGenerator();
         this.fileParcer = new FileParcer();
         this.commandLineReader = new CommandLineReader();
+        this.characterSaver = new CharacterSaver();
+    }
+
+    public CharacterSaver getCharacterSaver() {
+        return this.characterSaver;
     }
 
     public Character getCharacter() {
@@ -204,8 +208,7 @@ public class Game {
             } else if (input == 4) {
                 itemCreationMenu();
             } else if (input == 5) {
-                this.characterSaver = new CharacterSaver(character); // TODO: does it make sense to create object here?
-                this.characterSaver.saveCharacter();
+                this.characterSaver.saveCharacter(this.character);
             } else if (input == 6) {
                 return -1;
             }
