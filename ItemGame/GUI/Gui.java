@@ -132,6 +132,10 @@ public class Gui extends JFrame {
 
     }
     
+    public Game getGame() {
+        return this.game;
+    }
+
 
     public static void main(String[] args) {
         

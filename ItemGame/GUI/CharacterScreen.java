@@ -23,6 +23,7 @@ public class CharacterScreen extends JPanel {
 
     Character character;
     Gui gui;
+    CharacterSaver characterSaver;
 
     ItemWindow itemWindow;
 
@@ -31,6 +32,7 @@ public class CharacterScreen extends JPanel {
         this.character = character;
         this.gui = gui;
         this.itemWindow = null;
+        this.characterSaver = this.gui.getGame().getCharacterSaver();
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -79,6 +81,11 @@ public class CharacterScreen extends JPanel {
             }
        
         });
+
+        this.saveChangesButton.addActionListener(e -> {
+            this.characterSaver.saveCharacter(this.character);
+        });
+
 
         this.returnToHomeScreenButton.addActionListener(e -> {
             

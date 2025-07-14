@@ -19,8 +19,6 @@ public class Character {
     // it's probably easier if all the character stats are on a list
     private ArrayList<CharacterStat> statList;
 
-    // list of the character's items
-    private ArrayList<Item> itemList;
     private ItemManager itemManager;
 
 
@@ -52,7 +50,6 @@ public class Character {
         statList.add(magicResistance);
 
         itemManager = new ItemManager();
-        itemList = new ArrayList<Item>();
     
     }
     

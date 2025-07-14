@@ -1,51 +1,55 @@
 public class CharacterSaver {
 
-    Character character;
     FileWrite fileWrite;
-    private String fileName = "";
     public static final String LINE_SEPARATOR = ":";
     public static final String FILE_EXTENSTION = ".txt";
     public static final String FILE_NAME_REGEX = "[\\s+]";
     
-    public CharacterSaver(Character character) {
-        this.character = character;
+    public CharacterSaver() {
         this.fileWrite = new FileWrite();
     }
 
-    public void setSaveFileName(String fileName) {
-        this.fileName = fileName;
-    }
+    // public void setSaveFileName(String fileName) {
+    //     this.fileName = fileName;
+    // }
 
-    private String getFileName() {
-        if (this.fileName != "") {
+    private String getFileName(Character character) {
+        
+        /*if (!this.fileName.equals("")) {
             return this.fileName;
-        }
+        }*/
+        
+        //System.out.println(character.getName().replaceAll(FILE_NAME_REGEX, "") + FILE_EXTENSTION);
         
         // generate fileName
         return (character.getName().replaceAll(FILE_NAME_REGEX, "") + FILE_EXTENSTION);
+        
     }
 
-    
+    /*public void setCharacter(Character character) {
+        this.character = character;
+    }*/
+
     /**
      * Writes the character out to file
      */
-    public void saveCharacter() {
+    public void saveCharacter(Character character) {
 
-        if (this.character == null) {
+        if (character == null) {
             System.out.println("Error saving character to file.. no character to save");
         }
 
-        this.fileWrite.openFile(getFileName());
+        this.fileWrite.openFile(getFileName(character));
 
         // follow the ordre Charcter Name, Level, Experience
-        this.fileWrite.writeLine(FileKeywords.CHARACTER_NAME + LINE_SEPARATOR + this.character.getName());
-        this.fileWrite.writeLine(CharacterStatNames.LEVEL + LINE_SEPARATOR + this.character.getLevel());
-        this.fileWrite.writeLine(CharacterStatNames.EXPERIENCE + LINE_SEPARATOR + this.character.getExperience());
+        this.fileWrite.writeLine(FileKeywords.CHARACTER_NAME + LINE_SEPARATOR + character.getName());
+        this.fileWrite.writeLine(CharacterStatNames.LEVEL + LINE_SEPARATOR + character.getLevel());
+        this.fileWrite.writeLine(CharacterStatNames.EXPERIENCE + LINE_SEPARATOR + character.getExperience());
 
         // write character's items
-        for (int i = 0; i < this.character.getItemManager().getItemListSize(); i++) {
+        for (int i = 0; i < character.getItemManager().getItemListSize(); i++) {
             
-            Item item = this.character.getItemManager().getItem(i);
+            Item item = character.getItemManager().getItem(i);
 
             this.fileWrite.writeLine(FileKeywords.ITEM_START);
             this.fileWrite.writeLine(FileKeywords.ITEM_TYPE + LINE_SEPARATOR + item.getItemType());
