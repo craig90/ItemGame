@@ -46,30 +46,31 @@ public class CharacterStat extends Stat {
         // reset itemValue to 0
         this.itemValue = 0.0;
 
-        // go through the list of items
-        for (int i = 0; i < this.character.getItemManager().getItemListSize(); i++) {
-            
+        for (Item item : this.character.getItemManager().getAllItems()) {
+
             // go through the list of stats
-            for (int j = 0; j < this.character.getItemManager().getItem(i).statListSize(); j++) {
+            for (int j = 0; j < item.statListSize(); j++) {
                 
                 // see if its the same type
-                if (this.type.equals(this.character.getItemManager().getItem(i).getStat(j).getStatType())) {
-                    this.itemValue += this.character.getItemManager().getItem(i).getStat(j).getValue();
+                if (this.type.equals(item.getStat(j).getStatType())) {
+                    this.itemValue += item.getStat(j).getValue();
                 }
 
                 // special case for All Resistance as it will increase each resitance type
-                if (this.character.getItemManager().getItem(i).getStat(j).getStatType().equals(ItemStat.ALL_RESISTANCE_STAT_NAME) &&
-                    (this.type.equals(ItemStat.FIRE_RESISTANCE_STAT_NAME) || this.type.equals(ItemStat.COLD_RESISTANCE_STAT_NAME)
-                    || this.type.equals(ItemStat.POISON_RESISTANCE_STAT_NAME) || this.type.equals(ItemStat.MAGIC_RESISTANCE_STAT_NAME)
-                    || this.type.equals(ItemStat.LIGHTNING_RESISTANCE_STAT_NAME))) {
-
-                    this.itemValue += this.character.getItemManager().getItem(i).getStat(j).getValue();   
+                if (item.getStat(j).getStatType().equals(ItemStat.ALL_RESISTANCE_STAT_NAME) &&
+                    (this.type.equals(ItemStat.FIRE_RESISTANCE_STAT_NAME) || 
+                    this.type.equals(ItemStat.COLD_RESISTANCE_STAT_NAME) || 
+                    this.type.equals(ItemStat.POISON_RESISTANCE_STAT_NAME) || 
+                    this.type.equals(ItemStat.MAGIC_RESISTANCE_STAT_NAME) || 
+                    this.type.equals(ItemStat.LIGHTNING_RESISTANCE_STAT_NAME))) {
+                        this.itemValue += item.getStat(j).getValue();   
                     
                 }
 
             }
-
+    
         }
+
     }
 
     /*

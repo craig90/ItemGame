@@ -2,7 +2,7 @@ Character Name:Craig
 Level:20.0
 Experience:12345.0
 Item-Start
-Item Type:Boots
+Item Type:BOOTS
 Item Name:Bronze Boots
 Defence:87.0
 Lightning Resistance:14.0
@@ -10,13 +10,13 @@ Cold Resistance:5.0
 Magic Resistance:13.0
 Item-End
 Item-Start
-Item Type:Belt
+Item Type:BELT
 Item Name:Yellow Belt
 Health:26.0
 Defence:34.0
 Item-End
 Item-Start
-Item Type:Ring
+Item Type:RING
 Item Name:Green Ring
 Defence:40.0
 All Resistance:6.0
@@ -25,7 +25,7 @@ Poison Resistance:10.0
 Magic Resistance:13.0
 Item-End
 Item-Start
-Item Type:Pants
+Item Type:PANTS
 Item Name:Yellow Pants
 Damage:45.0
 Defence:80.0
@@ -34,14 +34,14 @@ Lightning Resistance:11.0
 Magic Resistance:14.0
 Item-End
 Item-Start
-Item Type:Weapon
+Item Type:WEAPON
 Item Name:Cool Weapon
 Damage:402.0
 All Resistance:8.0
 Magic Resistance:17.0
 Item-End
 Item-Start
-Item Type:Helm
+Item Type:HELM
 Item Name:Blue Helm
 Damage:61.0
 Fire Resistance:16.0
@@ -49,7 +49,7 @@ Poison Resistance:7.0
 Cold Resistance:19.0
 Item-End
 Item-Start
-Item Type:Amulet
+Item Type:AMULET
 Item Name:Green Amulet
 Health:46.0
 All Resistance:9.0

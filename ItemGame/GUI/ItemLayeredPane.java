@@ -23,20 +23,21 @@ public class ItemLayeredPane extends JLayeredPane {
     // ImageIcon itemImageIcon;
 
     Item item;
-    String itemSlotType;
+    EquipmentSlot equipmentSlot;
 
     // about how this will work
-    public ItemLayeredPane(String itemSlotType, Item item) {
+    public ItemLayeredPane(EquipmentSlot equipmentSlot, Item item) {
 
-        this.itemSlotType = itemSlotType;
+        this.equipmentSlot = equipmentSlot;
         this.item = item;
 
         this.setBackground(Color.GRAY);
-        this.setPreferredSize(new Dimension(getItemWidth(itemSlotType), getItemHeight(itemSlotType)));
+        this.setPreferredSize(new Dimension(getItemWidth(this.equipmentSlot), getItemHeight(this.equipmentSlot)));
         this.setOpaque(true);
         
-        this.itemLabel = new JLabel(this.itemSlotType);
-        this.itemLabel.setBounds(0, 0, getItemWidth(itemSlotType), getItemHeight(itemSlotType));
+        // TODO: ring is going to break this
+        this.itemLabel = new JLabel(this.equipmentSlot.toString());
+        this.itemLabel.setBounds(0, 0, getItemWidth(this.equipmentSlot), getItemHeight(this.equipmentSlot));
         this.itemLabel.setHorizontalAlignment(JLabel.CENTER);
         this.itemLabel.setVerticalAlignment(JLabel.TOP);
         this.add(this.itemLabel, 1);
@@ -54,12 +55,12 @@ public class ItemLayeredPane extends JLayeredPane {
         if (this.item != null) {
             System.out.println("Adding item " + this.item.getItemName());
             this.itemIconLabel = this.item.getItemImageLabel();
-            this.itemIconLabel.setName(this.itemSlotType);
+            this.itemIconLabel.setName(this.equipmentSlot.toString());
             this.itemIconLabel.setVerticalAlignment(JLabel.CENTER);
             this.itemIconLabel.setHorizontalAlignment(JLabel.CENTER);
-            this.itemIconLabel.setBounds(0, 0, getItemWidth(this.itemSlotType), getItemHeight(this.itemSlotType));
+            this.itemIconLabel.setBounds(0, 0, getItemWidth(this.equipmentSlot), getItemHeight(this.equipmentSlot));
             this.add(this.itemIconLabel, 0);
-            System.out.println("Panel " + this.itemSlotType);
+            System.out.println("Panel " + this.equipmentSlot);
         }
 
         this.revalidate();
@@ -103,29 +104,31 @@ public class ItemLayeredPane extends JLayeredPane {
      * return the height in pixels of the layered pain depending on the item type
      * @return
      */
-    public static int getItemHeight(String itemType) {
+    public static int getItemHeight(EquipmentSlot equipmentSlot) {
 
-        if (itemType.equals(Item.WEAPON)) {
+        if (equipmentSlot == EquipmentSlot.WEAPON) {
             return WEAPON_HEIGHT;
-        } else if (itemType.equals(Item.HELM)) {
+        } else if (equipmentSlot == EquipmentSlot.HELM) {
             return HELM_HEIGHT;
-        } else if (itemType.equals(Item.CHEST)) {
+        } else if (equipmentSlot == EquipmentSlot.CHEST) {
             return CHEST_HEIGHT;
-        } else if (itemType.equals(Item.SHIELD)) {
+        } else if (equipmentSlot == EquipmentSlot.SHIELD) {
             return SHIELD_HEIGHT;
-        } else if (itemType.equals(Item.AMULET)) {
+        } else if (equipmentSlot == EquipmentSlot.AMULET) {
             return AMULET_HEIGHT;
-        } else if (itemType.equals(Item.RING)) {
-            return RING_HEIGHT;
-        } else if (itemType.equals(Item.GLOVES)) {
+        } else if (equipmentSlot == EquipmentSlot.GLOVES) {
             return GLOVES_HEIGHT;
-        } else if (itemType.equals(Item.BELT)) {
+        } else if (equipmentSlot == EquipmentSlot.BELT) {
             return BELT_HEIGHT;
-        } else if (itemType.equals(Item.PANTS)) {
+        } else if (equipmentSlot == EquipmentSlot.PANTS) {
             return PANTS_HEIGHT;
-        } else if (itemType.equals(Item.BOOTS)) {
+        } else if (equipmentSlot == EquipmentSlot.BOOTS) {
             return BOOTS_HEIGHT;
-        } else if (itemType.equals(NEW_ITEM_SLOT)) {
+        } else if (equipmentSlot == EquipmentSlot.RIGHT_RING) {
+            return RING_HEIGHT;
+        } else if (equipmentSlot == EquipmentSlot.LEFT_RING) {
+            return RING_HEIGHT;
+        } else if (equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
             return NEW_SLOT_HEIGHT;
         } else {
             return 0;  // TODO: this shouln't be reached - throw exception?
@@ -137,29 +140,31 @@ public class ItemLayeredPane extends JLayeredPane {
      * returns the width of the layered pain in pixels cooresponding to the item type
      * @return
      */
-    public static int getItemWidth(String itemType) {
+    public static int getItemWidth(EquipmentSlot equipmentSlot) {
 
-        if (itemType.equals(Item.WEAPON)) {
-            return WEAPON_WIDTH;
-        } else if (itemType.equals(Item.HELM)) {
-            return HELM_WIDTH;
-        } else if (itemType.equals(Item.CHEST)) {
-            return CHEST_WIDTH;
-        } else if (itemType.equals(Item.SHIELD)) {
-            return SHIELD_WIDTH;
-        } else if (itemType.equals(Item.AMULET)) {
-            return AMULET_WIDTH;
-        } else if (itemType.equals(Item.RING)) {
+        if (equipmentSlot == EquipmentSlot.LEFT_RING) {
             return RING_WIDTH;
-        } else if (itemType.equals(Item.GLOVES)) {
+        } else if (equipmentSlot == EquipmentSlot.RIGHT_RING) {
+            return RING_WIDTH;
+        } else if (equipmentSlot == EquipmentSlot.WEAPON) {
+            return WEAPON_WIDTH;
+        } else if (equipmentSlot == EquipmentSlot.HELM) {
+            return HELM_WIDTH;
+        } else if (equipmentSlot == EquipmentSlot.CHEST) {
+            return CHEST_WIDTH;
+        } else if (equipmentSlot == EquipmentSlot.SHIELD) {
+            return SHIELD_WIDTH;
+        } else if (equipmentSlot == EquipmentSlot.AMULET) {
+            return AMULET_WIDTH;
+        } else if (equipmentSlot == EquipmentSlot.GLOVES) {
             return GLOVES_WIDTH;
-        } else if (itemType.equals(Item.BELT)) {
+        } else if (equipmentSlot == EquipmentSlot.BELT) {
             return BELT_WIDTH;
-        } else if (itemType.equals(Item.PANTS)) {
+        } else if (equipmentSlot == EquipmentSlot.PANTS) {
             return PANTS_WIDTH;
-        } else if (itemType.equals(Item.BOOTS)) {
+        } else if (equipmentSlot == EquipmentSlot.BOOTS) {
             return BOOTS_WIDTH;
-        } else if (itemType.equals(NEW_ITEM_SLOT)) {
+        } else if (equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
             return NEW_SLOT_WIDTH;
         } else {
             return 0;  // TODO: this shouln't be reached - throw exception?

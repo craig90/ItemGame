@@ -243,12 +243,19 @@ public class Game {
      */
     public void itemCreationMenu() {
 
-        Item newItem = this.itemGenerator.createNewItem();
+        Item newItem;
+        try {
+            newItem = this.itemGenerator.createNewItem();
+        } catch (Exception e) {
+            return;
+        }
+        
         System.out.println("Your new item: ");
         newItem.displayItem();
         
         // check if this type of item is already equipped
-        Item existingItem = this.character.getItemManager().getItem(newItem.getItemType());
+        // TODO: fix this for rings
+        Item existingItem = this.character.getItemManager().getUniqueItem(newItem.getItemType().getEquipmentSlot());
         if (existingItem != null) {
             Item.itemComparison(existingItem, newItem);
         }
@@ -257,7 +264,11 @@ public class Game {
         System.out.println("Press any other key to discard the item");
         
         if (commandLineReader.getInteger() == 1) {
-            this.character.getItemManager().addItem(newItem);
+            if (newItem instanceof Ring) {
+                this.character.getItemManager().equipRing((Ring)newItem, RingSlot.LEFT_HAND);// TODO: ring slot
+            } else {
+                this.character.getItemManager().equipItem(newItem, newItem.getItemType().getEquipmentSlot());
+            }
         }
 
     }

@@ -4,25 +4,25 @@ import java.util.Comparator;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class Item {
+public abstract class Item {
 
-    private static String IMAGE_DIR = "ItemGame/Images/";
-    private static String WEAPON_FILE = "weapon.png";
-    private static String HELM_FILE = "helm.png";
-    private static String SHIELD_FILE = "shield.png";
-    private static String CHEST_FILE = "chest.png";
-    private static String AMULET_FILE = "amulet.png";
-    private static String RING_FILE = "ring.png";
-    private static String GLOVES_FILE = "gloves.png";
-    private static String BELT_FILE = "belt.png";
-    private static String PANTS_FILE = "pants.png";
-    private static String BOOTS_FILE = "boots.png";
+    protected static String IMAGE_DIR = "ItemGame/Images/";
+    protected static String WEAPON_FILE = "weapon.png";
+    protected static String HELM_FILE = "helm.png";
+    protected static String SHIELD_FILE = "shield.png";
+    protected static String CHEST_FILE = "chest.png";
+    protected static String AMULET_FILE = "amulet.png";
+    protected static String RING_FILE = "ring.png";
+    protected static String GLOVES_FILE = "gloves.png";
+    protected static String BELT_FILE = "belt.png";
+    protected static String PANTS_FILE = "pants.png";
+    protected static String BOOTS_FILE = "boots.png";
 
     public static final int MAX_STATS = 5; // will generate MAX_STATS - 1 due to how random() method works
     public static final int MIN_STATS = 2;    
 
     // all the different Item Types
-    public static final String WEAPON = "Weapon";
+    /*public static final String WEAPON = "Weapon";
     public static final String HELM = "Helm";
     public static final String CHEST = "Chest";
     public static final String SHIELD = "Shield";
@@ -31,10 +31,10 @@ public class Item {
     public static final String GLOVES = "Gloves";
     public static final String BELT = "Belt";
     public static final String PANTS = "Pants";
-    public static final String BOOTS = "Boots";
+    public static final String BOOTS = "Boots";*/
 
     // these needs to be placed in an array for RNG purposes
-    public static final String[] ITEM_TYPES = {WEAPON, HELM, CHEST, SHIELD, AMULET, RING, GLOVES, BELT, PANTS, BOOTS};
+    // public static final String[] ITEM_TYPES = {WEAPON, HELM, CHEST, SHIELD, AMULET, RING, GLOVES, BELT, PANTS, BOOTS};
    
     // these need to be in an array for RNG purposes
     public static final String[] ITEM_ADJECTIVES = {"Green", "Yellow", "Red", "Purple", "Orange", "Blue", "Gold", "Silver", 
@@ -43,28 +43,27 @@ public class Item {
     private JLabel itemImageLabel;
     private ImageIcon itemImageIcon;
 
-    private String itemType;
+    // private ItemManager.ItemSlot itemType;
     private String itemName;
     private ArrayList<ItemStat> statList;
 
-    public Item(String itemType, String itemName) {
-        this.itemType = itemType;
+    public Item(String itemName) {
         this.itemName = itemName;
         this.statList = new ArrayList<ItemStat>();
     }
 
-    public String getItemType() {
-        return this.itemType;
-    }
+    public abstract ItemType getItemType();
+
+    public abstract String getImageFile();
 
     public String getItemName() {
         return this.itemName;
     }
 
-    private void setImageIcon() {
-        // TODO: get size - I don't know if it's being stored and accessed in the correct place
+    private void setImageIcon() {  // TODO: fix this for rings
         this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(getImageFile()), 
-            ItemLayeredPane.getItemWidth(this.itemType), ItemLayeredPane.getItemHeight(this.itemType));
+            ItemLayeredPane.getItemWidth(this.getItemType().getEquipmentSlot()), 
+            ItemLayeredPane.getItemHeight(this.getItemType().getEquipmentSlot()));
     }
 
     public void setImageLabel() {
@@ -77,59 +76,18 @@ public class Item {
         return this.itemImageLabel;
     }
 
-    // TODO: this should not be changed more than once... could add code to prevent that
-    public boolean setItemType(String itemType) {
-        
-        if (isLegitItemType(itemType) == true) {
-            this.itemType = itemType;
-            return true;
-        }
-        
-        System.out.println("Invalid item type " + itemType);
-        return false;
-
-    }
-
-    /**
-     * Returns the File Image for the cooresonpding item
-     * @return
-     */
-    public String getImageFile() {
-        
-        if (this.itemType.equals(WEAPON)) {
-            return IMAGE_DIR + WEAPON_FILE;
-        } else if (this.itemType.equals(HELM)) {
-            return IMAGE_DIR + HELM_FILE;
-        } else if (this.itemType.equals(SHIELD)) {
-            return IMAGE_DIR + SHIELD_FILE;
-        } else if (this.itemType.equals(CHEST)) {
-            return IMAGE_DIR + CHEST_FILE;
-        } else if (this.itemType.equals(AMULET)) {
-            return IMAGE_DIR + AMULET_FILE;
-        } else if (this.itemType.equals(RING)) {
-            return IMAGE_DIR + RING_FILE;
-        } else if (this.itemType.equals(GLOVES)) {
-            return IMAGE_DIR + GLOVES_FILE;
-        } else if (this.itemType.equals(BELT)) {
-            return IMAGE_DIR + BELT_FILE;
-        } else if (this.itemType.equals(PANTS)) {
-            return IMAGE_DIR + PANTS_FILE;
-        } else if (this.itemType.equals(BOOTS)) {
-            return IMAGE_DIR + BOOTS_FILE;
-        }
-        return "";
-    }
-
     /**
      * verifies that the item type is one of the designated item types
      * @param itemType
      * @return
      */
-    public static boolean isLegitItemType(String itemType) {
+    public boolean isLegitItemType(ItemType itemType) {
         
+        ItemType[] itemTypes = ItemType.values();
+
         // make sure its a legit item type
-        for (int i = 0; i < ITEM_TYPES.length; i++) {
-            if (itemType.equals(ITEM_TYPES[i])) {
+        for (int i = 0; i < itemTypes.length; i++) {
+            if (this.getItemType() == itemTypes[i]) {
                 return true;
             }
         }
@@ -146,10 +104,6 @@ public class Item {
         this.itemName = itemName;
         return true;
     }
-
-    /*public ArrayList<Stat> getStatList() {
-        return this.statList;
-    }*/
 
     /**
      * returns the number of stats the Item has
@@ -187,7 +141,7 @@ public class Item {
      * Display the item, including item type, name, and all of its stats
      */
     public void displayItem() {
-        System.out.println(this.itemType + " " + this.itemName);
+        System.out.println(this.itemName);
         
         for (int i = 0; i < this.statList.size(); i++) {
             System.out.println(this.statList.get(i).type + ": " + this.statList.get(i).value);
@@ -312,7 +266,7 @@ public class Item {
         }
 
         // do a quick error check to see if these items are of the same type
-        if (oldItem.itemType.equals(newItem.getItemType()) == false) {
+        if (oldItem.getClass() != newItem.getClass()) {
             System.out.println("These items are not of the same type... comparison is pointless");
             return null; // TODO: throw error?
         }
@@ -484,7 +438,7 @@ public class Item {
         if (this.itemName.equals("")) {
             System.out.println("Error: Item Name is not set or is empty");
             return false;
-        } else if (isLegitItemType(this.itemType) == false) {
+        } else if (isLegitItemType(this.getItemType()) == false) {
             return false;
         } else if (this.statList.size() < Item.MIN_STATS) {
             System.out.println("Error: Item doesn't have enough stats!");

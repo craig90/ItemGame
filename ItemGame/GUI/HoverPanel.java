@@ -43,7 +43,15 @@ public class HoverPanel extends JPanel {
         if (panelType.equals(ItemLayeredPane.NEW_ITEM_SLOT)) {
             item = this.spareItemPane.getItem();
         } else {
-            item = this.itemManager.getItem(panelType);
+
+            try {
+                EquipmentSlot slot = EquipmentSlot.valueOf(panelType);
+                item = this.itemManager.getUniqueItem(slot);
+            } catch (EnumConstantNotPresentException e) {
+                System.out.println("Issue converting panel type back to enum");
+                return;
+            }
+            
         }
 
         // shouldn't happen but just incase the item is null we just won't bother generating the panel to avoid crashing
@@ -90,7 +98,8 @@ public class HoverPanel extends JPanel {
      */
     private void generateNewItemHoverPanel(Item item) {
 
-        Item equippedItem = this.itemManager.getItem(item.getItemType());
+        // TODO: this might not work for rings
+        Item equippedItem = this.itemManager.getUniqueItem(item.getItemType().getEquipmentSlot());
         ArrayList<StatDifference> statDifferences = Item.itemComparison(equippedItem, item);
 
         for (int i = 0; i < statDifferences.size(); i ++) {
