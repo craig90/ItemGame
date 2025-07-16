@@ -152,6 +152,41 @@ public class FileParcer {
     }
 
 
+
+    private Item createItem(String itemType) throws Exception {
+        
+        Item item;
+
+        System.out.println(itemType);
+
+        if (itemType.equals(ItemType.AMULET.toString())) {
+            item = new Amulet("");
+        } else if (itemType.equals(ItemType.BELT.toString())) {
+            item = new Boots("");
+        } else if (itemType.equals(ItemType.BOOTS.toString())) {
+            item = new Boots("");
+        } else if (itemType.equals(ItemType.CHEST.toString())) {
+            item = new Chest("");
+        } else if (itemType.equals(ItemType.GLOVES.toString())) {
+            item = new Gloves("");
+        } else if (itemType.equals(ItemType.HELM.toString())) {
+            item = new Helm("");
+        } else if (itemType.equals(ItemType.PANTS.toString())) {
+            item = new Gloves("");
+        } else if (itemType.equals(ItemType.SHIELD.toString())) {
+            item = new Shield("");
+        } else if (itemType.equals(ItemType.WEAPON.toString())) {
+            item = new Weapon("");
+        } else if (itemType.equals(ItemType.RING.toString())) {
+            item = new Ring("");
+        } else {
+            throw new Exception();
+        }
+
+        return item;
+
+    }
+
     /**
      * This method parces an item out of the character file
      * @param fileReader
@@ -163,26 +198,52 @@ public class FileParcer {
 
         String line;
         String[] lineArray;
-        Item item = new Item("", "");
+        Item item;
 
-        while((line = fileReader.getLine()) != FileKeywords.END_OF_FILE) {
+        line = fileReader.getLine();
+
+        if (line == FileKeywords.END_OF_FILE) {
+            return false;
+        }
+
+        lineArray = line.split(REGEX);
+
+        // first line must be item type
+        if (!lineArray[0].equals(FileKeywords.ITEM_TYPE)) {
+            return false;
+        }
+        
+        try {
+            item = createItem(lineArray[1]);
+        } catch (Exception e) {
+            return false;
+        }
+
+        lineNumber.setNumber(lineNumber.getNumber()+1);
+
+        line = fileReader.getLine();
+        
+        if (line == FileKeywords.END_OF_FILE) {
+            return false;
+        }
+
+        lineArray = line.split(REGEX);
+
+        if (lineArray[0].equals(FileKeywords.ITEM_NAME)) {
+            if (item.setItemName(lineArray[1]) == false) {
+                return false;
+            }
+            System.out.println("Set Name " + item.getItemName());
+        }
+
+        lineNumber.setNumber(lineNumber.getNumber()+1);
+
+        while ((line = fileReader.getLine()) != FileKeywords.END_OF_FILE) {
 
             lineArray = line.split(REGEX);
 
-            if (lineArray[0].equals(FileKeywords.ITEM_TYPE)) {
-                if (item.setItemType(lineArray[1]) == false) {
-                    return false;
-                }
-            }
-
-            else if (lineArray[0].equals(FileKeywords.ITEM_NAME)) {
-                if (item.setItemName(lineArray[1]) == false) {
-                    return false;
-                }
-            }
-
             // check the stat type and add it to the stat list
-            else if (ItemStat.isLegit(lineArray[0]) == true) {
+            if (ItemStat.isLegit(lineArray[0]) == true) {
                 
                 double statValue = 0.0;
                 try {
@@ -199,15 +260,22 @@ public class FileParcer {
 
             // found the end of the item - do a few error checks to make sure the item is legit
             else if (lineArray[0].equals(FileKeywords.ITEM_END)) {
-                
+       
+                System.out.println("Item End");
                 if (item.isLegit() == false) {
                    return false;
                 } else {
-                    itemManager.addItem(item);
+                    if (item instanceof Ring ) {
+                        Ring ring = (Ring)item;
+                        itemManager.equipRing(ring, RingSlot.LEFT_HAND); // TODO: fix this for rings
+                    } else {
+                        itemManager.equipItem(item, item.getItemType().getEquipmentSlot());
+                    }
                     return true;
                 }
             } else {
-                System.out.println("Error reading in item at line " + lineNumber.getNumber());
+                System.out.println("test");
+                System.out.println("Error reading item at line " + lineNumber.getNumber());
                 return false;
             }
             
@@ -241,14 +309,24 @@ public class FileParcer {
      * this main method is purely for testing file parcer class
      * @param args
      */
-    public static void main(String args[]){
+    public static void main(String args[]) {
 
-        FileReader file = new FileReader();
+        Character character;
         FileParcer fileParcer = new FileParcer();
         CharacterFile characterFile = new CharacterFile();
-        characterFile.setCharacterName("ItemGame/CharacterFiles/character1.txt");
-        fileParcer.parceCharacterNameAndLevel(file, characterFile);
-
+        characterFile.setFileName("ItemGame/CharacterFiles/Craig.txt");
+        //fileParcer.parceCharacterNameAndLevel(file, characterFile);
+        
+        try {
+            character = fileParcer.loadCharacterFromFile(characterFile);
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        
+        character.updateStats();
+        character.displayStats();
+    
     }    
 
 

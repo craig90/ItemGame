@@ -10,30 +10,58 @@ public class ItemGenerator {
     // TODO: we could add a lot more logic over different stat types
     // Do certain items have a smaller subset of stat types - it's possible that each item type has seperate logic
     // for stat creation
-    public Item createNewItem() {
+    public Item createNewItem() throws Exception {
     // public void createNewItem() {
 
-        // TODO; clean up the constructor for new Item
-        Item newItem = new Item("", "");
         Random random = new Random();
 
         // decide how many stats the item will have +1 since upper end of range is exclusive
         int numberOfStats = random.nextInt(Item.MIN_STATS, Item.MAX_STATS+1);
         
+        Item newItem;
+
         // decide the item type
-        int itemNumber = random.nextInt(Item.ITEM_TYPES.length);
+        ItemType[] types = ItemType.values();
+        ItemType itemType = types[random.nextInt(types.length)];
+
+        if (itemType == ItemType.AMULET) {
+            newItem = new Amulet("");
+        } else if (itemType == ItemType.BOOTS) {
+            newItem = new Boots("");
+        } else if (itemType == ItemType.BELT) {
+            newItem = new Boots("");
+        } else if (itemType == ItemType.CHEST) {
+            newItem = new Chest("");
+        } else if (itemType == ItemType.GLOVES) {
+            newItem = new Gloves("");
+        } else if (itemType == ItemType.HELM) {
+            newItem = new Helm("");
+        } else if (itemType == ItemType.PANTS) {
+            newItem = new Gloves("");
+        } else if (itemType == ItemType.SHIELD) {
+            newItem = new Shield("");
+        } else if (itemType == ItemType.WEAPON) {
+            newItem = new Weapon("");
+        } else if (itemType == ItemType.RING) {
+            newItem = new Ring("");
+        } else {
+            throw new Exception();
+        }
 
         // System.out.println("Generating New: " + ItecmConstants.ITEM_TYPES[itemNumber]);
         // System.out.println("with " + numberOfStats + " stats");
         
-        newItem.setItemType(Item.ITEM_TYPES[itemNumber]);
+        //newItem.setItemType(Item.ITEM_TYPES[itemNumber]);
+
+        // TODO: add toString version or something for item name
 
         // choose the item Name from list of adjectives
         int itemNameAdjective = random.nextInt(Item.ITEM_ADJECTIVES.length);
-        newItem.setItemName(Item.ITEM_ADJECTIVES[itemNameAdjective] + " " + Item.ITEM_TYPES[itemNumber]);
+        newItem.setItemName(Item.ITEM_ADJECTIVES[itemNameAdjective] + " " + newItem.getItemType());
 
+        // TODO: remove instance of
         // Weapon is a special case where Damage has to be the main stat
-        if (newItem.getItemType() == Item.WEAPON) {
+        if (newItem instanceof Weapon) {
             System.out.println("Weapon has to have damage");
             int statValue = random.nextInt(ItemStat.WEAPON_DAMAGE_MIN_VALUE, ItemStat.WEAPON_DAMGE_MAX_VALUE);
             ItemStat stat = new ItemStat(ItemStat.DAMAGE_STAT_NAME, statValue);
@@ -41,14 +69,14 @@ public class ItemGenerator {
         }
         
         // these are special cases where the first stat must be defense
-        else if (newItem.getItemType() == Item.CHEST) {
+        else if (newItem instanceof Chest) {
             System.out.println("Chest has to have defence");
             int statValue = random.nextInt(ItemStat.CHEST_DEFENCE_MIN_VALUE, ItemStat.CHEST_DEFENCE_MAX_VALUE);
             ItemStat stat = new ItemStat(ItemStat.DEFENCE_STAT_NAME, statValue);
             newItem.addStat(stat);
         }
 
-        else if (newItem.getItemType() == Item.SHIELD) {
+        else if (newItem instanceof Shield) {
             System.out.println("Shield has to have defence");
             int statValue = random.nextInt(ItemStat.SHIELD_DEFENCE_MIN_VALUE, ItemStat.SHIELD_DEFENCE_MAX_VALUE);
             ItemStat stat = new ItemStat(ItemStat.DEFENCE_STAT_NAME, statValue);
@@ -96,10 +124,15 @@ public class ItemGenerator {
      * @param args
      */
     public static void main(String args[]){
-
+        
+        Item item;
         ItemGenerator itemGenerator = new ItemGenerator();
-        Item item = itemGenerator.createNewItem();
-        item.displayItem();
+        try {
+            item = itemGenerator.createNewItem();
+            item.displayItem();
+        } catch (Exception e) {
+            System.out.println("Error creating item");
+        }
 
     }    
 
