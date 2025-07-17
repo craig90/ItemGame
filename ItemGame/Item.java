@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -321,88 +322,6 @@ public abstract class Item {
     }
 
 
-
-    /**
-     * compares a new item to this item and prints any differences
-     * @param newItem
-     */
-    /*public ArrayList<StatDifference> itemComparison(Item newItem) {
-
-        ArrayList<StatDifference> statDifferences = new ArrayList<StatDifference>();
-
-        // do a quick error check to see if these items are of the same type
-        if (this.itemType.equals(newItem.getItemType()) == false) {
-            System.out.println("These items are not of the same type... comparison is pointless");
-            //return;
-        }
-
-        // this is a little complicated, we're going to have to run through all the stats from each item
-        // and compare and see what will increase and what will decrease
-        // show the two items for testing purposes
-        this.displayItem();
-        newItem.displayItem();
-
-        // automatically initialized false
-        // these help track stats that are unique to each item
-        boolean[] foundOldStat = new boolean[this.statList.size()];
-        boolean[] foundNewStat = new boolean[newItem.statList.size()];
-    
-        System.out.println("Stat Differences: ");
-        
-        for (int i = 0; i < this.statList.size(); i++) {
-            ItemStat itemStat = this.statList.get(i);
-            
-            for (int j = 0; j < newItem.statListSize(); j++) {
-                ItemStat newStat = newItem.getStat(j);
-                
-                if (itemStat.type.equals(newStat.type)) {
-                    foundOldStat[i] = true;
-                    foundNewStat[j] = true;
-                    // System.out.println("It has the same stat");
-                    double difference = newStat.value - itemStat.value;
-                    System.out.println(newStat.type + " " + difference);
-                    StatDifference statDifference = new StatDifference(itemStat);
-                
-                    if (newStat.value >= itemStat.value) {
-                        statDifference.setIsBetterStat(true);
-                    } else {
-                        statDifference.setIsBetterStat(false);
-                    }
-                    statDifference.setDifference(difference);
-                    statDifferences.add(statDifference);
-
-                }
-
-            }
-
-        }
-
-        // these are stats that only exist on the new item
-        for (int i = 0; i < newItem.statListSize(); i++) {
-            if (foundNewStat[i] == false) {
-                System.out.println(newItem.getStat(i).type + " +" + newItem.getStat(i).value);
-                StatDifference statDifference = new StatDifference(newItem.getStat(i));
-                statDifference.setIsBetterStat(true); // redundant
-                statDifference.setDifference(newItem.getStat(i).value);
-                statDifferences.add(statDifference);
-            }
-        }
-
-
-        // the stats that only exist on the old item
-        for (int i = 0; i < this.statList.size(); i++) {
-            if (foundOldStat[i] == false) {
-                System.out.println(this.statList.get(i).type + " -" + this.statList.get(i).value);
-                StatDifference statDifference = new StatDifference(this.statList.get(i));
-                statDifference.setIsBetterStat(false);
-                statDifference.setDifference(this.statList.get(i).value);
-                statDifferences.add(statDifference);
-            }
-        }
-        return statDifferences;
-
-    }*/
-
     /** sorts the stat list based on the order we defined in comparator */
     public void sortStats() {
         this.statList.sort(new StatComparator());
@@ -451,6 +370,47 @@ public abstract class Item {
         }
 
     }
+
+    public void generateItem(Random random) {
+
+        // decide how many stats the item will have +1 since upper end of range is exclusive
+        int numberOfStats = random.nextInt(Item.MIN_STATS, Item.MAX_STATS+1);
+
+        // create a new UNIQUE stat - this loop will create new stats and also make sure we're not adding the same stat more than once
+        while (this.statListSize() < numberOfStats) {
+            
+            int statValue = -1;
+            int statType = random.nextInt(ItemStat.ITEM_STAT_TYPE.length);
+            
+            // stat ranges are going to vary a bit depending on the type
+            if (ItemStat.ITEM_STAT_TYPE[statType].equals(ItemStat.HEALTH_STAT_NAME)) {
+                statValue = random.nextInt(ItemStat.HEALTH_MIN_VALUE, ItemStat.HEALTH_MAX_VALUE);
+            } else if (ItemStat.ITEM_STAT_TYPE[statType].equals(ItemStat.DEFENCE_STAT_NAME)) {
+                statValue = random.nextInt(ItemStat.DEFENCE_MIN_VALUE, ItemStat.DEFENCE_MAX_VALUE);
+            } else if (ItemStat.ITEM_STAT_TYPE[statType].equals(ItemStat.DAMAGE_STAT_NAME)) {
+                statValue = random.nextInt(ItemStat.DAMAGE_MIN_VALUE, ItemStat.DAMAGE_MAX_VALUE);    
+            } else if (ItemStat.ITEM_STAT_TYPE[statType].equals(ItemStat.ALL_RESISTANCE_STAT_NAME)) {
+                statValue = random.nextInt(ItemStat.ALL_RESISTANCE_MIN_VALUE, ItemStat.ALL_RESISTANCE_MAX_VALUE);    
+            } else {
+                statValue = random.nextInt(ItemStat.RESISTANCE_MIN_VALUE, ItemStat.RESISTANCE_MAX_VALUE);
+            }
+
+            // System.out.println("Adding stat " + ItemConstants.ITEM_STAT_TYPE[statType]);s
+            // System.out.println("with value: " + statValue);
+
+            // make sure the stat is unique
+            if (this.statIsUnique(ItemStat.ITEM_STAT_TYPE[statType]) == true) {
+                ItemStat stat = new ItemStat(ItemStat.ITEM_STAT_TYPE[statType], statValue);
+                this.addStat(stat);
+            }
+        
+        }
+
+        // sort the stats on the new item - makes it easier to view and compare
+        this.sortStats();
+
+    }
+
 
 }
 
