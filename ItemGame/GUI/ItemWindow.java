@@ -229,22 +229,23 @@ public class ItemWindow extends JFrame {
      */
     public void setDraggedItem(String name) {
         
-        // TODO: this needs to be changed a bit
-        if (name.equals(ItemLayeredPane.NEW_ITEM_SLOT)) {
-            this.draggedItem = this.newItem;
-        }
         
-        else {
+        EquipmentSlot slot;
 
-            // TODO: add something for rings and blings
-            try {
-                EquipmentSlot slot = EquipmentSlot.valueOf(name);
-                this.draggedItem = this.itemManager.getUniqueItem(slot);
-            } catch (EnumConstantNotPresentException ex) {
-                System.out.println("Failed to set drag element");
-                return;
-            }
-            
+        try {
+            slot = EquipmentSlot.valueOf(name);
+        } catch (EnumConstantNotPresentException ex) {
+            System.out.println("Failed to set drag element");
+            return;
+        }
+
+        if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
+            this.draggedItem = this.newItem;
+        } 
+       
+        // TODO: add something for rings and blings        
+        else {
+            this.draggedItem = this.itemManager.getUniqueItem(slot);
         }
 
     }
@@ -370,10 +371,17 @@ public class ItemWindow extends JFrame {
                 return false;
             }
             
-            // make sure the item being dragged matches the itemslot type
-            // TODO: again this will probably break for rings
-            if (this.itemWindow.draggedItem.getItemType().getEquipmentSlot() == targetPanel.equipmentSlot) {
-                return false;
+            // make sure the item being dragged matches the itemslot type - rings are a special case because there
+            // are two potential drop sites
+            if (this.itemWindow.draggedItem.getItemType() == ItemType.RING) {
+                if ((targetPanel.equipmentSlot != EquipmentSlot.RIGHT_RING) 
+                && (targetPanel.equipmentSlot != EquipmentSlot.LEFT_RING)) {
+                    return false;
+                }
+            } else {
+                if (this.itemWindow.draggedItem.getItemType().getEquipmentSlot() != targetPanel.equipmentSlot) {
+                    return false;
+                }
             }
 
             // make sure the target panel is empty
@@ -396,9 +404,17 @@ public class ItemWindow extends JFrame {
                 //targetPanel.add(new JLabel(data + " (dropped)"));
                 Item draggedItem = this.itemWindow.getDraggedItem();
 
-                // this needs to be moved to a function somewhere
-                // TODO: fix for rings
-                this.itemWindow.itemManager.equipItem(draggedItem, draggedItem.getItemType().getEquipmentSlot());
+                // logic is a bit more complicated for rings
+                // TODO: I wonder if this is really necessary
+                if (draggedItem instanceof Ring) {
+                    if (targetPanel.equipmentSlot == EquipmentSlot.RIGHT_RING) {
+                        this.itemWindow.itemManager.equipRing((Ring)draggedItem, RingSlot.RIGHT_HAND);    
+                    } else {
+                        this.itemWindow.itemManager.equipRing((Ring)draggedItem, RingSlot.LEFT_HAND);    
+                    }
+                } else {
+                    this.itemWindow.itemManager.equipItem(draggedItem, draggedItem.getItemType().getEquipmentSlot());
+                }
                 this.itemWindow.characterScreen.update();
                 targetPanel.addItemToSlot(draggedItem);
                 
