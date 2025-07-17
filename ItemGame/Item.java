@@ -40,8 +40,8 @@ public abstract class Item {
     public static final String[] ITEM_ADJECTIVES = {"Green", "Yellow", "Red", "Purple", "Orange", "Blue", "Gold", "Silver", 
     "Bronze", "Cool"};
 
-    private JLabel itemImageLabel;
-    private ImageIcon itemImageIcon;
+    protected JLabel itemImageLabel;
+    protected ImageIcon itemImageIcon;
 
     // private ItemManager.ItemSlot itemType;
     private String itemName;
@@ -60,10 +60,10 @@ public abstract class Item {
         return this.itemName;
     }
 
-    private void setImageIcon() {  // TODO: fix this for rings
+    public void setImageIcon() {
         this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(getImageFile()), 
-            ItemLayeredPane.getItemWidth(this.getItemType().getEquipmentSlot()), 
-            ItemLayeredPane.getItemHeight(this.getItemType().getEquipmentSlot()));
+            ItemLayeredPane.getItemWidth(this.getItemType()), 
+            ItemLayeredPane.getItemHeight(this.getItemType()));
     }
 
     public void setImageLabel() {
