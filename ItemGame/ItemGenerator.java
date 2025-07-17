@@ -29,7 +29,7 @@ public class ItemGenerator {
         } else if (itemType == ItemType.BOOTS) {
             newItem = new Boots("");
         } else if (itemType == ItemType.BELT) {
-            newItem = new Boots("");
+            newItem = new Belt("");
         } else if (itemType == ItemType.CHEST) {
             newItem = new Chest("");
         } else if (itemType == ItemType.GLOVES) {
@@ -37,7 +37,7 @@ public class ItemGenerator {
         } else if (itemType == ItemType.HELM) {
             newItem = new Helm("");
         } else if (itemType == ItemType.PANTS) {
-            newItem = new Gloves("");
+            newItem = new Pants("");
         } else if (itemType == ItemType.SHIELD) {
             newItem = new Shield("");
         } else if (itemType == ItemType.WEAPON) {
