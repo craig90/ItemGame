@@ -162,7 +162,7 @@ public class FileParcer {
         if (itemType.equals(ItemType.AMULET.toString())) {
             item = new Amulet("");
         } else if (itemType.equals(ItemType.BELT.toString())) {
-            item = new Boots("");
+            item = new Belt("");
         } else if (itemType.equals(ItemType.BOOTS.toString())) {
             item = new Boots("");
         } else if (itemType.equals(ItemType.CHEST.toString())) {
@@ -172,7 +172,7 @@ public class FileParcer {
         } else if (itemType.equals(ItemType.HELM.toString())) {
             item = new Helm("");
         } else if (itemType.equals(ItemType.PANTS.toString())) {
-            item = new Gloves("");
+            item = new Pants("");
         } else if (itemType.equals(ItemType.SHIELD.toString())) {
             item = new Shield("");
         } else if (itemType.equals(ItemType.WEAPON.toString())) {
@@ -265,7 +265,7 @@ public class FileParcer {
                 if (item.isLegit() == false) {
                    return false;
                 } else {
-                    if (item instanceof Ring ) {
+                    if (item instanceof Ring) {
                         Ring ring = (Ring)item;
                         itemManager.equipRing(ring, RingSlot.LEFT_HAND); // TODO: fix this for rings
                     } else {
