@@ -157,7 +157,7 @@ public class FileParcer {
         
         Item item;
 
-        System.out.println(itemType);
+        // System.out.println(itemType);
 
         if (itemType.equals(ItemType.AMULET.toString())) {
             item = new Amulet("");
@@ -233,7 +233,7 @@ public class FileParcer {
             if (item.setItemName(lineArray[1]) == false) {
                 return false;
             }
-            System.out.println("Set Name " + item.getItemName());
+            // System.out.println("Set Name " + item.getItemName());
         }
 
         lineNumber.setNumber(lineNumber.getNumber()+1);
@@ -261,7 +261,7 @@ public class FileParcer {
             // found the end of the item - do a few error checks to make sure the item is legit
             else if (lineArray[0].equals(FileKeywords.ITEM_END)) {
        
-                System.out.println("Item End");
+                // System.out.println("Item End");
                 if (item.isLegit() == false) {
                    return false;
                 } else {
@@ -274,7 +274,6 @@ public class FileParcer {
                     return true;
                 }
             } else {
-                System.out.println("test");
                 System.out.println("Error reading item at line " + lineNumber.getNumber());
                 return false;
             }

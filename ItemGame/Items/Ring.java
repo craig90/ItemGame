@@ -1,3 +1,5 @@
+import javax.swing.ImageIcon;
+
 public class Ring extends Item {
 
     RingSlot slot;

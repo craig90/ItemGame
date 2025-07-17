@@ -75,7 +75,13 @@ public class ItemManager {
      * @return will return an item if it exists, otherwise returns null
      */
     public Item getUniqueItem(EquipmentSlot slotType) {
-        return uniqueItems.get(slotType);
+        if (slotType == EquipmentSlot.LEFT_RING) {
+            return rings.get(RingSlot.LEFT_HAND);
+        } else if (slotType == EquipmentSlot.RIGHT_RING) {
+            return rings.get(RingSlot.RIGHT_HAND);
+        } else {
+            return uniqueItems.get(slotType);
+        }
     }
 
     public Ring getRing(RingSlot ringType) {

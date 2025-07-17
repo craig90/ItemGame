@@ -38,20 +38,22 @@ public class HoverPanel extends JPanel {
         removeAllLabels();
 
         String panelType = hoverdLabel.getName();
-        
+        System.out.println(panelType);
+
         Item item;
-        if (panelType.equals(ItemLayeredPane.NEW_ITEM_SLOT)) {
+        EquipmentSlot slot;
+        
+        try {
+            slot = EquipmentSlot.valueOf(panelType);
+        } catch (EnumConstantNotPresentException e) {
+            System.out.println("Not a proper slot to hover over - String doesn't convert back to enum member");
+            return;
+        }
+
+        if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
             item = this.spareItemPane.getItem();
         } else {
-
-            try {
-                EquipmentSlot slot = EquipmentSlot.valueOf(panelType);
-                item = this.itemManager.getUniqueItem(slot);
-            } catch (EnumConstantNotPresentException e) {
-                System.out.println("Issue converting panel type back to enum");
-                return;
-            }
-            
+            item = this.itemManager.getUniqueItem(slot);
         }
 
         // shouldn't happen but just incase the item is null we just won't bother generating the panel to avoid crashing

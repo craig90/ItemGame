@@ -32,12 +32,12 @@ public class ItemLayeredPane extends JLayeredPane {
         this.item = item;
 
         this.setBackground(Color.GRAY);
-        this.setPreferredSize(new Dimension(getItemWidth(this.equipmentSlot), getItemHeight(this.equipmentSlot)));
+        this.setPreferredSize(new Dimension(getItemSlotWidth(this.equipmentSlot), getItemSlotHeight(this.equipmentSlot)));
         this.setOpaque(true);
         
         // TODO: ring is going to break this
         this.itemLabel = new JLabel(this.equipmentSlot.toString());
-        this.itemLabel.setBounds(0, 0, getItemWidth(this.equipmentSlot), getItemHeight(this.equipmentSlot));
+        this.itemLabel.setBounds(0, 0, getItemSlotWidth(this.equipmentSlot), getItemSlotHeight(this.equipmentSlot));
         this.itemLabel.setHorizontalAlignment(JLabel.CENTER);
         this.itemLabel.setVerticalAlignment(JLabel.TOP);
         this.add(this.itemLabel, 1);
@@ -53,14 +53,14 @@ public class ItemLayeredPane extends JLayeredPane {
         }
 
         if (this.item != null) {
-            System.out.println("Adding item " + this.item.getItemName());
+            // System.out.println("Adding item " + this.item.getItemName());
             this.itemIconLabel = this.item.getItemImageLabel();
             this.itemIconLabel.setName(this.equipmentSlot.toString());
             this.itemIconLabel.setVerticalAlignment(JLabel.CENTER);
             this.itemIconLabel.setHorizontalAlignment(JLabel.CENTER);
-            this.itemIconLabel.setBounds(0, 0, getItemWidth(this.equipmentSlot), getItemHeight(this.equipmentSlot));
+            this.itemIconLabel.setBounds(0, 0, getItemWidth(this.item.getItemType()), getItemHeight(this.item.getItemType()));
             this.add(this.itemIconLabel, 0);
-            System.out.println("Panel " + this.equipmentSlot);
+            // System.out.println("Panel " + this.equipmentSlot);
         }
 
         this.revalidate();
@@ -104,7 +104,7 @@ public class ItemLayeredPane extends JLayeredPane {
      * return the height in pixels of the layered pain depending on the item type
      * @return
      */
-    public static int getItemHeight(EquipmentSlot equipmentSlot) {
+    public static int getItemSlotHeight(EquipmentSlot equipmentSlot) {
 
         if (equipmentSlot == EquipmentSlot.WEAPON) {
             return WEAPON_HEIGHT;
@@ -140,7 +140,7 @@ public class ItemLayeredPane extends JLayeredPane {
      * returns the width of the layered pain in pixels cooresponding to the item type
      * @return
      */
-    public static int getItemWidth(EquipmentSlot equipmentSlot) {
+    public static int getItemSlotWidth(EquipmentSlot equipmentSlot) {
 
         if (equipmentSlot == EquipmentSlot.LEFT_RING) {
             return RING_WIDTH;
@@ -170,6 +170,69 @@ public class ItemLayeredPane extends JLayeredPane {
             return 0;  // TODO: this shouln't be reached - throw exception?
         }
 
+    }
+
+    /**
+     * return the height in pixels of the image depending on the item type
+     * @return
+     */
+    public static int getItemHeight(ItemType itemType) {
+
+        if (itemType == ItemType.WEAPON) {
+            return WEAPON_HEIGHT;
+        } else if (itemType == ItemType.HELM) {
+            return HELM_HEIGHT;
+        } else if (itemType == ItemType.CHEST) {
+            return CHEST_HEIGHT;
+        } else if (itemType == ItemType.SHIELD) {
+            return SHIELD_HEIGHT;
+        } else if (itemType == ItemType.AMULET) {
+            return AMULET_HEIGHT;
+        } else if (itemType == ItemType.GLOVES) {
+            return GLOVES_HEIGHT;
+        } else if (itemType == ItemType.BELT) {
+            return BELT_HEIGHT;
+        } else if (itemType == ItemType.PANTS) {
+            return PANTS_HEIGHT;
+        } else if (itemType == ItemType.BOOTS) {
+            return BOOTS_HEIGHT;
+        } else if (itemType == ItemType.RING) {
+            return RING_HEIGHT;
+        } else {
+            return 0;  // TODO: this shouln't be reached - throw exception?
+        }
+
+    }
+
+    /**
+     * returns the width of the layered pain in pixels cooresponding to the item type
+     * @return
+     */
+    public static int getItemWidth(ItemType itemType) {
+
+        if (itemType == ItemType.RING) {
+            return RING_WIDTH;
+        } else if (itemType == ItemType.WEAPON) {
+            return WEAPON_WIDTH;
+        } else if (itemType == ItemType.HELM) {
+            return HELM_WIDTH;
+        } else if (itemType == ItemType.CHEST) {
+            return CHEST_WIDTH;
+        } else if (itemType == ItemType.SHIELD) {
+            return SHIELD_WIDTH;
+        } else if (itemType == ItemType.AMULET) {
+            return AMULET_WIDTH;
+        } else if (itemType == ItemType.GLOVES) {
+            return GLOVES_WIDTH;
+        } else if (itemType == ItemType.BELT) {
+            return BELT_WIDTH;
+        } else if (itemType == ItemType.PANTS) {
+            return PANTS_WIDTH;
+        } else if (itemType == ItemType.BOOTS) {
+            return BOOTS_WIDTH;
+        } else {
+            return 0;  // TODO: this shouln't be reached - throw exception?
+        }
     }
 
 }
