@@ -18,6 +18,7 @@ Item-End
 Item-Start
 Item Type:RING
 Item Name:Green Ring
+Ring Slot:RIGHT_HAND
 Defence:40.0
 All Resistance:6.0
 Fire Resistance:18.0

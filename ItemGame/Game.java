@@ -30,6 +30,7 @@ public class Game {
      */
     public void setCharacter(Character character) {
         this.character = character;
+        this.character.updateStats();
     }
 
     /**

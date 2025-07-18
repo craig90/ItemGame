@@ -27,10 +27,10 @@ public class CharacterScreen extends JPanel {
 
     ItemWindow itemWindow;
 
-    public CharacterScreen(Character character, Gui gui) {
+    public CharacterScreen(Gui gui) {
 
-        this.character = character;
         this.gui = gui;
+        this.character = this.gui.getGame().getCharacter();
         this.itemWindow = null;
         this.characterSaver = this.gui.getGame().getCharacterSaver();
 
@@ -107,6 +107,9 @@ public class CharacterScreen extends JPanel {
      */
     public void update() {
 
+        // make sure we have the latest character
+        this.character = this.gui.getGame().getCharacter();
+        
         if (this.character == null) {
             System.out.println("Error - we have no loaded character");
             return;
@@ -127,12 +130,12 @@ public class CharacterScreen extends JPanel {
 
     }
 
-    /**
-     * Used to update the Character Screen's character since the character can change
-     * @param character
-     */
-    public void setCharacter(Character character) {
-        this.character = character;
-    }
+    // /**
+    //  * Used to update the Character Screen's character since the character can change
+    //  * @param character
+    //  */
+    // public void setCharacter(Character character) {
+    //     this.character = character;
+    // }
 
 }

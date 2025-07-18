@@ -55,7 +55,7 @@ public class Gui extends JFrame {
         this.errorScreen = new ErrorScreen();
          // TODO: should be recreated -- test what happens when there are no files found
         this.characterSelectionScreen = new CharacterSelectionScreen(this);
-        this.characterScreen = new CharacterScreen(this.game.getCharacter(), this);
+        this.characterScreen = new CharacterScreen(this);
 
 
 
