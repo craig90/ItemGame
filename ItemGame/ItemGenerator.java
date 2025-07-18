@@ -14,7 +14,6 @@ public class ItemGenerator {
     // public void createNewItem() {
 
         Random random = new Random();
-
         Item newItem;
 
         // decide the item type

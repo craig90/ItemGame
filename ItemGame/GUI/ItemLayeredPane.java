@@ -35,7 +35,6 @@ public class ItemLayeredPane extends JLayeredPane {
         this.setPreferredSize(new Dimension(getItemSlotWidth(this.equipmentSlot), getItemSlotHeight(this.equipmentSlot)));
         this.setOpaque(true);
         
-        // TODO: ring is going to break this
         this.itemLabel = new JLabel(this.equipmentSlot.toString());
         this.itemLabel.setBounds(0, 0, getItemSlotWidth(this.equipmentSlot), getItemSlotHeight(this.equipmentSlot));
         this.itemLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -56,9 +55,9 @@ public class ItemLayeredPane extends JLayeredPane {
             // System.out.println("Adding item " + this.item.getItemName());
             this.itemIconLabel = this.item.getItemImageLabel();
             this.itemIconLabel.setName(this.equipmentSlot.toString());
+            this.itemIconLabel.setBounds(0, 0, getItemWidth(this.item.getItemType()), getItemHeight(this.item.getItemType()));
             this.itemIconLabel.setVerticalAlignment(JLabel.CENTER);
             this.itemIconLabel.setHorizontalAlignment(JLabel.CENTER);
-            this.itemIconLabel.setBounds(0, 0, getItemWidth(this.item.getItemType()), getItemHeight(this.item.getItemType()));
             this.add(this.itemIconLabel, 0);
             // System.out.println("Panel " + this.equipmentSlot);
         }
