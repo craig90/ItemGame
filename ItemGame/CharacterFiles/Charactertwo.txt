@@ -1,4 +1,4 @@
-Character Name:Willie Nailor
+Character Name:Character Two
 Level:30.0
 Experience:55466.0
 Item-Start
@@ -52,17 +52,16 @@ Poison Resistance:17.0
 Item-End
 Item-Start
 Item Type:RING
-Item Name:Bronze RING
-Damage:39.0
-Defence:78.0
-All Resistance:6.0
-Fire Resistance:19.0
-Poison Resistance:16.0
+Item Name:Red RING
+Ring Slot:LEFT_HAND
+Damage:70.0
+All Resistance:9.0
+Poison Resistance:8.0
 Item-End
 Item-Start
 Item Type:RING
 Item Name:Yellow RING
-All Resistance:6.0
+Ring Slot:RIGHT_HAND
 Fire Resistance:15.0
 Cold Resistance:5.0
 Item-End

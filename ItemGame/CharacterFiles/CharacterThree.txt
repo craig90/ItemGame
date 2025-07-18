@@ -1,4 +1,4 @@
-Character Name:Dixie Normus
+Character Name:Character Three
 Level:20.0
 Experience:12345.0
 Item-Start

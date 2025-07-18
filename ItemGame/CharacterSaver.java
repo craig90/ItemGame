@@ -53,6 +53,11 @@ public class CharacterSaver {
             this.fileWrite.writeLine(FileKeywords.ITEM_TYPE + LINE_SEPARATOR + item.getItemType());
             this.fileWrite.writeLine(FileKeywords.ITEM_NAME + LINE_SEPARATOR + item.getItemName());
 
+            if (item instanceof Ring) {
+                Ring ring = (Ring) item;
+                this.fileWrite.writeLine(FileKeywords.RING_SLOT + LINE_SEPARATOR + ring.getRingSlot());
+            }
+
             // write out the items stats
             for (int j = 0; j < item.statListSize(); j++) {
                 this.fileWrite.writeLine(item.getStat(j).getStatType() + LINE_SEPARATOR + item.getStat(j).getValue());
