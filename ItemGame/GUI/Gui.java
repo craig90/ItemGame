@@ -1,19 +1,21 @@
 import java.awt.CardLayout;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 public class Gui extends JFrame {
 
     public CardLayout cardLayout;
     public JPanel mainPanel;
 
-    private CharacterScreen characterScreen;
+    private ErrorScreen errorScreen;
+    protected CharacterScreen characterScreen;
+    private CharacterSelectionScreen characterSelectionScreen;
 
     private Game game;
 
@@ -42,7 +44,7 @@ public class Gui extends JFrame {
         introScreen.add(loadCharButton);
 
         loadCharButton.addActionListener(e -> {
-            this.cardLayout.show(this.mainPanel, "Load Character Screen");
+            this.cardLayout.show(this.mainPanel, "Character Selection Screen");
         });
 
         createCharButton.addActionListener(e -> {
@@ -50,52 +52,9 @@ public class Gui extends JFrame {
         });
 
 
-        // load character screen
-        JPanel loadCharacterScreen = new JPanel();
-        
-        ArrayList<CharacterFile> characterFiles = new ArrayList<CharacterFile>();
-        ArrayList<String> fileNames = new ArrayList<String>();
-
-        try {
-            fileNames = FileReader.readFileNames();
-            characterFiles = this.game.getCharacterNamesFromFile(fileNames);
-        } catch (FileNotFoundException e) {
-           // TODO: catch here -- say no files found then return to home screen
-           // maybe make a new screen to illustrate it
-        }
-
-        for (int i = 0; i < characterFiles.size(); i++) {
-            JLabel label = new JLabel(characterFiles.get(i).getCharacterName() + " Level: " + characterFiles.get(i).getLevel());
-            JButton button = new JButton("Load");
-            loadCharacterScreen.add(label);
-            loadCharacterScreen.add(button);
-            CharacterFile characterFile = characterFiles.get(i);
-            button.addActionListener(e -> {
-                this.cardLayout.show(this.mainPanel, "Character Screen");
-                // System.out.println(fileName);
-                try {
-                    this.game.setCharacter(this.game.fileParcer.loadCharacterFromFile(characterFile));
-                    this.game.getCharacter().updateStats();
-                    this.characterScreen.setCharacter(this.game.getCharacter()); // TODO: not sure if this is the best way 
-                    this.characterScreen.update();
-                } catch (FileNotFoundException ex) {
-
-                }
-
-            });
-        }
-
-        // JLabel testCharacterLabel = new JLabel("Character 1");
-        JButton backToHomeScreenButton = new JButton("Return to Home Screen");
-        // loadCharacterScreen.add(testCharacterLabel);
-        loadCharacterScreen.add(backToHomeScreenButton);
-
-        backToHomeScreenButton.addActionListener(e -> {
-            this.cardLayout.show(this.mainPanel, "Intro Screen");
-        });
-
-
-
+        this.errorScreen = new ErrorScreen();
+         // TODO: should be recreated -- test what happens when there are no files found
+        this.characterSelectionScreen = new CharacterSelectionScreen(this);
         this.characterScreen = new CharacterScreen(this.game.getCharacter(), this);
 
 
@@ -118,15 +77,14 @@ public class Gui extends JFrame {
         });
 
 
-
-
-
-
         this.mainPanel.add(introScreen, "Intro Screen");
-        this.mainPanel.add(loadCharacterScreen, "Load Character Screen");
+        this.mainPanel.add(this.characterSelectionScreen, "Character Selection Screen");
         this.mainPanel.add(createCharacterScreen, "Create Character Screen");
         this.mainPanel.add(this.characterScreen, "Character Screen");
-        
+
+        this.mainPanel.add(this.errorScreen, "Error Screen");
+
+
         this.add(mainPanel);
         this.setVisible(true);
 
@@ -134,6 +92,20 @@ public class Gui extends JFrame {
     
     public Game getGame() {
         return this.game;
+    }
+
+    public void errorSequence(String errorMessage) {
+        
+        this.errorScreen.setErrorLabel(errorMessage);
+        this.cardLayout.show(this.mainPanel, "Error Screen");
+
+        Timer timer = new Timer(3000, (ActionEvent e) -> {
+            this.errorScreen.setVisible(false);
+            // frame.revalidate(); // Refresh layout
+            // frame.repaint();
+        });
+        timer.start();
+
     }
 
 
