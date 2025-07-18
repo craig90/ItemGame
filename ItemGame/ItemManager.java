@@ -115,7 +115,13 @@ public class ItemManager {
         uniqueItems.put(slot, item);
     }
 
+    /**
+     * Rings are a special case, since there are two of them, they need to be treated differently
+     * @param ring
+     * @param slot
+     */
     public void equipRing(Ring ring, RingSlot slot) {
+        ring.setRingSlot(slot);
         this.rings.put(slot, ring);
     }
 

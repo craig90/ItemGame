@@ -71,7 +71,7 @@ public abstract class Item {
     public void setImageLabel() {
         setImageIcon();
         this.itemImageLabel = new JLabel(this.itemImageIcon);
-        System.out.println("Setting icon for item type " + this.itemName);
+        // System.out.println("Setting icon for item type " + this.itemName);
     }
 
     public JLabel getItemImageLabel() {

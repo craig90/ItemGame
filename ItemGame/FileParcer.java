@@ -44,7 +44,6 @@ public class FileParcer {
 
     /**
      * pulls the character data out of the file with some error checking
-     * TODO: define some more constants somewhere and add error logic in character class
      * @param lineArray
      * @param lineNumber
      * @return
@@ -188,6 +187,74 @@ public class FileParcer {
     }
 
     /**
+     * Reads the item type from file
+     * @param line
+     * @return
+     * @throws Exception
+     */
+    private String readItemType(String line) throws Exception {
+
+        if (line == FileKeywords.END_OF_FILE) {
+            throw new Exception();
+        }
+
+        String[] lineArray = line.split(REGEX);
+
+        // first line must be item type
+        if (!lineArray[0].equals(FileKeywords.ITEM_TYPE)) {
+            throw new Exception();
+        }
+        
+        return lineArray[1];
+
+    }
+
+    /**
+     * Reads the item name from the file
+     * @param line
+     * @return
+     * @throws Exception
+     */
+    private String readItemName(String line) throws Exception {
+        
+        if (line == FileKeywords.END_OF_FILE) {
+            throw new Exception();
+        }
+
+        String[] lineArray = line.split(REGEX);
+
+        if (!lineArray[0].equals(FileKeywords.ITEM_NAME)) {
+            throw new Exception();
+        }
+    
+        return lineArray[1];
+    }
+
+    /**
+     * Reads the ring slot from the files
+     * @param line
+     * @return
+     * @throws Exception
+     */
+    public String readRingSlot(String line) throws Exception { 
+        
+        if (line == FileKeywords.END_OF_FILE) {
+            throw new Exception();
+        }
+        
+        String[] lineArray = line.split(REGEX);
+
+        if (lineArray[0].equals(FileKeywords.RING_SLOT)) {
+            return lineArray[1];
+        } else {
+            throw new Exception();
+        }
+            
+
+    }
+
+
+    /**
      * This method parces an item out of the character file
      * @param fileReader
      * @param regex
@@ -198,46 +265,51 @@ public class FileParcer {
 
         String line;
         String[] lineArray;
-        Item item;
+        Item item = null;
+        String itemType, itemName, ringSlot;
 
-        line = fileReader.getLine();
-
-        if (line == FileKeywords.END_OF_FILE) {
-            return false;
-        }
-
-        lineArray = line.split(REGEX);
-
-        // first line must be item type
-        if (!lineArray[0].equals(FileKeywords.ITEM_TYPE)) {
+        // first line in the item MUST be item type
+        try {
+            itemType = readItemType(fileReader.getLine());
+            item = createItem(itemType);
+        } catch (Exception e) {
+            System.out.println("Error reading item type");
             return false;
         }
         
+        lineNumber.setNumber(lineNumber.getNumber()+1);
+
+        // second line in the item MUST be item type
         try {
-            item = createItem(lineArray[1]);
+            itemName = readItemName(fileReader.getLine());
+            item.setItemName(itemName);
         } catch (Exception e) {
+            System.out.println("Error reading item name");
             return false;
         }
 
         lineNumber.setNumber(lineNumber.getNumber()+1);
 
-        line = fileReader.getLine();
-        
-        if (line == FileKeywords.END_OF_FILE) {
-            return false;
-        }
+        // if it's a ring the third line must be the ring slot
+        if (item.getItemType() == ItemType.RING) {
 
-        lineArray = line.split(REGEX);
+            Ring ring = (Ring) item;
+            RingSlot slot;
 
-        if (lineArray[0].equals(FileKeywords.ITEM_NAME)) {
-            if (item.setItemName(lineArray[1]) == false) {
+            try {
+                ringSlot = readRingSlot(fileReader.getLine());
+                slot = RingSlot.valueOf(ringSlot);
+                System.out.println(slot.toString());
+            } catch (Exception e) {
+                System.out.println("Error reading ring slot");
                 return false;
             }
-            // System.out.println("Set Name " + item.getItemName());
-        }
 
-        lineNumber.setNumber(lineNumber.getNumber()+1);
+            ring.setRingSlot(slot);
+            lineNumber.setNumber(lineNumber.getNumber()+1);
+        } 
 
+        // now read in all the item stats
         while ((line = fileReader.getLine()) != FileKeywords.END_OF_FILE) {
 
             lineArray = line.split(REGEX);
@@ -267,7 +339,7 @@ public class FileParcer {
                 } else {
                     if (item instanceof Ring) {
                         Ring ring = (Ring)item;
-                        itemManager.equipRing(ring, RingSlot.LEFT_HAND); // TODO: fix this for rings
+                        itemManager.equipRing(ring, ring.getRingSlot());
                     } else {
                         itemManager.equipItem(item, item.getItemType().getEquipmentSlot());
                     }
