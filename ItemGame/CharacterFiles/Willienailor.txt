@@ -2,6 +2,28 @@ Character Name:Willie Nailor
 Level:30.0
 Experience:55466.0
 Item-Start
+Item Type:BELT
+Item Name:Yellow Belt
+Damage:70.0
+Defence:69.0
+Poison Resistance:11.0
+Lightning Resistance:10.0
+Cold Resistance:10.0
+Item-End
+Item-Start
+Item Type:BOOTS
+Item Name:Silver Boots
+Defence:86.0
+All Resistance:9.0
+Lightning Resistance:13.0
+Item-End
+Item-Start
+Item Type:CHEST
+Item Name:Bronze Chest
+Defence:300.0
+Magic Resistance:20.0
+Item-End
+Item-Start
 Item Type:GLOVES
 Item Name:Gold Gloves
 Damage:15.0
@@ -21,19 +43,6 @@ Fire Resistance:20.0
 Poison Resistance:15.0
 Item-End
 Item-Start
-Item Type:CHEST
-Item Name:Bronze Chest
-Defence:300.0
-Magic Resistance:20.0
-Item-End
-Item-Start
-Item Type:BOOTS
-Item Name:Silver Boots
-Defence:86.0
-All Resistance:9.0
-Lightning Resistance:13.0
-Item-End
-Item-Start
 Item Type:WEAPON
 Item Name:Orange Weapon
 Damage:292.0
@@ -42,11 +51,18 @@ Fire Resistance:14.0
 Poison Resistance:17.0
 Item-End
 Item-Start
-Item Type:BELT
-Item Name:Yellow Belt
-Damage:70.0
-Defence:69.0
-Poison Resistance:11.0
-Lightning Resistance:10.0
-Cold Resistance:10.0
+Item Type:RING
+Item Name:Bronze RING
+Damage:39.0
+Defence:78.0
+All Resistance:6.0
+Fire Resistance:19.0
+Poison Resistance:16.0
+Item-End
+Item-Start
+Item Type:RING
+Item Name:Yellow RING
+All Resistance:6.0
+Fire Resistance:15.0
+Cold Resistance:5.0
 Item-End

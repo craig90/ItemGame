@@ -51,6 +51,7 @@ public abstract class Item {
     public Item(String itemName) {
         this.itemName = itemName;
         this.statList = new ArrayList<ItemStat>();
+        this.setImageLabel();
     }
 
     public abstract ItemType getItemType();
@@ -251,7 +252,6 @@ public abstract class Item {
         if (oldItem == null && newItem == null) {
             System.out.println("No items to compare");
             return null;
-            // TODO: throw exception? -- this really shouldnt happen
         }
 
         // case where oldItem is null - just fill the array showing how all the stats on the new item are better

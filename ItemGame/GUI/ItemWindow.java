@@ -51,12 +51,10 @@ public class ItemWindow extends JFrame {
 
     ItemLayeredPane sourcePanel;
     Item draggedItem;
-    Item newItem; // TODO: this needs to be moved to another class, but we'll put it here for now
 
     public ItemWindow(CharacterScreen characterScreen, ItemManager itemManager) {
 
         this.characterScreen = characterScreen;
-        // this.character = character;
         this.itemManager = itemManager;
         this.itemGenerator = new ItemGenerator();
 
@@ -149,7 +147,6 @@ public class ItemWindow extends JFrame {
         c.gridy = 1;
         this.itemPanel.add(this.spareItemPanel, c);
 
-        generateItemIcons();
         setItemsInPanes();
 
         this.itemPanel.setBounds(0, 0, ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
@@ -173,15 +170,16 @@ public class ItemWindow extends JFrame {
         }
 
         this.getNewItemButton.addActionListener(e -> {
+            Item newItem;
             try {
-                this.newItem = this.itemGenerator.createNewItem();
+                newItem = this.itemGenerator.createNewItem();
+                this.itemManager.setGeneratedItem(newItem);
             } catch (Exception ex) {
                 System.out.println("Error creating new item");
                 return;
             }
-            this.newItem.setImageLabel(); // TODO: this should be called in a better place - should be called at item creation
-            this.newItem.getItemImageLabel().addMouseListener(mouseListener);
-            this.spareItemPanel.addItemToSlot(this.newItem);
+            this.itemManager.getGeneratedItem().getItemImageLabel().addMouseListener(mouseListener);
+            this.spareItemPanel.addItemToSlot(this.itemManager.getGeneratedItem());
             this.spareItemPanel.itemIconLabel.setTransferHandler(new MyLabelTransferHandler(this));
             this.spareItemPanel.itemIconLabel.addMouseListener(new MouseAdapter() {
                 @Override
@@ -209,26 +207,10 @@ public class ItemWindow extends JFrame {
 
     }
 
-
-    /**
-     * TODO: I'm not sure if this should be done here, but this will generate the Image Icons for currently 
-     * equippied items
-     * this should probably be done when the game initializes
-     * 
-     */
-    private void generateItemIcons() {
-
-        for (Item item : this.itemManager.getAllItems() ) {
-            item.setImageLabel();
-        }
-
-    }
-
     /**
      * used to track the item that is currently being dragged
      */
     public void setDraggedItem(String name) {
-        
         
         EquipmentSlot slot;
 
@@ -240,7 +222,7 @@ public class ItemWindow extends JFrame {
         }
 
         if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
-            this.draggedItem = this.newItem;
+            this.draggedItem = this.itemManager.getGeneratedItem();
         } 
        
         // TODO: add something for rings and blings        

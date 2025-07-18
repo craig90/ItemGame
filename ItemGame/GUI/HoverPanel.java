@@ -66,7 +66,7 @@ public class HoverPanel extends JPanel {
         this.add(itemName);
 
         // generate hover panel depending on the type - new vs equipped
-        if (panelType.equals(ItemLayeredPane.NEW_ITEM_SLOT)) {
+        if (panelType.equals(EquipmentSlot.NEW_ITEM_SLOT.toString())) {
             generateNewItemHoverPanel(item);
         } else {
             generateEquippedItemHoverPanel(item);
@@ -93,21 +93,46 @@ public class HoverPanel extends JPanel {
         }
     
     }
+
+    private void generateRingHoverPanel(Item item) {
+
+        for (int i = 0; i < item.statListSize(); i++) {
+            JLabel label = new JLabel(item.getStat(i).getStatType() + " " + item.getStat(i).getValue());
+            label.setForeground(Color.WHITE);
+            this.add(label);
+        }
+
+    }
     
+        
     /**
      * Generates the hover panel for a new item as the logic is different than for an existing item
      * @param item
      */
     private void generateNewItemHoverPanel(Item item) {
 
-        // TODO: this might not work for rings
-        Item equippedItem = this.itemManager.getUniqueItem(item.getItemType().getEquipmentSlot());
+        Item equippedItem;
+        
+        // logic for rings will be different because there possibly two equipped
+        if (item.getItemType() == ItemType.RING) {
+
+            // if we have two equipped rings we are just going to skip the comparason because I don't know which to comapare to
+            if (this.itemManager.getRightRing() != null && this.itemManager.getLeftRing() != null) {
+                generateRingHoverPanel(item);
+                return;
+            } else { // if there is one ring equipped or zero rings show all the stats as bonus
+                equippedItem = null;
+            }
+
+        } else { // if it's not a ring, grab the item the corresponds to the correct equipemnt slot
+            equippedItem = this.itemManager.getUniqueItem(item.getItemType().getEquipmentSlot());
+        }
+
+
         ArrayList<StatDifference> statDifferences = Item.itemComparison(equippedItem, item);
 
-        for (int i = 0; i < statDifferences.size(); i ++) {
+        for (StatDifference statDiff : statDifferences)  {
             
-            StatDifference statDiff = statDifferences.get(i);
-
             if (statDiff.isOldStatOnly() == false) {
 
                 JLabel statLabel = new JLabel(statDiff.getStat().getStatType() + " " +

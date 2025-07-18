@@ -9,12 +9,15 @@ public class ItemManager {
     private Map<RingSlot, Ring> rings;
     private Map<EquipmentSlot, Item> uniqueItems;
 
+    private Item generatedItem;
+
     public ItemManager() {
         this.uniqueItems = new EnumMap<>(EquipmentSlot.class);
         this.rings = new EnumMap<>(RingSlot.class);
+        this.generatedItem = null;
     }
 
-    // get methods
+
     public Item getWeapon() {
         return getUniqueItem(ItemType.WEAPON.getEquipmentSlot());
     }
@@ -57,6 +60,14 @@ public class ItemManager {
     
     public Item getBoots() {
         return getUniqueItem(ItemType.BOOTS.getEquipmentSlot());
+    }
+
+    public Item getGeneratedItem() {
+        return this.generatedItem;
+    }
+
+    public void setGeneratedItem(Item generatedItem) {
+        this.generatedItem = generatedItem;
     }
 
 
