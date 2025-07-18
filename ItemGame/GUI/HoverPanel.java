@@ -38,7 +38,7 @@ public class HoverPanel extends JPanel {
         removeAllLabels();
 
         String panelType = hoverdLabel.getName();
-        System.out.println(panelType);
+        // System.out.println(panelType);
 
         Item item;
         EquipmentSlot slot;

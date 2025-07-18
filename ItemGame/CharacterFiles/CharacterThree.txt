@@ -20,7 +20,7 @@ Defence:200.0
 Fire Resistance:20.0
 Item-End
 Item-Start
-Item Type:Chest
+Item Type:CHEST
 Item Name:Bronze Chest
 Defence:300.0
 All Resistance:10.0

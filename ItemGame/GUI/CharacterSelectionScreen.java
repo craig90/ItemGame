@@ -35,11 +35,9 @@ public class CharacterSelectionScreen extends JPanel {
                 try {
                     this.gui.cardLayout.show(this.gui.mainPanel, "Character Screen");
                     this.gui.getGame().setCharacter(this.gui.getGame().fileParcer.loadCharacterFromFile(characterFile));
-                    this.gui.getGame().getCharacter().updateStats();
-                    // TODO: not sure if this is the best way
-                    this.gui.characterScreen.setCharacter(this.gui.getGame().getCharacter());
                     this.gui.characterScreen.update();
                 } catch (FileNotFoundException ex) {
+                    System.out.println(ex.getMessage());
                     this.gui.errorSequence("Error loading character from file");
                 }
             });   
