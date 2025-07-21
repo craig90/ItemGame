@@ -95,7 +95,7 @@ public class CharacterScreen extends JPanel {
                 this.itemWindow = null;
             }
 
-            this.gui.cardLayout.show(this.gui.mainPanel, "Intro Screen");
+            this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.INTRO_SCREEN);
 
         });
 

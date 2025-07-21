@@ -1,3 +1,4 @@
+import java.awt.Component;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -10,17 +11,33 @@ public class CharacterSelectionScreen extends JPanel {
     ArrayList<CharacterFile> characterFiles;
     ArrayList<String> fileNames;
     Gui gui;
+    JButton backToHomeScreenButton;
 
     public CharacterSelectionScreen(Gui gui) {
         this.gui = gui;
         this.characterFiles = new ArrayList<CharacterFile>();
         this.fileNames = new ArrayList<String>();
 
+        this.backToHomeScreenButton = new JButton("Return to Home Screen");
+
+        this.backToHomeScreenButton.addActionListener(e -> {
+            System.out.println("Switching to: " + Gui.INTRO_SCREEN);
+            this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.INTRO_SCREEN);
+        });
+
+    }
+
+    public boolean update() {
+
+        removeComponents();
+
         try {
             fileNames = FileReader.readFileNames();
             characterFiles = this.gui.getGame().getCharacterNamesFromFile(fileNames);
         } catch (FileNotFoundException e) {
-            this.gui.errorSequence("Error - no character files found");
+            System.out.println("No files found");
+            this.gui.errorSequence("Error - no character files found", Gui.INTRO_SCREEN);
+            return false;
         }
 
         for (CharacterFile characterFile : characterFiles) {
@@ -33,28 +50,34 @@ public class CharacterSelectionScreen extends JPanel {
             button.addActionListener(e -> {
                 
                 try {
-                    this.gui.cardLayout.show(this.gui.mainPanel, "Character Screen");
                     this.gui.getGame().setCharacter(this.gui.getGame().fileParcer.loadCharacterFromFile(characterFile));
                     this.gui.characterScreen.update();
-                } catch (FileNotFoundException ex) {
+                    System.out.println("Switching to: " + Gui.CHARACTER_SCREEN);
+                    this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.CHARACTER_SCREEN);
+                } catch (Exception ex) {
                     System.out.println(ex.getMessage());
-                    this.gui.errorSequence("Error loading character from file");
+                    this.gui.errorSequence("Error loading character from file", Gui.CHARACTER_SELECTION_SCREEN);
                 }
             });   
 
         }
-        
-        JButton backToHomeScreenButton = new JButton("Return to Home Screen");
-        this.add(backToHomeScreenButton);
 
-        backToHomeScreenButton.addActionListener(e -> {
-            this.gui.cardLayout.show(this.gui.mainPanel, "Intro Screen");
-        });
+        this.add(this.backToHomeScreenButton);
+        return true;
 
     }
 
-    
+    public void removeComponents() {
 
-    
+        Component[] componentList = this.getComponents();
+
+        for(Component component : componentList){
+            this.remove(component);
+        }
+
+        this.revalidate();
+        this.repaint();
+
+    }
 
 }

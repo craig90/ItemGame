@@ -10,8 +10,14 @@ import javax.swing.Timer;
 
 public class Gui extends JFrame {
 
+    public static final String INTRO_SCREEN = "Intro Screen";
+    public static final String CHARACTER_SELECTION_SCREEN = "Character Selection Screen";
+    public static final String CREATE_CHARACTER_SCREEN = "Create Character Screen";
+    public static final String CHARACTER_SCREEN = "Character Screen";
+    public static final String ERROR_SCREEN = "Error Screen";
+
     public CardLayout cardLayout;
-    public JPanel mainPanel;
+    public JPanel cardLayoutPanel;
 
     private ErrorScreen errorScreen;
     protected CharacterScreen characterScreen;
@@ -29,7 +35,7 @@ public class Gui extends JFrame {
         this.setSize(700, 500);
 
         this.cardLayout = new CardLayout();
-        this.mainPanel = new JPanel(this.cardLayout);
+        this.cardLayoutPanel = new JPanel(this.cardLayout);
         
 
         // home screen
@@ -43,19 +49,23 @@ public class Gui extends JFrame {
         introScreen.add(createCharButton);
         introScreen.add(loadCharButton);
 
+
+        this.errorScreen = new ErrorScreen();
+        this.characterSelectionScreen = new CharacterSelectionScreen(this);
+        this.characterScreen = new CharacterScreen(this);
+
+
         loadCharButton.addActionListener(e -> {
-            this.cardLayout.show(this.mainPanel, "Character Selection Screen");
+            if (this.characterSelectionScreen.update() == true) {
+                System.out.println("Switching to: " + CHARACTER_SELECTION_SCREEN);
+                this.cardLayout.show(this.cardLayoutPanel, CHARACTER_SELECTION_SCREEN);
+            }
         });
 
         createCharButton.addActionListener(e -> {
-            this.cardLayout.show(this.mainPanel, "Create Character Screen");
+            System.out.println("Switching to: " + CREATE_CHARACTER_SCREEN);
+            this.cardLayout.show(this.cardLayoutPanel, CREATE_CHARACTER_SCREEN);
         });
-
-
-        this.errorScreen = new ErrorScreen();
-         // TODO: should be recreated -- test what happens when there are no files found
-        this.characterSelectionScreen = new CharacterSelectionScreen(this);
-        this.characterScreen = new CharacterScreen(this);
 
 
 
@@ -73,19 +83,20 @@ public class Gui extends JFrame {
         createCharacterScreen.add(backToHomeScreenButtonTwo);
 
         backToHomeScreenButtonTwo.addActionListener(e -> {
-            this.cardLayout.show(this.mainPanel, "Intro Screen");
+            System.out.println("Switching to: " + INTRO_SCREEN);
+            this.cardLayout.show(this.cardLayoutPanel, INTRO_SCREEN);
         });
 
 
-        this.mainPanel.add(introScreen, "Intro Screen");
-        this.mainPanel.add(this.characterSelectionScreen, "Character Selection Screen");
-        this.mainPanel.add(createCharacterScreen, "Create Character Screen");
-        this.mainPanel.add(this.characterScreen, "Character Screen");
+        this.cardLayoutPanel.add(introScreen, INTRO_SCREEN);
+        this.cardLayoutPanel.add(this.characterSelectionScreen, CHARACTER_SELECTION_SCREEN);
+        this.cardLayoutPanel.add(createCharacterScreen, CREATE_CHARACTER_SCREEN);
+        this.cardLayoutPanel.add(this.characterScreen, CHARACTER_SCREEN);
 
-        this.mainPanel.add(this.errorScreen, "Error Screen");
+        this.cardLayoutPanel.add(this.errorScreen, ERROR_SCREEN);
 
 
-        this.add(mainPanel);
+        this.add(this.cardLayoutPanel);
         this.setVisible(true);
 
     }
@@ -94,16 +105,22 @@ public class Gui extends JFrame {
         return this.game;
     }
 
-    public void errorSequence(String errorMessage) {
+    public void errorSequence(String errorMessage, String fallbackScreen) {
         
+        // boolean hasErrorScreen = Arrays.stream(cardLayoutPanel.getComponents()).anyMatch(c -> c == errorScreen);   
+        // System.out.println("Error screen added to card layout? " + hasErrorScreen);
+
+        System.out.println("Error Sequence");
         this.errorScreen.setErrorLabel(errorMessage);
-        this.cardLayout.show(this.mainPanel, "Error Screen");
+        System.out.println("Switching to: " + ERROR_SCREEN);
+        this.cardLayout.show(this.cardLayoutPanel, ERROR_SCREEN);
 
         Timer timer = new Timer(3000, (ActionEvent e) -> {
-            this.errorScreen.setVisible(false);
-            // frame.revalidate(); // Refresh layout
-            // frame.repaint();
+            System.out.println("Switching to: " + fallbackScreen);
+            this.cardLayout.show(this.cardLayoutPanel, fallbackScreen);
         });
+        
+        timer.setRepeats(false);
         timer.start();
 
     }
