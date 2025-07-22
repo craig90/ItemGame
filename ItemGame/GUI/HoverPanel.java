@@ -13,8 +13,6 @@ public class HoverPanel extends JPanel {
 
     //Character character;
     ItemManager itemManager;
-    // this should not be sent in either -- need item manager TODO
-    ItemLayeredPane spareItemPane;
 
     public HoverPanel() {
 
@@ -32,9 +30,9 @@ public class HoverPanel extends JPanel {
         this.itemManager = itemManager;
     }
 
-    public void setSpareItemPanel(ItemLayeredPane spareItemPane) {
-        this.spareItemPane = spareItemPane;
-    }
+    // public void setSpareItemPanel(ItemLayeredPane spareItemPane) {
+    //     this.spareItemPane = spareItemPane;
+    // }
 
 
     /**
@@ -44,7 +42,7 @@ public class HoverPanel extends JPanel {
      */
     public void updateHoverWindow(JLabel hoverdLabel) {
 
-        if (this.itemManager == null || this.spareItemPane == null) {
+        if (this.itemManager == null) {
             return;
         }
 
@@ -64,7 +62,9 @@ public class HoverPanel extends JPanel {
         }
 
         if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
-            item = this.spareItemPane.getItem();
+            item = this.itemManager.getGeneratedItem();
+        } else if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
+            item = this.itemManager.getRemovedItem();
         } else {
             item = this.itemManager.getUniqueItem(slot);
         }
