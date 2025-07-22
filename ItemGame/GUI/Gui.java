@@ -31,7 +31,7 @@ public class Gui extends JFrame {
         // Create the main frame
         this.setTitle("Item Game");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(700, 500);
+        this.setSize(900, 700);
 
         this.cardLayout = new CardLayout();
         this.cardLayoutPanel = new JPanel(this.cardLayout);
@@ -44,7 +44,7 @@ public class Gui extends JFrame {
         this.errorScreen = new ErrorScreen();
 
 
-        this.cardLayoutPanel.add(introScreen, INTRO_SCREEN);
+        this.cardLayoutPanel.add(this.introScreen, INTRO_SCREEN);
         this.cardLayoutPanel.add(this.characterSelectionScreen, CHARACTER_SELECTION_SCREEN);
         this.cardLayoutPanel.add(this.characterCreationScreen, CHARACTER_CREATION_SCREEN);
         this.cardLayoutPanel.add(this.characterScreen, CHARACTER_SCREEN);
