@@ -89,8 +89,6 @@ public class HoverPanel extends JPanel {
 
         // Get the absolute position of the label
         Point locationOnScreen = SwingUtilities.convertPoint(hoverdLabel, 0, 0, null);
-        // System.out.println("Absolutie X: " + locationOnScreen.x);
-        // System.out.println("Parent X: " + hoverdLabel.getParent().getX());
         this.setBounds(hoverdLabel.getParent().getX(), locationOnScreen.y, 200, 200);
 
         this.setSize(this.getPreferredSize());

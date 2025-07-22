@@ -6,7 +6,7 @@ import java.util.List;
 public class ItemManager {
 
     // private Map<String, Item> uniqueItems;
-    private Map<RingSlot, Ring> rings;
+    // private Map<RingSlot, Ring> rings;
     private Map<EquipmentSlot, Item> uniqueItems;
 
     private Item generatedItem;
@@ -14,7 +14,7 @@ public class ItemManager {
 
     public ItemManager() {
         this.uniqueItems = new EnumMap<>(EquipmentSlot.class);
-        this.rings = new EnumMap<>(RingSlot.class);
+        // this.rings = new EnumMap<>(RingSlot.class);
         this.generatedItem = null;
     }
 
@@ -40,11 +40,11 @@ public class ItemManager {
     }
 
     public Item getLeftRing() {
-        return this.rings.get(RingSlot.LEFT_HAND);
+        return getUniqueItem(EquipmentSlot.LEFT_RING);
     }
 
     public Item getRightRing() {
-        return this.rings.get(RingSlot.RIGHT_HAND);
+        return getUniqueItem(EquipmentSlot.RIGHT_RING);
     }
 
     public Item getGloves() {
@@ -94,33 +94,35 @@ public class ItemManager {
      * @return will return an item if it exists, otherwise returns null
      */
     public Item getUniqueItem(EquipmentSlot slotType) {
-        if (slotType == EquipmentSlot.LEFT_RING) {
-            return rings.get(RingSlot.LEFT_HAND);
-        } else if (slotType == EquipmentSlot.RIGHT_RING) {
-            return rings.get(RingSlot.RIGHT_HAND);
-        } else {
+        // if (slotType == EquipmentSlot.LEFT_RING) {
+        //     return rings.get(RingSlot.LEFT_HAND);
+        // } else if (slotType == EquipmentSlot.RIGHT_RING) {
+        //     return rings.get(RingSlot.RIGHT_HAND);
+        // } else {
             return uniqueItems.get(slotType);
-        }
+        // }
     }
 
-    public Ring getRing(RingSlot ringType) {
-        return rings.get(ringType);
-    }
-
-    /**
-     * returns the number of items on the item list
-     * @return
-     */
-    /*public int getItemListSize() {
-        return this.itemList.size();
-    }*/
+    // public Ring getRing(RingSlot ringType) {
+    //     return rings.get(ringType);
+    // }
 
     /**
      * this will add the item to the list and remove any existing item of the same item type
      * @param item
      */
     public void equipItem(Item item, EquipmentSlot slot) {
-        uniqueItems.put(slot, item);
+        
+        if (slot != null) {
+            uniqueItems.put(slot, item);
+            return;
+        }
+
+        // logic is slightly different for Rings since there are two of them
+        if (item instanceof Ring) {
+            Ring ring = (Ring) item;
+            uniqueItems.put(ring.getRingSlot(), item);
+        }
     }
 
     /**
@@ -128,24 +130,24 @@ public class ItemManager {
      * @param ring
      * @param slot
      */
-    public void equipRing(Ring ring, RingSlot slot) {
-        ring.setRingSlot(slot);
-        this.rings.put(slot, ring);
-    }
+    // public void equipRing(Ring ring, RingSlot slot) {
+    //     ring.setRingSlot(slot);
+    //     this.rings.put(slot, ring);
+    // }
 
 
     public void removeItem(EquipmentSlot slot) {
         this.uniqueItems.remove(slot);
     }
 
-    public void removeRing(RingSlot slot) {
-        this.rings.remove(slot);
-    }
+    // public void removeRing(RingSlot slot) {
+    //     this.rings.remove(slot);
+    // }
 
 
     public List<Item> getAllItems() {
         List<Item> allItems = new ArrayList<>(this.uniqueItems.values());
-        allItems.addAll(rings.values());
+        //allItems.addAll(rings.values());
         return allItems;
     }
 

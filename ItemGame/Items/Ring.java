@@ -1,16 +1,16 @@
 public class Ring extends Item {
 
-    RingSlot slot;
+    EquipmentSlot slot;
 
     public Ring(String itemName) {
         super(itemName);
     }
 
-    public void setRingSlot(RingSlot slot) {
+    public void setRingSlot(EquipmentSlot slot) {
         this.slot = slot;
     }
 
-    public RingSlot getRingSlot() {
+    public EquipmentSlot getRingSlot() {
         return this.slot;
     }
 
