@@ -348,7 +348,6 @@ public class ItemWindow extends JLayeredPane {
         }
         
         this.hoverPanel.setItemManager(this.itemManager);
-        this.hoverPanel.setSpareItemPanel(this.spareItemPanel);
     }
 
 
@@ -376,7 +375,6 @@ public class ItemWindow extends JLayeredPane {
             System.out.println("Dragged item: " + this.draggedItem.getItemName());
         }
        
-        // TODO: add something for rings and blings        
         else {
             this.draggedItem = this.itemManager.getUniqueItem(slot);
         }
@@ -439,7 +437,8 @@ public class ItemWindow extends JLayeredPane {
             // are two potential drop sites
             if (this.itemWindow.draggedItem.getItemType() == ItemType.RING) {
                 if ((targetPanel.equipmentSlot != EquipmentSlot.RIGHT_RING) 
-                && (targetPanel.equipmentSlot != EquipmentSlot.LEFT_RING)) {
+                && (targetPanel.equipmentSlot != EquipmentSlot.LEFT_RING)
+                && (targetPanel.equipmentSlot != EquipmentSlot.DELETE_ITEM_SLOT)) {
                     return false;
                 }
             } else {
@@ -472,11 +471,15 @@ public class ItemWindow extends JLayeredPane {
                 if (targetPanel.equipmentSlot == EquipmentSlot.DELETE_ITEM_SLOT) {
                     
                     if (draggedItem.getItemType().getEquipmentSlot() == EquipmentSlot.NEW_ITEM_SLOT) {
-                        System.out.println("Placing new Item in delete Item slot");
                         this.itemWindow.itemManager.setGeneratedItem(null);
                     } else {
-                        // this won't work for rings...
-                        this.itemWindow.itemManager.removeItem(draggedItem.getItemType().getEquipmentSlot());
+                        // logic is slightly different for rings
+                        if (draggedItem instanceof Ring == true) {
+                            Ring ring = (Ring) draggedItem;
+                            this.itemWindow.itemManager.removeRing(ring.getRingSlot());
+                        } else {
+                            this.itemWindow.itemManager.removeItem(draggedItem.getItemType().getEquipmentSlot());
+                        }
                     }
                     this.itemWindow.itemManager.setRemovedItem(draggedItem);
 
