@@ -122,10 +122,12 @@ public class CharacterScreen extends JPanel {
             return;
         }
 
-        // TODO: we will probably need some method for removing and resetting everything
-        // update the items for the new character TODO: this maybe should be a bit cleaner
+        // TODO: this maybe should be a bit cleaner
+        // update the items for the new character
         this.itemPanel.setItemManager(this.character.getItemManager());
+        this.itemPanel.clearItemPanes(); // if we're reloading we have to clear what's there already
         this.itemPanel.setItemsInPanes();
+        this.itemPanel.setSourceTransferHandlers();
         this.itemPanel.setupHoverPanel();
 
         update();

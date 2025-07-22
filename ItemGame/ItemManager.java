@@ -10,6 +10,7 @@ public class ItemManager {
     private Map<EquipmentSlot, Item> uniqueItems;
 
     private Item generatedItem;
+    private Item removedItem;
 
     public ItemManager() {
         this.uniqueItems = new EnumMap<>(EquipmentSlot.class);
@@ -70,6 +71,13 @@ public class ItemManager {
         this.generatedItem = generatedItem;
     }
 
+    public Item getRemovedItem() {
+        return this.removedItem;
+    }
+
+    public void setRemovedItem(Item item) {
+        this.removedItem = item;
+    }
 
     /**
      * return an item at the specified index
