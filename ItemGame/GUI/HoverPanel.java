@@ -16,11 +16,11 @@ public class HoverPanel extends JPanel {
     // this should not be sent in either -- need item manager TODO
     ItemLayeredPane spareItemPane;
 
-    public HoverPanel(ItemManager itemManager, ItemLayeredPane spareItemPane) {
+    public HoverPanel() {
 
         // this.character = character;
-        this.itemManager = itemManager;
-        this.spareItemPane = spareItemPane;
+        // this.itemManager = itemManager;
+        // this.spareItemPane = spareItemPane;
         
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setBackground(new Color(0,0,0,180));
@@ -28,12 +28,25 @@ public class HoverPanel extends JPanel {
 
     }
 
+    public void setItemManager(ItemManager itemManager) {
+        this.itemManager = itemManager;
+    }
+
+    public void setSpareItemPanel(ItemLayeredPane spareItemPane) {
+        this.spareItemPane = spareItemPane;
+    }
+
+
     /**
      * updates the hover panel by populating it with the item name and stats and setting it's position to
      * the item that is currently being hovered over
      * @param hoverdLabel
      */
     public void updateHoverWindow(JLabel hoverdLabel) {
+
+        if (this.itemManager == null || this.spareItemPane == null) {
+            return;
+        }
 
         removeAllLabels();
 
@@ -67,6 +80,7 @@ public class HoverPanel extends JPanel {
 
         // generate hover panel depending on the type - new vs equipped
         if (panelType.equals(EquipmentSlot.NEW_ITEM_SLOT.toString())) {
+            System.out.println("New Item Hover Panel");
             generateNewItemHoverPanel(item);
         } else {
             generateEquippedItemHoverPanel(item);
@@ -75,7 +89,10 @@ public class HoverPanel extends JPanel {
 
         // Get the absolute position of the label
         Point locationOnScreen = SwingUtilities.convertPoint(hoverdLabel, 0, 0, null);
-        this.setBounds(locationOnScreen.x, locationOnScreen.y, 200, 200);
+        // System.out.println("Absolutie X: " + locationOnScreen.x);
+        // System.out.println("Parent X: " + hoverdLabel.getParent().getX());
+        this.setBounds(hoverdLabel.getParent().getX(), locationOnScreen.y, 200, 200);
+
         this.setSize(this.getPreferredSize());
 
     }

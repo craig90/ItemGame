@@ -18,7 +18,7 @@ public class ItemLayeredPane extends JLayeredPane {
 
     public static final String NEW_ITEM_SLOT = "New Item";
 
-    JLabel itemLabel;
+    JLabel slotLabel;
     JLabel itemIconLabel;
     // ImageIcon itemImageIcon;
 
@@ -26,20 +26,19 @@ public class ItemLayeredPane extends JLayeredPane {
     EquipmentSlot equipmentSlot;
 
     // about how this will work
-    public ItemLayeredPane(EquipmentSlot equipmentSlot, Item item) {
+    public ItemLayeredPane(EquipmentSlot equipmentSlot) {
 
         this.equipmentSlot = equipmentSlot;
-        this.item = item;
 
         this.setBackground(Color.GRAY);
         this.setPreferredSize(new Dimension(getItemSlotWidth(this.equipmentSlot), getItemSlotHeight(this.equipmentSlot)));
         this.setOpaque(true);
         
-        this.itemLabel = new JLabel(this.equipmentSlot.toString());
-        this.itemLabel.setBounds(0, 0, getItemSlotWidth(this.equipmentSlot), getItemSlotHeight(this.equipmentSlot));
-        this.itemLabel.setHorizontalAlignment(JLabel.CENTER);
-        this.itemLabel.setVerticalAlignment(JLabel.TOP);
-        this.add(this.itemLabel, 1);
+        this.slotLabel = new JLabel(this.equipmentSlot.toString());
+        this.slotLabel.setBounds(0, 0, getItemSlotWidth(this.equipmentSlot), getItemSlotHeight(this.equipmentSlot));
+        this.slotLabel.setHorizontalAlignment(JLabel.CENTER);
+        this.slotLabel.setVerticalAlignment(JLabel.TOP);
+        this.add(this.slotLabel, 1);
         
     }
 
@@ -74,7 +73,7 @@ public class ItemLayeredPane extends JLayeredPane {
         this.revalidate();
         this.repaint();
 
-        System.out.println("Removing item" + this.itemIconLabel.getName());
+        System.out.println("Removing item " + this.itemIconLabel.getName() + " from " + this.slotLabel.getText() + " slot");
         // set things to null
         this.itemIconLabel = null;
         this.item = null;

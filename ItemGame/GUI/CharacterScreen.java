@@ -17,7 +17,7 @@ public class CharacterScreen extends JPanel {
     JLabel characterPoisonResistance;
     JLabel characterMagicResistance;
 
-    JButton showItemScreenButton;
+    // JButton showItemScreenButton;
     JButton returnToHomeScreenButton;
     JButton saveChangesButton;
 
@@ -25,16 +25,19 @@ public class CharacterScreen extends JPanel {
     Gui gui;
     CharacterSaver characterSaver;
 
-    ItemWindow itemWindow;
+    ItemWindow itemPanel;
+
+    JPanel statsPanel;
 
     public CharacterScreen(Gui gui) {
 
         this.gui = gui;
         this.character = this.gui.getGame().getCharacter();
-        this.itemWindow = null;
+        this.itemPanel = new ItemWindow(this);
         this.characterSaver = this.gui.getGame().getCharacterSaver();
 
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        this.statsPanel = new JPanel();
+        this.statsPanel.setLayout(new BoxLayout(this.statsPanel, BoxLayout.Y_AXIS));
 
         // TODO: use constants for labels
         // character screen
@@ -50,37 +53,44 @@ public class CharacterScreen extends JPanel {
         this.characterPoisonResistance = new JLabel("Poison Resistance: ");
         this.characterMagicResistance = new JLabel("Magic Resistance: ");
 
-        this.showItemScreenButton = new JButton("Show Items");
+        // this.showItemScreenButton = new JButton("Show Items");
         this.saveChangesButton = new JButton("Save Changes");
         this.returnToHomeScreenButton = new JButton("Return to Home Screen");
 
-        this.add(characterName);
-        this.add(characterLevel);
-        this.add(characterExperience);
-        this.add(characterDamage);
-        this.add(characterHealth);
-        this.add(characterDefence);
-        this.add(characterFireResistance);
-        this.add(characterColdResistance);
-        this.add(characterLightningResistance);
-        this.add(characterPoisonResistance);
-        this.add(characterMagicResistance);
+        this.statsPanel.add(characterName);
+        this.statsPanel.add(characterLevel);
+        this.statsPanel.add(characterExperience);
+        this.statsPanel.add(characterDamage);
+        this.statsPanel.add(characterHealth);
+        this.statsPanel.add(characterDefence);
+        this.statsPanel.add(characterFireResistance);
+        this.statsPanel.add(characterColdResistance);
+        this.statsPanel.add(characterLightningResistance);
+        this.statsPanel.add(characterPoisonResistance);
+        this.statsPanel.add(characterMagicResistance);
 
-        this.add(showItemScreenButton);
-        this.add(saveChangesButton);
-        this.add(returnToHomeScreenButton);
+        // this.add(showItemScreenButton);
+        this.statsPanel.add(saveChangesButton);
+        this.statsPanel.add(returnToHomeScreenButton);
 
-        this.showItemScreenButton.addActionListener(e -> {
+
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        this.add(this.statsPanel);
+        this.add(this.itemPanel);
+
+        System.out.println(this.itemPanel.isVisible());
+        System.out.println(this.itemPanel.getSize());
+        // this.showItemScreenButton.addActionListener(e -> {
             
-            // make sure we are only opening one window at a time
-            if (this.itemWindow == null) {
-                this.itemWindow = new ItemWindow(this, this.character.getItemManager());
-            } else {
-                this.itemWindow.toFront();
-                this.itemWindow.setVisible(true);
-            }
+        //     // make sure we are only opening one window at a time
+        //     if (this.itemWindow == null) {
+        //         this.itemWindow = new ItemWindow(this, this.character.getItemManager());
+        //     } else {
+        //         // this.itemWindow.toFront();
+        //         this.itemWindow.setVisible(true);
+        //     }
        
-        });
+        // });
 
         this.saveChangesButton.addActionListener(e -> {
             this.characterSaver.saveCharacter(this.character);
@@ -90,10 +100,10 @@ public class CharacterScreen extends JPanel {
         this.returnToHomeScreenButton.addActionListener(e -> {
             
             // dispose then set to null since a disposed frame can be redrawn
-            if (this.itemWindow != null) {
-                this.itemWindow.dispose();
-                this.itemWindow = null;
-            }
+            // if (this.itemWindow != null) {
+            //     this.itemWindow.dispose();
+            //     this.itemWindow = null;
+            // }
 
             this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.INTRO_SCREEN);
 
@@ -102,10 +112,7 @@ public class CharacterScreen extends JPanel {
 
     }
 
-    /**
-     * updates all the character stats in the gui
-     */
-    public void update() {
+    public void setCharacter() {
 
         // make sure we have the latest character
         this.character = this.gui.getGame().getCharacter();
@@ -115,6 +122,23 @@ public class CharacterScreen extends JPanel {
             return;
         }
 
+        // TODO: we will probably need some method for removing and resetting everything
+        // update the items for the new character TODO: this maybe should be a bit cleaner
+        this.itemPanel.setItemManager(this.character.getItemManager());
+        this.itemPanel.setItemsInPanes();
+        this.itemPanel.setupHoverPanel();
+
+        update();
+
+    }
+
+
+    /**
+     * updates all the character stats in the gui
+     */
+    public void update() {
+
+        // update all the stats on the character stats
         this.character.updateStats();
         this.characterName.setText("Name: " + this.character.getName());
         this.characterLevel.setText("Level: " + this.character.getLevel());

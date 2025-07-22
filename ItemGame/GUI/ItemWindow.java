@@ -1,4 +1,3 @@
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
@@ -7,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 
 import java.awt.GridBagLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
@@ -22,12 +22,12 @@ import java.awt.dnd.DnDConstants;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 
-public class ItemWindow extends JFrame {
+public class ItemWindow extends JLayeredPane {
 
     final static int ITEM_WINDOW_WIDTH = 700;
     final static int ITEM_WINDOW_HEIGHT = 700;
 
-    JLayeredPane layeredPane;
+    // JLayeredPane layeredPane;
 
     JPanel itemPanel;
     // JPanel hoverPanel;
@@ -48,20 +48,18 @@ public class ItemWindow extends JFrame {
     ItemGenerator itemGenerator;
     ItemManager itemManager;
 
+    MyMouseListener mouseListener;
 
     ItemLayeredPane sourcePanel;
     Item draggedItem;
 
-    public ItemWindow(CharacterScreen characterScreen, ItemManager itemManager) {
+    public ItemWindow(CharacterScreen characterScreen) {
 
-        this.characterScreen = characterScreen;
-        this.itemManager = itemManager;
+        this.characterScreen = characterScreen;// TODO: is this even being used?
+        //this.itemManager = itemManager;
         this.itemGenerator = new ItemGenerator();
 
-        this.setTitle("Items");
-        this.setSize(ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
-
-        this.layeredPane = new JLayeredPane();
+        // this.layeredPane = new JLayeredPane();
 
         this.itemPanel = new JPanel();
         this.itemPanel.setLayout(new GridBagLayout());
@@ -71,66 +69,66 @@ public class ItemWindow extends JFrame {
         c.insets = new Insets(4, 4, 4, 4);
         
         // helm
-        this.helmPanel = new ItemLayeredPane(EquipmentSlot.HELM, this.itemManager.getHelm());
+        this.helmPanel = new ItemLayeredPane(EquipmentSlot.HELM);
         c.gridx = 2;
         c.gridy = 0;
         this.itemPanel.add(this.helmPanel, c);
 
         // weapon
-        this.weaponPanel = new ItemLayeredPane(EquipmentSlot.WEAPON, this.itemManager.getWeapon());
+        this.weaponPanel = new ItemLayeredPane(EquipmentSlot.WEAPON);
         c.gridx = 0;
         c.gridy = 1;
         this.itemPanel.add(this.weaponPanel, c);
 
         // amulet
-        this.amuletPanel = new ItemLayeredPane(EquipmentSlot.AMULET, this.itemManager.getAmulet());
+        this.amuletPanel = new ItemLayeredPane(EquipmentSlot.AMULET);
         c.gridx = 3;
         c.gridy = 0;
         this.itemPanel.add(this.amuletPanel, c);
         
         // ring
-        this.rightHandRingPanel = new ItemLayeredPane(EquipmentSlot.RIGHT_RING, this.itemManager.getRightRing());
+        this.rightHandRingPanel = new ItemLayeredPane(EquipmentSlot.RIGHT_RING);
         c.gridx = 1;
         c.gridy = 2;
         this.itemPanel.add(this.rightHandRingPanel, c);
         
-        this.leftHandRingPanel = new ItemLayeredPane(EquipmentSlot.LEFT_RING, this.itemManager.getLeftRing());
+        this.leftHandRingPanel = new ItemLayeredPane(EquipmentSlot.LEFT_RING);
         c.gridx = 3;
         c.gridy = 2;
         this.itemPanel.add(this.leftHandRingPanel, c);
 
         // chest panel
-        this.chestPanel = new ItemLayeredPane(EquipmentSlot.CHEST, this.itemManager.getChest());
+        this.chestPanel = new ItemLayeredPane(EquipmentSlot.CHEST);
         c.gridx = 2;
         c.gridy = 1;
         this.itemPanel.add(this.chestPanel, c);
 
         // gloves
-        this.glovesPanel = new ItemLayeredPane(EquipmentSlot.GLOVES, this.itemManager.getGloves());
+        this.glovesPanel = new ItemLayeredPane(EquipmentSlot.GLOVES);
         c.gridx = 0;
         c.gridy = 2;
         this.itemPanel.add(this.glovesPanel, c);
 
         // shield
-        this.shieldPanel = new ItemLayeredPane(EquipmentSlot.SHIELD, this.itemManager.getShield());
+        this.shieldPanel = new ItemLayeredPane(EquipmentSlot.SHIELD);
         c.gridx = 4;
         c.gridy = 1;
         this.itemPanel.add(this.shieldPanel, c);
 
         // belt
-        this.beltPanel = new ItemLayeredPane(EquipmentSlot.BELT, this.itemManager.getBelt());
+        this.beltPanel = new ItemLayeredPane(EquipmentSlot.BELT);
         c.gridx = 2;
         c.gridy = 2;
         this.itemPanel.add(this.beltPanel, c);
 
         // pants
-        this.pantsPanel = new ItemLayeredPane(EquipmentSlot.PANTS, this.itemManager.getPants());
+        this.pantsPanel = new ItemLayeredPane(EquipmentSlot.PANTS);
         c.gridx = 2;
         c.gridy = 3;
         this.itemPanel.add(this.pantsPanel, c);
 
         // boots
-        this.bootsPanel = new ItemLayeredPane(EquipmentSlot.BOOTS, this.itemManager.getBoots());
+        this.bootsPanel = new ItemLayeredPane(EquipmentSlot.BOOTS);
         c.gridx = 4;
         c.gridy = 2;
         this.itemPanel.add(this.bootsPanel, c);
@@ -142,32 +140,31 @@ public class ItemWindow extends JFrame {
         this.itemPanel.add(this.getNewItemButton, c);
 
         // holder for extra item
-        this.spareItemPanel = new ItemLayeredPane(EquipmentSlot.NEW_ITEM_SLOT, null);
+        this.spareItemPanel = new ItemLayeredPane(EquipmentSlot.NEW_ITEM_SLOT);
         c.gridx = 5;
         c.gridy = 1;
         this.itemPanel.add(this.spareItemPanel, c);
 
-        setItemsInPanes();
-
+        // the size has to be set for layered Panes 
         this.itemPanel.setBounds(0, 0, ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
+        this.setSize(ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
 
-        this.add(this.layeredPane);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close only this window
-        this.setLocationRelativeTo(this);
+        //this.add(this.itemPanel);
 
-        this.hoverPanel = new HoverPanel(this.itemManager, this.spareItemPanel);
+        // this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close only this window
+        // this.setLocationRelativeTo(this);
 
-        this.layeredPane.add(this.itemPanel, 1);
-        this.layeredPane.add(this.hoverPanel, 0);
+        this.hoverPanel = new HoverPanel();
 
+        this.add(this.itemPanel, 1);
+        this.itemPanel.setBackground(Color.GREEN);
+
+        this.add(this.hoverPanel, 0);
+
+        this.setBackground(Color.RED);
         this.setVisible(true);
 
-        MyMouseListener mouseListener = new MyMouseListener(this);
-
-        // add mouse listeners to the current item image icons
-        for (Item item : this.itemManager.getAllItems()) {
-            item.getItemImageLabel().addMouseListener(mouseListener);
-        }
+        this.mouseListener = new MyMouseListener(this);
 
         this.getNewItemButton.addActionListener(e -> {
             Item newItem;
@@ -178,10 +175,11 @@ public class ItemWindow extends JFrame {
                 System.out.println("Error creating new item");
                 return;
             }
-            this.itemManager.getGeneratedItem().getItemImageLabel().addMouseListener(mouseListener);
+            
+            this.itemManager.getGeneratedItem().getItemImageLabel().addMouseListener(this.mouseListener);
             this.spareItemPanel.addItemToSlot(this.itemManager.getGeneratedItem());
-            this.spareItemPanel.itemIconLabel.setTransferHandler(new MyLabelTransferHandler(this));
-            this.spareItemPanel.itemIconLabel.addMouseListener(new MouseAdapter() {
+            this.itemManager.getGeneratedItem().itemImageLabel.setTransferHandler(new MyLabelTransferHandler(this));
+            this.itemManager.getGeneratedItem().itemImageLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     JComponent c = (JComponent) e.getSource();
@@ -192,7 +190,7 @@ public class ItemWindow extends JFrame {
             
         });
 
-
+        // these are the transfer handlers to recieve an item
         this.helmPanel.setTransferHandler(new MyPanelTransferHandler(this));
         this.weaponPanel.setTransferHandler(new MyPanelTransferHandler(this));
         this.amuletPanel.setTransferHandler(new MyPanelTransferHandler(this));
@@ -205,6 +203,10 @@ public class ItemWindow extends JFrame {
         this.chestPanel.setTransferHandler(new MyPanelTransferHandler(this));
         this.bootsPanel.setTransferHandler(new MyPanelTransferHandler(this));
 
+    }
+
+    public void setItemManager(ItemManager itemManager) {
+        this.itemManager = itemManager;
     }
 
     /**
@@ -253,7 +255,12 @@ public class ItemWindow extends JFrame {
     /**
      * sets whichever items the character has in their respective item panes
      */
-    private void setItemsInPanes() {
+    public void setItemsInPanes() {
+
+        if (this.itemManager == null) {
+            System.out.println("Error");
+            return;
+        }
 
         if (this.itemManager.getHelm() != null) {
             this.helmPanel.addItemToSlot(this.itemManager.getHelm());
@@ -299,6 +306,21 @@ public class ItemWindow extends JFrame {
             this.leftHandRingPanel.addItemToSlot(this.itemManager.getLeftRing());
         }
 
+    }
+
+    public void setupHoverPanel() {
+        
+        if (this.itemManager == null){
+            System.out.println("Error");
+            return;
+        }
+
+        for (Item item : this.itemManager.getAllItems()) {
+            item.getItemImageLabel().addMouseListener(this.mouseListener);
+        }
+        
+        this.hoverPanel.setItemManager(this.itemManager);
+        this.hoverPanel.setSpareItemPanel(this.spareItemPanel);
     }
 
 
