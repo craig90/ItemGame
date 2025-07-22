@@ -476,7 +476,7 @@ public class ItemWindow extends JLayeredPane {
                         // logic is slightly different for rings
                         if (draggedItem instanceof Ring == true) {
                             Ring ring = (Ring) draggedItem;
-                            this.itemWindow.itemManager.removeRing(ring.getRingSlot());
+                            this.itemWindow.itemManager.removeItem(ring.getRingSlot());
                         } else {
                             this.itemWindow.itemManager.removeItem(draggedItem.getItemType().getEquipmentSlot());
                         }
@@ -484,18 +484,8 @@ public class ItemWindow extends JLayeredPane {
                     this.itemWindow.itemManager.setRemovedItem(draggedItem);
 
                 } else {
-
-                    // logic is a bit more complicated for rings
-                    // TODO: I wonder if this is really necessary
-                    if (draggedItem instanceof Ring) {
-                        if (targetPanel.equipmentSlot == EquipmentSlot.RIGHT_RING) {
-                            this.itemWindow.itemManager.equipRing((Ring)draggedItem, RingSlot.RIGHT_HAND);    
-                        } else {
-                            this.itemWindow.itemManager.equipRing((Ring)draggedItem, RingSlot.LEFT_HAND);    
-                        }
-                    } else {
-                        this.itemWindow.itemManager.equipItem(draggedItem, draggedItem.getItemType().getEquipmentSlot());
-                    }
+                    System.out.println("Target Panel: " + targetPanel.equipmentSlot.toString());
+                    this.itemWindow.itemManager.equipItem(draggedItem, targetPanel.equipmentSlot);
                 }
                 
                 this.itemWindow.characterScreen.update();

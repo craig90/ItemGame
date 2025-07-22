@@ -266,7 +266,7 @@ public class Game {
         
         if (commandLineReader.getInteger() == 1) {
             if (newItem instanceof Ring) {
-                this.character.getItemManager().equipRing((Ring)newItem, RingSlot.LEFT_HAND);// TODO: ring slot
+                this.character.getItemManager().equipItem((Ring)newItem, EquipmentSlot.LEFT_RING);// TODO: ring slot
             } else {
                 this.character.getItemManager().equipItem(newItem, newItem.getItemType().getEquipmentSlot());
             }

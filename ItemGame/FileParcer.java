@@ -291,14 +291,14 @@ public class FileParcer {
         lineNumber.setNumber(lineNumber.getNumber()+1);
 
         // if it's a ring the third line must be the ring slot
-        if (item.getItemType() == ItemType.RING) {
+        if (item instanceof Ring) {
 
             Ring ring = (Ring) item;
-            RingSlot slot;
+            EquipmentSlot slot;
 
             try {
                 ringSlot = readRingSlot(fileReader.getLine());
-                slot = RingSlot.valueOf(ringSlot);
+                slot = EquipmentSlot.valueOf(ringSlot);
                 System.out.println(slot.toString());
             } catch (Exception e) {
                 System.out.println("Error reading ring slot");
@@ -337,12 +337,7 @@ public class FileParcer {
                 if (item.isLegit() == false) {
                    return false;
                 } else {
-                    if (item instanceof Ring) {
-                        Ring ring = (Ring)item;
-                        itemManager.equipRing(ring, ring.getRingSlot());
-                    } else {
-                        itemManager.equipItem(item, item.getItemType().getEquipmentSlot());
-                    }
+                    itemManager.equipItem(item, item.getItemType().getEquipmentSlot());
                     return true;
                 }
             } else {
