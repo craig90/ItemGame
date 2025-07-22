@@ -31,7 +31,7 @@ public class Gui extends JFrame {
         // Create the main frame
         this.setTitle("Item Game");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(900, 700);
+        this.setSize(900, 750);
 
         this.cardLayout = new CardLayout();
         this.cardLayoutPanel = new JPanel(this.cardLayout);

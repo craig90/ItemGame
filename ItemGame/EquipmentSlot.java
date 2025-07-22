@@ -10,5 +10,6 @@ public enum EquipmentSlot {
     WEAPON,
     LEFT_RING,
     RIGHT_RING,
-    NEW_ITEM_SLOT
+    NEW_ITEM_SLOT,
+    DELETE_ITEM_SLOT
 }

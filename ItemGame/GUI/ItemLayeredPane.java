@@ -15,6 +15,7 @@ public class ItemLayeredPane extends JLayeredPane {
     public static final int PANTS_HEIGHT = 175, BOOTS_HEIGHT = 125;
 
     public static final int NEW_SLOT_WIDTH = 125, NEW_SLOT_HEIGHT = 175;
+    public static final int DELETE_SLOT_WIDTH = 125, DELETE_SLOT_HEIGHT = 175;
 
     public static final String NEW_ITEM_SLOT = "New Item";
 
@@ -68,6 +69,10 @@ public class ItemLayeredPane extends JLayeredPane {
 
     public void removeItemFromSlot() {
         
+        if (this.itemIconLabel == null) {
+            return;
+        }
+
         // remove the item from the slot
         this.remove(this.itemIconLabel);
         this.revalidate();
@@ -128,6 +133,8 @@ public class ItemLayeredPane extends JLayeredPane {
             return RING_HEIGHT;
         } else if (equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
             return NEW_SLOT_HEIGHT;
+        } else if (equipmentSlot == EquipmentSlot.DELETE_ITEM_SLOT) {
+            return DELETE_SLOT_HEIGHT;
         } else {
             return 0;  // TODO: this shouln't be reached - throw exception?
         }
@@ -164,6 +171,8 @@ public class ItemLayeredPane extends JLayeredPane {
             return BOOTS_WIDTH;
         } else if (equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
             return NEW_SLOT_WIDTH;
+        } else if (equipmentSlot == EquipmentSlot.DELETE_ITEM_SLOT) {
+            return DELETE_SLOT_WIDTH;
         } else {
             return 0;  // TODO: this shouln't be reached - throw exception?
         }
