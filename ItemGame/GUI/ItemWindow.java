@@ -434,7 +434,31 @@ public class ItemWindow extends JLayeredPane {
 
     }
 
+    /**
+     * Group these method calls together because the item must be removed from both the itemManager and the gui panel
+     */
+    public void removeItemSequence() {
+        
+        this.itemManager.removeItem(this.sourcePanel.equipmentSlot);
+        this.sourcePanel.removeItemFromSlot();
+        
+    }
+    
+    /**
+     * group these method calls together since the item MUST be added to both itemManager and gui panel
+     * @param targetPanel
+     * @param draggedItem
+     */
+    public void addItemSequence(ItemLayeredPane targetPanel, Item draggedItem) {
 
+        this.itemManager.addItem(targetPanel.equipmentSlot, draggedItem);
+        targetPanel.addItemToSlot(draggedItem);
+
+    }
+
+    /**
+     * This class subclasses TransferHandler and is used by labels which have the ability to be dragable
+     */
     static class MyLabelTransferHandler extends TransferHandler {
         
         ItemWindow itemWindow;
@@ -458,26 +482,10 @@ public class ItemWindow extends JLayeredPane {
         @Override
         protected void exportDone(JComponent source, Transferable data, int action) {
             
-            Item draggedItem = this.itemWindow.getDraggedItem();
-            
+            // when the export is done we're going to remove the item from its old location then update stats
             if (action == DnDConstants.ACTION_MOVE) {
-                
-                if (this.itemWindow.sourcePanel.equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
-                    this.itemWindow.itemManager.removeGeneratedItem();
-                } else if (this.itemWindow.sourcePanel.equipmentSlot == EquipmentSlot.DELETE_ITEM_SLOT) {
-                    this.itemWindow.itemManager.removeSpareItem();
-                } else {
-                    // logic is slightly different for rings
-                    if (draggedItem instanceof Ring == true) {
-                        Ring ring = (Ring) draggedItem;
-                        this.itemWindow.itemManager.removeItem(ring.getRingSlot());
-                    } else {
-                        this.itemWindow.itemManager.removeItem(draggedItem.getItemType().getEquipmentSlot());
-                    }
-                }
-                
-                this.itemWindow.sourcePanel.removeItemFromSlot();
-
+                this.itemWindow.removeItemSequence();
+                this.itemWindow.characterScreen.update();
             }
         }
 
@@ -486,6 +494,9 @@ public class ItemWindow extends JLayeredPane {
         }
     }
 
+    /**
+     * This class sublcasses Transfer Handler and is used by any panel that may import an item via item drag
+     */
     static class MyPanelTransferHandler extends TransferHandler {
         
         ItemWindow itemWindow;
@@ -538,22 +549,11 @@ public class ItemWindow extends JLayeredPane {
                 return false;
             }
             try {
-                
                 ItemLayeredPane targetPanel = (ItemLayeredPane) support.getComponent();
-                System.out.println("Supports drop");
+                // System.out.println("Supports drop");
                 Item draggedItem = this.itemWindow.getDraggedItem();
 
-                // see if we're moving an item to the deletion slot
-                if (targetPanel.equipmentSlot == EquipmentSlot.DELETE_ITEM_SLOT) {
-                    this.itemWindow.itemManager.setSpareItem(draggedItem);
-                } else {
-                    System.out.println("Target Panel: " + targetPanel.equipmentSlot.toString());
-                    this.itemWindow.itemManager.equipItem(draggedItem, targetPanel.equipmentSlot);
-                }
-                
-                this.itemWindow.characterScreen.update();
-                targetPanel.addItemToSlot(draggedItem);
-                
+                this.itemWindow.addItemSequence(targetPanel, draggedItem);
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -561,6 +561,7 @@ public class ItemWindow extends JLayeredPane {
             }
         }
     }
+
 
     static class ImageTransferable implements Transferable {
 
