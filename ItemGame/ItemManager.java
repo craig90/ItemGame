@@ -124,7 +124,7 @@ public class ItemManager {
     public void addItem(EquipmentSlot slot, Item item) {
     
         // see if we're moving an item to the deletion slot
-        if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
+        if (slot == EquipmentSlot.INVENTORY_SLOT) {
             this.setSpareItem(item);
         } else {
             // System.out.println("Target Panel: " + targetPanel.equipmentSlot.toString());
@@ -163,7 +163,7 @@ public class ItemManager {
 
     public void removeItem(EquipmentSlot slot) {
         
-        if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
+        if (slot == EquipmentSlot.INVENTORY_SLOT) {
             System.out.println("Removing item from " + slot.toString());
             this.spareItem = null;
         } else if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
