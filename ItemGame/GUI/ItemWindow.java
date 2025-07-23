@@ -6,20 +6,27 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Point;
 
 import javax.swing.JLayeredPane;
 
-import java.awt.event.MouseAdapter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.awt.event.MouseEvent;
 
+import java.awt.image.BufferedImage;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
-
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceAdapter;
+import java.awt.dnd.DragSourceDropEvent;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 
@@ -188,7 +195,7 @@ public class ItemWindow extends JLayeredPane {
 
         // delete the item
         this.deleteItemButton.addActionListener(e -> {
-            this.itemManager.setRemovedItem(null);
+            this.itemManager.setSpareItem(null);
             this.deleteItemPanel.removeItemFromSlot();
         });
 
@@ -212,15 +219,61 @@ public class ItemWindow extends JLayeredPane {
     public void setSourceTransferHandler(Item item) {
 
         item.itemImageLabel.setTransferHandler(new MyLabelTransferHandler(this));
-        item.itemImageLabel.addMouseListener(new MouseAdapter() {
+        // item.itemImageLabel.addMouseListener(new MouseAdapter() {
+        //     @Override
+        //     public void mousePressed(MouseEvent e) {
+        //         JComponent c = (JComponent) e.getSource();
+        //         TransferHandler handler = c.getTransferHandler();
+        //         handler.exportAsDrag(c, e, DnDConstants.ACTION_MOVE);
+        //     }
+        // });
+
+
+        DragSource dragSource = new DragSource();
+        dragSource.createDefaultDragGestureRecognizer(item.itemImageLabel, DnDConstants.ACTION_MOVE, new DragGestureListener() {
             @Override
-            public void mousePressed(MouseEvent e) {
-                JComponent c = (JComponent) e.getSource();
-                TransferHandler handler = c.getTransferHandler();
-                handler.exportAsDrag(c, e, DnDConstants.ACTION_MOVE);
+            public void dragGestureRecognized(DragGestureEvent dge) {
+                
+                
+                TransferHandler th = item.itemImageLabel.getTransferHandler();
+                if (!(th instanceof MyLabelTransferHandler)) return;
+
+                Transferable transferable = ((MyLabelTransferHandler) th).getTransferable(item.itemImageLabel);
+                
+                if (transferable == null) return;
+
+                // Create custom drag image
+                Image dragImage = createDragImage(item.itemImageLabel);
+
+                // Start drag with image
+                dragSource.startDrag(dge, DragSource.DefaultMoveDrop, dragImage, new Point(0, 0), transferable,
+                    new DragSourceAdapter() {
+                        @Override
+                        public void dragDropEnd(DragSourceDropEvent dsde) {
+                            ((MyLabelTransferHandler) th).exportDone((JComponent)item.itemImageLabel, transferable, 
+                            dsde.getDropSuccess() ? DnDConstants.ACTION_MOVE : DnDConstants.ACTION_NONE);
+                        }
+
+                    } // optional: override if needed
+                );
             }
+
+            // public void dragDropEnd(DragSourceDropEvent dsde) {
+            //     if (dsde.getDropSuccess() == true) {
+            //         System.out.println("Successful drop");
+            //     }
+            // }
         });
-        
+
+    }
+
+    public Image createDragImage(JComponent comp) {
+        Dimension size = comp.getSize();
+        BufferedImage image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = image.createGraphics();
+        comp.paint(g2);
+        g2.dispose();
+        return image;
     }
 
     public void setSourceTransferHandlers() {
@@ -371,7 +424,7 @@ public class ItemWindow extends JLayeredPane {
             this.draggedItem = this.itemManager.getGeneratedItem();
         } else if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
             System.out.println("Setting dragged item");
-            this.draggedItem = this.itemManager.getRemovedItem();
+            this.draggedItem = this.itemManager.getSpareItem();
             System.out.println("Dragged item: " + this.draggedItem.getItemName());
         }
        
@@ -404,9 +457,32 @@ public class ItemWindow extends JLayeredPane {
 
         @Override
         protected void exportDone(JComponent source, Transferable data, int action) {
+            
+            Item draggedItem = this.itemWindow.getDraggedItem();
+            
             if (action == DnDConstants.ACTION_MOVE) {
+                
+                if (this.itemWindow.sourcePanel.equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
+                    this.itemWindow.itemManager.removeGeneratedItem();
+                } else if (this.itemWindow.sourcePanel.equipmentSlot == EquipmentSlot.DELETE_ITEM_SLOT) {
+                    this.itemWindow.itemManager.removeSpareItem();
+                } else {
+                    // logic is slightly different for rings
+                    if (draggedItem instanceof Ring == true) {
+                        Ring ring = (Ring) draggedItem;
+                        this.itemWindow.itemManager.removeItem(ring.getRingSlot());
+                    } else {
+                        this.itemWindow.itemManager.removeItem(draggedItem.getItemType().getEquipmentSlot());
+                    }
+                }
+                
                 this.itemWindow.sourcePanel.removeItemFromSlot();
+
             }
+        }
+
+        public Transferable getTransferable(JComponent c) {
+            return createTransferable(c);
         }
     }
 
@@ -469,20 +545,7 @@ public class ItemWindow extends JLayeredPane {
 
                 // see if we're moving an item to the deletion slot
                 if (targetPanel.equipmentSlot == EquipmentSlot.DELETE_ITEM_SLOT) {
-                    
-                    if (draggedItem.getItemType().getEquipmentSlot() == EquipmentSlot.NEW_ITEM_SLOT) {
-                        this.itemWindow.itemManager.setGeneratedItem(null);
-                    } else {
-                        // logic is slightly different for rings
-                        if (draggedItem instanceof Ring == true) {
-                            Ring ring = (Ring) draggedItem;
-                            this.itemWindow.itemManager.removeItem(ring.getRingSlot());
-                        } else {
-                            this.itemWindow.itemManager.removeItem(draggedItem.getItemType().getEquipmentSlot());
-                        }
-                    }
-                    this.itemWindow.itemManager.setRemovedItem(draggedItem);
-
+                    this.itemWindow.itemManager.setSpareItem(draggedItem);
                 } else {
                     System.out.println("Target Panel: " + targetPanel.equipmentSlot.toString());
                     this.itemWindow.itemManager.equipItem(draggedItem, targetPanel.equipmentSlot);

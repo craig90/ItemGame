@@ -273,8 +273,8 @@ public abstract class Item {
         }
         
         // show the two items for testing purposes
-        oldItem.displayItem();
-        newItem.displayItem();
+        // oldItem.displayItem();
+        // newItem.displayItem();
 
         // this is a little complicated, we're going to have to run through all the stats from each item
         // and compare and see what will increase and what will decrease
@@ -283,7 +283,7 @@ public abstract class Item {
         boolean[] foundOldStat = new boolean[oldItem.statList.size()];
         boolean[] foundNewStat = new boolean[newItem.statList.size()];
     
-        System.out.println("Stat Differences: ");
+        // System.out.println("Stat Differences: ");
         
         for (int i = 0; i < oldItem.statListSize(); i++) {
             ItemStat itemStat = oldItem.statList.get(i);
@@ -296,7 +296,7 @@ public abstract class Item {
                     foundNewStat[j] = true;
                     // System.out.println("It has the same stat");
                     double difference = newStat.value - itemStat.value;
-                    System.out.println(newStat.type + " " + difference);
+                    // System.out.println(newStat.type + " " + difference);
                     StatDifference statDifference = new StatDifference(newStat);
                 
                     if (newStat.value >= itemStat.value) {

@@ -10,7 +10,7 @@ public class ItemManager {
     private Map<EquipmentSlot, Item> uniqueItems;
 
     private Item generatedItem;
-    private Item removedItem;
+    private Item spareItem;
 
     public ItemManager() {
         this.uniqueItems = new EnumMap<>(EquipmentSlot.class);
@@ -71,12 +71,20 @@ public class ItemManager {
         this.generatedItem = generatedItem;
     }
 
-    public Item getRemovedItem() {
-        return this.removedItem;
+    public void removeGeneratedItem() {
+        this.generatedItem = null;
     }
 
-    public void setRemovedItem(Item item) {
-        this.removedItem = item;
+    public Item getSpareItem() {
+        return this.spareItem;
+    }
+
+    public void setSpareItem(Item item) {
+        this.spareItem = item;
+    }
+
+    public void removeSpareItem() {
+        this.spareItem = null;
     }
 
     /**
