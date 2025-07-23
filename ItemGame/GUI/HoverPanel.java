@@ -64,7 +64,7 @@ public class HoverPanel extends JPanel {
         if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
             item = this.itemManager.getGeneratedItem();
         } else if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
-            item = this.itemManager.getRemovedItem();
+            item = this.itemManager.getSpareItem();
         } else {
             item = this.itemManager.getUniqueItem(slot);
         }
