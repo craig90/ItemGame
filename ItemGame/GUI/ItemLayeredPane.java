@@ -133,7 +133,7 @@ public class ItemLayeredPane extends JLayeredPane {
             return RING_HEIGHT;
         } else if (equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
             return NEW_SLOT_HEIGHT;
-        } else if (equipmentSlot == EquipmentSlot.DELETE_ITEM_SLOT) {
+        } else if (equipmentSlot == EquipmentSlot.INVENTORY_SLOT) {
             return DELETE_SLOT_HEIGHT;
         } else {
             return 0;  // TODO: this shouln't be reached - throw exception?
@@ -171,7 +171,7 @@ public class ItemLayeredPane extends JLayeredPane {
             return BOOTS_WIDTH;
         } else if (equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
             return NEW_SLOT_WIDTH;
-        } else if (equipmentSlot == EquipmentSlot.DELETE_ITEM_SLOT) {
+        } else if (equipmentSlot == EquipmentSlot.INVENTORY_SLOT) {
             return DELETE_SLOT_WIDTH;
         } else {
             return 0;  // TODO: this shouln't be reached - throw exception?

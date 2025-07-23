@@ -157,7 +157,7 @@ public class ItemWindow extends JLayeredPane {
         c.gridy = 5;
         this.itemPanel.add(this.deleteItemButton, c);
 
-        this.deleteItemPanel = new ItemLayeredPane(EquipmentSlot.DELETE_ITEM_SLOT);
+        this.deleteItemPanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT);
         c.gridx = 2;
         c.gridy = 4;
         this.itemPanel.add(this.deleteItemPanel, c);
@@ -422,7 +422,7 @@ public class ItemWindow extends JLayeredPane {
 
         if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
             this.draggedItem = this.itemManager.getGeneratedItem();
-        } else if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
+        } else if (slot == EquipmentSlot.INVENTORY_SLOT) {
             System.out.println("Setting dragged item");
             this.draggedItem = this.itemManager.getSpareItem();
             System.out.println("Dragged item: " + this.draggedItem.getItemName());
@@ -525,12 +525,12 @@ public class ItemWindow extends JLayeredPane {
             if (this.itemWindow.draggedItem.getItemType() == ItemType.RING) {
                 if ((targetPanel.equipmentSlot != EquipmentSlot.RIGHT_RING) 
                 && (targetPanel.equipmentSlot != EquipmentSlot.LEFT_RING)
-                && (targetPanel.equipmentSlot != EquipmentSlot.DELETE_ITEM_SLOT)) {
+                && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT)) {
                     return false;
                 }
             } else {
                 if (this.itemWindow.draggedItem.getItemType().getEquipmentSlot() != targetPanel.equipmentSlot
-                    && targetPanel.equipmentSlot != EquipmentSlot.DELETE_ITEM_SLOT) {
+                    && targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT) {
                     return false;
                 }
             }
