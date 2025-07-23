@@ -16,6 +16,7 @@ public class ItemManager {
         this.uniqueItems = new EnumMap<>(EquipmentSlot.class);
         // this.rings = new EnumMap<>(RingSlot.class);
         this.generatedItem = null;
+        this.spareItem = null;
     }
 
 
@@ -116,6 +117,22 @@ public class ItemManager {
     // }
 
     /**
+     * adds and item either to the spare item slot, or equips it to an item slot
+     * @param slot
+     * @param item
+     */
+    public void addItem(EquipmentSlot slot, Item item) {
+    
+        // see if we're moving an item to the deletion slot
+        if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
+            this.setSpareItem(item);
+        } else {
+            // System.out.println("Target Panel: " + targetPanel.equipmentSlot.toString());
+            this.equipItem(item, slot);
+        }
+    }
+    
+    /**
      * this will add the item to the list and remove any existing item of the same item type
      * @param item
      */
@@ -145,7 +162,16 @@ public class ItemManager {
 
 
     public void removeItem(EquipmentSlot slot) {
-        this.uniqueItems.remove(slot);
+        
+        if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
+            System.out.println("Removing item from " + slot.toString());
+            this.spareItem = null;
+        } else if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
+            this.generatedItem = null;
+        } else {
+            System.out.println("Removing item from " + slot.toString());
+            this.uniqueItems.remove(slot);
+        }
     }
 
     // public void removeRing(RingSlot slot) {

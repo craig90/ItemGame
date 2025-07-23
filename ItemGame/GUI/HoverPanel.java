@@ -80,7 +80,7 @@ public class HoverPanel extends JPanel {
 
         // generate hover panel depending on the type - new vs equipped
         if (panelType.equals(EquipmentSlot.NEW_ITEM_SLOT.toString())) {
-            System.out.println("New Item Hover Panel");
+            // System.out.println("New Item Hover Panel");
             generateNewItemHoverPanel(item);
         } else {
             generateEquippedItemHoverPanel(item);
