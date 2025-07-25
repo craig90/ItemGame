@@ -12,7 +12,7 @@ public class FileParcer {
     private int lineNumber;
 
     public FileParcer() {
-        this.lineNumber = 1;
+        this.lineNumber = 0;
     }
 
     /**
@@ -28,7 +28,7 @@ public class FileParcer {
         String[] lineArray = line.split(REGEX);
 
         if (lineArray.length != TWO_ELEMENT_LENGTH) {
-            throw new Exception("Incorrect number of elements on line" + this.lineNumber);
+            throw new Exception("Incorrect number of elements on line " + this.lineNumber);
         }
 
         this.lineNumber++;
@@ -48,7 +48,7 @@ public class FileParcer {
         String[] lineArray = line.split(REGEX);
 
         if (lineArray.length != ONE_ELEMENT_LENGTH) {
-            System.out.println("Incorrect number of elements on line" + this.lineNumber);
+            System.out.println("Incorrect number of elements on line " + this.lineNumber);
             throw new Exception();
         }
 
@@ -82,6 +82,7 @@ public class FileParcer {
     public void parceCharacterNameAndLevel(FileReader file, CharacterFile characterFile) throws Exception {
 
         String[] lineArray;
+        this.lineNumber = 0;
 
         file.openFile(characterFile.getFileName());
 
@@ -89,18 +90,24 @@ public class FileParcer {
 
         // check if the file line starts with Character Name keyword, if so grab the Character Name
         if (lineArray[0].equals(FileKeywords.CHARACTER_NAME)) {
-            characterFile.setCharacterName(lineArray[1]);
+            if (characterFile.setCharacterName(lineArray[1]) == false) {
+                throw new Exception("Error reading character name at line " + this.lineNumber);
+            }
         } else {
-            throw new Exception();
+            throw new Exception("Error reading Character Name identifier at line " + this.lineNumber);
         }
 
         lineArray = parceTwoElementLine(file);
 
         // check if the file line starts with Character Level keyword, if so grab the Character Name
         if (lineArray[0].equals(CharacterStatNames.LEVEL)) {
-            characterFile.setLevel(Double.parseDouble(lineArray[1]));
+            try {
+                characterFile.setLevel(Double.parseDouble(lineArray[1]));
+            } catch (Exception e) {
+                throw new Exception("Error reading level on line " + this.lineNumber);
+            }
         } else {
-            throw new Exception();
+            throw new Exception("Error reading Level identifier at line " + this.lineNumber);
         }
 
         file.closeFile();
@@ -182,12 +189,16 @@ public class FileParcer {
      * @throws NullPointerException
      * @throws NumberFormatException
      */
-    public void parceCharacterLevel(String[] lineArray, Character character) throws Exception, NullPointerException, NumberFormatException {
+    public void parceCharacterLevel(String[] lineArray, Character character) throws Exception {
 
         if (!lineArray[0].equals(CharacterStatNames.LEVEL)) {
             throw new Exception("Error reading Character level at line " + this.lineNumber);
         } else {
-            character.setLevel(Double.parseDouble(lineArray[1]));
+            try {
+                character.setLevel(Double.parseDouble(lineArray[1]));
+            } catch (Exception e) {
+                throw new Exception("Error setting level at line " + this.lineNumber);
+            }
         }
     }
 
@@ -199,12 +210,16 @@ public class FileParcer {
      * @throws NullPointerException
      * @throws NumberFormatException
      */
-    public void parceCharacterExperience(String[] lineArray, Character character) throws Exception, NullPointerException, NumberFormatException {
+    public void parceCharacterExperience(String[] lineArray, Character character) throws Exception {
 
         if (!lineArray[0].equals(CharacterStatNames.EXPERIENCE)) {
             throw new Exception("Error reading Character level at line " + this.lineNumber);
         } else {
-            character.setExperience(Double.parseDouble(lineArray[1]));
+            try {
+                character.setExperience(Double.parseDouble(lineArray[1]));
+            } catch (Exception e) {
+                throw new Exception("Error setting experience at line " + this.lineNumber);
+            }
         }
     }
 
@@ -255,7 +270,7 @@ public class FileParcer {
             throw new Exception("Error reading item name at line " + this.lineNumber);
         } else {
             if (item.setItemName(lineArray[1]) == false ) {
-                throw new Exception("Error with item name lenght at line " + this.lineNumber);
+                throw new Exception("Error with item name length at line " + this.lineNumber);
             }
         }
 
@@ -283,7 +298,7 @@ public class FileParcer {
 
     public void parceRingSlot(String[] lineArray, Item item) throws Exception {
         
-        System.out.println(lineArray[0]);
+        // System.out.println(lineArray[0]);
         if (!lineArray[0].equals(FileKeywords.RING_SLOT)) {
             throw new Exception("Error reading Ring slot at line " + this.lineNumber);
         }
@@ -326,7 +341,11 @@ public class FileParcer {
         String[] lineArray;
 
         while ((lineArray = parceItemStat(parceLine(fileReader))).length > ITEM_END_ARRAY_LENGTH) {
-            stat = new ItemStat(lineArray[0], Double.parseDouble(lineArray[1]));
+            try {
+                stat = new ItemStat(lineArray[0], Double.parseDouble(lineArray[1]));
+            } catch (Exception e) {
+                throw new Exception("Error converting stat value at line " + this.lineNumber);
+            }
             item.addStat(stat);
         }
 
@@ -339,8 +358,6 @@ public class FileParcer {
 
     }
 
-
-    // TODO: test double conversion failure
     public Character loadCharacterFromFileReWrite(CharacterFile characterFile) throws Exception {
 
         Character character = new Character();
@@ -350,7 +367,7 @@ public class FileParcer {
         fileReader = new FileReader();
         fileReader.openFile(characterFile.getFileName());
 
-        this.lineNumber = 1;
+        this.lineNumber = 0;
         
         // the first three lines in the file are character name, level, and experience
         parceCharacterName(parceTwoElementLine(fileReader), character);

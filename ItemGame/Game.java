@@ -83,6 +83,7 @@ public class Game {
             
             } catch (Exception e) {
                 System.out.println("Error reading file");
+                System.out.println(e.getMessage());
             }
             
         }

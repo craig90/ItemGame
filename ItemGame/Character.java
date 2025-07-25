@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Character {
 
-    private static final int MIN_NAME_LENGTH = 3;
+    public static final int MIN_NAME_LENGTH = 3;
 
     private String characterName;
 
