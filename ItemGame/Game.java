@@ -70,14 +70,21 @@ public class Game {
         for (int i = 0; i < fileNames.size(); i++) {
             CharacterFile characterFile = new CharacterFile();
             characterFile.setFileName(fileNames.get(i));
-            this.fileParcer.parceCharacterNameAndLevel(file, characterFile);
 
-            if (characterFile.getCharacterName().equals("")) { // invalid file
-                System.out.println("Error reading character name from file" + fileNames.get(i));
-            } else {
-                characterFile.setFileName(fileNames.get(i));
-                characterFiles.add(characterFile);
+            try {
+                this.fileParcer.parceCharacterNameAndLevel(file, characterFile);
+                
+                if (characterFile.getCharacterName().equals("")) { // invalid file
+                    System.out.println("Error reading character name from file" + fileNames.get(i));
+                } else {
+                    characterFile.setFileName(fileNames.get(i));
+                    characterFiles.add(characterFile);
+                }
+            
+            } catch (Exception e) {
+                System.out.println("Error reading file");
             }
+            
         }
 
         if (fileNames.size() == 0) {
@@ -126,12 +133,15 @@ public class Game {
             fileNames = FileReader.readFileNames();
             characterFiles = getCharacterNamesFromFile(fileNames);
             characterToLoad = chooseCharacterScreen(characterFiles);
-            this.character = this.fileParcer.loadCharacterFromFile(characterToLoad);
+            this.character = this.fileParcer.loadCharacterFromFileReWrite(characterToLoad);
             return true;
         } catch (FileNotFoundException e) {
             System.out.println("Error loading character from file");
             return false;
-        } 
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
 
     }
 

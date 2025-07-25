@@ -22,6 +22,8 @@ public abstract class Item {
     public static final int MAX_STATS = 5; // will generate MAX_STATS - 1 due to how random() method works
     public static final int MIN_STATS = 2;    
 
+    private static final int MIN_ITEM_NAME_LENGTH = 4;
+
     // all the different Item Types
     /*public static final String WEAPON = "Weapon";
     public static final String HELM = "Helm";
@@ -98,11 +100,18 @@ public abstract class Item {
 
 
     /**
-     * TODO: add name verification logic
+     * Sets the item name and does a quick check that's it's an appropriate length - could add more verification
+     * if we want to make sure it's multiple words
+     * 
      * @param itemName
      * @return
      */
     public boolean setItemName(String itemName) {
+        
+        if (itemName.length() < MIN_ITEM_NAME_LENGTH) {
+            return false;
+        }
+        
         this.itemName = itemName;
         return true;
     }

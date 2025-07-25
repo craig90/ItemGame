@@ -48,12 +48,13 @@ public class ItemStat extends Stat {
     }
 
 
+    // TODO: change stat types to enum omg
     /**
      * returns true if sent a valid stat type, otherwise false
      * @param statType
      * @return
      */
-    public static boolean isLegit(String statType) {
+    public static boolean isLegitStat(String statType) {
 
          // make sure its a legit stat type
         for (int i = 0; i < ITEM_STAT_TYPE.length; i++) {

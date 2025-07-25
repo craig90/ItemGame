@@ -3,11 +3,75 @@ import java.io.FileNotFoundException;
 public class FileParcer {
 
     private static final String REGEX = "[:]";
-    private static final int CHARACTER_FILES_LINES = 3;
+    // private static final int CHARACTER_FILES_LINES = 3;
+    private static final int TWO_ELEMENT_LENGTH = 2;
+    private static final int ONE_ELEMENT_LENGTH = 1;
+
+    private static final int ITEM_END_ARRAY_LENGTH = 1;
+
+    private int lineNumber;
 
     public FileParcer() {
+        this.lineNumber = 1;
+    }
+
+    /**
+     * Used when caller is looking for a line with exactly two elements, with throw exception if it find more or less
+     * than two elements
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    public String[] parceTwoElementLine(FileReader file) throws Exception {
+
+        String line = file.getLine();
+        String[] lineArray = line.split(REGEX);
+
+        if (lineArray.length != TWO_ELEMENT_LENGTH) {
+            throw new Exception("Incorrect number of elements on line" + this.lineNumber);
+        }
+
+        this.lineNumber++;
+        return lineArray;
 
     }
+
+    /**
+     * Used when the caller is expecting a line wiht exactly one element, otherwise throws exception
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    public String parceOneElementLine(FileReader file) throws Exception {
+
+        String line = file.getLine();
+        String[] lineArray = line.split(REGEX);
+
+        if (lineArray.length != ONE_ELEMENT_LENGTH) {
+            System.out.println("Incorrect number of elements on line" + this.lineNumber);
+            throw new Exception();
+        }
+
+        this.lineNumber++;
+        return lineArray[0];
+        
+    }
+
+    /**
+     * used when we don't know how many elements may be on a line
+     * @param file
+     * @param lineArray
+     * @return
+     */
+    public String[] parceLine(FileReader file) {
+
+        String line = file.getLine();
+        String[] lineArray = line.split(REGEX);
+
+        this.lineNumber++;
+        return lineArray;
+    }
+
 
     /**
      * This method will parse the character name from the first line of the file
@@ -15,27 +79,28 @@ public class FileParcer {
      * @param characterName
      * @return the characterName or "" if not is found
      */
-    public void parceCharacterNameAndLevel(FileReader file, CharacterFile characterFile) {
+    public void parceCharacterNameAndLevel(FileReader file, CharacterFile characterFile) throws Exception {
 
-        String line;
         String[] lineArray;
 
         file.openFile(characterFile.getFileName());
 
-        line = file.getLine();
-        lineArray = line.split(REGEX);
+        lineArray = parceTwoElementLine(file);
 
         // check if the file line starts with Character Name keyword, if so grab the Character Name
         if (lineArray[0].equals(FileKeywords.CHARACTER_NAME)) {
             characterFile.setCharacterName(lineArray[1]);
+        } else {
+            throw new Exception();
         }
 
-        line = file.getLine();
-        lineArray = line.split(REGEX);
-        
+        lineArray = parceTwoElementLine(file);
+
         // check if the file line starts with Character Level keyword, if so grab the Character Name
         if (lineArray[0].equals(CharacterStatNames.LEVEL)) {
             characterFile.setLevel(Double.parseDouble(lineArray[1]));
+        } else {
+            throw new Exception();
         }
 
         file.closeFile();
@@ -48,7 +113,7 @@ public class FileParcer {
      * @param lineNumber
      * @return
      */
-    private boolean parceCharacter(Character character, String lineArray[], IntegerWrapper lineNumber) {
+    /*private boolean parceCharacter(Character character, String lineArray[], IntegerWrapper lineNumber) {
         
         if (lineNumber.getNumber() == 1) {
             if (lineArray[0].equals(FileKeywords.CHARACTER_NAME)) {
@@ -90,13 +155,225 @@ public class FileParcer {
         }
         
         return true;
+    }*/
+
+    /**
+     * Parces the character name from file an sets it, throws exceptions for incorrect identifier and for invalid name
+     * @param lineArray
+     * @param character
+     * @throws Exception
+     */
+    public void parceCharacterName(String[] lineArray, Character character) throws Exception {
+
+        if (!lineArray[0].equals(FileKeywords.CHARACTER_NAME)) {
+            throw new Exception("Error reading Character Name at line " + this.lineNumber);
+        } else {
+            if (character.setName(lineArray[1]) == false) {
+                throw new Exception("Error reading Character Name at line " + this.lineNumber);
+            }
+        }
     }
+
+    /**
+     * Parces and sets the character's level. Throws exceptions for incorrect identifier or issue converting level to double
+     * @param lineArray
+     * @param character
+     * @throws Exception
+     * @throws NullPointerException
+     * @throws NumberFormatException
+     */
+    public void parceCharacterLevel(String[] lineArray, Character character) throws Exception, NullPointerException, NumberFormatException {
+
+        if (!lineArray[0].equals(CharacterStatNames.LEVEL)) {
+            throw new Exception("Error reading Character level at line " + this.lineNumber);
+        } else {
+            character.setLevel(Double.parseDouble(lineArray[1]));
+        }
+    }
+
+    /**
+     * Parces and saves the experience, throws exceptions for unrecognized identifier or issue converting exp to double
+     * @param lineArray
+     * @param character
+     * @throws Exception
+     * @throws NullPointerException
+     * @throws NumberFormatException
+     */
+    public void parceCharacterExperience(String[] lineArray, Character character) throws Exception, NullPointerException, NumberFormatException {
+
+        if (!lineArray[0].equals(CharacterStatNames.EXPERIENCE)) {
+            throw new Exception("Error reading Character level at line " + this.lineNumber);
+        } else {
+            character.setExperience(Double.parseDouble(lineArray[1]));
+        }
+    }
+
+    /**
+     * Returns true for item start, false for EOF, otherwise it throws an exception - it should only be called when
+     * searching for ItemStart and can find EOF if there are no items left
+     * @param line
+     * @return
+     * @throws Exception
+     */
+    private boolean parceItemStart(String line) throws Exception {
+
+        if (line.equals(FileKeywords.ITEM_START)) {
+            return true;
+        } else if (line.equals(FileKeywords.END_OF_FILE)) {
+            return false;
+        } else {
+            throw new Exception("Unrecognized identifier at line " + this.lineNumber);
+        }
+
+    }
+ 
+    /**
+     * Parces the item type from file, throws exception if item type keyword is not found
+     * @param lineArray
+     * @return
+     * @throws Exception
+     */
+    private String parceItemType(String[] lineArray) throws Exception {
+        
+        if (!lineArray[0].equals(FileKeywords.ITEM_TYPE)) {
+            throw new Exception("Error reading item type at line " + this.lineNumber);
+        } else {
+            return lineArray[1];
+        }
+
+    }
+
+    /**
+     * parces the item name from file, throws exception for unrecognized identifier or issue with item name
+     * @param lineArray
+     * @param item
+     * @throws Exception
+     */
+    private void parceItemName(String[] lineArray, Item item) throws Exception {
+
+        if (!lineArray[0].equals(FileKeywords.ITEM_NAME)) {
+            throw new Exception("Error reading item name at line " + this.lineNumber);
+        } else {
+            if (item.setItemName(lineArray[1]) == false ) {
+                throw new Exception("Error with item name lenght at line " + this.lineNumber);
+            }
+        }
+
+    }
+
+    /**
+     * returns true if sucessfully parsed a new item stat, false if item end, otherwise throws exception
+     * @param lineArray
+     * @param stat
+     * @return
+     * @throws Exception
+     */
+    private String[] parceItemStat(String[] lineArray) throws Exception {
+
+        if (lineArray[0].equals(FileKeywords.ITEM_END)) {
+            return lineArray;
+        }
+        
+        if (ItemStat.isLegitStat(lineArray[0]) == false) {
+            throw new Exception("Error reading stat name at line " + this.lineNumber);
+        }
+
+        return lineArray;
+    }
+
+    public void parceRingSlot(String[] lineArray, Item item) throws Exception {
+        
+        System.out.println(lineArray[0]);
+        if (!lineArray[0].equals(FileKeywords.RING_SLOT)) {
+            throw new Exception("Error reading Ring slot at line " + this.lineNumber);
+        }
+
+        System.out.println(lineArray[1]);
+
+        if (item instanceof Ring) {
+            Ring ring = (Ring) item;
+            try {
+                EquipmentSlot slot = EquipmentSlot.valueOf(lineArray[1]);
+                System.out.println(slot.toString());
+                ring.setRingSlot(slot);
+            } catch (Exception e) {
+                throw new Exception("Error reading ring slot type at line " + this.lineNumber);
+            }
+        }
+        
+    }
+
+
+    private boolean parceItem(FileReader fileReader, Character character) throws Exception {
+
+        Item item = null;
+        String itemType = "";        
+        
+        if (parceItemStart(parceOneElementLine(fileReader)) == false) {
+            return false;
+        }
+
+        itemType = parceItemType(parceTwoElementLine(fileReader));
+        item = createItem(itemType);
+
+        parceItemName(parceTwoElementLine(fileReader), item);
+        
+        if (itemType.equals(ItemType.RING.toString())) {
+            parceRingSlot(parceTwoElementLine(fileReader), item);
+        }
+
+        ItemStat stat = null;
+        String[] lineArray;
+
+        while ((lineArray = parceItemStat(parceLine(fileReader))).length > ITEM_END_ARRAY_LENGTH) {
+            stat = new ItemStat(lineArray[0], Double.parseDouble(lineArray[1]));
+            item.addStat(stat);
+        }
+
+        if (item.isLegit() == true) {
+            character.getItemManager().equipItem(item, item.getItemType().getEquipmentSlot());
+            return true;
+        }
+
+        throw new Exception("Error reading item in from file at line " + this.lineNumber);
+
+    }
+
+
+    // TODO: test double conversion failure
+    public Character loadCharacterFromFileReWrite(CharacterFile characterFile) throws Exception {
+
+        Character character = new Character();
+        FileReader fileReader;
+        boolean parceItem = true;
+        
+        fileReader = new FileReader();
+        fileReader.openFile(characterFile.getFileName());
+
+        this.lineNumber = 1;
+        
+        // the first three lines in the file are character name, level, and experience
+        parceCharacterName(parceTwoElementLine(fileReader), character);
+        parceCharacterLevel(parceTwoElementLine(fileReader), character);
+        parceCharacterExperience(parceTwoElementLine(fileReader), character);
+
+        // System.out.println("Added name, level, exp");
+
+        // the character can have 0 items or many items, read them in one at a time
+        while (parceItem == true) { 
+            parceItem = parceItem(fileReader, character);
+        }
+
+        return character;
+
+    }
+
 
 
     /**
      * intialize the character and item list from file data
      */
-    public Character loadCharacterFromFile(CharacterFile characterFile) throws FileNotFoundException {
+    /*public Character loadCharacterFromFile(CharacterFile characterFile) throws FileNotFoundException {
 
         Character character = new Character();
 
@@ -148,7 +425,7 @@ public class FileParcer {
         }
         
         return character;
-    }
+    }*/
 
 
 
@@ -179,7 +456,7 @@ public class FileParcer {
         } else if (itemType.equals(ItemType.RING.toString())) {
             item = new Ring("");
         } else {
-            throw new Exception();
+            throw new Exception("Invalid item type");
         }
 
         return item;
@@ -192,7 +469,7 @@ public class FileParcer {
      * @return
      * @throws Exception
      */
-    private String readItemType(String line) throws Exception {
+    /*private String parceItemType(String line) throws Exception {
 
         if (line == FileKeywords.END_OF_FILE) {
             throw new Exception();
@@ -207,7 +484,7 @@ public class FileParcer {
         
         return lineArray[1];
 
-    }
+    }*/
 
     /**
      * Reads the item name from the file
@@ -215,7 +492,7 @@ public class FileParcer {
      * @return
      * @throws Exception
      */
-    private String readItemName(String line) throws Exception {
+    /*private String readItemName(String line) throws Exception {
         
         if (line == FileKeywords.END_OF_FILE) {
             throw new Exception();
@@ -228,7 +505,7 @@ public class FileParcer {
         }
     
         return lineArray[1];
-    }
+    }*/
 
     /**
      * Reads the ring slot from the files
@@ -261,7 +538,7 @@ public class FileParcer {
      * @param lineNumber
      * @return
      */
-    private boolean parceItem (ItemManager itemManager, FileReader fileReader, IntegerWrapper lineNumber) {
+    /*private boolean parceItem (ItemManager itemManager, FileReader fileReader, IntegerWrapper lineNumber) {
 
         String line;
         String[] lineArray;
@@ -270,7 +547,7 @@ public class FileParcer {
 
         // first line in the item MUST be item type
         try {
-            itemType = readItemType(fileReader.getLine());
+            itemType = parceItemType(fileReader.getLine());
             item = createItem(itemType);
         } catch (Exception e) {
             System.out.println("Error reading item type");
@@ -315,7 +592,7 @@ public class FileParcer {
             lineArray = line.split(REGEX);
 
             // check the stat type and add it to the stat list
-            if (ItemStat.isLegit(lineArray[0]) == true) {
+            if (ItemStat.isLegitStat(lineArray[0]) == true) {
                 
                 double statValue = 0.0;
                 try {
@@ -350,7 +627,7 @@ public class FileParcer {
         
         }
         return false;
-    }
+    }*/
 
     /**
      * Auxilary method - Attempts to convert a String to a double
@@ -384,8 +661,11 @@ public class FileParcer {
         //fileParcer.parceCharacterNameAndLevel(file, characterFile);
         
         try {
-            character = fileParcer.loadCharacterFromFile(characterFile);
+            character = fileParcer.loadCharacterFromFileReWrite(characterFile);
         } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+            return;
+        } catch (Exception e) { // TODO: exceptions sould be more specific
             System.out.println(e.getMessage());
             return;
         }

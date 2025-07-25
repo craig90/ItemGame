@@ -33,8 +33,7 @@ public class FileReader {
     public String getLine() {
         
         if (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            return line;
+            return scanner.nextLine();
         } else {
             scanner.close();
             return FileKeywords.END_OF_FILE;

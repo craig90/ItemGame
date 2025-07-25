@@ -44,6 +44,14 @@ public class Gui extends JFrame {
         this.errorScreen = new ErrorScreen();
 
 
+    }
+    
+    /**
+     * Mostly created this to avoid the IDE warning.. not really necessary for project of this size.. all could be
+     * done in the constructor
+     */
+    public void init() {
+
         this.cardLayoutPanel.add(this.introScreen, INTRO_SCREEN);
         this.cardLayoutPanel.add(this.characterSelectionScreen, CHARACTER_SELECTION_SCREEN);
         this.cardLayoutPanel.add(this.characterCreationScreen, CHARACTER_CREATION_SCREEN);
@@ -55,7 +63,8 @@ public class Gui extends JFrame {
         this.setVisible(true);
 
     }
-    
+
+
     public Game getGame() {
         return this.game;
     }
@@ -81,7 +90,7 @@ public class Gui extends JFrame {
     public static void main(String[] args) {
         
         Gui gui = new Gui();
-        
+        gui.init();
 
     }
 
