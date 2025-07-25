@@ -8,8 +8,13 @@ public class CharacterFile {
 
     }
 
-    public void setCharacterName(String characterName) {
+    public boolean setCharacterName(String characterName) {
+        
+        if (characterName.length() < Character.MIN_NAME_LENGTH) { // TODO: duplicate logic
+            return false;
+        }
         this.characterName = characterName;
+        return true;
     }
 
     public void setFileName(String fileName) {

@@ -56,7 +56,7 @@ public class CharacterSelectionScreen extends JPanel {
                     this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.CHARACTER_SCREEN);
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
-                    ex.printStackTrace();
+                    // ex.printStackTrace();
                     this.gui.errorSequence("Error loading character from file", Gui.CHARACTER_SELECTION_SCREEN);
                 }
             });   

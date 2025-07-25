@@ -48,7 +48,6 @@ public class ItemStat extends Stat {
     }
 
 
-    // TODO: change stat types to enum omg
     /**
      * returns true if sent a valid stat type, otherwise false
      * @param statType
