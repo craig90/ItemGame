@@ -1,0 +1,47 @@
+Character Name:Bob
+Level:40.0
+Experience:123456.0
+Item-Start
+Item Type:AMULET
+Item Name:Orange AMULET
+Damage:80.0
+Health:26.0
+Defence:27.0
+All Resistance:7.0
+Item-End
+Item-Start
+Item Type:BELT
+Item Name:Blue BELT
+Damage:66.0
+Health:38.0
+All Resistance:9.0
+Lightning Resistance:18.0
+Magic Resistance:10.0
+Item-End
+Item-Start
+Item Type:CHEST
+Item Name:Green CHEST
+Defence:277.0
+Fire Resistance:19.0
+Poison Resistance:11.0
+Lightning Resistance:17.0
+Magic Resistance:19.0
+Item-End
+Item-Start
+Item Type:SHIELD
+Item Name:Green SHIELD
+Damage:65.0
+Defence:404.0
+All Resistance:9.0
+Fire Resistance:7.0
+Poison Resistance:19.0
+Item-End
+Item-Start
+Item Type:WEAPON
+Item Name:Red WEAPON
+Damage:352.0
+Health:48.0
+Defence:28.0
+Fire Resistance:11.0
+Magic Resistance:11.0
+Item-End

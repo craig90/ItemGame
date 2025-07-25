@@ -22,6 +22,23 @@ public class CharacterCreationScreen extends JPanel {
         this.add(submitCharNameButton);
         this.add(backToHomeScreenButtonTwo);
 
+
+        submitCharNameButton.addActionListener(e -> {
+            System.out.println("Creating new Character");
+            Character newCharacter = new Character();
+            
+            if (!newCharacter.setName(charNameTextField.getText()) ) {
+                this.gui.errorSequence("Name must be at least three characters", Gui.CHARACTER_CREATION_SCREEN);
+                return;
+            }
+
+            newCharacter.setLevel(40); // TODO: implement this later
+            newCharacter.setExperience(123456);
+            this.gui.getGame().setCharacter(newCharacter);
+            this.gui.characterScreen.setCharacter();
+            this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.CHARACTER_SCREEN);
+        });
+
         backToHomeScreenButtonTwo.addActionListener(e -> {
             System.out.println("Switching to: " + Gui.INTRO_SCREEN);
             this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.INTRO_SCREEN);

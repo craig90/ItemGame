@@ -2,9 +2,10 @@ import java.util.ArrayList;
 
 public class Character {
 
+    private static final int MIN_NAME_LENGTH = 3;
+
     private String characterName;
 
-    // TODO: might have to subclass some of these
     private CharacterStat level;
     private CharacterStat experience;
     private CharacterStat damage;
@@ -99,8 +100,14 @@ public class Character {
     }
 
     
-    public void setName(String name) {
-        this.characterName = name;
+    public boolean setName(String name) {
+        
+        if (name.length() < MIN_NAME_LENGTH) {
+            return false;
+        } else {
+            this.characterName = name;
+            return true;
+        }
     }
 
     public void setLevel(double level) {
