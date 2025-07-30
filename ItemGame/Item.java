@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -333,7 +334,14 @@ public abstract class Item {
 
     /** sorts the stat list based on the order we defined in comparator */
     public void sortStats() {
-        this.statList.sort(new StatComparator());
+        
+        ArrayList<ItemStat> sortedStats = statList.stream()
+            .sorted(Comparator.comparingInt(stat -> ItemStat.statPriority.getOrDefault(stat.getStatType(), Integer.MAX_VALUE)))
+            .collect(Collectors.toCollection(ArrayList::new));
+
+        this.statList = sortedStats;
+
+        // displayItem();
     }
 
 
@@ -429,27 +437,27 @@ public abstract class Item {
  * The StatComparator Class sorts the stats by their type
  * The order of the types correspons to their order on the ITEM_STAT_TYPE array
  */
-class StatComparator implements Comparator<Stat> {
-    @Override
-    public int compare(Stat statA, Stat statB) {
+// class StatComparator implements Comparator<Stat> {
+//     @Override
+//     public int compare(Stat statA, Stat statB) {
         
-        // return - integer if b comes first // return 0 if even // return + integer if a comes first
-        int aIndex = -1;
-        int bIndex = -1;
+//         // return - integer if b comes first // return 0 if even // return + integer if a comes first
+//         int aIndex = -1;
+//         int bIndex = -1;
 
-        for (int i = 0; i < ItemStat.ITEM_STAT_TYPE.length; i++) {
+//         for (int i = 0; i < ItemStat.ITEM_STAT_TYPE.length; i++) {
             
-            if (statA.getStatType().equals(ItemStat.ITEM_STAT_TYPE[i])) {
-                aIndex = i;
-            }
+//             if (statA.getStatType().equals(ItemStat.ITEM_STAT_TYPE[i])) {
+//                 aIndex = i;
+//             }
 
-            if (statB.getStatType().equals(ItemStat.ITEM_STAT_TYPE[i])) {
-                bIndex = i; 
-            }
+//             if (statB.getStatType().equals(ItemStat.ITEM_STAT_TYPE[i])) {
+//                 bIndex = i; 
+//             }
 
-        }
+//         }
 
-        return aIndex - bIndex;
-    }
+//         return aIndex - bIndex;
+//     }
 
-}
+// }
