@@ -1,8 +1,22 @@
+import java.util.Map;
+
 public class ItemStat extends Stat {
 
+    static Map<String, Integer> statPriority = Map.of(
+        "Damage", 1,
+        "Health", 2,
+        "Defence", 3,
+        "All Resistance", 4,
+        "Fire Resistance", 5,
+        "Poison Resistance", 6,
+        "Lightning Resistance", 7,
+        "Cold Resistance", 8,
+        "Magic Resistance", 9
+    );
+
     // Item Stat Types
-    public static final String HEALTH_STAT_NAME = "Health";
     public static final String DAMAGE_STAT_NAME = "Damage";
+    public static final String HEALTH_STAT_NAME = "Health";
     public static final String DEFENCE_STAT_NAME = "Defence";
     public static final String ALL_RESISTANCE_STAT_NAME = "All Resistance";
     public static final String FIRE_RESISTANCE_STAT_NAME = "Fire Resistance";
