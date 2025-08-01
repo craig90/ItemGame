@@ -169,7 +169,8 @@ public class ItemWindow extends JLayeredPane {
         this.hoverPanel = new HoverPanel();
 
         this.add(this.itemPanel, 1);
-        this.itemPanel.setBackground(Color.GREEN);
+        // this.itemPanel.setBackground(Color.GREEN);
+        this.itemPanel.setBackground(new Color(169, 169, 169));
 
         this.add(this.hoverPanel, 0);
 
