@@ -41,7 +41,7 @@ public class ItemGenerator {
         } else if (itemType == ItemType.RING) {
             newItem = new Ring("");
         } else {
-            throw new Exception();
+            throw new Exception("Error creating item, unrecognized item type");
         }
 
         // System.out.println("Generating New: " + ItecmConstants.ITEM_TYPES[itemNumber]);
@@ -49,11 +49,9 @@ public class ItemGenerator {
         
         //newItem.setItemType(Item.ITEM_TYPES[itemNumber]);
 
-        // TODO: add toString version or something for item name
-
         // choose the item Name from list of adjectives
         int itemNameAdjective = random.nextInt(Item.ITEM_ADJECTIVES.length);
-        newItem.setItemName(Item.ITEM_ADJECTIVES[itemNameAdjective] + " " + newItem.getItemType());
+        newItem.setItemName(Item.ITEM_ADJECTIVES[itemNameAdjective] + " " + newItem.getItemType().getDisplayName());
 
         newItem.generateItem(random);
 

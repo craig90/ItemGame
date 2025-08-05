@@ -35,7 +35,8 @@ public class ItemLayeredPane extends JLayeredPane {
         this.setPreferredSize(new Dimension(getItemSlotWidth(this.equipmentSlot), getItemSlotHeight(this.equipmentSlot)));
         this.setOpaque(true);
         
-        this.slotLabel = new JLabel(this.equipmentSlot.toString());
+        this.slotLabel = new JLabel(this.equipmentSlot.getDisplayName());
+        this.slotLabel.setName(this.equipmentSlot.toString());
         this.slotLabel.setBounds(0, 0, getItemSlotWidth(this.equipmentSlot), getItemSlotHeight(this.equipmentSlot));
         this.slotLabel.setHorizontalAlignment(JLabel.CENTER);
         this.slotLabel.setVerticalAlignment(JLabel.TOP);

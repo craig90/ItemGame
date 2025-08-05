@@ -52,7 +52,7 @@ Poison Resistance:17.0
 Item-End
 Item-Start
 Item Type:RING
-Item Name:Red RING
+Item Name:Red Ring
 Ring Slot:LEFT_RING
 Damage:70.0
 All Resistance:9.0
@@ -60,7 +60,7 @@ Poison Resistance:8.0
 Item-End
 Item-Start
 Item Type:RING
-Item Name:Yellow RING
+Item Name:Yellow Ring
 Ring Slot:RIGHT_RING
 Fire Resistance:15.0
 Cold Resistance:5.0
