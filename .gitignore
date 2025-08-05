@@ -19,3 +19,4 @@ ItemGame/GUI/ItemWindow.java
 ItemGame/.vscode/settings.json
 ItemGame/bin/.DS_Store
 ItemGame/Gui/DragAndDropPanelExample.java
+ItemGame/Tests/*

@@ -1,15 +1,26 @@
 public enum EquipmentSlot {
-    AMULET,
-    BELT,
-    BOOTS,
-    CHEST,
-    GLOVES,
-    HELM,
-    PANTS,
-    SHIELD,
-    WEAPON,
-    LEFT_RING,
-    RIGHT_RING,
-    NEW_ITEM_SLOT,
-    INVENTORY_SLOT
+    AMULET("Amulet"),
+    BELT("Belt"),
+    BOOTS("Boots"),
+    CHEST("Chest"),
+    GLOVES("Gloves"),
+    HELM("Helm"),
+    PANTS("Pants"),
+    SHIELD("Shield"),
+    WEAPON("Weapon"),
+    LEFT_RING("Ring"),
+    RIGHT_RING("Ring"),
+    NEW_ITEM_SLOT("New Item"),
+    INVENTORY_SLOT("Inventory");
+
+    private final String displayName;
+
+    EquipmentSlot (String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return this.displayName;
+    }
+
 }
