@@ -25,7 +25,7 @@ Magic Resistance:13.0
 Item-End
 Item-Start
 Item Type:GLOVES
-Item Name:Red GLOVES
+Item Name:Red Gloves
 Poison Resistance:7.0
 Lightning Resistance:15.0
 Item-End

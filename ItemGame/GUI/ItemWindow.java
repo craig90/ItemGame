@@ -1,7 +1,6 @@
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 import javax.swing.TransferHandler;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -10,7 +9,6 @@ import javax.swing.JComponent;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
@@ -470,21 +468,24 @@ public class ItemWindow extends JLayeredPane {
             return;
         }
 
-        if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
-            this.draggedItem = this.itemManager.getGeneratedItem();
-        } else if (ItemManager.isInventory(slot) == true) {
-            System.out.println("Setting dragged item");
-            try {
-                this.draggedItem = this.itemManager.getInventoryItem(slot);
-            } catch (Exception e) {
-                System.out.println(e.getMessage()); // TODO: move this shit somewhere else 
-            }
-            System.out.println("Dragged item: " + this.draggedItem.getItemName());
-        }
+        // if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
+        //     this.draggedItem = this.itemManager.getGeneratedItem();
+        // } else if (ItemManager.isInventorySlot(slot) == true) {
+        //     System.out.println("Setting dragged item");
+        //     try {
+        //         this.draggedItem = this.itemManager.getInventoryItem(slot);
+        //     } catch (Exception e) {
+        //         System.out.println(e.getMessage()); 
+        //     }
+        //     System.out.println("Dragged item: " + this.draggedItem.getItemName());
+        // }
        
-        else {
-            this.draggedItem = this.itemManager.getUniqueItem(slot);
-        }
+        // else {
+        //     this.draggedItem = this.itemManager.getUniqueItem(slot);
+        // }
+
+        // TODO: if this returns null, the program will crash
+        this.draggedItem = this.itemManager.getItem(slot);
 
     }
 
@@ -576,6 +577,7 @@ public class ItemWindow extends JLayeredPane {
             
             // make sure the item being dragged matches the itemslot type - rings are a special case because there
             // are two potential drop sites
+            // TODO: this needs to be cleaned up
             if (this.itemWindow.draggedItem.getItemType() == ItemType.RING) {
                 if ((targetPanel.equipmentSlot != EquipmentSlot.RIGHT_RING) 
                 && (targetPanel.equipmentSlot != EquipmentSlot.LEFT_RING)

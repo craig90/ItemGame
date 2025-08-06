@@ -70,6 +70,37 @@ public class ItemManager {
         return this.generatedItem;
     }
 
+    public Item getInventoryItem(EquipmentSlot slot) throws Exception {
+        return this.inventory[equipmentSlotToIndex(slot)];
+    }
+
+    /**
+     * Returns the item specified by item slot type
+     * @param itemType
+     * @return will return an item if it exists, otherwise returns null
+     */
+    public Item getUniqueItem(EquipmentSlot slotType) {
+        return uniqueItems.get(slotType);
+    }
+
+    public Item getItem(EquipmentSlot slotType) {
+
+        if (slotType == EquipmentSlot.NEW_ITEM_SLOT) {
+            return this.generatedItem;
+        } else if (ItemManager.isInventorySlot(slotType)) {
+            try {
+                return getInventoryItem(slotType);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return null; // TODO: this could be a problem
+            }
+        } else {
+            return getUniqueItem(slotType);
+        }
+
+    }
+
+
     public void setGeneratedItem(Item generatedItem) {
         this.generatedItem = generatedItem;
     }
@@ -78,9 +109,7 @@ public class ItemManager {
         this.generatedItem = null;
     }
 
-    public Item getInventoryItem(EquipmentSlot slot) throws Exception {
-        return this.inventory[equipmentSlotToIndex(slot)];
-    }
+    
 
     /**
      * Adds an item to the inventory at the slot postition in Equipment slot
@@ -135,20 +164,6 @@ public class ItemManager {
         return this.itemList.get(index);
     }*/
 
-    /**
-     * Returns the item specified by item slot type
-     * @param itemType
-     * @return will return an item if it exists, otherwise returns null
-     */
-    public Item getUniqueItem(EquipmentSlot slotType) {
-        // if (slotType == EquipmentSlot.LEFT_RING) {
-        //     return rings.get(RingSlot.LEFT_HAND);
-        // } else if (slotType == EquipmentSlot.RIGHT_RING) {
-        //     return rings.get(RingSlot.RIGHT_HAND);
-        // } else {
-            return uniqueItems.get(slotType);
-        // }
-    }
 
     // public Ring getRing(RingSlot ringType) {
     //     return rings.get(ringType);
@@ -160,7 +175,7 @@ public class ItemManager {
      * @param slot
      * @return
      */
-    public static boolean isInventory(EquipmentSlot slot) {
+    public static boolean isInventorySlot(EquipmentSlot slot) {
         
         if (slot == EquipmentSlot.INVENTORY_SLOT_ONE || slot == EquipmentSlot.INVENTORY_SLOT_TWO ||
             slot == EquipmentSlot.INVENTORY_SLOT_THREE || slot == EquipmentSlot.INVENTORY_SLOT_FOUR) {
@@ -178,7 +193,7 @@ public class ItemManager {
     public void addItem(EquipmentSlot slot, Item item) {
     
         // see if we're moving an item to the deletion slot
-        if (isInventory(slot) == true) {
+        if (isInventorySlot(slot) == true) {
             System.out.println("Adding to inventory " + slot.toString());
             try {
                 addInventoryItem(item, slot);
@@ -223,7 +238,7 @@ public class ItemManager {
 
     public void removeItem(EquipmentSlot slot) {
         
-        if (isInventory(slot)) {
+        if (isInventorySlot(slot)) {
             System.out.println("Removing item from " + slot.toString());
             try {
                 removeInventoryItem(slot);
