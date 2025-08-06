@@ -1,5 +1,6 @@
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 
@@ -22,6 +23,8 @@ public class HoverPanel extends JPanel {
         
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setBackground(new Color(0,0,0,180));
+        EmptyBorder paddingBorder = new EmptyBorder(3, 3, 3, 3);
+        this.setBorder(paddingBorder);
         this.setVisible(true);
 
     }
@@ -48,30 +51,32 @@ public class HoverPanel extends JPanel {
 
         removeAllLabels();
 
-        String panelType = hoverdLabel.getName();
+        String slotType = hoverdLabel.getName();
         // System.out.println(panelType);
 
         Item item = null;
         EquipmentSlot slot;
         
         try {
-            slot = EquipmentSlot.valueOf(panelType);
+            slot = EquipmentSlot.valueOf(slotType);
         } catch (EnumConstantNotPresentException e) {
             System.out.println("Not a proper slot to hover over - String doesn't convert back to enum member");
             return;
         }
 
-        if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
-            item = this.itemManager.getGeneratedItem();
-        } else if (ItemManager.isInventory(slot)) {
-            try { // TODO: move this to a better place
-                item = this.itemManager.getInventoryItem(slot);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        } else {
-            item = this.itemManager.getUniqueItem(slot);
-        }
+        item = this.itemManager.getItem(slot);
+
+        // if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
+        //     item = this.itemManager.getGeneratedItem();
+        // } else if (ItemManager.isInventory(slot)) {
+        //     try {
+        //         item = this.itemManager.getInventoryItem(slot);
+        //     } catch (Exception e) {
+        //         System.out.println(e.getMessage());
+        //     }
+        // } else {
+        //     item = this.itemManager.getUniqueItem(slot);
+        // }
 
         // shouldn't happen but just incase the item is null we just won't bother generating the panel to avoid crashing
         if (item == null) {
@@ -80,22 +85,26 @@ public class HoverPanel extends JPanel {
 
         JLabel itemName = new JLabel(item.getItemName());
         itemName.setForeground(Color.WHITE);
+        // itemName.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(itemName);
 
-        // TODO: potentially change hover panel
         // generate hover panel depending on the type - new vs equipped
-        if (slot == EquipmentSlot.NEW_ITEM_SLOT || ItemManager.isInventory(slot) == true) {
+        if (slot == EquipmentSlot.NEW_ITEM_SLOT || ItemManager.isInventorySlot(slot) == true) {
             generateUnequippedItemHoverPanel(item);
         } else {
             generateEquippedItemHoverPanel(item);
         }
         
-
         // Get the absolute position of the label
         Point locationOnScreen = SwingUtilities.convertPoint(hoverdLabel, 0, 0, null);
-        this.setBounds(hoverdLabel.getParent().getX(), locationOnScreen.y, 200, 200);
-
+        this.setLocation(hoverdLabel.getParent().getX(), locationOnScreen.y);
+        
         this.setSize(this.getPreferredSize());
+
+        // offset the hover panel a bit depending on it's size relative to the panel it is drawing over top of
+        int xOffset = (this.getWidth() - hoverdLabel.getWidth()) / 2;
+
+        this.setLocation(hoverdLabel.getParent().getX() - xOffset, locationOnScreen.y);
 
     }
 
@@ -114,6 +123,8 @@ public class HoverPanel extends JPanel {
     }
 
     private void generateRingHoverPanel(Item item) {
+
+        System.out.println("Item type should be ring: " + item.getItemType());
 
         for (int i = 0; i < item.statListSize(); i++) {
             JLabel label = new JLabel(item.getStat(i).getStatType() + " " + item.getStat(i).getValue());
@@ -153,6 +164,10 @@ public class HoverPanel extends JPanel {
             
             if (statDiff.isOldStatOnly() == false) {
 
+                JPanel statPanel = new JPanel();
+                statPanel.setLayout(new BoxLayout(statPanel, BoxLayout.LINE_AXIS));
+                statPanel.setBackground(new Color(0,0,0,180));
+
                 JLabel statLabel = new JLabel(statDiff.getStat().getStatType() + " " +
                 statDiff.getStat().getValue());
                 JLabel diffLabel;
@@ -167,18 +182,46 @@ public class HoverPanel extends JPanel {
                 
                 statLabel.setForeground(Color.WHITE);
 
-                this.add(statLabel);
-                this.add(diffLabel);
+                statPanel.add(statLabel);
+                statPanel.add(diffLabel);
+
+                statPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+                this.add(statPanel);
+
+                // JLabel statLabel = new JLabel(statDiff.getStat().getStatType() + " " + statDiff.getStat().getValue());
+                // if (statDiff.isBetter() == true) {
+                //     statLabel.setForeground(Color.GREEN);
+                // } else {
+                //     statLabel.setForeground(Color.RED);
+                // }
+
+                // this.add(statLabel);
             }
             
             // stat only exists on the old item
             else {
+                
+                JPanel statPanel = new JPanel();
+                statPanel.setLayout(new BoxLayout(statPanel, BoxLayout.LINE_AXIS));
+                statPanel.setBackground(new Color(0,0,0,180));
+
                 JLabel statLabel = new JLabel(statDiff.getStat().getStatType());
-                JLabel diffLabel = new JLabel("(-" + statDiff.getStat().getValue() + ")");
+                JLabel diffLabel = new JLabel(" (-" + statDiff.getStat().getValue() + ")");
                 statLabel.setForeground(Color.RED);
                 diffLabel.setForeground(Color.RED);
-                this.add(statLabel);
-                this.add(diffLabel);
+                statPanel.add(statLabel);
+                statPanel.add(diffLabel);
+
+                statPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+                this.add(statPanel);
+
+                // JLabel statLabel = new JLabel(statDiff.getStat().getStatType()
+                // + " (-" + statDiff.getStat().getValue() + ")");
+                // statLabel.setForeground(Color.RED);
+                // this.add(statLabel);
+
             }
         }
     }
@@ -189,9 +232,9 @@ public class HoverPanel extends JPanel {
     private void removeAllLabels() {
         Component[] components = this.getComponents();
         for (Component component : components) {
-            if (component instanceof JLabel) {
+            // if (component instanceof JLabel) {
                 this.remove(component);
-            }
+            // }
         }
         this.setSize(this.getPreferredSize());
         this.revalidate();
