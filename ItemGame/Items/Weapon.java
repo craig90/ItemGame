@@ -20,7 +20,7 @@ public class Weapon extends Item {
      */
     public void generateItem(Random random) {
         
-        System.out.println("Weapon has to have damage");
+        // System.out.println("Weapon has to have damage");
         int statValue = random.nextInt(ItemStat.WEAPON_DAMAGE_MIN_VALUE, ItemStat.WEAPON_DAMGE_MAX_VALUE);
         ItemStat stat = new ItemStat(ItemStat.DAMAGE_STAT_NAME, statValue);
         this.addStat(stat);

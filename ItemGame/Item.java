@@ -51,9 +51,14 @@ public abstract class Item {
     }
 
     public void setImageIcon() {
-        this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(getImageFile()), 
-            ItemLayeredPane.getItemWidth(this.getItemType()), 
-            ItemLayeredPane.getItemHeight(this.getItemType()));
+        try {
+            this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(getImageFile()),
+                ItemLayeredPane.getItemWidth(this.getItemType()), ItemLayeredPane.getItemHeight(this.getItemType()));
+        } catch (Exception e) {
+            System.out.println("Error resizing image");
+            System.out.println(e.getMessage());
+            System.exit(1); // fairly fatal flaw if the image cannot be correctly resized - just exit
+        }
     }
 
     public void setImageLabel() {
@@ -157,11 +162,11 @@ public abstract class Item {
     public static void itemComparisonNewItemOnly(ArrayList<StatDifference> statDifferences, Item newItem) {
 
         // cycle through all the stats - there is no old item so every stat is an upgrade
-        for (int i = 0; i < newItem.statListSize(); i++) {
-            ItemStat newStat = newItem.getStat(i);
+        for (ItemStat newStat : newItem.statList) {
+            // ItemStat newStat = newItem.getStat(i);
             
             double difference = newStat.value;
-            System.out.println(newStat.type + " " + difference);
+            // System.out.println(newStat.type + " " + difference);
             StatDifference statDifference = new StatDifference(newStat);
         
             statDifference.setIsBetterStat(true);
@@ -178,11 +183,11 @@ public abstract class Item {
      */
     public static void itemComparisonOldItemOnly(ArrayList<StatDifference> statDifferences, Item oldItem) {
 
-        for (int i = 0; i < oldItem.statListSize(); i++) {
-            ItemStat oldStat = oldItem.getStat(i);
+        for (ItemStat oldStat : oldItem.statList) {
+            //ItemStat oldStat = oldItem.getStat(i);
             
             double difference = oldStat.value;
-            System.out.println(oldStat.type + " " + difference);
+            // System.out.println(oldStat.type + " " + difference);
             StatDifference statDifference = new StatDifference(oldStat);
         
             statDifference.setIsBetterStat(false);
@@ -204,7 +209,7 @@ public abstract class Item {
         // these are stats that only exist on the new item
         for (int i = 0; i < newItem.statListSize(); i++) {
             if (foundNewStat[i] == false) {
-                System.out.println(newItem.getStat(i).type + " +" + newItem.getStat(i).value);
+                // System.out.println(newItem.getStat(i).type + " +" + newItem.getStat(i).value);
                 StatDifference statDifference = new StatDifference(newItem.getStat(i));
                 statDifference.setIsBetterStat(true);
                 statDifference.setDifference(newItem.getStat(i).value);
@@ -225,7 +230,7 @@ public abstract class Item {
         // the stats that only exist on the old item
         for (int i = 0; i < oldItem.statList.size(); i++) {
             if (foundOldStat[i] == false) {
-                System.out.println(oldItem.statList.get(i).type + " -" + oldItem.statList.get(i).value);
+                // System.out.println(oldItem.statList.get(i).type + " -" + oldItem.statList.get(i).value);
                 StatDifference statDifference = new StatDifference(oldItem.statList.get(i));
                 statDifference.setIsBetterStat(false);
                 statDifference.setIsOldStatOnly(true);

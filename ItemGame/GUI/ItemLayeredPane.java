@@ -17,11 +17,8 @@ public class ItemLayeredPane extends JLayeredPane {
     public static final int NEW_SLOT_WIDTH = 125, NEW_SLOT_HEIGHT = 175;
     public static final int INVENTORY_SLOT_WIDTH = 125, INVENTORY_SLOT_HEIGHT = 175;
 
-    // public static final String NEW_ITEM_SLOT = "New Item";
-
     JLabel slotLabel;
     JLabel itemIconLabel;
-    // ImageIcon itemImageIcon;
 
     Item item;
     EquipmentSlot equipmentSlot;
@@ -30,25 +27,36 @@ public class ItemLayeredPane extends JLayeredPane {
     public ItemLayeredPane(EquipmentSlot equipmentSlot) {
 
         this.equipmentSlot = equipmentSlot;
+        int slotWidth = 0, slotHeight = 0;
 
+        //  grab the width and height for the slot, it shouldn't fail, but if it does, just exit
+        try {
+            slotWidth = getItemSlotWidth(this.equipmentSlot);
+            slotHeight = getItemSlotHeight(this.equipmentSlot);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+
+        // set up the slot background, size, etc
+        this.setPreferredSize(new Dimension(slotWidth, slotHeight));
         this.setBackground(Color.GRAY);
-        this.setPreferredSize(new Dimension(getItemSlotWidth(this.equipmentSlot), getItemSlotHeight(this.equipmentSlot)));
         this.setOpaque(true);
         
+        // create the equipment slot text label
         this.slotLabel = new JLabel(this.equipmentSlot.getDisplayName());
         this.slotLabel.setName(this.equipmentSlot.toString());
-        this.slotLabel.setBounds(0, 0, getItemSlotWidth(this.equipmentSlot), getItemSlotHeight(this.equipmentSlot));
+        this.slotLabel.setBounds(0, 0, slotWidth, slotHeight);
         this.slotLabel.setHorizontalAlignment(JLabel.CENTER);
         this.slotLabel.setVerticalAlignment(JLabel.TOP);
         this.add(this.slotLabel, 1);
 
-        // System.out.println(this.equipmentSlot);
-        // System.out.println(this.getPreferredSize());
-        // System.out.println(this.getSize());
-        this.setPreferredSize(new Dimension(getItemSlotWidth(this.equipmentSlot), getItemSlotHeight(this.equipmentSlot)));
-        
     }
 
+    /**
+     * Adds the specified item to the slot
+     * @param item
+     */
     public void addItemToSlot(Item item) {
 
         this.item = item;
@@ -58,14 +66,25 @@ public class ItemLayeredPane extends JLayeredPane {
         }
 
         if (this.item != null) {
+
+            int imageWidth = 0, imageHeight = 0;
+
+            // get the image width and height - it shouldn't fail, but if it does exit as the image cannot be corectly drawn
+            try {
+                imageWidth = getItemWidth(this.item.getItemType());
+                imageHeight = getItemHeight(this.item.getItemType());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.exit(1);
+            }
+
             // System.out.println("Adding item " + this.item.getItemName());
             this.itemIconLabel = this.item.getItemImageLabel();
             this.itemIconLabel.setName(this.equipmentSlot.toString());
-            this.itemIconLabel.setBounds(0, 0, getItemWidth(this.item.getItemType()), getItemHeight(this.item.getItemType()));
+            this.itemIconLabel.setBounds(0, 0, imageWidth, imageHeight);
             this.itemIconLabel.setVerticalAlignment(JLabel.CENTER);
             this.itemIconLabel.setHorizontalAlignment(JLabel.CENTER);
             this.add(this.itemIconLabel, 0);
-            // System.out.println("Panel " + this.equipmentSlot);
         }
 
         this.revalidate();
@@ -73,6 +92,9 @@ public class ItemLayeredPane extends JLayeredPane {
 
     }
 
+    /**
+     * removes item from slot
+     */
     public void removeItemFromSlot() {
         
         if (this.itemIconLabel == null) {
@@ -84,8 +106,8 @@ public class ItemLayeredPane extends JLayeredPane {
         this.revalidate();
         this.repaint();
 
-        System.out.println("Removing item " + this.itemIconLabel.getName() + " from " + this.slotLabel.getText() + " slot");
-        // set things to null
+        //System.out.println("Removing item " + this.itemIconLabel.getName() + " from " + this.slotLabel.getText() + " slot");
+        
         this.itemIconLabel = null;
         this.item = null;
     }
@@ -113,7 +135,7 @@ public class ItemLayeredPane extends JLayeredPane {
      * return the height in pixels of the layered pain depending on the item type
      * @return
      */
-    public static int getItemSlotHeight(EquipmentSlot equipmentSlot) {
+    public static int getItemSlotHeight(EquipmentSlot equipmentSlot) throws Exception {
 
         if (equipmentSlot == EquipmentSlot.WEAPON) {
             return WEAPON_HEIGHT;
@@ -143,7 +165,7 @@ public class ItemLayeredPane extends JLayeredPane {
             || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_THREE || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_FOUR) {
             return INVENTORY_SLOT_HEIGHT;
         } else {
-            return 0;  // TODO: this shouln't be reached - throw exception?
+            throw new Exception("Invalid equipment slot type, cannot return slot height");
         }
 
     }
@@ -152,7 +174,7 @@ public class ItemLayeredPane extends JLayeredPane {
      * returns the width of the layered pain in pixels cooresponding to the item type
      * @return
      */
-    public static int getItemSlotWidth(EquipmentSlot equipmentSlot) {
+    public static int getItemSlotWidth(EquipmentSlot equipmentSlot) throws Exception {
 
         if (equipmentSlot == EquipmentSlot.LEFT_RING) {
             return RING_WIDTH;
@@ -182,7 +204,7 @@ public class ItemLayeredPane extends JLayeredPane {
             || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_THREE || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_FOUR) {
             return INVENTORY_SLOT_WIDTH;
         } else {
-            return 0;  // TODO: this shouln't be reached - throw exception?
+            throw new Exception("Invalid Equipment slot type.. cannot return equipment slot width");
         }
 
     }
@@ -191,7 +213,7 @@ public class ItemLayeredPane extends JLayeredPane {
      * return the height in pixels of the image depending on the item type
      * @return
      */
-    public static int getItemHeight(ItemType itemType) {
+    public static int getItemHeight(ItemType itemType) throws Exception {
 
         if (itemType == ItemType.WEAPON) {
             return WEAPON_HEIGHT;
@@ -214,7 +236,7 @@ public class ItemLayeredPane extends JLayeredPane {
         } else if (itemType == ItemType.RING) {
             return RING_HEIGHT;
         } else {
-            return 0;  // TODO: this shouln't be reached - throw exception?
+            throw new Exception("Invalid item type, cannot return item height");
         }
 
     }
@@ -223,7 +245,7 @@ public class ItemLayeredPane extends JLayeredPane {
      * returns the width of the layered pain in pixels cooresponding to the item type
      * @return
      */
-    public static int getItemWidth(ItemType itemType) {
+    public static int getItemWidth(ItemType itemType) throws Exception {
 
         if (itemType == ItemType.RING) {
             return RING_WIDTH;
@@ -246,7 +268,7 @@ public class ItemLayeredPane extends JLayeredPane {
         } else if (itemType == ItemType.BOOTS) {
             return BOOTS_WIDTH;
         } else {
-            return 0;  // TODO: this shouln't be reached - throw exception?
+            throw new Exception("Invalid item type, cannot return item width");
         }
     }
 

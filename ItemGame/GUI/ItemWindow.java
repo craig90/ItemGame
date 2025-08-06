@@ -213,26 +213,27 @@ public class ItemWindow extends JLayeredPane {
         this.mouseListener = new MyMouseListener(this);
 
         this.getNewItemButton.addActionListener(e -> {
+            
             Item newItem;
             try {
                 newItem = this.itemGenerator.createNewItem();
-                this.itemManager.setGeneratedItem(newItem);
             } catch (Exception ex) {
                 System.out.println("Error creating new item");
                 return;
             }
             
-            this.itemManager.getGeneratedItem().getItemImageLabel().addMouseListener(this.mouseListener);
-            this.generatedItemPanel.addItemToSlot(this.itemManager.getGeneratedItem());
-            setSourceTransferHandler(this.itemManager.getGeneratedItem());
-            
+            this.itemManager.setGeneratedItem(newItem);
+            this.generatedItemPanel.addItemToSlot(newItem);
+            setSourceTransferHandler(newItem);
+            newItem.getItemImageLabel().addMouseListener(this.mouseListener);
+
         });
 
         // delete the item
         this.deleteItemButton.addActionListener(e -> {
             // TODO: fix up try/catch and exception throwing
             try {
-                this.itemManager.removeInventoryItem(EquipmentSlot.INVENTORY_SLOT_FOUR);
+                this.itemManager.removeItem(EquipmentSlot.INVENTORY_SLOT_FOUR);
                 this.inventorySlotFourPanel.removeItemFromSlot();
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
@@ -369,6 +370,7 @@ public class ItemWindow extends JLayeredPane {
         this.chestPanel.removeItemFromSlot();
         this.shieldPanel.removeItemFromSlot();
         this.beltPanel.removeItemFromSlot();
+        this.bootsPanel.removeItemFromSlot();
         this.glovesPanel.removeItemFromSlot();
         this.pantsPanel.removeItemFromSlot();
         this.rightHandRingPanel.removeItemFromSlot();

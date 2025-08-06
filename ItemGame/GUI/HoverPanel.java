@@ -129,7 +129,7 @@ public class HoverPanel extends JPanel {
      * @param item
      */
     private void generateUnequippedItemHoverPanel(Item item) {
-
+        
         Item equippedItem;
         
         // logic for rings will be different because there possibly two equipped
@@ -146,7 +146,6 @@ public class HoverPanel extends JPanel {
         } else { // if it's not a ring, grab the item the corresponds to the correct equipemnt slot
             equippedItem = this.itemManager.getUniqueItem(item.getItemType().getEquipmentSlot());
         }
-
 
         ArrayList<StatDifference> statDifferences = Item.itemComparison(equippedItem, item);
 
