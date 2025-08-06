@@ -350,7 +350,7 @@ public class FileParcer {
         }
 
         if (item.isLegit() == true) {
-            character.getItemManager().equipItem(item, item.getItemType().getEquipmentSlot());
+            character.getItemManager().equipItem(item.getItemType().getEquipmentSlot(), item);
             return true;
         }
 

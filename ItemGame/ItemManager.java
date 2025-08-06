@@ -82,7 +82,13 @@ public class ItemManager {
         return this.inventory[equipmentSlotToIndex(slot)];
     }
 
-    public void setInventoryItem(Item item, EquipmentSlot slot) throws Exception {
+    /**
+     * Adds an item to the inventory at the slot postition in Equipment slot
+     * @param item
+     * @param slot
+     * @throws Exception
+     */
+    public void addInventoryItem(Item item, EquipmentSlot slot) throws Exception {
         
         int inventoryIndex = 0;
         inventoryIndex = equipmentSlotToIndex(slot);
@@ -91,7 +97,12 @@ public class ItemManager {
 
     }
 
-    public void removeInventoryItem(EquipmentSlot slot) throws Exception {
+    /**
+     * Removes an item from the inventory
+     * @param slot
+     * @throws Exception
+     */
+    private void removeInventoryItem(EquipmentSlot slot) throws Exception {
         
         int inventoryIndex = 0;
         inventoryIndex = equipmentSlotToIndex(slot);
@@ -170,14 +181,14 @@ public class ItemManager {
         if (isInventory(slot) == true) {
             System.out.println("Adding to inventory " + slot.toString());
             try {
-                setInventoryItem(item, slot);
+                addInventoryItem(item, slot);
             } catch (Exception e) {
                 System.out.println("Error adding to inventroy"); // TODO: move this shit somewhere else 
             }
 
         } else {
             // System.out.println("Target Panel: " + targetPanel.equipmentSlot.toString());
-            this.equipItem(item, slot);
+            this.equipItem(slot, item);
         }
     }
     
@@ -185,7 +196,7 @@ public class ItemManager {
      * this will add the item to the list and remove any existing item of the same item type
      * @param item
      */
-    public void equipItem(Item item, EquipmentSlot slot) {
+    public void equipItem(EquipmentSlot slot, Item item) {
         
         if (slot != null) {
             uniqueItems.put(slot, item);

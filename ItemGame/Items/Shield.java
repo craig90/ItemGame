@@ -19,7 +19,7 @@ public class Shield extends Item {
      */
     public void generateItem(Random random) {
         
-        System.out.println("Shield has to have defence");
+        // System.out.println("Shield has to have defence");
         int statValue = random.nextInt(ItemStat.SHIELD_DEFENCE_MIN_VALUE, ItemStat.SHIELD_DEFENCE_MAX_VALUE);
         ItemStat stat = new ItemStat(ItemStat.DEFENCE_STAT_NAME, statValue);
         this.addStat(stat);
