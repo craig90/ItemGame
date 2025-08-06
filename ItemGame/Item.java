@@ -25,21 +25,6 @@ public abstract class Item {
 
     private static final int MIN_ITEM_NAME_LENGTH = 4;
 
-    // all the different Item Types
-    /*public static final String WEAPON = "Weapon";
-    public static final String HELM = "Helm";
-    public static final String CHEST = "Chest";
-    public static final String SHIELD = "Shield";
-    public static final String AMULET = "Amulet";
-    public static final String RING = "Ring";
-    public static final String GLOVES = "Gloves";
-    public static final String BELT = "Belt";
-    public static final String PANTS = "Pants";
-    public static final String BOOTS = "Boots";*/
-
-    // these needs to be placed in an array for RNG purposes
-    // public static final String[] ITEM_TYPES = {WEAPON, HELM, CHEST, SHIELD, AMULET, RING, GLOVES, BELT, PANTS, BOOTS};
-   
     // these need to be in an array for RNG purposes
     public static final String[] ITEM_ADJECTIVES = {"Green", "Yellow", "Red", "Purple", "Orange", "Blue", "Gold", "Silver", 
     "Bronze", "Cool"};

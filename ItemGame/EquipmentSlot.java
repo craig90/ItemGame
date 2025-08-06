@@ -11,7 +11,10 @@ public enum EquipmentSlot {
     LEFT_RING("Ring"),
     RIGHT_RING("Ring"),
     NEW_ITEM_SLOT("New Item"),
-    INVENTORY_SLOT("Inventory");
+    INVENTORY_SLOT_ONE("Inventory"),
+    INVENTORY_SLOT_TWO("Inventory"),
+    INVENTORY_SLOT_THREE("Inventory"),
+    INVENTORY_SLOT_FOUR("Inventory");
 
     private final String displayName;
 

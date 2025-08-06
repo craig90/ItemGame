@@ -51,7 +51,7 @@ public class HoverPanel extends JPanel {
         String panelType = hoverdLabel.getName();
         // System.out.println(panelType);
 
-        Item item;
+        Item item = null;
         EquipmentSlot slot;
         
         try {
@@ -63,8 +63,12 @@ public class HoverPanel extends JPanel {
 
         if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
             item = this.itemManager.getGeneratedItem();
-        } else if (slot == EquipmentSlot.INVENTORY_SLOT) {
-            item = this.itemManager.getSpareItem();
+        } else if (ItemManager.isInventory(slot)) {
+            try { // TODO: move this to a better place
+                item = this.itemManager.getInventoryItem(slot);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         } else {
             item = this.itemManager.getUniqueItem(slot);
         }
@@ -78,10 +82,10 @@ public class HoverPanel extends JPanel {
         itemName.setForeground(Color.WHITE);
         this.add(itemName);
 
+        // TODO: potentially change hover panel
         // generate hover panel depending on the type - new vs equipped
-        if (panelType.equals(EquipmentSlot.NEW_ITEM_SLOT.toString())) {
-            // System.out.println("New Item Hover Panel");
-            generateNewItemHoverPanel(item);
+        if (slot == EquipmentSlot.NEW_ITEM_SLOT || ItemManager.isInventory(slot) == true) {
+            generateUnequippedItemHoverPanel(item);
         } else {
             generateEquippedItemHoverPanel(item);
         }
@@ -124,7 +128,7 @@ public class HoverPanel extends JPanel {
      * Generates the hover panel for a new item as the logic is different than for an existing item
      * @param item
      */
-    private void generateNewItemHoverPanel(Item item) {
+    private void generateUnequippedItemHoverPanel(Item item) {
 
         Item equippedItem;
         
