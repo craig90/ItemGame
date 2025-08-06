@@ -1,5 +1,7 @@
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.TransferHandler;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -8,6 +10,7 @@ import javax.swing.JComponent;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
@@ -33,12 +36,10 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 public class ItemWindow extends JLayeredPane {
 
     final static int ITEM_WINDOW_WIDTH = 700;
-    final static int ITEM_WINDOW_HEIGHT = 700;
+    final static int ITEM_WINDOW_HEIGHT = 475;
 
-    // JLayeredPane layeredPane;
-
-    JPanel itemPanel;
-    // JPanel hoverPanel;
+    JPanel equippedItemPanel, inventoryPanel;
+    
     HoverPanel hoverPanel;
 
     JLabel helm, weapon, amulet, ring, ringTwo, belt, pants, gloves, shieldLabel, chest, boots;
@@ -49,13 +50,16 @@ public class ItemWindow extends JLayeredPane {
     ImageIcon helmIcon, shieldIcon;
 
     JButton getNewItemButton, deleteItemButton;
-    ItemLayeredPane spareItemPanel, deleteItemPanel;
+    ItemLayeredPane generatedItemPanel, inventorySlotOnePanel, inventorySlotTwoPanel, inventorySlotThreePanel;
+    ItemLayeredPane inventorySlotFourPanel;
 
     CharacterScreen characterScreen;
     ItemGenerator itemGenerator;
     ItemManager itemManager;
 
     MyMouseListener mouseListener;
+
+    JSeparator separator;
 
     ItemLayeredPane sourcePanel;
     Item draggedItem;
@@ -66,8 +70,8 @@ public class ItemWindow extends JLayeredPane {
 
         // this.layeredPane = new JLayeredPane();
 
-        this.itemPanel = new JPanel();
-        this.itemPanel.setLayout(new GridBagLayout());
+        this.equippedItemPanel = new JPanel();
+        this.equippedItemPanel.setLayout(new GridBagLayout());
 
         this.characterScreen = characterScreen;
 
@@ -79,98 +83,128 @@ public class ItemWindow extends JLayeredPane {
         this.helmPanel = new ItemLayeredPane(EquipmentSlot.HELM);
         c.gridx = 2;
         c.gridy = 0;
-        this.itemPanel.add(this.helmPanel, c);
+        this.equippedItemPanel.add(this.helmPanel, c);
 
         // weapon
         this.weaponPanel = new ItemLayeredPane(EquipmentSlot.WEAPON);
         c.gridx = 0;
         c.gridy = 1;
-        this.itemPanel.add(this.weaponPanel, c);
+        this.equippedItemPanel.add(this.weaponPanel, c);
 
         // amulet
         this.amuletPanel = new ItemLayeredPane(EquipmentSlot.AMULET);
         c.gridx = 3;
         c.gridy = 0;
-        this.itemPanel.add(this.amuletPanel, c);
+        this.equippedItemPanel.add(this.amuletPanel, c);
         
         // ring
         this.rightHandRingPanel = new ItemLayeredPane(EquipmentSlot.RIGHT_RING);
         c.gridx = 1;
         c.gridy = 2;
-        this.itemPanel.add(this.rightHandRingPanel, c);
+        this.equippedItemPanel.add(this.rightHandRingPanel, c);
         
         this.leftHandRingPanel = new ItemLayeredPane(EquipmentSlot.LEFT_RING);
         c.gridx = 3;
         c.gridy = 2;
-        this.itemPanel.add(this.leftHandRingPanel, c);
+        this.equippedItemPanel.add(this.leftHandRingPanel, c);
 
         // chest panel
         this.chestPanel = new ItemLayeredPane(EquipmentSlot.CHEST);
         c.gridx = 2;
         c.gridy = 1;
-        this.itemPanel.add(this.chestPanel, c);
+        this.equippedItemPanel.add(this.chestPanel, c);
 
         // gloves
         this.glovesPanel = new ItemLayeredPane(EquipmentSlot.GLOVES);
         c.gridx = 0;
         c.gridy = 2;
-        this.itemPanel.add(this.glovesPanel, c);
+        this.equippedItemPanel.add(this.glovesPanel, c);
 
         // shield
         this.shieldPanel = new ItemLayeredPane(EquipmentSlot.SHIELD);
         c.gridx = 5;
         c.gridy = 1;
-        this.itemPanel.add(this.shieldPanel, c);
+        this.equippedItemPanel.add(this.shieldPanel, c);
 
         // belt
         this.beltPanel = new ItemLayeredPane(EquipmentSlot.BELT);
         c.gridx = 2;
         c.gridy = 2;
-        this.itemPanel.add(this.beltPanel, c);
+        this.equippedItemPanel.add(this.beltPanel, c);
 
         // pants
         this.pantsPanel = new ItemLayeredPane(EquipmentSlot.PANTS);
         c.gridx = 4;
         c.gridy = 1;
-        this.itemPanel.add(this.pantsPanel, c);
+        this.equippedItemPanel.add(this.pantsPanel, c);
 
         // boots
         this.bootsPanel = new ItemLayeredPane(EquipmentSlot.BOOTS);
         c.gridx = 4;
         c.gridy = 2;
-        this.itemPanel.add(this.bootsPanel, c);
+        this.equippedItemPanel.add(this.bootsPanel, c);
+
+        // this.separator = new JSeparator(SwingConstants.HORIZONTAL);
+        // this.separator.setMaximumSize(new Dimension(this.equippedItemPanel.getMaximumSize().width, 10));
+        // this.separator.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // this.equippedItemPanel.add(this.separator);
+
+        GridBagConstraints c1 = new GridBagConstraints();
+        c1.insets = new Insets(4, 4, 4, 4);
+
+        this.inventoryPanel = new JPanel();
+        this.inventoryPanel.setLayout(new GridBagLayout());
+
+        this.inventorySlotOnePanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_ONE);
+        c1.gridx = 0;
+        c1.gridy = 0;
+        this.inventoryPanel.add(this.inventorySlotOnePanel, c1);
+
+        this.inventorySlotTwoPanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_TWO);
+        c1.gridx = 1;
+        c1.gridy = 0;
+        this.inventoryPanel.add(this.inventorySlotTwoPanel, c1);
+
+        this.inventorySlotThreePanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_THREE);
+        c1.gridx = 2;
+        c1.gridy = 0;
+        this.inventoryPanel.add(this.inventorySlotThreePanel, c1);
+
+        this.inventorySlotFourPanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_FOUR);
+        c1.gridx = 3;
+        c1.gridy = 0;
+        this.inventoryPanel.add(this.inventorySlotFourPanel, c1);
+
+        this.deleteItemButton = new JButton("Delete Item");
+        c1.gridx = 3;
+        c1.gridy = 1;
+        this.inventoryPanel.add(this.deleteItemButton, c1);
+
+
+        // this panel is a little different because it's for generating new items not for deleting items
+        this.generatedItemPanel = new ItemLayeredPane(EquipmentSlot.NEW_ITEM_SLOT);
+        c1.gridx = 4;
+        c1.gridy = 0;
+        this.inventoryPanel.add(this.generatedItemPanel, c1);
 
         // generate new item button
         this.getNewItemButton = new JButton("Get New Item");
-        c.gridx = 0;
-        c.gridy = 5;
-        this.itemPanel.add(this.getNewItemButton, c);
-
-        // holder for extra item
-        this.spareItemPanel = new ItemLayeredPane(EquipmentSlot.NEW_ITEM_SLOT);
-        c.gridx = 0;
-        c.gridy = 4;
-        this.itemPanel.add(this.spareItemPanel, c);
-
-        this.deleteItemButton = new JButton("Delete Item");
-        c.gridx = 2;
-        c.gridy = 5;
-        this.itemPanel.add(this.deleteItemButton, c);
-
-        this.deleteItemPanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT);
-        c.gridx = 2;
-        c.gridy = 4;
-        this.itemPanel.add(this.deleteItemPanel, c);
+        c1.gridx = 4;
+        c1.gridy = 1;
+        this.inventoryPanel.add(this.getNewItemButton, c1);
+        
 
         // the size has to be set for layered Panes 
-        this.itemPanel.setBounds(0, 0, ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
+        this.equippedItemPanel.setBounds(0, 0, ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
+        this.inventoryPanel.setBounds(0, ITEM_WINDOW_HEIGHT, ITEM_WINDOW_WIDTH, 250);
         this.setSize(ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
 
         this.hoverPanel = new HoverPanel();
 
-        this.add(this.itemPanel, 1);
-        // this.itemPanel.setBackground(Color.GREEN);
-        this.itemPanel.setBackground(new Color(169, 169, 169));
+        this.add(this.equippedItemPanel, 1);
+        this.add(this.inventoryPanel, 1);
+        this.inventoryPanel.setBackground(new Color(180, 180, 180));
+        this.equippedItemPanel.setBackground(new Color(169, 169, 169));
 
         this.add(this.hoverPanel, 0);
 
@@ -189,15 +223,21 @@ public class ItemWindow extends JLayeredPane {
             }
             
             this.itemManager.getGeneratedItem().getItemImageLabel().addMouseListener(this.mouseListener);
-            this.spareItemPanel.addItemToSlot(this.itemManager.getGeneratedItem());
+            this.generatedItemPanel.addItemToSlot(this.itemManager.getGeneratedItem());
             setSourceTransferHandler(this.itemManager.getGeneratedItem());
             
         });
 
         // delete the item
         this.deleteItemButton.addActionListener(e -> {
-            this.itemManager.setSpareItem(null);
-            this.deleteItemPanel.removeItemFromSlot();
+            // TODO: fix up try/catch and exception throwing
+            try {
+                this.itemManager.removeInventoryItem(EquipmentSlot.INVENTORY_SLOT_FOUR);
+                this.inventorySlotFourPanel.removeItemFromSlot();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+            
         });
 
         // these are the transfer handlers that recieve an item
@@ -212,7 +252,10 @@ public class ItemWindow extends JLayeredPane {
         this.glovesPanel.setTransferHandler(new MyPanelTransferHandler(this));
         this.chestPanel.setTransferHandler(new MyPanelTransferHandler(this));
         this.bootsPanel.setTransferHandler(new MyPanelTransferHandler(this));
-        this.deleteItemPanel.setTransferHandler(new MyPanelTransferHandler(this));
+        this.inventorySlotOnePanel.setTransferHandler(new MyPanelTransferHandler(this));
+        this.inventorySlotTwoPanel.setTransferHandler(new MyPanelTransferHandler(this));
+        this.inventorySlotThreePanel.setTransferHandler(new MyPanelTransferHandler(this));
+        this.inventorySlotFourPanel.setTransferHandler(new MyPanelTransferHandler(this));
 
     }
 
@@ -319,6 +362,7 @@ public class ItemWindow extends JLayeredPane {
      */
     public void clearItemPanes() {
 
+        // TODO: potentially throw these on array list to make things more dynamic
         this.helmPanel.removeItemFromSlot();
         this.weaponPanel.removeItemFromSlot();
         this.amuletPanel.removeItemFromSlot();
@@ -329,8 +373,11 @@ public class ItemWindow extends JLayeredPane {
         this.pantsPanel.removeItemFromSlot();
         this.rightHandRingPanel.removeItemFromSlot();
         this.leftHandRingPanel.removeItemFromSlot();
-        this.spareItemPanel.removeItemFromSlot();
-        this.deleteItemPanel.removeItemFromSlot();
+        this.generatedItemPanel.removeItemFromSlot();
+        this.inventorySlotOnePanel.removeItemFromSlot();
+        this.inventorySlotTwoPanel.removeItemFromSlot();
+        this.inventorySlotThreePanel.removeItemFromSlot();
+        this.inventorySlotFourPanel.removeItemFromSlot();
     }
     
     
@@ -423,9 +470,13 @@ public class ItemWindow extends JLayeredPane {
 
         if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
             this.draggedItem = this.itemManager.getGeneratedItem();
-        } else if (slot == EquipmentSlot.INVENTORY_SLOT) {
+        } else if (ItemManager.isInventory(slot) == true) {
             System.out.println("Setting dragged item");
-            this.draggedItem = this.itemManager.getSpareItem();
+            try {
+                this.draggedItem = this.itemManager.getInventoryItem(slot);
+            } catch (Exception e) {
+                System.out.println(e.getMessage()); // TODO: move this shit somewhere else 
+            }
             System.out.println("Dragged item: " + this.draggedItem.getItemName());
         }
        
@@ -526,12 +577,20 @@ public class ItemWindow extends JLayeredPane {
             if (this.itemWindow.draggedItem.getItemType() == ItemType.RING) {
                 if ((targetPanel.equipmentSlot != EquipmentSlot.RIGHT_RING) 
                 && (targetPanel.equipmentSlot != EquipmentSlot.LEFT_RING)
-                && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT)) {
+                && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_ONE)
+                && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_TWO)
+                && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_THREE)
+                && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_ONE)) {
                     return false;
                 }
-            } else {
+            // not a ring
+            } else { 
+
                 if (this.itemWindow.draggedItem.getItemType().getEquipmentSlot() != targetPanel.equipmentSlot
-                    && targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT) {
+                    && targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_ONE
+                    && targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_TWO
+                    && targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_THREE
+                    && targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_FOUR) {
                     return false;
                 }
             }

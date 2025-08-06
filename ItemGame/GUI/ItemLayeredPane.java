@@ -15,9 +15,9 @@ public class ItemLayeredPane extends JLayeredPane {
     public static final int PANTS_HEIGHT = 175, BOOTS_HEIGHT = 125;
 
     public static final int NEW_SLOT_WIDTH = 125, NEW_SLOT_HEIGHT = 175;
-    public static final int DELETE_SLOT_WIDTH = 125, DELETE_SLOT_HEIGHT = 175;
+    public static final int INVENTORY_SLOT_WIDTH = 125, INVENTORY_SLOT_HEIGHT = 175;
 
-    public static final String NEW_ITEM_SLOT = "New Item";
+    // public static final String NEW_ITEM_SLOT = "New Item";
 
     JLabel slotLabel;
     JLabel itemIconLabel;
@@ -41,6 +41,11 @@ public class ItemLayeredPane extends JLayeredPane {
         this.slotLabel.setHorizontalAlignment(JLabel.CENTER);
         this.slotLabel.setVerticalAlignment(JLabel.TOP);
         this.add(this.slotLabel, 1);
+
+        // System.out.println(this.equipmentSlot);
+        // System.out.println(this.getPreferredSize());
+        // System.out.println(this.getSize());
+        this.setPreferredSize(new Dimension(getItemSlotWidth(this.equipmentSlot), getItemSlotHeight(this.equipmentSlot)));
         
     }
 
@@ -134,8 +139,9 @@ public class ItemLayeredPane extends JLayeredPane {
             return RING_HEIGHT;
         } else if (equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
             return NEW_SLOT_HEIGHT;
-        } else if (equipmentSlot == EquipmentSlot.INVENTORY_SLOT) {
-            return DELETE_SLOT_HEIGHT;
+        } else if (equipmentSlot == EquipmentSlot.INVENTORY_SLOT_ONE || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_TWO 
+            || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_THREE || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_FOUR) {
+            return INVENTORY_SLOT_HEIGHT;
         } else {
             return 0;  // TODO: this shouln't be reached - throw exception?
         }
@@ -172,8 +178,9 @@ public class ItemLayeredPane extends JLayeredPane {
             return BOOTS_WIDTH;
         } else if (equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
             return NEW_SLOT_WIDTH;
-        } else if (equipmentSlot == EquipmentSlot.INVENTORY_SLOT) {
-            return DELETE_SLOT_WIDTH;
+        } else if (equipmentSlot == EquipmentSlot.INVENTORY_SLOT_ONE || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_TWO
+            || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_THREE || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_FOUR) {
+            return INVENTORY_SLOT_WIDTH;
         } else {
             return 0;  // TODO: this shouln't be reached - throw exception?
         }
