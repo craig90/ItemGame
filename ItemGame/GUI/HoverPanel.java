@@ -94,12 +94,24 @@ public class HoverPanel extends JPanel {
         } else {
             generateEquippedItemHoverPanel(item);
         }
+
+        this.setSize(this.getPreferredSize());
+
+        calculateLocation(hoverdLabel);
         
+    }
+
+    /** 
+     * calculates and sets the location of the hover panel
+     */
+    public void calculateLocation(JLabel hoverdLabel) {
+
         // Get the absolute position of the label
         Point locationOnScreen = SwingUtilities.convertPoint(hoverdLabel, 0, 0, null);
-        this.setLocation(hoverdLabel.getParent().getX(), locationOnScreen.y);
         
-        this.setSize(this.getPreferredSize());
+        // System.out.println("Label width: " + hoverdLabel.getWidth());
+        // System.out.println("Hover window width: " + this.getWidth());
+        // System.out.println("Label's parent x pos: " + hoverdLabel.getParent().getX());
 
         // offset the hover panel a bit depending on it's size relative to the panel it is drawing over top of
         int xOffset = (this.getWidth() - hoverdLabel.getWidth()) / 2;
@@ -108,12 +120,13 @@ public class HoverPanel extends JPanel {
 
     }
 
+
     /**
      * Generates the hover panel for an equipped item since the logic is different than that of a new item
      * @param item
      */
     private void generateEquippedItemHoverPanel(Item item) {
-        
+
         for (int i = 0; i < item.statListSize(); i++) {
             JLabel label = new JLabel(item.getStat(i).getStatType() + " " + item.getStat(i).getValue());
             label.setForeground(Color.WHITE);
