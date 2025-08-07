@@ -9,7 +9,7 @@ public enum ItemType {
     PANTS(EquipmentSlot.PANTS.getDisplayName(), EquipmentSlot.PANTS),
     SHIELD(EquipmentSlot.SHIELD.getDisplayName(), EquipmentSlot.SHIELD),
     WEAPON(EquipmentSlot.WEAPON.getDisplayName(), EquipmentSlot.WEAPON),
-    RING(EquipmentSlot.WEAPON.getDisplayName(), null); // Rings are special: no specific EquipmentSlot - also
+    RING(EquipmentSlot.RIGHT_RING.getDisplayName(), null); // Rings are special: no specific EquipmentSlot - also
     // both ring slots have the name Ring so either can be used here
 
     private final String name;

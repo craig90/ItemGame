@@ -584,7 +584,7 @@ public class ItemWindow extends JLayeredPane {
                 && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_ONE)
                 && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_TWO)
                 && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_THREE)
-                && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_ONE)) {
+                && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_FOUR)) {
                     return false;
                 }
             // not a ring
