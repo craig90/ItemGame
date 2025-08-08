@@ -29,4 +29,14 @@ public class Weapon extends Item {
     }
 
 
+    @Override
+    public int getWidthInGridUnits() {
+        return ItemConstants.WEAPON_GRID_UNIT_WIDTH;
+    }
+
+    @Override
+    public int getHeightInGridUnits() {
+        return ItemConstants.WEAPON_GRID_UNIT_HEIGHT;
+    }
+
 }

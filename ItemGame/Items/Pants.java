@@ -12,4 +12,14 @@ public class Pants extends Item {
         return IMAGE_DIR + PANTS_FILE;
     }
 
+    @Override
+    public int getWidthInGridUnits() {
+        return ItemConstants.PANTS_GRID_UNIT_WIDTH;
+    }
+
+    @Override
+    public int getHeightInGridUnits() {
+        return ItemConstants.PANTS_GRID_UNIT_HEIGHT;
+    }
+
 }

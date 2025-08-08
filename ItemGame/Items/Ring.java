@@ -21,4 +21,14 @@ public class Ring extends Item {
     public ItemType getItemType() {
         return ItemType.RING;
     }
+
+    @Override
+    public int getWidthInGridUnits() {
+        return ItemConstants.RING_GRID_UNIT_WIDTH;
+    }
+
+    @Override
+    public int getHeightInGridUnits() {
+        return ItemConstants.RING_GRID_UNIT_HEIGHT;
+    }
 }

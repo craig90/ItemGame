@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 
 public abstract class Item {
 
+
+    // TODO: move these to Item constants file
     protected static String IMAGE_DIR = "ItemGame/Images/";
     protected static String WEAPON_FILE = "weapon.png";
     protected static String HELM_FILE = "helm.png";
@@ -32,7 +34,6 @@ public abstract class Item {
     protected JLabel itemImageLabel;
     protected ImageIcon itemImageIcon;
 
-    // private ItemManager.ItemSlot itemType;
     private String itemName;
     private ArrayList<ItemStat> statList;
 
@@ -41,6 +42,10 @@ public abstract class Item {
         this.statList = new ArrayList<ItemStat>();
         this.setImageLabel();
     }
+
+    public abstract int getWidthInGridUnits();
+
+    public abstract int getHeightInGridUnits();
 
     public abstract ItemType getItemType();
 

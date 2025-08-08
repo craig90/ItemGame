@@ -12,4 +12,14 @@ public class Boots extends Item {
         return Item.IMAGE_DIR + Item.BOOTS_FILE;
     }
 
+    @Override
+    public int getWidthInGridUnits() {
+        return ItemConstants.BOOTS_GRID_UNIT_WIDTH;
+    }
+
+    @Override
+    public int getHeightInGridUnits() {
+        return ItemConstants.BOOTS_GRID_UNIT_HEIGHT;
+    }
+
 }

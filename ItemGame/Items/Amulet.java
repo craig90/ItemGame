@@ -12,4 +12,14 @@ public class Amulet extends Item {
         return ItemType.AMULET;
     }
 
+    @Override
+    public int getWidthInGridUnits() {
+        return ItemConstants.AMULET_GRID_UNIT_WIDTH;
+    }
+
+    @Override
+    public int getHeightInGridUnits() {
+        return ItemConstants.AMULET_GRID_UNIT_HEIGHT;
+    }
+
 }
