@@ -27,5 +27,15 @@ public class Shield extends Item {
         super.generateItem(random);
     }
 
+    @Override
+    public int getWidthInGridUnits() {
+        return ItemConstants.SHIELD_GRID_UNIT_WIDTH;
+    }
+
+    @Override
+    public int getHeightInGridUnits() {
+        return ItemConstants.SHIELD_GRID_UNIT_HEIGHT;
+    }
+
 
 }
