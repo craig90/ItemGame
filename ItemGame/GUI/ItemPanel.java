@@ -1,6 +1,5 @@
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.TransferHandler;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +18,7 @@ import javax.swing.JLayeredPane;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Map;
 import java.awt.image.BufferedImage;
@@ -55,16 +55,11 @@ public class ItemPanel extends JLayeredPane {
     CharacterScreen characterScreen;  // TODO: I don't like that its getting this either
     ItemGenerator itemGenerator; // TODO: probably should not have direct access to this either
     ItemManager itemManager; // TODO: should not have access to this
+    ItemController itemController;
 
     MyMouseListener mouseListener;
 
-    // JSeparator separator;
-
-    ItemController itemController;
-
     private final Map <EquipmentSlot, ItemLayeredPane> slotToPanel = new EnumMap<>(EquipmentSlot.class);
-    // ItemLayeredPane sourcePanel;
-    // Item draggedItem;
 
     public ItemPanel(CharacterScreen characterScreen, ItemController itemController) {
 
@@ -338,54 +333,41 @@ public class ItemPanel extends JLayeredPane {
     }
 
 
-    public void setItemManager(ItemManager itemManager) {
-        this.itemManager = itemManager;
-    }
-
-
-    // public void setSourcePanel(ItemLayeredPane panel) {
-    //     this.sourcePanel = panel;
-    // }
-
-    // public void initializeDrag(JLabel label) {
-    //     System.out.println("Initializing drag");
-
-    //     setDraggedItem(label.getName());
-    //     setSourcePanel((ItemLayeredPane)label.getParent());
-    //     hoverPanel.hideHoverPanel();
-    // }
-
     /**
-     * gets the item that is being dragged
-     * @return
+     * Calls the vairous helper methods, clear out the panes, set the new items, set of transfer handlers,
+     * set up hover panel
+     * @param itemManager
      */
-    // public Item getDraggedItem() {
-    //     return this.draggedItem;
+    public void loadItems(ItemManager itemManager) {
+        
+        this.itemManager = itemManager;
+
+        clearItemPanes();
+        setItemsInPanes();
+        setSourceTransferHandlers();
+        setupHoverPanel();
+
+    }
+    
+    // public void setItemManager(ItemManager itemManager) {
+    //     this.itemManager = itemManager;
     // }
 
+    public ItemController getItemController() {
+        return this.itemController;
+    }
 
     /**
      * removes the items from the panes - used when reloading a character
      */
     public void clearItemPanes() {
 
-        // TODO: potentially throw these on array list to make things more dynamic
-        this.helmPanel.removeItemFromSlot();
-        this.weaponPanel.removeItemFromSlot();
-        this.amuletPanel.removeItemFromSlot();
-        this.chestPanel.removeItemFromSlot();
-        this.shieldPanel.removeItemFromSlot();
-        this.beltPanel.removeItemFromSlot();
-        this.bootsPanel.removeItemFromSlot();
-        this.glovesPanel.removeItemFromSlot();
-        this.pantsPanel.removeItemFromSlot();
-        this.rightHandRingPanel.removeItemFromSlot();
-        this.leftHandRingPanel.removeItemFromSlot();
-        this.generatedItemPanel.removeItemFromSlot();
-        this.inventorySlotOnePanel.removeItemFromSlot();
-        this.inventorySlotTwoPanel.removeItemFromSlot();
-        this.inventorySlotThreePanel.removeItemFromSlot();
-        this.inventorySlotFourPanel.removeItemFromSlot();
+        Collection<ItemLayeredPane> slots = this.slotToPanel.values();
+        
+        for (ItemLayeredPane slot : slots) {
+            slot.removeItemFromSlot();
+        }
+
     }
     
     
@@ -395,54 +377,14 @@ public class ItemPanel extends JLayeredPane {
     public void setItemsInPanes() {
 
         if (this.itemManager == null) {
-            System.out.println("Error");
+            System.out.println("Error"); 
             return;
         }
 
-        // TODO: there's got to be a way to do this dynmacally
-
-        if (this.itemManager.getHelm() != null) {
-            this.helmPanel.addItemToSlot(this.itemManager.getHelm());
-        }
-
-        if (this.itemManager.getWeapon() != null) {
-            this.weaponPanel.addItemToSlot(this.itemManager.getWeapon());
-        }
-
-        if (this.itemManager.getAmulet() != null) {
-            this.amuletPanel.addItemToSlot(this.itemManager.getAmulet());
-        }
-        
-        if (this.itemManager.getChest() != null) {
-            this.chestPanel.addItemToSlot(this.itemManager.getChest());
-        }
-
-        if (this.itemManager.getShield() != null) {
-            this.shieldPanel.addItemToSlot(this.itemManager.getShield());
-        }
-        
-        if (this.itemManager.getBoots() != null) {
-            this.bootsPanel.addItemToSlot(this.itemManager.getBoots());
-        }
-
-        if (this.itemManager.getBelt() != null) {
-            this.beltPanel.addItemToSlot(this.itemManager.getBelt());
-        }
-
-        if (this.itemManager.getGloves() != null) {
-            this.glovesPanel.addItemToSlot(this.itemManager.getGloves());
-        }
-
-        if (this.itemManager.getPants() != null) {
-            this.pantsPanel.addItemToSlot(this.itemManager.getPants());
-        }
-
-        if (this.itemManager.getRightRing() != null) {
-            this.rightHandRingPanel.addItemToSlot(this.itemManager.getRightRing());
-        }
-
-        if (this.itemManager.getLeftRing() != null) {
-            this.leftHandRingPanel.addItemToSlot(this.itemManager.getLeftRing());
+        for (Map.Entry<EquipmentSlot, ItemLayeredPane> entry : slotToPanel.entrySet()) {
+            if (this.itemManager.getItem(entry.getKey()) != null) {
+                entry.getValue().addItemToSlot(this.itemManager.getItem(entry.getKey()));
+            }
         }
 
     }
@@ -463,64 +405,10 @@ public class ItemPanel extends JLayeredPane {
 
 
     /**
-     * used to track the item that is currently being dragged
+     * Adds an item to the target equipment slot
+     * @param targetSlot
+     * @param item
      */
-    // public void setDraggedItem(String name) {
-        
-    //     System.out.println("Dragged item " + name);
-
-    //     EquipmentSlot slot;
-
-    //     try {
-    //         slot = EquipmentSlot.valueOf(name);
-    //     } catch (EnumConstantNotPresentException ex) {
-    //         System.out.println("Failed to set drag element");
-    //         return;
-    //     }
-
-    //     // if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
-    //     //     this.draggedItem = this.itemManager.getGeneratedItem();
-    //     // } else if (ItemManager.isInventorySlot(slot) == true) {
-    //     //     System.out.println("Setting dragged item");
-    //     //     try {
-    //     //         this.draggedItem = this.itemManager.getInventoryItem(slot);
-    //     //     } catch (Exception e) {
-    //     //         System.out.println(e.getMessage()); 
-    //     //     }
-    //     //     System.out.println("Dragged item: " + this.draggedItem.getItemName());
-    //     // }
-       
-    //     // else {
-    //     //     this.draggedItem = this.itemManager.getUniqueItem(slot);
-    //     // }
-
-    //     // TODO: if this returns null, the program will crash
-    //     this.draggedItem = this.itemManager.getItem(slot);
-
-    // }
-
-    /**
-     * Group these method calls together because the item must be removed from both the itemManager and the gui panel
-     */
-    // public void removeItemSequence(ItemLayeredPane sourcePanel) {
-        
-    //     this.itemManager.removeItem(sourcePanel.equipmentSlot);
-    //     sourcePanel.removeItemFromSlot();
-        
-    // }
-    
-    /**
-     * group these method calls together since the item MUST be added to both itemManager and gui panel
-     * @param targetPanel
-     * @param draggedItem
-     */
-    // public void addItemSequence(ItemLayeredPane targetPanel, Item draggedItem) {
-
-    //     this.itemManager.addItem(targetPanel.equipmentSlot, draggedItem);
-    //     targetPanel.addItemToSlot(draggedItem);
-
-    // }
-
     public void addItemToSlot(EquipmentSlot targetSlot, Item item) {
 
         ItemLayeredPane targetPanel = slotToPanel.get(targetSlot);
@@ -528,6 +416,10 @@ public class ItemPanel extends JLayeredPane {
 
     }
 
+    /**
+     * removes an item from the source equipment slot
+     * @param sourceSlot
+     */
     public void removeItemFromSlot(EquipmentSlot sourceSlot) {
 
         ItemLayeredPane sourcePanel = slotToPanel.get(sourceSlot);
@@ -595,7 +487,7 @@ public class ItemPanel extends JLayeredPane {
 
         public ItemPanelTransferHandler(ItemPanel itemPanel) {
             this.itemPanel = itemPanel;
-            this.itemController = itemPanel.itemController;  // TODO: fix this
+            this.itemController = itemPanel.getItemController();
         }
 
         @Override
@@ -710,32 +602,5 @@ public class ItemPanel extends JLayeredPane {
 
     }
 
-
-    // static class ImageTransferable implements Transferable {
-
-    //     private ImageIcon imageIcon;
-
-    //     public ImageTransferable(ImageIcon imageIcon) {
-    //         this.imageIcon = imageIcon;
-    //     }
-
-    //     @Override
-    //     public DataFlavor[] getTransferDataFlavors() {
-    //         return new DataFlavor[]{DataFlavor.imageFlavor};
-    //     }
-
-    //     @Override
-    //     public boolean isDataFlavorSupported(DataFlavor flavor) {
-    //         return flavor.equals(DataFlavor.imageFlavor);
-    //     }
-
-    //     @Override
-    //     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-    //         if (flavor.equals(DataFlavor.imageFlavor)) {
-    //             return imageIcon.getImage();
-    //         }
-    //         throw new UnsupportedFlavorException(flavor);
-    //     }
-    // }
 }
 

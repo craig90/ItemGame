@@ -142,7 +142,7 @@ public class Game {
             fileNames = FileReader.readFileNames();
             characterFiles = getCharacterNamesFromFile(fileNames);
             characterToLoad = chooseCharacterScreen(characterFiles);
-            this.character = this.fileParcer.loadCharacterFromFileReWrite(characterToLoad);
+            this.character = this.fileParcer.loadCharacterFromFile(characterToLoad);
             return true;
         } catch (FileNotFoundException e) {
             System.out.println("Error loading character from file");
