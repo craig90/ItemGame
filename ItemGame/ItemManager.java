@@ -192,7 +192,7 @@ public class ItemManager {
      */
     public void addItem(EquipmentSlot slot, Item item) {
     
-        // see if we're moving an item to the deletion slot
+        // see if we're moving an item to the inventory slot
         if (isInventorySlot(slot) == true) {
             System.out.println("Adding to inventory " + slot.toString());
             try {
@@ -206,7 +206,34 @@ public class ItemManager {
             this.equipItem(slot, item);
         }
     }
-    
+
+    /**
+     * returns true if the item can be equiped in the slot
+     * @param slot
+     * @param item
+     * @return
+     */
+    public boolean canEquipItem(EquipmentSlot slot, Item item) {
+        
+        // rings are a special case
+        if (item.getItemType() == ItemType.RING) {
+            
+            if (slot == EquipmentSlot.LEFT_RING || slot == EquipmentSlot.RIGHT_RING) {
+                return !uniqueItems.containsKey(slot);    
+            }
+            return false;
+        }
+
+        // make sure Item Type matches slot type
+        if (item.getItemType().getEquipmentSlot() != slot) {
+            return false;
+        }
+
+        return !uniqueItems.containsKey(item.getItemType().getEquipmentSlot());
+
+    }
+
+
     /**
      * this will add the item to the list and remove any existing item of the same item type
      * @param item

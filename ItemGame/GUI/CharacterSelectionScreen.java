@@ -49,9 +49,10 @@ public class CharacterSelectionScreen extends JPanel {
             
             button.addActionListener(e -> {
                 
-                try {
+                try { // TODO: fix name of file load
+                    // TODO: plus fix these calls a little
                     this.gui.getGame().setCharacter(this.gui.getGame().fileParcer.loadCharacterFromFileReWrite(characterFile));
-                    this.gui.characterScreen.setCharacter();
+                    this.gui.characterScreen.loadCharacter();
                     System.out.println("Switching to: " + Gui.CHARACTER_SCREEN);
                     this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.CHARACTER_SCREEN);
                 } catch (Exception ex) {

@@ -51,7 +51,7 @@ public class Character {
         statList.add(magicResistance);
 
         itemManager = new ItemManager();
-    
+
     }
     
     public double getExperience() {

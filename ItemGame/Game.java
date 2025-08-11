@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class Game {
 
+    private ItemController itemController;
     private Character character;
     ItemGenerator itemGenerator;
     FileParcer fileParcer;
@@ -14,6 +15,7 @@ public class Game {
         this.fileParcer = new FileParcer();
         this.commandLineReader = new CommandLineReader();
         this.characterSaver = new CharacterSaver();
+        this.itemController = new ItemController();
     }
 
     public CharacterSaver getCharacterSaver() {
@@ -31,7 +33,13 @@ public class Game {
     public void setCharacter(Character character) {
         this.character = character;
         this.character.updateStats();
+        this.itemController.setItemManager(this.character.getItemManager()); // TODO: i don't like how this is being set
     }
+
+    public ItemController getItemController() {
+        return this.itemController;
+    }
+
 
     /**
      * Shows the intro to the game giving user option to load a character from file or create a new character
