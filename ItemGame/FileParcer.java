@@ -358,7 +358,7 @@ public class FileParcer {
 
     }
 
-    public Character loadCharacterFromFileReWrite(CharacterFile characterFile) throws Exception {
+    public Character loadCharacterFromFile(CharacterFile characterFile) throws Exception {
 
         Character character = new Character();
         FileReader fileReader;
@@ -678,7 +678,7 @@ public class FileParcer {
         //fileParcer.parceCharacterNameAndLevel(file, characterFile);
         
         try {
-            character = fileParcer.loadCharacterFromFileReWrite(characterFile);
+            character = fileParcer.loadCharacterFromFile(characterFile);
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
             return;

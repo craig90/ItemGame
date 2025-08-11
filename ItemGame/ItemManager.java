@@ -83,6 +83,11 @@ public class ItemManager {
         return uniqueItems.get(slotType);
     }
 
+    /**
+     * Returns the Item based on the Slot Type, null if not equipped
+     * @param slotType
+     * @return
+     */
     public Item getItem(EquipmentSlot slotType) {
 
         if (slotType == EquipmentSlot.NEW_ITEM_SLOT) {

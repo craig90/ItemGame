@@ -131,19 +131,21 @@ public class CharacterScreen extends JPanel {
             return;
         }
         
-        // this only needs to be done once
+        // TODO: this only needs to be done once
         this.gui.getGame().getItemController().setItemPanel(this.itemPanel);
 
         // TODO: this maybe should be a bit cleaner
         // update the items for the new character
-        this.itemPanel.setItemManager(this.character.getItemManager());
+        this.itemPanel.loadItems(this.character.getItemManager());
         this.gui.getGame().getItemController().setItemManager(this.character.getItemManager());
         
-        // TODO: this should be moved into item panel
-        this.itemPanel.clearItemPanes(); // if we're reloading we have to clear what's there already
-        this.itemPanel.setItemsInPanes();
-        this.itemPanel.setSourceTransferHandlers();
-        this.itemPanel.setupHoverPanel();
+        // this.itemPanel.setItemManager(this.character.getItemManager());
+        // this.itemPanel.clearItemPanes(); // if we're reloading we have to clear what's there already
+        // this.itemPanel.setItemsInPanes();
+        // this.itemPanel.setSourceTransferHandlers();
+        // this.itemPanel.setupHoverPanel();
+
+        
 
         update();
 
