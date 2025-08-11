@@ -21,7 +21,7 @@ public class ItemLayeredPane extends JLayeredPane {
     JLabel itemIconLabel;
 
     Item item;
-    EquipmentSlot equipmentSlot;
+    private EquipmentSlot equipmentSlot;
 
     // about how this will work
     public ItemLayeredPane(EquipmentSlot equipmentSlot) {
@@ -129,6 +129,10 @@ public class ItemLayeredPane extends JLayeredPane {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public EquipmentSlot getEquipmentSlot() {
+        return this.equipmentSlot;
     }
 
     /**

@@ -4,12 +4,12 @@ import javax.swing.JLabel;
 
 public class MyMouseListener extends MouseAdapter {
 
-    ItemWindow itemWindow;
+    ItemPanel itemPanel;
     HoverPanel hoverPanel;
 
-    public MyMouseListener(ItemWindow itemWindow) {
-        this.itemWindow = itemWindow;
-        this.hoverPanel = itemWindow.hoverPanel;
+    public MyMouseListener(ItemPanel itemPanel) {
+        this.itemPanel = itemPanel;
+        this.hoverPanel = itemPanel.hoverPanel;
     }
 
     @Override
@@ -22,6 +22,11 @@ public class MyMouseListener extends MouseAdapter {
 
     @Override
     public void mouseExited(MouseEvent e) {
+        this.hoverPanel.hideHoverPanel();
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
         this.hoverPanel.hideHoverPanel();
     }
 

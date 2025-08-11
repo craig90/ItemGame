@@ -48,7 +48,7 @@ public class CharacterScreen extends JPanel {
     Gui gui;
     CharacterSaver characterSaver;
 
-    ItemWindow itemPanel;
+    ItemPanel itemPanel;
 
     JPanel statsPanel;
 
@@ -56,7 +56,7 @@ public class CharacterScreen extends JPanel {
 
         this.gui = gui;
         this.character = this.gui.getGame().getCharacter();
-        this.itemPanel = new ItemWindow(this);
+        this.itemPanel = new ItemPanel(this, this.gui.getGame().getItemController());
         this.characterSaver = this.gui.getGame().getCharacterSaver();
 
         this.statsPanel = new JPanel();
@@ -121,7 +121,7 @@ public class CharacterScreen extends JPanel {
 
     }
 
-    public void setCharacter() {
+    public void loadCharacter() {
 
         // make sure we have the latest character
         this.character = this.gui.getGame().getCharacter();
@@ -130,10 +130,16 @@ public class CharacterScreen extends JPanel {
             System.out.println("Error - we have no loaded character");
             return;
         }
+        
+        // this only needs to be done once
+        this.gui.getGame().getItemController().setItemPanel(this.itemPanel);
 
         // TODO: this maybe should be a bit cleaner
         // update the items for the new character
         this.itemPanel.setItemManager(this.character.getItemManager());
+        this.gui.getGame().getItemController().setItemManager(this.character.getItemManager());
+        
+        // TODO: this should be moved into item panel
         this.itemPanel.clearItemPanes(); // if we're reloading we have to clear what's there already
         this.itemPanel.setItemsInPanes();
         this.itemPanel.setSourceTransferHandlers();

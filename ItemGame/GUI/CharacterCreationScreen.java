@@ -34,8 +34,9 @@ public class CharacterCreationScreen extends JPanel {
 
             newCharacter.setLevel(40); // TODO: implement this later
             newCharacter.setExperience(123456);
+            // TODO: I don't like that these are separate calls
             this.gui.getGame().setCharacter(newCharacter);
-            this.gui.characterScreen.setCharacter();
+            this.gui.characterScreen.loadCharacter();
             this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.CHARACTER_SCREEN);
         });
 
