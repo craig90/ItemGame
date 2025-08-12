@@ -5,20 +5,19 @@ import java.util.List;
 
 public class ItemManager {
 
-    private final int INVENTORY_SIZE = 4;
+    private static final int INVENTORY_WIDTH = 10, INVENTORY_HEIGHT = 5;
 
     // private Map<String, Item> uniqueItems;
     // private Map<RingSlot, Ring> rings;
     private Map<EquipmentSlot, Item> uniqueItems;
 
     private Item generatedItem;
-    private Item[] inventory;
+    private Inventory inventory;
 
     public ItemManager() {
         this.uniqueItems = new EnumMap<>(EquipmentSlot.class);
-        // this.rings = new EnumMap<>(RingSlot.class);
         this.generatedItem = null;
-        this.inventory = new Item[INVENTORY_SIZE];
+        this.inventory = new Inventory(INVENTORY_WIDTH, INVENTORY_HEIGHT);
     }
 
 
@@ -70,9 +69,9 @@ public class ItemManager {
         return this.generatedItem;
     }
 
-    public Item getInventoryItem(EquipmentSlot slot) throws Exception {
-        return this.inventory[equipmentSlotToIndex(slot)];
-    }
+    // public Item getInventoryItem(EquipmentSlot slot) throws Exception {
+    //     return this.inventory[equipmentSlotToIndex(slot)];
+    // }
 
     /**
      * Returns the item specified by item slot type
@@ -92,17 +91,9 @@ public class ItemManager {
 
         if (slotType == EquipmentSlot.NEW_ITEM_SLOT) {
             return this.generatedItem;
-        } else if (ItemManager.isInventorySlot(slotType)) {
-            try {
-                return getInventoryItem(slotType);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return null; // TODO: this could be a problem
-            }
         } else {
             return getUniqueItem(slotType);
         }
-
     }
 
 
@@ -122,42 +113,42 @@ public class ItemManager {
      * @param slot
      * @throws Exception
      */
-    public void addInventoryItem(Item item, EquipmentSlot slot) throws Exception {
+    // public void addInventoryItem(Item item, EquipmentSlot slot) throws Exception {
         
-        int inventoryIndex = 0;
-        inventoryIndex = equipmentSlotToIndex(slot);
+    //     int inventoryIndex = 0;
+    //     inventoryIndex = equipmentSlotToIndex(slot);
 
-        this.inventory[inventoryIndex] = item;
+    //     this.inventory[inventoryIndex] = item;
 
-    }
+    // }
 
     /**
      * Removes an item from the inventory
      * @param slot
      * @throws Exception
      */
-    private void removeInventoryItem(EquipmentSlot slot) throws Exception {
+    // private void removeInventoryItem(EquipmentSlot slot) throws Exception {
         
-        int inventoryIndex = 0;
-        inventoryIndex = equipmentSlotToIndex(slot);
+    //     int inventoryIndex = 0;
+    //     inventoryIndex = equipmentSlotToIndex(slot);
 
-        this.inventory[inventoryIndex] = null;
+    //     this.inventory[inventoryIndex] = null;
 
-    }
+    // }
 
-    private int equipmentSlotToIndex(EquipmentSlot slot) throws Exception {
-        if (slot == EquipmentSlot.INVENTORY_SLOT_ONE) {
-            return 0;
-        } else if (slot == EquipmentSlot.INVENTORY_SLOT_TWO) {
-            return 1;
-        } else if (slot == EquipmentSlot.INVENTORY_SLOT_THREE) {
-            return 2;
-        } else if (slot == EquipmentSlot.INVENTORY_SLOT_FOUR) {
-            return 3;
-        } else {
-            throw new Exception("Error.. invalid equippment slot for inventory");
-        }
-    }
+    // private int equipmentSlotToIndex(EquipmentSlot slot) throws Exception {
+    //     if (slot == EquipmentSlot.INVENTORY_SLOT_ONE) {
+    //         return 0;
+    //     } else if (slot == EquipmentSlot.INVENTORY_SLOT_TWO) {
+    //         return 1;
+    //     } else if (slot == EquipmentSlot.INVENTORY_SLOT_THREE) {
+    //         return 2;
+    //     } else if (slot == EquipmentSlot.INVENTORY_SLOT_FOUR) {
+    //         return 3;
+    //     } else {
+    //         throw new Exception("Error.. invalid equippment slot for inventory");
+    //     }
+    // }
 
 
     /**
@@ -198,18 +189,31 @@ public class ItemManager {
     public void addItem(EquipmentSlot slot, Item item) {
     
         // see if we're moving an item to the inventory slot
-        if (isInventorySlot(slot) == true) {
-            System.out.println("Adding to inventory " + slot.toString());
-            try {
-                addInventoryItem(item, slot);
-            } catch (Exception e) {
-                System.out.println("Error adding to inventroy"); // TODO: move this shit somewhere else 
-            }
+        // if (isInventorySlot(slot) == true) {
+        //     System.out.println("Adding to inventory " + slot.toString());
+        //     try {
+        //         addInventoryItem(item, slot);
+        //     } catch (Exception e) {
+        //         System.out.println("Error adding to inventroy"); // TODO: move this shit somewhere else 
+        //     }
 
-        } else {
+        // } else {
             // System.out.println("Target Panel: " + targetPanel.equipmentSlot.toString());
-            this.equipItem(slot, item);
-        }
+        this.equipItem(slot, item);
+        // }
+    }
+
+    public void addItem(Item item, int x, int y) {
+        InventorySlot inventorySlot = new InventorySlot(x, y);
+        this.inventory.placeItem(item, inventorySlot);
+    }
+
+    public InventorySlot[][] getInventoryGrid() {
+        return this.inventory.getGrid();
+    }
+
+    public Inventory getInventory() {
+        return this.inventory;
     }
 
     /**
@@ -236,6 +240,10 @@ public class ItemManager {
 
         return !uniqueItems.containsKey(item.getItemType().getEquipmentSlot());
 
+    }
+
+    public boolean canAddItem(Item item, int x, int y) {
+        return (this.inventory.canPlaceItem(item, new InventorySlot(x, y)));
     }
 
 
@@ -268,21 +276,39 @@ public class ItemManager {
     // }
 
 
+    /**
+     * Removes an item from the corresponding equipment slot
+     * @param slot
+     */
     public void removeItem(EquipmentSlot slot) {
         
-        if (isInventorySlot(slot)) {
-            System.out.println("Removing item from " + slot.toString());
-            try {
-                removeInventoryItem(slot);
-            } catch (Exception e) {
-                System.out.println("Error removing item from inventory"); // TODO: move this shit somewhere else 
-            }
-        } else if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
+        // if (isInventorySlot(slot)) {
+        //     System.out.println("Removing item from " + slot.toString());
+        //     try {
+        //         removeInventoryItem(slot);
+        //     } catch (Exception e) {
+        //         System.out.println("Error removing item from inventory"); // TODO: move this shit somewhere else 
+        //     }
+        // } else 
+        if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
             this.generatedItem = null;
         } else {
             System.out.println("Removing item from " + slot.toString());
             this.uniqueItems.remove(slot);
         }
+    }
+
+
+
+    /**
+     * Removes an item from the inventory
+     * @param item
+     * @param x
+     * @param y
+     */
+    public void removeItem(Item item, int x, int y) {
+        InventorySlot slot = new InventorySlot(x, y); // this is not great.. 
+        this.inventory.removeItem(item, slot);
     }
 
     // public void removeRing(RingSlot slot) {

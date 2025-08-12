@@ -1,13 +1,24 @@
+import java.awt.Point;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Inventory {
+
+    public static final int GRID_SIZE = 50;
+    public static final int INVENTORY_ROWS = 5;
+    public static final int INVENTORY_COLUMNS = 10;
 
     private int rows;
     private int columns;
-    public InventorySlot[][] inventorySlots; // public for testing purposes
+    private InventorySlot[][] inventorySlots; // public for testing purposes
+
+    private Map<Item, Point> itemOrigins;
 
     public Inventory(int columns, int rows) {
         this.inventorySlots = new InventorySlot[rows][columns];
         this.columns = columns;
         this.rows = rows;
+        this.itemOrigins = new HashMap<Item,Point>();
         initGrid();
     }
 
@@ -50,6 +61,9 @@ public class Inventory {
         // make sure that none of the necessary grid positions are occupied
         for (int i = slot.getY(); i < finalY; i++) {
             for (int j = slot.getX(); j < finalX; j++) {
+                
+                System.out.println("I: " + i + " J: " + j + " " + inventorySlots[i][j].isOcuppied());
+
                 if (inventorySlots[i][j].isOcuppied() == true) {
                     System.out.println("Collision at " + i + " " + j);
                     return false;
@@ -82,13 +96,18 @@ public class Inventory {
         // System.out.println("X: " + slot.getX() + " final X: " + finalX);
         // System.out.println("Y: " + slot.getY() + " final Y: " + finalY);
 
+        System.out.println("Inventory.java -> Placing item");
+
         for (int i = slot.getY(); i < finalY; i++) {
             for (int j = slot.getX(); j < finalX; j++) {
-                // System.out.println("Setting row: " + i + " column: " + j + " as ocupado");
+                System.out.println("Inventory.java -> Placing item at " + i + " " + j);
+                
                 this.inventorySlots[i][j].setItem(item);
                 this.inventorySlots[i][j].setIsOccupied(true);
             }
         }
+
+        this.itemOrigins.put(item, new Point(slot.getX(), slot.getY()));
 
         return true;
     }
@@ -100,9 +119,18 @@ public class Inventory {
      */
     public void removeItem(Item item, InventorySlot slot) {
 
-
         int finalX = slot.getX() + item.getWidthInGridUnits();
         int finalY = slot.getY() + item.getHeightInGridUnits();
+
+        if (finalX > this.columns) {  // TODO: shouldn't happen maybe throw exception
+            System.out.println("Error");
+            return;
+        }
+
+        if (finalY > this.rows) {
+            System.out.println("Error");
+            return;
+        }
 
         for (int i = slot.getY(); i < finalY; i++) {
             for (int j = slot.getX(); j < finalX; j++) {
@@ -110,6 +138,8 @@ public class Inventory {
                 this.inventorySlots[i][j].setIsOccupied(false);
             }
         }
+
+        this.itemOrigins.remove(item);
     }
 
     /**
@@ -132,11 +162,29 @@ public class Inventory {
 
     }
 
+    public boolean isItemOrigin(Item item, int x, int y) {
+
+        Point point = this.itemOrigins.get(item);
+
+        System.out.println("Origin X: " + point.getX() + " Origin Y: " + point.getY());
+        System.out.println("X: " + x + " Y: " + y);
+
+
+        if ((int)point.getX() == x && (int)point.getY() == y) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public InventorySlot[][] getGrid() {
+        return this.inventorySlots;
+    }
 
 
     public static void main(String args[]) {
 
-        Inventory inventory = new Inventory(10, 5);
+        Inventory inventory = new Inventory(Inventory.INVENTORY_COLUMNS, Inventory.INVENTORY_ROWS);
         
         Item shield = new Shield("Test Shield");
         Item weapon = new Weapon("Test Weapon");
@@ -151,6 +199,10 @@ public class Inventory {
 
         // should fail
         inventory.placeItem(weapon, inventory.inventorySlots[1][0]);
+
+        inventory.printInventory();
+
+        inventory.removeItem(shield, new InventorySlot(2, 2));
 
         inventory.printInventory();
 

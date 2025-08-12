@@ -131,8 +131,9 @@ public class CharacterScreen extends JPanel {
             return;
         }
         
-        // TODO: this only needs to be done once
+        // TODO: this only needs to be done once // should not be done here
         this.gui.getGame().getItemController().setItemPanel(this.itemPanel);
+        this.gui.getGame().getItemController().setInventoryPanel(this.itemPanel.inventoryPanel);
 
         // TODO: this maybe should be a bit cleaner
         // update the items for the new character
