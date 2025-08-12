@@ -37,8 +37,10 @@ public class ItemPanel extends JLayeredPane {
     final static int ITEM_WINDOW_WIDTH = 700;
     final static int ITEM_WINDOW_HEIGHT = 475;
 
-    JPanel equippedItemPanel, inventoryPanel;
+    JPanel equippedItemPanel;
     
+    InventoryPanel inventoryPanel;
+
     HoverPanel hoverPanel;
 
     JLabel helm, weapon, amulet, ring, ringTwo, belt, pants, gloves, shieldLabel, chest, boots;
@@ -147,50 +149,54 @@ public class ItemPanel extends JLayeredPane {
         // this.separator.setAlignmentX(Component.CENTER_ALIGNMENT);
         // this.equippedItemPanel.add(this.separator);
 
-        GridBagConstraints c1 = new GridBagConstraints();
-        c1.insets = new Insets(4, 4, 4, 4);
+        // GridBagConstraints c1 = new GridBagConstraints();
+        // c1.insets = new Insets(4, 4, 4, 4);
 
-        this.inventoryPanel = new JPanel();
-        this.inventoryPanel.setLayout(new GridBagLayout());
+        // this.inventoryPanel = new JPanel();
+        // this.inventoryPanel.setLayout(new GridBagLayout());
 
-        this.inventorySlotOnePanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_ONE);
-        c1.gridx = 0;
-        c1.gridy = 0;
-        this.inventoryPanel.add(this.inventorySlotOnePanel, c1);
+        // this.inventorySlotOnePanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_ONE);
+        // c1.gridx = 0;
+        // c1.gridy = 0;
+        // this.inventoryPanel.add(this.inventorySlotOnePanel, c1);
 
-        this.inventorySlotTwoPanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_TWO);
-        c1.gridx = 1;
-        c1.gridy = 0;
-        this.inventoryPanel.add(this.inventorySlotTwoPanel, c1);
+        // this.inventorySlotTwoPanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_TWO);
+        // c1.gridx = 1;
+        // c1.gridy = 0;
+        // this.inventoryPanel.add(this.inventorySlotTwoPanel, c1);
 
-        this.inventorySlotThreePanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_THREE);
-        c1.gridx = 2;
-        c1.gridy = 0;
-        this.inventoryPanel.add(this.inventorySlotThreePanel, c1);
+        // this.inventorySlotThreePanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_THREE);
+        // c1.gridx = 2;
+        // c1.gridy = 0;
+        // this.inventoryPanel.add(this.inventorySlotThreePanel, c1);
 
-        this.inventorySlotFourPanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_FOUR);
-        c1.gridx = 3;
-        c1.gridy = 0;
-        this.inventoryPanel.add(this.inventorySlotFourPanel, c1);
+        // this.inventorySlotFourPanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_FOUR);
+        // c1.gridx = 3;
+        // c1.gridy = 0;
+        // this.inventoryPanel.add(this.inventorySlotFourPanel, c1);
 
-        this.deleteItemButton = new JButton("Delete Item");
-        c1.gridx = 3;
-        c1.gridy = 1;
-        this.inventoryPanel.add(this.deleteItemButton, c1);
+        
+        
+        // TODO: add this back in when I Know how
+        // this.deleteItemButton = new JButton("Delete Item");
+        // c1.gridx = 3;
+        // c1.gridy = 1;
+        // this.inventoryPanel.add(this.deleteItemButton, c1);
 
 
         // this panel is a little different because it's for generating new items not for deleting items
         this.generatedItemPanel = new ItemLayeredPane(EquipmentSlot.NEW_ITEM_SLOT);
-        c1.gridx = 4;
-        c1.gridy = 0;
-        this.inventoryPanel.add(this.generatedItemPanel, c1);
+        // c.gridx = 5;
+        // c.gridy = 2;
+        // this.equippedItemPanel.add(this.generatedItemPanel, c);
 
         // generate new item button
         this.getNewItemButton = new JButton("Get New Item");
-        c1.gridx = 4;
-        c1.gridy = 1;
-        this.inventoryPanel.add(this.getNewItemButton, c1);
+        // c.gridx = 5;
+        // c.gridy = 3;
+        // this.equippedItemPanel.add(this.getNewItemButton, c);
         
+        this.inventoryPanel = new InventoryPanel(this.itemController, Inventory.GRID_SIZE, Inventory.INVENTORY_ROWS, Inventory.INVENTORY_COLUMNS);
 
         // the size has to be set for layered Panes 
         this.equippedItemPanel.setBounds(0, 0, ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
@@ -228,17 +234,18 @@ public class ItemPanel extends JLayeredPane {
         });
 
         // delete the item
-        this.deleteItemButton.addActionListener(e -> {
-            // TODO: fix up try/catch and exception throwing
-            try {
-                this.itemManager.removeItem(EquipmentSlot.INVENTORY_SLOT_FOUR);
-                this.inventorySlotFourPanel.removeItemFromSlot();
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-            }
+        // this.deleteItemButton.addActionListener(e -> {
+        //     // TODO: fix up try/catch and exception throwing
+        //     try {
+        //         this.itemManager.removeItem(EquipmentSlot.INVENTORY_SLOT_FOUR);
+        //         this.inventorySlotFourPanel.removeItemFromSlot();
+        //     } catch (Exception ex) {
+        //         System.out.println(ex.getMessage());
+        //     }
             
-        });
+        // });
 
+        // put all the ItemLayeredPanes (slots) into a map for dynmaic access and manipulation
         slotToPanel.put(EquipmentSlot.AMULET, this.amuletPanel);
         slotToPanel.put(EquipmentSlot.BELT, this.beltPanel);
         slotToPanel.put(EquipmentSlot.BOOTS, this.bootsPanel);
@@ -252,18 +259,26 @@ public class ItemPanel extends JLayeredPane {
         slotToPanel.put(EquipmentSlot.WEAPON, this.weaponPanel);
         slotToPanel.put(EquipmentSlot.NEW_ITEM_SLOT, this.generatedItemPanel);
 
+        // add the transferhandlers for the panels
+        Collection<ItemLayeredPane> slots = this.slotToPanel.values();
+        for (ItemLayeredPane slot : slots) {
+            slot.setTransferHandler(new ItemPanelTransferHandler(this));
+        }
+
+        inventoryPanel.setTransferHandler(new InventoryTransferHandler(this.itemController));
+
         // these are the transfer handlers that recieve an item
-        this.amuletPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        this.bootsPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        this.beltPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        this.chestPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        this.glovesPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        this.helmPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        this.leftHandRingPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        this.pantsPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        this.rightHandRingPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        this.shieldPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        this.weaponPanel.setTransferHandler(new ItemPanelTransferHandler(this));
+        // this.amuletPanel.setTransferHandler(new ItemPanelTransferHandler(this));
+        // this.bootsPanel.setTransferHandler(new ItemPanelTransferHandler(this));
+        // this.beltPanel.setTransferHandler(new ItemPanelTransferHandler(this));
+        // this.chestPanel.setTransferHandler(new ItemPanelTransferHandler(this));
+        // this.glovesPanel.setTransferHandler(new ItemPanelTransferHandler(this));
+        // this.helmPanel.setTransferHandler(new ItemPanelTransferHandler(this));
+        // this.leftHandRingPanel.setTransferHandler(new ItemPanelTransferHandler(this));
+        // this.pantsPanel.setTransferHandler(new ItemPanelTransferHandler(this));
+        // this.rightHandRingPanel.setTransferHandler(new ItemPanelTransferHandler(this));
+        // this.shieldPanel.setTransferHandler(new ItemPanelTransferHandler(this));
+        // this.weaponPanel.setTransferHandler(new ItemPanelTransferHandler(this));
         
         // this.inventorySlotOnePanel.setTransferHandler(new ItemPanelTransferHandler(this));
         // this.inventorySlotTwoPanel.setTransferHandler(new ItemPanelTransferHandler(this));
@@ -340,6 +355,7 @@ public class ItemPanel extends JLayeredPane {
      */
     public void loadItems(ItemManager itemManager) {
         
+        System.out.println("Setting item manager");
         this.itemManager = itemManager;
 
         clearItemPanes();
@@ -477,6 +493,93 @@ public class ItemPanel extends JLayeredPane {
         }
     }
 
+    static class InventoryTransferHandler extends TransferHandler {
+
+        ItemController itemController;
+
+        public InventoryTransferHandler(ItemController itemController) {
+            this.itemController = itemController;
+        }
+    
+        /**
+         * calulates the X axis from the cursor location
+         * @param support
+         * @return
+         */
+        private int calcX(TransferSupport support) {
+
+            System.out.println("X: " + support.getDropLocation().getDropPoint().getX());
+            int x = (int)support.getDropLocation().getDropPoint().getX();
+            int gridx = x / Inventory.GRID_SIZE;
+
+            return gridx;
+
+        }
+
+        /**
+         * caluclates the y access cursor location
+         * @param support
+         * @return
+         */
+        private int calcY(TransferSupport support) {
+
+            System.out.println("Y: " + support.getDropLocation().getDropPoint().getY());
+            int y = (int)support.getDropLocation().getDropPoint().getY();
+            int gridy = y / Inventory.GRID_SIZE;
+
+            return gridy;
+
+        }
+
+        @Override
+        public boolean canImport(TransferSupport support) {
+
+            Item item = null;
+
+            if (support.isDataFlavorSupported(ItemTransferable.ITEM_FLAVOR) == false) {
+                System.out.println("Wrong data flavor");
+                return false;
+            }
+
+            try {
+                item = (Item) support.getTransferable().getTransferData(ItemTransferable.ITEM_FLAVOR);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                return false;
+            }
+
+            if (!this.itemController.canAddItem(item, calcX(support), calcY(support))) {
+                return false;
+            }
+
+            System.out.println("Can add item");
+
+            return true;
+
+        }
+
+        @Override
+        public boolean importData(TransferSupport support) {
+            
+            Item item = null;
+
+            if (!canImport(support)) {
+                return false;
+            }
+
+            try {
+                item = (Item) support.getTransferable().getTransferData(ItemTransferable.ITEM_FLAVOR);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                return false;
+            }
+
+            return this.itemController.addItem(item, calcX(support), calcY(support));
+        }
+    
+    }
+
+
     /**
      * This class sublcasses Transfer Handler and is used by any panel that may import an item via item drag
      */
@@ -496,7 +599,6 @@ public class ItemPanel extends JLayeredPane {
             ItemLayeredPane targetPanel;
             Item item;
 
-            // System.out.println("Can Import?");
             if (support.isDataFlavorSupported(ItemTransferable.ITEM_FLAVOR) == false) {
                 System.out.println("Wrong data flavor");
                 return false;
@@ -512,35 +614,7 @@ public class ItemPanel extends JLayeredPane {
 
             return this.itemPanel.itemManager.canEquipItem(targetPanel.getEquipmentSlot(), item);
             
-            // make sure the item being dragged matches the itemslot type - rings are a special case because there
-            // are two potential drop sites
-            // if (this.itemPanel.draggedItem.getItemType() == ItemType.RING) {
-            //     if ((targetPanel.equipmentSlot != EquipmentSlot.RIGHT_RING) 
-            //     && (targetPanel.equipmentSlot != EquipmentSlot.LEFT_RING)
-            //     && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_ONE)
-            //     && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_TWO)
-            //     && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_THREE)
-            //     && (targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_FOUR)) {
-            //         return false;
-            //     }
-            // // not a ring
-            // } else { 
-
-            //     if (this.itemPanel.draggedItem.getItemType().getEquipmentSlot() != targetPanel.equipmentSlot
-            //         && targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_ONE
-            //         && targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_TWO
-            //         && targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_THREE
-            //         && targetPanel.equipmentSlot != EquipmentSlot.INVENTORY_SLOT_FOUR) {
-            //         return false;
-            //     }
-            // }
-
-            // make sure the target panel is empty
-            // if (targetPanel.isEmpty() == false) {
-            //     return false;
-            // }
-
-            // return true;
+            
         }
 
         @Override

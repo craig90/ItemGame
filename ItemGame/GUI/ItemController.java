@@ -2,7 +2,7 @@ public class ItemController {
 
     private ItemManager itemManager;
     private ItemPanel itemPanel;
-    // private final GridPanel
+    private InventoryPanel inventoryPanel;
 
     public ItemController() { }
 
@@ -12,6 +12,10 @@ public class ItemController {
      */
     public void setItemPanel(ItemPanel itemPanel) {
         this.itemPanel = itemPanel;
+    }
+
+    public void setInventoryPanel(InventoryPanel inventoryPanel) {
+        this.inventoryPanel = inventoryPanel;
     }
 
     /**
@@ -38,5 +42,33 @@ public class ItemController {
         
     }
 
+    public void moveItemToGrid() {
+
+    }
+
+    public boolean canAddItem(Item item, int x, int y) {
+        return this.itemManager.canAddItem(item, x, y);
+    }
+
+    public boolean addItem(Item item, int x, int y) {
+
+        // update backend
+        this.itemManager.addItem(item, x, y);
+
+        System.out.println("Added item to backend.. now updating gui");
+        // update GUI
+        this.inventoryPanel.repaint();
+
+        return true;
+    }
+
+
+    public Inventory getInventory() {
+        return itemManager.getInventory();
+    }
+
+    public InventorySlot[][] getInventoryGrid() {
+        return this.itemManager.getInventoryGrid();
+    }
 
 }
