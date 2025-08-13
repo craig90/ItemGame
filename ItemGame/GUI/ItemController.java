@@ -50,14 +50,17 @@ public class ItemController {
         return this.itemManager.canAddItem(item, x, y);
     }
 
-    public boolean addItem(Item item, int x, int y) {
+    public boolean moveItemToInventory(Item item, int x, int y, EquipmentSlot sourceSlot) {
 
         // update backend
-        this.itemManager.addItem(item, x, y);
+        this.itemManager.addItemToGrid(item, x, y);
+        this.itemManager.removeItem(sourceSlot);
 
         System.out.println("Added item to backend.. now updating gui");
         // update GUI
+        this.inventoryPanel.addItem(item, x, y);
         this.inventoryPanel.repaint();
+        this.itemPanel.removeItemFromSlot(sourceSlot);
 
         return true;
     }

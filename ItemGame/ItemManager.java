@@ -96,6 +96,25 @@ public class ItemManager {
         }
     }
 
+    /**
+     * returns an item from the grid at the specified column and row numbers
+     * @param column
+     * @param row
+     * @return
+     * @throws Exception
+     */
+    public Item getItem(int column, int row) throws Exception {
+        // System.out.println("Get item at x: " + column + " y " + row);
+        if (row >= Inventory.INVENTORY_ROWS || column >= Inventory.INVENTORY_COLUMNS) {
+            throw new Exception("Can't get item because grid coordinates are out of bounds row " 
+            + row + " column " + column);
+        }
+        
+        InventorySlot[][] inventory = this.inventory.getGrid();
+        
+        return inventory[row][column].getItem();
+    }
+
 
     public void setGeneratedItem(Item generatedItem) {
         this.generatedItem = generatedItem;
@@ -203,7 +222,7 @@ public class ItemManager {
         // }
     }
 
-    public void addItem(Item item, int x, int y) {
+    public void addItemToGrid(Item item, int x, int y) {
         InventorySlot inventorySlot = new InventorySlot(x, y);
         this.inventory.placeItem(item, inventorySlot);
     }

@@ -45,6 +45,8 @@ public class HoverPanel extends JPanel {
      */
     public void updateHoverWindow(JLabel hoverdLabel) {
 
+        // System.out.println("Updating hover window");
+
         if (this.itemManager == null) {
             return;
         }
@@ -52,20 +54,61 @@ public class HoverPanel extends JPanel {
         removeAllLabels();
 
         String slotType = hoverdLabel.getName();
-        // System.out.println(panelType);
+        
+        // System.out.println("Parent: " + hoverdLabel.getParent().getName());
+        // System.out.println("Bounds: " + hoverdLabel.getBounds());
+        // System.out.println("Location: " + hoverdLabel.getLocation());
+
+        // System.out.println("Slot type: " + slotType);
 
         Item item = null;
-        EquipmentSlot slot;
         
-        try {
-            slot = EquipmentSlot.valueOf(slotType);
-        } catch (EnumConstantNotPresentException e) {
-            System.out.println("Not a proper slot to hover over - String doesn't convert back to enum member");
-            return;
+        // if it's on the Equipped Item Panel
+        if (hoverdLabel.getParent().getName() == Gui.ITEM_PANEL_NAME) {
+            EquipmentSlot slot;
+            
+            try {
+                slot = EquipmentSlot.valueOf(slotType);
+            } catch (EnumConstantNotPresentException e) {
+                System.out.println("Not a proper slot to hover over - String doesn't convert back to enum member");
+                return;
+            }
+            
+            // System.out.println("Slot: " + slot.toString());
+
+            item = this.itemManager.getItem(slot);
+
+            if (item == null) {
+                return;
+            }
+
+            generateEquippedItemHoverPanel(item);
+        } 
+        
+        // if it's an inventory item
+        else if (hoverdLabel.getParent().getName() == Gui.INVENTORY_PANEL_NAME) {
+
+            int x = hoverdLabel.getX();
+            int y = hoverdLabel.getY();
+
+            try {
+                item = this.itemManager.getItem(x/Inventory.GRID_SIZE, y/Inventory.GRID_SIZE);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return; // I think returning is appropriate here - just don't display hover panel if error getting item
+            }
+
+            if (item == null) {
+                return;
+            }
+
+            generateUnequippedItemHoverPanel(item);
+
         }
 
-        item = this.itemManager.getItem(slot);
-
+        else {
+            return; // this should never happen, but if it does, just don't draw the hover panel
+        }
         // if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
         //     item = this.itemManager.getGeneratedItem();
         // } else if (ItemManager.isInventory(slot)) {
@@ -79,21 +122,14 @@ public class HoverPanel extends JPanel {
         // }
 
         // shouldn't happen but just incase the item is null we just won't bother generating the panel to avoid crashing
-        if (item == null) {
-            return;
-        }
-
-        JLabel itemName = new JLabel(item.getItemName());
-        itemName.setForeground(Color.WHITE);
-        // itemName.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.add(itemName);
-
+        
+        // TODO: this will be put back in
         // generate hover panel depending on the type - new vs equipped
-        if (slot == EquipmentSlot.NEW_ITEM_SLOT || ItemManager.isInventorySlot(slot) == true) {
-            generateUnequippedItemHoverPanel(item);
-        } else {
-            generateEquippedItemHoverPanel(item);
-        }
+        // if (slot == EquipmentSlot.NEW_ITEM_SLOT || ItemManager.isInventorySlot(slot) == true) {
+        //     generateUnequippedItemHoverPanel(item);
+        // } else {
+            
+        // }
 
         this.setSize(this.getPreferredSize());
 
@@ -116,16 +152,36 @@ public class HoverPanel extends JPanel {
         // offset the hover panel a bit depending on it's size relative to the panel it is drawing over top of
         int xOffset = (this.getWidth() - hoverdLabel.getWidth()) / 2;
 
-        this.setLocation(hoverdLabel.getParent().getX() - xOffset, locationOnScreen.y);
+        if (hoverdLabel.getParent().getName().equals(Gui.ITEM_PANEL_NAME)) {
+            this.setLocation(hoverdLabel.getParent().getX() - xOffset, locationOnScreen.y);
+        } 
+        
+        else if (hoverdLabel.getParent().getName().equals(Gui.INVENTORY_PANEL_NAME)) {
+            this.setLocation(hoverdLabel.getX()- xOffset, locationOnScreen.y);
+        }
+        
+        else {
+            return; // this shouldn't happen but if it does.. just return without updating location
+        }
 
     }
 
+
+    private void addName(Item item) {
+
+        JLabel itemName = new JLabel(item.getItemName());
+        itemName.setForeground(Color.WHITE);
+        this.add(itemName);
+
+    }
 
     /**
      * Generates the hover panel for an equipped item since the logic is different than that of a new item
      * @param item
      */
     private void generateEquippedItemHoverPanel(Item item) {
+
+        addName(item);
 
         for (int i = 0; i < item.statListSize(); i++) {
             JLabel label = new JLabel(item.getStat(i).getStatType() + " " + item.getStat(i).getValue());
@@ -136,6 +192,8 @@ public class HoverPanel extends JPanel {
     }
 
     private void generateRingHoverPanel(Item item) {
+
+        addName(item);
 
         System.out.println("Item type should be ring: " + item.getItemType());
 
@@ -154,6 +212,8 @@ public class HoverPanel extends JPanel {
      */
     private void generateUnequippedItemHoverPanel(Item item) {
         
+        addName(item);
+
         Item equippedItem;
         
         // logic for rings will be different because there possibly two equipped

@@ -13,6 +13,9 @@ public class Gui extends JFrame {
     public static final String CHARACTER_SCREEN = "Character Screen";
     public static final String ERROR_SCREEN = "Error Screen";
 
+    public static final String INVENTORY_PANEL_NAME = "Inventory Panel";
+    public static final String ITEM_PANEL_NAME = "Item Layered Panel"; 
+
     public CardLayout cardLayout;
     public JPanel cardLayoutPanel;
 

@@ -42,6 +42,8 @@ public class ItemLayeredPane extends JLayeredPane {
         this.setPreferredSize(new Dimension(slotWidth, slotHeight));
         this.setBackground(Color.GRAY);
         this.setOpaque(true);
+
+        this.setName(Gui.ITEM_PANEL_NAME);
         
         // create the equipment slot text label
         this.slotLabel = new JLabel(this.equipmentSlot.getDisplayName());

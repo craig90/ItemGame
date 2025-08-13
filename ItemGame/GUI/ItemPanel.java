@@ -51,8 +51,7 @@ public class ItemPanel extends JLayeredPane {
     ImageIcon helmIcon, shieldIcon;
 
     JButton getNewItemButton, deleteItemButton;
-    ItemLayeredPane generatedItemPanel, inventorySlotOnePanel, inventorySlotTwoPanel, inventorySlotThreePanel;
-    ItemLayeredPane inventorySlotFourPanel;
+    ItemLayeredPane generatedItemPanel;
 
     CharacterScreen characterScreen;  // TODO: I don't like that its getting this either
     ItemGenerator itemGenerator; // TODO: probably should not have direct access to this either
@@ -148,35 +147,6 @@ public class ItemPanel extends JLayeredPane {
         // this.separator.setMaximumSize(new Dimension(this.equippedItemPanel.getMaximumSize().width, 10));
         // this.separator.setAlignmentX(Component.CENTER_ALIGNMENT);
         // this.equippedItemPanel.add(this.separator);
-
-        // GridBagConstraints c1 = new GridBagConstraints();
-        // c1.insets = new Insets(4, 4, 4, 4);
-
-        // this.inventoryPanel = new JPanel();
-        // this.inventoryPanel.setLayout(new GridBagLayout());
-
-        // this.inventorySlotOnePanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_ONE);
-        // c1.gridx = 0;
-        // c1.gridy = 0;
-        // this.inventoryPanel.add(this.inventorySlotOnePanel, c1);
-
-        // this.inventorySlotTwoPanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_TWO);
-        // c1.gridx = 1;
-        // c1.gridy = 0;
-        // this.inventoryPanel.add(this.inventorySlotTwoPanel, c1);
-
-        // this.inventorySlotThreePanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_THREE);
-        // c1.gridx = 2;
-        // c1.gridy = 0;
-        // this.inventoryPanel.add(this.inventorySlotThreePanel, c1);
-
-        // this.inventorySlotFourPanel = new ItemLayeredPane(EquipmentSlot.INVENTORY_SLOT_FOUR);
-        // c1.gridx = 3;
-        // c1.gridy = 0;
-        // this.inventoryPanel.add(this.inventorySlotFourPanel, c1);
-
-        
-        
         // TODO: add this back in when I Know how
         // this.deleteItemButton = new JButton("Delete Item");
         // c1.gridx = 3;
@@ -574,7 +544,8 @@ public class ItemPanel extends JLayeredPane {
                 return false;
             }
 
-            return this.itemController.addItem(item, calcX(support), calcY(support));
+            return this.itemController.moveItemToInventory(item, calcX(support), calcY(support), 
+                MyLabelTransferHandler.getSourcePanel().getEquipmentSlot());
         }
     
     }
