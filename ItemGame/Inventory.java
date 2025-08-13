@@ -166,8 +166,8 @@ public class Inventory {
 
         Point point = this.itemOrigins.get(item);
 
-        System.out.println("Origin X: " + point.getX() + " Origin Y: " + point.getY());
-        System.out.println("X: " + x + " Y: " + y);
+        // System.out.println("Origin X: " + point.getX() + " Origin Y: " + point.getY());
+        // System.out.println("X: " + x + " Y: " + y);
 
 
         if ((int)point.getX() == x && (int)point.getY() == y) {

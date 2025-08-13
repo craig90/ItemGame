@@ -20,8 +20,22 @@ public class InventoryPanel extends JPanel {
         this.numRows = numRows;
         this.numCols = numCols;
         setPreferredSize(new Dimension(numCols * cellSize + 1, numRows * cellSize + 1)); // +1 for the last line
+        this.setLayout(null);
+        this.setName(Gui.INVENTORY_PANEL_NAME);
     }
 
+    /**
+     * Adds the specified item at the specified grid location
+     * @param item
+     * @param x
+     * @param y
+     */
+    public void addItem(Item item, int x, int y) {
+
+        item.itemImageLabel.setBounds(x*cellSize, y*cellSize, 125, 175);
+        this.add(item.itemImageLabel);
+
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -40,30 +54,40 @@ public class InventoryPanel extends JPanel {
             g2d.drawLine(i * cellSize, 0, i * cellSize, numRows * cellSize);
         }
 
-        InventorySlot[][] inventorySlots = this.itemController.getInventoryGrid();
-        System.out.println("Updooting grid");
+        // InventorySlot[][] inventorySlots = this.itemController.getInventoryGrid();
+        // System.out.println("Updooting grid");
 
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
+        // for (int i = 0; i < numRows; i++) {
+        //     for (int j = 0; j < numCols; j++) {
 
-                if (inventorySlots[i][j].isOcuppied()) {
+        //         if (inventorySlots[i][j].isOcuppied()) {
     
-                    System.out.println("GUI -> occupied at " + i + " " + j );
+        //             // System.out.println("GUI -> occupied at " + i + " " + j );
 
-                    if (itemController.getInventory().isItemOrigin(inventorySlots[i][j].getItem(), j, i) ) {
+        //             if (itemController.getInventory().isItemOrigin(inventorySlots[i][j].getItem(), j, i) ) {
 
-                        System.out.println("Placing item");
-                        System.out.println("x position: " + j*cellSize);
-                        System.out.println("Y position: " + i*cellSize);
+        //                 System.out.println("Placing item");
+        //                 System.out.println("x position: " + j*cellSize);
+        //                 System.out.println("Y position: " + i*cellSize);
                         
-                        inventorySlots[i][j].getItem().itemImageIcon.paintIcon(this, g2d, j*cellSize, i*cellSize);
+        //                 JLabel imageLabel = inventorySlots[i][j].getItem().itemImageLabel;
+                        
+        //                 if (imageLabel.getParent() != null) {
+        //                     System.out.println("Parent component: " + imageLabel.getParent());
+        //                 } else {
+        //                     System.out.println("Parent is null... as it should be");
+        //                 }
 
-                    }
+        //                 imageLabel.setBounds(j*cellSize, i*cellSize, 125, 175);
+        //                 this.add(imageLabel);
+        //                 System.out.println("Bounds: " + inventorySlots[i][j].getItem().itemImageLabel.getBounds());
 
-                }
+        //             }
 
-            }
-        }
+        //         }
+
+            // }
+        // }
 
     }
 
