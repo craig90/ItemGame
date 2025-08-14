@@ -1,6 +1,7 @@
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -170,7 +171,7 @@ public class ItemPanel extends JLayeredPane {
 
         // the size has to be set for layered Panes 
         this.equippedItemPanel.setBounds(0, 0, ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
-        this.inventoryPanel.setBounds(0, ITEM_WINDOW_HEIGHT, ITEM_WINDOW_WIDTH, 250);
+        this.inventoryPanel.setBounds(0, ITEM_WINDOW_HEIGHT, ITEM_WINDOW_WIDTH, Inventory.GRID_SIZE*Inventory.INVENTORY_ROWS);
         this.setSize(ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
 
         this.hoverPanel = new HoverPanel();
@@ -235,7 +236,7 @@ public class ItemPanel extends JLayeredPane {
             slot.setTransferHandler(new ItemPanelTransferHandler(this));
         }
 
-        inventoryPanel.setTransferHandler(new InventoryTransferHandler(this.itemController));
+        inventoryPanel.setTransferHandler(new InventoryTransferHandler(this));
 
         // these are the transfer handlers that recieve an item
         // this.amuletPanel.setTransferHandler(new ItemPanelTransferHandler(this));
@@ -260,7 +261,7 @@ public class ItemPanel extends JLayeredPane {
 
     public void setSourceTransferHandler(Item item) {
 
-        item.itemImageLabel.setTransferHandler(new MyLabelTransferHandler());
+        item.itemImageLabel.setTransferHandler(new ItemTransferHandler());
 
         HoverPanel hoverPanel = this.hoverPanel;
 
@@ -272,9 +273,9 @@ public class ItemPanel extends JLayeredPane {
                 hoverPanel.hideHoverPanel(); // hide the hover panel when the drag starts
 
                 TransferHandler th = item.itemImageLabel.getTransferHandler();
-                if (!(th instanceof MyLabelTransferHandler)) return;
+                if (!(th instanceof ItemTransferHandler)) return;
 
-                Transferable transferable = ((MyLabelTransferHandler) th).getTransferable(item.itemImageLabel);
+                Transferable transferable = ((ItemTransferHandler) th).getTransferable(item.itemImageLabel);
                 
                 if (transferable == null) return;
 
@@ -286,7 +287,7 @@ public class ItemPanel extends JLayeredPane {
                     new DragSourceAdapter() {
                         @Override
                         public void dragDropEnd(DragSourceDropEvent dsde) {
-                            ((MyLabelTransferHandler) th).exportDone((JComponent)item.itemImageLabel, transferable, 
+                            ((ItemTransferHandler) th).exportDone((JComponent)item.itemImageLabel, transferable, 
                             dsde.getDropSuccess() ? DnDConstants.ACTION_MOVE : DnDConstants.ACTION_NONE);
                         }
 
@@ -417,11 +418,19 @@ public class ItemPanel extends JLayeredPane {
     /**
      * This class subclasses TransferHandler and is used by labels which have the ability to be dragable
      */
-    static class MyLabelTransferHandler extends TransferHandler {
+    static class ItemTransferHandler extends TransferHandler {
         
-        static ItemLayeredPane sourcePanel = null;
+        public enum SourceTypes {
+            ItemPanel,
+            InventoryPanel
+        }
 
-        public MyLabelTransferHandler() {}
+        static SourceTypes sourceType;
+
+        static ItemLayeredPane itemPanelSource = null;
+        static InventoryPanel inventoryPanelSource = null;
+
+        public ItemTransferHandler() {}
         
         @Override
         protected Transferable createTransferable(JComponent c) {
@@ -429,11 +438,20 @@ public class ItemPanel extends JLayeredPane {
             Item item = null;
             
             if (c.getParent() instanceof ItemLayeredPane) {
-                sourcePanel = (ItemLayeredPane) c.getParent();
-                System.out.println(sourcePanel.slotLabel.getText());
-                item = sourcePanel.getItem();
+                itemPanelSource = (ItemLayeredPane) c.getParent();
+                System.out.println(itemPanelSource.slotLabel.getText());
+                item = itemPanelSource.getItem();
+                sourceType = SourceTypes.ItemPanel;
+            }
+            
+            else if (c.getParent() instanceof InventoryPanel) {
+                System.out.println("X: " + c.getX()/Inventory.GRID_SIZE + " Y " + c.getY()/Inventory.GRID_SIZE);
+                inventoryPanelSource = (InventoryPanel) c.getParent();
+                item = inventoryPanelSource.getItem(c.getX()/Inventory.GRID_SIZE, c.getY()/Inventory.GRID_SIZE);
+                sourceType = SourceTypes.InventoryPanel;
             }
 
+            System.out.println("Does it create a new transferablle?");
             // else if () // grid
 
             return new ItemTransferable(item);
@@ -458,17 +476,27 @@ public class ItemPanel extends JLayeredPane {
             return createTransferable(c);
         }
 
-        public static ItemLayeredPane getSourcePanel() {
-            return sourcePanel;
+        public static ItemLayeredPane getItemSourcePanel() {
+            return itemPanelSource;
+        }
+
+        public static InventoryPanel getInventorySourcePanel() {
+            return inventoryPanelSource;
+        }
+
+        public static SourceTypes getSourceType() {
+            return sourceType;
         }
     }
 
     static class InventoryTransferHandler extends TransferHandler {
 
         ItemController itemController;
+        ItemPanel itemPanel;
 
-        public InventoryTransferHandler(ItemController itemController) {
-            this.itemController = itemController;
+        public InventoryTransferHandler(ItemPanel itemPanel) {
+            this.itemController = itemPanel.itemController;
+            this.itemPanel = itemPanel;
         }
     
         /**
@@ -504,6 +532,8 @@ public class ItemPanel extends JLayeredPane {
         @Override
         public boolean canImport(TransferSupport support) {
 
+            System.out.println("Can import?");
+
             Item item = null;
 
             if (support.isDataFlavorSupported(ItemTransferable.ITEM_FLAVOR) == false) {
@@ -515,6 +545,11 @@ public class ItemPanel extends JLayeredPane {
                 item = (Item) support.getTransferable().getTransferData(ItemTransferable.ITEM_FLAVOR);
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
+                return false;
+            }
+
+            if (item == null) {
+                System.out.println("Item is null here");
                 return false;
             }
 
@@ -531,6 +566,8 @@ public class ItemPanel extends JLayeredPane {
         @Override
         public boolean importData(TransferSupport support) {
             
+            System.out.println("Attempting import.. need to see where it's failing");
+
             Item item = null;
 
             if (!canImport(support)) {
@@ -544,8 +581,21 @@ public class ItemPanel extends JLayeredPane {
                 return false;
             }
 
-            return this.itemController.moveItemToInventory(item, calcX(support), calcY(support), 
-                MyLabelTransferHandler.getSourcePanel().getEquipmentSlot());
+            if (ItemTransferHandler.getSourceType() == ItemPanel.ItemTransferHandler.SourceTypes.ItemPanel) {
+                this.itemController.moveItemToInventory(item, calcX(support), calcY(support), 
+                ItemTransferHandler.getItemSourcePanel().getEquipmentSlot());
+            } else if (ItemTransferHandler.getSourceType() == ItemPanel.ItemTransferHandler.SourceTypes.InventoryPanel) {
+                this.itemController.moveItemToInventoryFromInventory(item, calcX(support), calcY(support));    
+            } else {
+                return false; // Transfer failed since we don't have a correct source type
+            }
+
+            this.itemPanel.characterScreen.update(); // TODO: better way for updates?
+            this.itemPanel.hoverPanel.updateHoverWindow(item.getItemImageLabel());
+            this.itemPanel.hoverPanel.showHoverPanel();
+
+            return true;
+            
         }
     
     }
@@ -596,19 +646,19 @@ public class ItemPanel extends JLayeredPane {
             try {
                 ItemLayeredPane targetPanel = (ItemLayeredPane) support.getComponent();
                 // System.out.println("Supports drop");
-                Item draggedItem = (Item) support.getTransferable().getTransferData(ItemTransferable.ITEM_FLAVOR);
+                Item item = (Item) support.getTransferable().getTransferData(ItemTransferable.ITEM_FLAVOR);
 
-                // this.itemPanel.addItemSequence(targetPanel, draggedItem);
-                // this.itemPanel.removeItemSequence(MyLabelTransferHandler.getSourcePanel());
-                
-                // we're equiping the item from another panel
-                if (MyLabelTransferHandler.getSourcePanel() != null) {
+                if (ItemTransferHandler.getSourceType() == ItemPanel.ItemTransferHandler.SourceTypes.ItemPanel) {
                     this.itemController.moveItemToSlot(targetPanel.getEquipmentSlot(), 
-                    MyLabelTransferHandler.getSourcePanel().getEquipmentSlot(), draggedItem);
+                    ItemTransferHandler.getItemSourcePanel().getEquipmentSlot(), item);
+                } else if (ItemTransferHandler.getSourceType() == ItemPanel.ItemTransferHandler.SourceTypes.InventoryPanel) {
+                    this.itemController.moveItemToSlotFromInventory(targetPanel.getEquipmentSlot(), item);
+                } else {
+                    return false; // there are no other Panel types... transfer can't be completed
                 }
 
                 this.itemPanel.characterScreen.update();
-                this.itemPanel.hoverPanel.updateHoverWindow(draggedItem.getItemImageLabel());
+                this.itemPanel.hoverPanel.updateHoverWindow(item.getItemImageLabel());
                 this.itemPanel.hoverPanel.showHoverPanel();
                 return true;
             } catch (Exception e) {

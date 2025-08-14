@@ -254,9 +254,11 @@ public class ItemManager {
 
         // make sure Item Type matches slot type
         if (item.getItemType().getEquipmentSlot() != slot) {
+            System.out.println("Wrong slot");
             return false;
         }
 
+        System.out.println("Can import");
         return !uniqueItems.containsKey(item.getItemType().getEquipmentSlot());
 
     }
@@ -325,9 +327,8 @@ public class ItemManager {
      * @param x
      * @param y
      */
-    public void removeItem(Item item, int x, int y) {
-        InventorySlot slot = new InventorySlot(x, y); // this is not great.. 
-        this.inventory.removeItem(item, slot);
+    public void removeItemFromInventory(Item item) {
+        this.inventory.removeItem(item);
     }
 
     // public void removeRing(RingSlot slot) {

@@ -3,8 +3,8 @@ public class ItemConstants {
     public static final int AMULET_GRID_UNIT_WIDTH = 1;
     public static final int AMULET_GRID_UNIT_HEIGHT = 1;
     
-    public static final int BELT_GRID_UNIT_WIDTH = 1;
-    public static final int BELT_GRID_UNIT_HEIGHT = 2;
+    public static final int BELT_GRID_UNIT_WIDTH = 2;
+    public static final int BELT_GRID_UNIT_HEIGHT = 1;
     
     public static final int BOOTS_GRID_UNIT_WIDTH = 2;
     public static final int BOOTS_GRID_UNIT_HEIGHT = 2;
