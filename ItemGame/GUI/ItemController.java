@@ -1,10 +1,15 @@
+import java.util.ArrayList;
+
 public class ItemController {
 
     private ItemManager itemManager;
     private ItemPanel itemPanel;
     private InventoryPanel inventoryPanel;
+    private ItemGenerator itemGenerator;
 
-    public ItemController() { }
+    public ItemController() {
+        this.itemGenerator = new ItemGenerator();
+    }
 
     /**
      * sets the item panel
@@ -125,6 +130,22 @@ public class ItemController {
         return true;
     }
 
+    /**
+     * Gets the Equipped Item from the cooresponding slot.  Returns null if slot is empty
+     * @param slot
+     * @return
+     */
+    public Item getItem(EquipmentSlot slot) {
+        return this.itemManager.getItem(slot);
+    }
+
+
+    /**
+     * Gets the Item from the Inventory at corresponding to the column and row numbers
+     * @param column
+     * @param row
+     * @return
+     */
     public Item getItem(int column, int row) {
         InventorySlot[][] slots = this.itemManager.getInventoryGrid();
         return slots[row][column].getItem();
@@ -136,6 +157,29 @@ public class ItemController {
 
     public InventorySlot[][] getInventoryGrid() {
         return this.itemManager.getInventoryGrid();
+    }
+
+
+    public boolean canEquipItem(EquipmentSlot slot, Item item) {
+        return this.itemManager.canEquipItem(slot, item);
+    }
+
+
+    /**
+     * return all equipped Items 
+     * TODO: this might need to be rethought as its currently returning only equipped Items
+     * @return
+     */
+    public ArrayList<Item> getAllItems() {
+        return (ArrayList<Item>)this.itemManager.getAllEquippedItems();
+    }
+
+    public Item generateNewItem() throws Exception {
+        
+        Item newItem = this.itemGenerator.createNewItem();
+        this.itemManager.setGeneratedItem(newItem);
+        return newItem;
+        
     }
 
 }

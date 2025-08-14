@@ -32,7 +32,7 @@ public class CharacterCreationScreen extends JPanel {
                 return;
             }
 
-            newCharacter.setLevel(40); // TODO: implement this later
+            newCharacter.setLevel(30); // TODO: implement this later
             newCharacter.setExperience(123456);
             // TODO: I don't like that these are separate calls
             this.gui.getGame().setCharacter(newCharacter);
