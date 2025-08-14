@@ -13,14 +13,12 @@ import java.awt.Point;
 public class HoverPanel extends JPanel {
 
     //Character character;
-    ItemManager itemManager;
+    ItemController itemController;
 
-    public HoverPanel() {
+    public HoverPanel(ItemController itemController) {
 
-        // this.character = character;
-        // this.itemManager = itemManager;
-        // this.spareItemPane = spareItemPane;
-        
+        this.itemController = itemController;
+
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setBackground(new Color(0,0,0,180));
         EmptyBorder paddingBorder = new EmptyBorder(3, 3, 3, 3);
@@ -29,9 +27,6 @@ public class HoverPanel extends JPanel {
 
     }
 
-    public void setItemManager(ItemManager itemManager) {
-        this.itemManager = itemManager;
-    }
 
     // public void setSpareItemPanel(ItemLayeredPane spareItemPane) {
     //     this.spareItemPane = spareItemPane;
@@ -46,10 +41,6 @@ public class HoverPanel extends JPanel {
     public void updateHoverWindow(JLabel hoverdLabel) {
 
         // System.out.println("Updating hover window");
-
-        if (this.itemManager == null) {
-            return;
-        }
 
         removeAllLabels();
 
@@ -76,7 +67,7 @@ public class HoverPanel extends JPanel {
             
             // System.out.println("Slot: " + slot.toString());
 
-            item = this.itemManager.getItem(slot);
+            item = this.itemController.getItem(slot);
 
             if (item == null) {
                 return;
@@ -92,7 +83,7 @@ public class HoverPanel extends JPanel {
             int y = hoverdLabel.getY();
 
             try {
-                item = this.itemManager.getItem(x/Inventory.GRID_SIZE, y/Inventory.GRID_SIZE);
+                item = this.itemController.getItem(x/Inventory.GRID_SIZE, y/Inventory.GRID_SIZE);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 return; // I think returning is appropriate here - just don't display hover panel if error getting item
@@ -220,7 +211,8 @@ public class HoverPanel extends JPanel {
         if (item.getItemType() == ItemType.RING) {
 
             // if we have two equipped rings we are just going to skip the comparason because I don't know which to comapare to
-            if (this.itemManager.getRightRing() != null && this.itemManager.getLeftRing() != null) {
+            if (this.itemController.getItem(EquipmentSlot.RIGHT_RING) != null 
+                && this.itemController.getItem(EquipmentSlot.LEFT_RING) != null) {
                 generateRingHoverPanel(item);
                 return;
             } else { // if there is one ring equipped or zero rings show all the stats as bonus
@@ -228,7 +220,7 @@ public class HoverPanel extends JPanel {
             }
 
         } else { // if it's not a ring, grab the item the corresponds to the correct equipemnt slot
-            equippedItem = this.itemManager.getUniqueItem(item.getItemType().getEquipmentSlot());
+            equippedItem = this.itemController.getItem(item.getItemType().getEquipmentSlot());
         }
 
         ArrayList<StatDifference> statDifferences = Item.itemComparison(equippedItem, item);

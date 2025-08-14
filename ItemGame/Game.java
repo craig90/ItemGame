@@ -5,13 +5,13 @@ public class Game {
 
     private ItemController itemController;
     private Character character;
-    ItemGenerator itemGenerator;
+    // ItemGenerator itemGenerator;
     FileParcer fileParcer;
     CharacterSaver characterSaver;
     CommandLineReader commandLineReader;
 
     public Game () {
-        this.itemGenerator = new ItemGenerator();
+        // this.itemGenerator = new ItemGenerator();
         this.fileParcer = new FileParcer();
         this.commandLineReader = new CommandLineReader();
         this.characterSaver = new CharacterSaver();
@@ -265,7 +265,7 @@ public class Game {
 
         Item newItem;
         try {
-            newItem = this.itemGenerator.createNewItem();
+            newItem = this.itemController.generateNewItem();
         } catch (Exception e) {
             return;
         }

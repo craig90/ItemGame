@@ -20,58 +20,9 @@ public class ItemManager {
         this.inventory = new Inventory(INVENTORY_WIDTH, INVENTORY_HEIGHT);
     }
 
-
-    public Item getWeapon() {
-        return getUniqueItem(ItemType.WEAPON.getEquipmentSlot());
-    }
-
-    public Item getHelm() {
-        return getUniqueItem(ItemType.HELM.getEquipmentSlot());
-    }
-    
-    public Item getChest() {
-        return getUniqueItem(ItemType.CHEST.getEquipmentSlot());
-    }
-
-    public Item getShield() {
-        return getUniqueItem(ItemType.SHIELD.getEquipmentSlot());
-    }
-
-    public Item getAmulet() {
-        return getUniqueItem(ItemType.AMULET.getEquipmentSlot());
-    }
-
-    public Item getLeftRing() {
-        return getUniqueItem(EquipmentSlot.LEFT_RING);
-    }
-
-    public Item getRightRing() {
-        return getUniqueItem(EquipmentSlot.RIGHT_RING);
-    }
-
-    public Item getGloves() {
-        return getUniqueItem(ItemType.GLOVES.getEquipmentSlot());
-    }
-    
-    public Item getBelt() {
-        return getUniqueItem(ItemType.BELT.getEquipmentSlot());
-    }
-
-    public Item getPants() {
-        return getUniqueItem(ItemType.PANTS.getEquipmentSlot());
-    }
-    
-    public Item getBoots() {
-        return getUniqueItem(ItemType.BOOTS.getEquipmentSlot());
-    }
-
     public Item getGeneratedItem() {
         return this.generatedItem;
     }
-
-    // public Item getInventoryItem(EquipmentSlot slot) throws Exception {
-    //     return this.inventory[equipmentSlotToIndex(slot)];
-    // }
 
     /**
      * Returns the item specified by item slot type
@@ -127,101 +78,24 @@ public class ItemManager {
     
 
     /**
-     * Adds an item to the inventory at the slot postition in Equipment slot
-     * @param item
-     * @param slot
-     * @throws Exception
-     */
-    // public void addInventoryItem(Item item, EquipmentSlot slot) throws Exception {
-        
-    //     int inventoryIndex = 0;
-    //     inventoryIndex = equipmentSlotToIndex(slot);
-
-    //     this.inventory[inventoryIndex] = item;
-
-    // }
-
-    /**
-     * Removes an item from the inventory
-     * @param slot
-     * @throws Exception
-     */
-    // private void removeInventoryItem(EquipmentSlot slot) throws Exception {
-        
-    //     int inventoryIndex = 0;
-    //     inventoryIndex = equipmentSlotToIndex(slot);
-
-    //     this.inventory[inventoryIndex] = null;
-
-    // }
-
-    // private int equipmentSlotToIndex(EquipmentSlot slot) throws Exception {
-    //     if (slot == EquipmentSlot.INVENTORY_SLOT_ONE) {
-    //         return 0;
-    //     } else if (slot == EquipmentSlot.INVENTORY_SLOT_TWO) {
-    //         return 1;
-    //     } else if (slot == EquipmentSlot.INVENTORY_SLOT_THREE) {
-    //         return 2;
-    //     } else if (slot == EquipmentSlot.INVENTORY_SLOT_FOUR) {
-    //         return 3;
-    //     } else {
-    //         throw new Exception("Error.. invalid equippment slot for inventory");
-    //     }
-    // }
-
-
-    /**
-     * return an item at the specified index
-     * @param index
-     * @return
-     */
-    /*public Item getItem(int index) {
-        return this.itemList.get(index);
-    }*/
-
-
-    // public Ring getRing(RingSlot ringType) {
-    //     return rings.get(ringType);
-    // }
-
-
-    /**
-     * determines if we are working with an inventory slot or not
-     * @param slot
-     * @return
-     */
-    public static boolean isInventorySlot(EquipmentSlot slot) {
-        
-        if (slot == EquipmentSlot.INVENTORY_SLOT_ONE || slot == EquipmentSlot.INVENTORY_SLOT_TWO ||
-            slot == EquipmentSlot.INVENTORY_SLOT_THREE || slot == EquipmentSlot.INVENTORY_SLOT_FOUR) {
-                return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * adds and item either to the spare item slot, or equips it to an item slot
      * @param slot
      * @param item
      */
     public void addItem(EquipmentSlot slot, Item item) {
-    
-        // see if we're moving an item to the inventory slot
-        // if (isInventorySlot(slot) == true) {
-        //     System.out.println("Adding to inventory " + slot.toString());
-        //     try {
-        //         addInventoryItem(item, slot);
-        //     } catch (Exception e) {
-        //         System.out.println("Error adding to inventroy"); // TODO: move this shit somewhere else 
-        //     }
-
-        // } else {
-            // System.out.println("Target Panel: " + targetPanel.equipmentSlot.toString());
-        this.equipItem(slot, item);
-        // }
+        if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
+            this.generatedItem = item;
+        } else {
+            this.equipItem(slot, item);
+        }
     }
 
+    /**
+     * Adds an item to the grid at the specified x and y location
+     * @param item
+     * @param x
+     * @param y
+     */
     public void addItemToGrid(Item item, int x, int y) {
         InventorySlot inventorySlot = new InventorySlot(x, y);
         this.inventory.placeItem(item, inventorySlot);
@@ -258,7 +132,6 @@ public class ItemManager {
             return false;
         }
 
-        System.out.println("Can import");
         return !uniqueItems.containsKey(item.getItemType().getEquipmentSlot());
 
     }
@@ -286,16 +159,6 @@ public class ItemManager {
         }
     }
 
-    /**
-     * Rings are a special case, since there are two of them, they need to be treated differently
-     * @param ring
-     * @param slot
-     */
-    // public void equipRing(Ring ring, RingSlot slot) {
-    //     ring.setRingSlot(slot);
-    //     this.rings.put(slot, ring);
-    // }
-
 
     /**
      * Removes an item from the corresponding equipment slot
@@ -303,14 +166,6 @@ public class ItemManager {
      */
     public void removeItem(EquipmentSlot slot) {
         
-        // if (isInventorySlot(slot)) {
-        //     System.out.println("Removing item from " + slot.toString());
-        //     try {
-        //         removeInventoryItem(slot);
-        //     } catch (Exception e) {
-        //         System.out.println("Error removing item from inventory"); // TODO: move this shit somewhere else 
-        //     }
-        // } else 
         if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
             this.generatedItem = null;
         } else {
@@ -336,23 +191,15 @@ public class ItemManager {
     // }
 
 
-    public List<Item> getAllItems() {
+    /**
+     * Returns an array list of all the equipped items
+     * @return
+     */
+    public List<Item> getAllEquippedItems() {
         List<Item> allItems = new ArrayList<>(this.uniqueItems.values());
         //allItems.addAll(rings.values());
         return allItems;
     }
-
-    /**
-     * This will return wheather a specific item type is already equipped
-     * @return boolean
-     */
-    /*public boolean isEquipped(String itemType) {
-
-        if (this.getItem(itemType) != null) {
-            return true;
-        }
-        return false;
-    }*/
 
 
     /**
@@ -360,7 +207,7 @@ public class ItemManager {
      */
     public void displayItems() {
         
-        List<Item> items = getAllItems();
+        List<Item> items = getAllEquippedItems();
 
         if (items.size() == 0) {
             System.out.println("No items equipped");

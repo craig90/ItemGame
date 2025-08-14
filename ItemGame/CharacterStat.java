@@ -46,7 +46,7 @@ public class CharacterStat extends Stat {
         // reset itemValue to 0
         this.itemValue = 0.0;
 
-        for (Item item : this.character.getItemManager().getAllItems()) {
+        for (Item item : this.character.getItemManager().getAllEquippedItems()) {
 
             // go through the list of stats
             for (int j = 0; j < item.statListSize(); j++) {

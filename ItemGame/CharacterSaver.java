@@ -47,7 +47,7 @@ public class CharacterSaver {
         this.fileWrite.writeLine(CharacterStatNames.EXPERIENCE + LINE_SEPARATOR + character.getExperience());
 
         // write character's items
-        for (Item item : character.getItemManager().getAllItems()) {
+        for (Item item : character.getItemManager().getAllEquippedItems()) {
             
             this.fileWrite.writeLine(FileKeywords.ITEM_START);
             this.fileWrite.writeLine(FileKeywords.ITEM_TYPE + LINE_SEPARATOR + item.getItemType());

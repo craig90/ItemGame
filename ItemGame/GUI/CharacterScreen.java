@@ -137,7 +137,7 @@ public class CharacterScreen extends JPanel {
 
         // TODO: this maybe should be a bit cleaner
         // update the items for the new character
-        this.itemPanel.loadItems(this.character.getItemManager());
+        this.itemPanel.loadItems();
         this.gui.getGame().getItemController().setItemManager(this.character.getItemManager());
         
         // this.itemPanel.setItemManager(this.character.getItemManager());

@@ -55,17 +55,14 @@ public class ItemPanel extends JLayeredPane {
     ItemLayeredPane generatedItemPanel;
 
     CharacterScreen characterScreen;  // TODO: I don't like that its getting this either
-    ItemGenerator itemGenerator; // TODO: probably should not have direct access to this either
-    ItemManager itemManager; // TODO: should not have access to this
-    ItemController itemController;
+    
+    private ItemController itemController;
 
     MyMouseListener mouseListener;
 
     private final Map <EquipmentSlot, ItemLayeredPane> slotToPanel = new EnumMap<>(EquipmentSlot.class);
 
     public ItemPanel(CharacterScreen characterScreen, ItemController itemController) {
-
-        this.itemGenerator = new ItemGenerator();
 
         // this.layeredPane = new JLayeredPane();
 
@@ -174,7 +171,7 @@ public class ItemPanel extends JLayeredPane {
         this.inventoryPanel.setBounds(0, ITEM_WINDOW_HEIGHT, ITEM_WINDOW_WIDTH, Inventory.GRID_SIZE*Inventory.INVENTORY_ROWS);
         this.setSize(ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
 
-        this.hoverPanel = new HoverPanel();
+        this.hoverPanel = new HoverPanel(this.itemController);
 
         this.add(this.equippedItemPanel, 1);
         this.add(this.inventoryPanel, 1);
@@ -191,13 +188,13 @@ public class ItemPanel extends JLayeredPane {
             
             Item newItem;
             try {
-                newItem = this.itemGenerator.createNewItem();
+                newItem = this.itemController.generateNewItem();
             } catch (Exception ex) {
                 System.out.println("Error creating new item");
                 return;
             }
             
-            this.itemManager.setGeneratedItem(newItem);
+            // TODO: this should probably be moved
             this.generatedItemPanel.addItemToSlot(newItem);
             setSourceTransferHandler(newItem);
             newItem.getItemImageLabel().addMouseListener(this.mouseListener);
@@ -238,27 +235,13 @@ public class ItemPanel extends JLayeredPane {
 
         inventoryPanel.setTransferHandler(new InventoryTransferHandler(this));
 
-        // these are the transfer handlers that recieve an item
-        // this.amuletPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        // this.bootsPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        // this.beltPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        // this.chestPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        // this.glovesPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        // this.helmPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        // this.leftHandRingPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        // this.pantsPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        // this.rightHandRingPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        // this.shieldPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        // this.weaponPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        
-        // this.inventorySlotOnePanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        // this.inventorySlotTwoPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        // this.inventorySlotThreePanel.setTransferHandler(new ItemPanelTransferHandler(this));
-        // this.inventorySlotFourPanel.setTransferHandler(new ItemPanelTransferHandler(this));
-
     }
 
 
+    /**
+     * Sets the transfer handler on the Item image label so it can be redrawn while being dragged
+     * @param item
+     */
     public void setSourceTransferHandler(Item item) {
 
         item.itemImageLabel.setTransferHandler(new ItemTransferHandler());
@@ -310,7 +293,7 @@ public class ItemPanel extends JLayeredPane {
 
     public void setSourceTransferHandlers() {
 
-        ArrayList<Item> items = (ArrayList<Item>) this.itemManager.getAllItems();
+        ArrayList<Item> items = (ArrayList<Item>) this.itemController.getAllItems();
 
         for (Item item : items) {
             setSourceTransferHandler(item);
@@ -320,15 +303,12 @@ public class ItemPanel extends JLayeredPane {
 
 
     /**
-     * Calls the vairous helper methods, clear out the panes, set the new items, set of transfer handlers,
-     * set up hover panel
+     * Calls the vairous helper methods, clears out the panes, set the new items, set of transfer handlers,
+     * sets up hover panel
      * @param itemManager
      */
-    public void loadItems(ItemManager itemManager) {
+    public void loadItems() {
         
-        System.out.println("Setting item manager");
-        this.itemManager = itemManager;
-
         clearItemPanes();
         setItemsInPanes();
         setSourceTransferHandlers();
@@ -363,14 +343,9 @@ public class ItemPanel extends JLayeredPane {
      */
     public void setItemsInPanes() {
 
-        if (this.itemManager == null) {
-            System.out.println("Error"); 
-            return;
-        }
-
         for (Map.Entry<EquipmentSlot, ItemLayeredPane> entry : slotToPanel.entrySet()) {
-            if (this.itemManager.getItem(entry.getKey()) != null) {
-                entry.getValue().addItemToSlot(this.itemManager.getItem(entry.getKey()));
+            if (this.itemController.getItem(entry.getKey()) != null) {
+                entry.getValue().addItemToSlot(this.itemController.getItem(entry.getKey()));
             }
         }
 
@@ -378,16 +353,10 @@ public class ItemPanel extends JLayeredPane {
 
     public void setupHoverPanel() {
         
-        if (this.itemManager == null){
-            System.out.println("Error");
-            return;
-        }
-
-        for (Item item : this.itemManager.getAllItems()) {
+        for (Item item : this.itemController.getAllItems()) {
             item.getItemImageLabel().addMouseListener(this.mouseListener);
         }
         
-        this.hoverPanel.setItemManager(this.itemManager);
     }
 
 
@@ -633,7 +602,7 @@ public class ItemPanel extends JLayeredPane {
                 return false;
             }
 
-            return this.itemPanel.itemManager.canEquipItem(targetPanel.getEquipmentSlot(), item);
+            return this.itemController.canEquipItem(targetPanel.getEquipmentSlot(), item);
             
             
         }
