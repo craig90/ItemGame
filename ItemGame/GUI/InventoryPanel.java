@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -32,17 +33,42 @@ public class InventoryPanel extends JPanel {
      */
     public void addItem(Item item, int x, int y) {
 
-        item.itemImageLabel.setBounds(x*cellSize, y*cellSize, 125, 175);
+        item.itemImageLabel.setBounds(x*cellSize, y*cellSize, 
+                item.getWidthInGridUnits()*Inventory.GRID_SIZE, item.getHeightInGridUnits()*Inventory.GRID_SIZE);
         this.add(item.itemImageLabel);
 
     }
+
+    public void removeItem(Item item) {
+        this.remove(item.itemImageLabel);
+    }
+
+    public Item getItem(int x, int y) {
+        return this.itemController.getItem(x,y);
+    }
+
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        System.out.println("In paint component");
+        // System.out.println("In paint component");
+        InventorySlot[][] inventorySlots = this.itemController.getInventoryGrid();
+
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+
+                if (inventorySlots[i][j].isOcuppied()) {
+    
+                    Color bluishGrey = new Color(80, 90, 110);
+                    g2d.setColor(bluishGrey);
+                    g2d.fillRect(j*Inventory.GRID_SIZE, i*Inventory.GRID_SIZE, Inventory.GRID_SIZE, Inventory.GRID_SIZE);
+                }
+            }
+        }
+
+        g2d.setColor(Color.BLACK);
 
         // Draw horizontal lines
         for (int i = 0; i <= numRows; i++) {
@@ -54,14 +80,8 @@ public class InventoryPanel extends JPanel {
             g2d.drawLine(i * cellSize, 0, i * cellSize, numRows * cellSize);
         }
 
-        // InventorySlot[][] inventorySlots = this.itemController.getInventoryGrid();
-        // System.out.println("Updooting grid");
+        
 
-        // for (int i = 0; i < numRows; i++) {
-        //     for (int j = 0; j < numCols; j++) {
-
-        //         if (inventorySlots[i][j].isOcuppied()) {
-    
         //             // System.out.println("GUI -> occupied at " + i + " " + j );
 
         //             if (itemController.getInventory().isItemOrigin(inventorySlots[i][j].getItem(), j, i) ) {
@@ -86,8 +106,6 @@ public class InventoryPanel extends JPanel {
 
         //         }
 
-            // }
-        // }
 
     }
 

@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Inventory {
 
-    public static final int GRID_SIZE = 50;
+    public static final int GRID_SIZE = 50; // TODO: probably should be stored in the GUI
     public static final int INVENTORY_ROWS = 5;
     public static final int INVENTORY_COLUMNS = 10;
 
@@ -40,11 +40,12 @@ public class Inventory {
      */
     public boolean canPlaceItem(Item item, InventorySlot slot) {
 
+        System.out.println("\nChecking if we can place the item");
+
         int finalX = slot.getX() + item.getWidthInGridUnits();
         int finalY = slot.getY() + item.getHeightInGridUnits();
 
-        System.out.println("Final X " + finalX);
-        System.out.println("Final Y " + finalY);
+        System.out.println("Final X " + finalX + " final Y " + finalY);
 
         // make sure we're not stepping outside of the grid to the righ
         if (finalX > this.columns) {
@@ -65,7 +66,7 @@ public class Inventory {
                 System.out.println("I: " + i + " J: " + j + " " + inventorySlots[i][j].isOcuppied());
 
                 if (inventorySlots[i][j].isOcuppied() == true) {
-                    System.out.println("Collision at " + i + " " + j);
+                    System.out.println("Collision at " + j + " " + i);
                     return false;
                 }
 
@@ -117,10 +118,16 @@ public class Inventory {
      * @param item
      * @param slot
      */
-    public void removeItem(Item item, InventorySlot slot) {
+    public void removeItem(Item item) {
 
-        int finalX = slot.getX() + item.getWidthInGridUnits();
-        int finalY = slot.getY() + item.getHeightInGridUnits();
+        Point point = this.itemOrigins.get(item);
+
+        if (point == null) {
+            return;
+        }
+
+        int finalX = (int)point.getX() + item.getWidthInGridUnits();
+        int finalY = (int)point.getY() + item.getHeightInGridUnits();
 
         if (finalX > this.columns) {  // TODO: shouldn't happen maybe throw exception
             System.out.println("Error");
@@ -132,8 +139,8 @@ public class Inventory {
             return;
         }
 
-        for (int i = slot.getY(); i < finalY; i++) {
-            for (int j = slot.getX(); j < finalX; j++) {
+        for (int i = (int)point.getY(); i < finalY; i++) {
+            for (int j = (int)point.getX(); j < finalX; j++) {
                 this.inventorySlots[i][j].setItem(null);
                 this.inventorySlots[i][j].setIsOccupied(false);
             }
@@ -202,7 +209,7 @@ public class Inventory {
 
         inventory.printInventory();
 
-        inventory.removeItem(shield, new InventorySlot(2, 2));
+        // inventory.removeItem(shield, new InventorySlot(2, 2));
 
         inventory.printInventory();
 
