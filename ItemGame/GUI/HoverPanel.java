@@ -73,7 +73,12 @@ public class HoverPanel extends JPanel {
                 return;
             }
 
-            generateEquippedItemHoverPanel(item);
+            if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
+                generateUnequippedItemHoverPanel(item);
+            } else {
+                generateEquippedItemHoverPanel(item);
+            }
+        
         } 
         
         // if it's an inventory item
@@ -83,7 +88,7 @@ public class HoverPanel extends JPanel {
             int y = hoverdLabel.getY();
 
             try {
-                item = this.itemController.getItem(x/Inventory.GRID_SIZE, y/Inventory.GRID_SIZE);
+                item = this.itemController.getItem(x/InventoryPanel.GRID_SIZE, y/InventoryPanel.GRID_SIZE);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 return; // I think returning is appropriate here - just don't display hover panel if error getting item
@@ -144,7 +149,14 @@ public class HoverPanel extends JPanel {
         int xOffset = (this.getWidth() - hoverdLabel.getWidth()) / 2;
 
         if (hoverdLabel.getParent().getName().equals(Gui.ITEM_PANEL_NAME)) {
-            this.setLocation(hoverdLabel.getParent().getX() - xOffset, locationOnScreen.y);
+            if (hoverdLabel.getName() == EquipmentSlot.NEW_ITEM_SLOT.toString()) {
+                // since it's to the right of the inventory, grab the inventory size and then how much the layered panel
+                // is to the right of the grid
+                int x = ((InventoryPanel.GRID_SIZE*Inventory.INVENTORY_COLUMNS)+hoverdLabel.getParent().getX())-xOffset;
+                this.setLocation(x, locationOnScreen.y);
+            } else {
+                this.setLocation(hoverdLabel.getParent().getX() - xOffset, locationOnScreen.y);
+            }
         } 
         
         else if (hoverdLabel.getParent().getName().equals(Gui.INVENTORY_PANEL_NAME)) {

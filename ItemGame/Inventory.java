@@ -4,7 +4,6 @@ import java.util.Map;
 
 public class Inventory {
 
-    public static final int GRID_SIZE = 50; // TODO: probably should be stored in the GUI
     public static final int INVENTORY_ROWS = 5;
     public static final int INVENTORY_COLUMNS = 10;
 

@@ -9,6 +9,8 @@ import javax.swing.SwingUtilities;
 
 public class InventoryPanel extends JPanel {
 
+    public static final int GRID_SIZE = 50;
+
     private final ItemController itemController;
 
     private final int cellSize;
@@ -34,7 +36,7 @@ public class InventoryPanel extends JPanel {
     public void addItem(Item item, int x, int y) {
 
         item.itemImageLabel.setBounds(x*cellSize, y*cellSize, 
-                item.getWidthInGridUnits()*Inventory.GRID_SIZE, item.getHeightInGridUnits()*Inventory.GRID_SIZE);
+                item.getWidthInGridUnits()*GRID_SIZE, item.getHeightInGridUnits()*GRID_SIZE);
         this.add(item.itemImageLabel);
 
     }
@@ -63,7 +65,7 @@ public class InventoryPanel extends JPanel {
     
                     Color bluishGrey = new Color(80, 90, 110);
                     g2d.setColor(bluishGrey);
-                    g2d.fillRect(j*Inventory.GRID_SIZE, i*Inventory.GRID_SIZE, Inventory.GRID_SIZE, Inventory.GRID_SIZE);
+                    g2d.fillRect(j*GRID_SIZE, i*GRID_SIZE, GRID_SIZE, GRID_SIZE);
                 }
             }
         }

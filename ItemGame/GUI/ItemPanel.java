@@ -1,8 +1,6 @@
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
@@ -38,27 +36,23 @@ public class ItemPanel extends JLayeredPane {
     final static int ITEM_WINDOW_WIDTH = 700;
     final static int ITEM_WINDOW_HEIGHT = 475;
 
-    JPanel equippedItemPanel;
-    
+    private JPanel equippedItemPanel;
     InventoryPanel inventoryPanel;
+    private JPanel newItemPanel;
 
     HoverPanel hoverPanel;
 
-    JLabel helm, weapon, amulet, ring, ringTwo, belt, pants, gloves, shieldLabel, chest, boots;
-
-    ItemLayeredPane helmPanel, weaponPanel, amuletPanel, shieldPanel, rightHandRingPanel, leftHandRingPanel;
-    ItemLayeredPane beltPanel, pantsPanel, glovesPanel, chestPanel, bootsPanel;
-
-    ImageIcon helmIcon, shieldIcon;
-
-    JButton getNewItemButton, deleteItemButton;
-    ItemLayeredPane generatedItemPanel;
-
-    CharacterScreen characterScreen;  // TODO: I don't like that its getting this either
+    private ItemLayeredPane helmPanel, weaponPanel, amuletPanel, shieldPanel, rightHandRingPanel, leftHandRingPanel;
+    private ItemLayeredPane beltPanel, pantsPanel, glovesPanel, chestPanel, bootsPanel;
+    private ItemLayeredPane generatedItemPanel;
+    
+    private JButton getNewItemButton, deleteItemButton;
+    
+    private CharacterScreen characterScreen;  // TODO: I don't like that its getting this
     
     private ItemController itemController;
 
-    MyMouseListener mouseListener;
+    private MyMouseListener mouseListener;
 
     private final Map <EquipmentSlot, ItemLayeredPane> slotToPanel = new EnumMap<>(EquipmentSlot.class);
 
@@ -152,6 +146,7 @@ public class ItemPanel extends JLayeredPane {
         // this.inventoryPanel.add(this.deleteItemButton, c1);
 
 
+
         // this panel is a little different because it's for generating new items not for deleting items
         this.generatedItemPanel = new ItemLayeredPane(EquipmentSlot.NEW_ITEM_SLOT);
         // c.gridx = 5;
@@ -164,17 +159,25 @@ public class ItemPanel extends JLayeredPane {
         // c.gridy = 3;
         // this.equippedItemPanel.add(this.getNewItemButton, c);
         
-        this.inventoryPanel = new InventoryPanel(this.itemController, Inventory.GRID_SIZE, Inventory.INVENTORY_ROWS, Inventory.INVENTORY_COLUMNS);
+        this.inventoryPanel = new InventoryPanel(this.itemController, InventoryPanel.GRID_SIZE, Inventory.INVENTORY_ROWS, Inventory.INVENTORY_COLUMNS);
+
+        
+        this.newItemPanel = new JPanel();
+        this.newItemPanel.add(this.generatedItemPanel);
+        this.newItemPanel.add(this.getNewItemButton);
 
         // the size has to be set for layered Panes 
         this.equippedItemPanel.setBounds(0, 0, ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
-        this.inventoryPanel.setBounds(0, ITEM_WINDOW_HEIGHT, ITEM_WINDOW_WIDTH, Inventory.GRID_SIZE*Inventory.INVENTORY_ROWS);
+        this.inventoryPanel.setBounds(0, ITEM_WINDOW_HEIGHT, InventoryPanel.GRID_SIZE*Inventory.INVENTORY_COLUMNS, InventoryPanel.GRID_SIZE*Inventory.INVENTORY_ROWS);
+        this.newItemPanel.setBounds(InventoryPanel.GRID_SIZE*Inventory.INVENTORY_COLUMNS, ITEM_WINDOW_HEIGHT,ITEM_WINDOW_WIDTH-(InventoryPanel.GRID_SIZE*Inventory.INVENTORY_COLUMNS),InventoryPanel.GRID_SIZE*Inventory.INVENTORY_ROWS);
         this.setSize(ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
 
         this.hoverPanel = new HoverPanel(this.itemController);
 
         this.add(this.equippedItemPanel, 1);
         this.add(this.inventoryPanel, 1);
+        this.add(this.newItemPanel, 1);
+        this.newItemPanel.setBackground(new Color(190, 190, 190));
         this.inventoryPanel.setBackground(new Color(180, 180, 180));
         this.equippedItemPanel.setBackground(new Color(169, 169, 169));
 
@@ -414,13 +417,13 @@ public class ItemPanel extends JLayeredPane {
             }
             
             else if (c.getParent() instanceof InventoryPanel) {
-                System.out.println("X: " + c.getX()/Inventory.GRID_SIZE + " Y " + c.getY()/Inventory.GRID_SIZE);
+                // System.out.println("X: " + c.getX()/InventoryPanel.GRID_SIZE + " Y " + c.getY()/InventoryPanel.GRID_SIZE);
                 inventoryPanelSource = (InventoryPanel) c.getParent();
-                item = inventoryPanelSource.getItem(c.getX()/Inventory.GRID_SIZE, c.getY()/Inventory.GRID_SIZE);
+                item = inventoryPanelSource.getItem(c.getX()/InventoryPanel.GRID_SIZE, c.getY()/InventoryPanel.GRID_SIZE);
                 sourceType = SourceTypes.InventoryPanel;
             }
 
-            System.out.println("Does it create a new transferablle?");
+            // System.out.println("Does it create a new transferablle?");
             // else if () // grid
 
             return new ItemTransferable(item);
@@ -477,7 +480,7 @@ public class ItemPanel extends JLayeredPane {
 
             System.out.println("X: " + support.getDropLocation().getDropPoint().getX());
             int x = (int)support.getDropLocation().getDropPoint().getX();
-            int gridx = x / Inventory.GRID_SIZE;
+            int gridx = x / InventoryPanel.GRID_SIZE;
 
             return gridx;
 
@@ -492,7 +495,7 @@ public class ItemPanel extends JLayeredPane {
 
             System.out.println("Y: " + support.getDropLocation().getDropPoint().getY());
             int y = (int)support.getDropLocation().getDropPoint().getY();
-            int gridy = y / Inventory.GRID_SIZE;
+            int gridy = y / InventoryPanel.GRID_SIZE;
 
             return gridy;
 
