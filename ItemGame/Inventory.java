@@ -65,8 +65,13 @@ public class Inventory {
                 System.out.println("I: " + i + " J: " + j + " " + inventorySlots[i][j].isOcuppied());
 
                 if (inventorySlots[i][j].isOcuppied() == true) {
-                    System.out.println("Collision at " + j + " " + i);
-                    return false;
+
+                    if (item != inventorySlots[i][j].getItem()) {
+                        System.out.println("Collision at " + j + " " + i);
+                        return false;
+                    } else {
+                        System.out.println("Same item, so collision is okay");
+                    }
                 }
 
             }

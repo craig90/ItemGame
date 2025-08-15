@@ -44,21 +44,23 @@ public class CharacterScreen extends JPanel {
     JButton returnToHomeScreenButton;
     JButton saveChangesButton;
 
-    Character character;
+    // Character character;
     Gui gui;
-    CharacterSaver characterSaver;
+    // CharacterSaver characterSaver;
+
+    CharacterController characterController;
 
     ItemPanel itemPanel;
 
     JPanel statsPanel;
 
-    public CharacterScreen(Gui gui) {
+    public CharacterScreen(Gui gui, CharacterController characterController) {
 
         this.gui = gui;
-        this.character = this.gui.getGame().getCharacter();
+        this.characterController = characterController;
+        
         this.itemPanel = new ItemPanel(this, this.gui.getGame().getItemController());
-        this.characterSaver = this.gui.getGame().getCharacterSaver();
-
+        
         this.statsPanel = new JPanel();
         this.statsPanel.setLayout(new BoxLayout(this.statsPanel, BoxLayout.Y_AXIS));
 
@@ -110,7 +112,7 @@ public class CharacterScreen extends JPanel {
 
 
         this.saveChangesButton.addActionListener(e -> {
-            this.characterSaver.saveCharacter(this.character);
+            this.characterController.saveCharacter();
         });
 
 
@@ -123,31 +125,7 @@ public class CharacterScreen extends JPanel {
 
     public void loadCharacter() {
 
-        // make sure we have the latest character
-        this.character = this.gui.getGame().getCharacter();
-        
-        if (this.character == null) {
-            System.out.println("Error - we have no loaded character");
-            return;
-        }
-        
-        // TODO: this only needs to be done once // should not be done here
-        this.gui.getGame().getItemController().setItemPanel(this.itemPanel);
-        this.gui.getGame().getItemController().setInventoryPanel(this.itemPanel.inventoryPanel);
-
-        // TODO: this maybe should be a bit cleaner
-        // update the items for the new character
-        this.itemPanel.loadItems();
-        this.gui.getGame().getItemController().setItemManager(this.character.getItemManager());
-        
-        // this.itemPanel.setItemManager(this.character.getItemManager());
-        // this.itemPanel.clearItemPanes(); // if we're reloading we have to clear what's there already
-        // this.itemPanel.setItemsInPanes();
-        // this.itemPanel.setSourceTransferHandlers();
-        // this.itemPanel.setupHoverPanel();
-
-        
-
+        this.itemPanel.loadItems();    
         update();
 
     }
@@ -159,18 +137,18 @@ public class CharacterScreen extends JPanel {
     public void update() {
 
         // update all the stats on the character stats
-        this.character.updateStats();
-        this.name.setText(NAME_STRING + this.character.getName());
-        this.level.setText(LEVEL_STRING + this.character.getLevel());
-        this.experience.setText(EXPERIENCE_STRING + this.character.getExperience());
-        this.damage.setText(DAMAGE_STRING + this.character.getDamage());
-        this.health.setText(HEALTH_STRING + this.character.getHealth());
-        this.defence.setText(DEFENCE_STRING + this.character.getDefence());
-        this.fireResistance.setText(FIRE_RESISTANCE_STRING + this.character.getFireResistance());
-        this.coldResistance.setText(COLD_RESISTANCE_STRING + this.character.getColdResistance());
-        this.lightningResistance.setText(LIGHTNING_RESISTANCE_STRING + this.character.getLightningResistance());
-        this.poisonResistance.setText(POISON_RESISTANCE_STRING + this.character.getPoisonResistance());
-        this.magicResistance.setText(MAGIC_REISTANCE_STRING + this.character.getMagicResistance());
+        this.characterController.updateStats();
+        this.name.setText(NAME_STRING + this.characterController.getName());
+        this.level.setText(LEVEL_STRING + this.characterController.getLevel());
+        this.experience.setText(EXPERIENCE_STRING + this.characterController.getExperience());
+        this.damage.setText(DAMAGE_STRING + this.characterController.getDamage());
+        this.health.setText(HEALTH_STRING + this.characterController.getHealth());
+        this.defence.setText(DEFENCE_STRING + this.characterController.getDefence());
+        this.fireResistance.setText(FIRE_RESISTANCE_STRING + this.characterController.getFireResistance());
+        this.coldResistance.setText(COLD_RESISTANCE_STRING + this.characterController.getColdResistance());
+        this.lightningResistance.setText(LIGHTNING_RESISTANCE_STRING + this.characterController.getLightningResistance());
+        this.poisonResistance.setText(POISON_RESISTANCE_STRING + this.characterController.getPoisonResistance());
+        this.magicResistance.setText(MAGIC_REISTANCE_STRING + this.characterController.getMagicResistance());
 
         this.fireResistance.setForeground(Color.RED);
         this.coldResistance.setForeground(Color.BLUE);

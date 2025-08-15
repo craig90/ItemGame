@@ -13,8 +13,11 @@ public class CharacterSelectionScreen extends JPanel {
     Gui gui;
     JButton backToHomeScreenButton;
 
-    public CharacterSelectionScreen(Gui gui) {
+    CharacterController characterController;
+
+    public CharacterSelectionScreen(Gui gui, CharacterController characterController) {
         this.gui = gui;
+        this.characterController = characterController;
         this.characterFiles = new ArrayList<CharacterFile>();
         this.fileNames = new ArrayList<String>();
 
@@ -51,7 +54,8 @@ public class CharacterSelectionScreen extends JPanel {
                 
                 try {
                     // TODO: plus fix these calls a little
-                    this.gui.getGame().setCharacter(this.gui.getGame().fileParcer.loadCharacterFromFile(characterFile));
+                    this.characterController.loadCharacterFromFile(characterFile);
+                    //this.gui.getGame().setCharacter(this.gui.getGame().fileParcer.loadCharacterFromFile(characterFile));
                     this.gui.characterScreen.loadCharacter();
                     // System.out.println("Switching to: " + Gui.CHARACTER_SCREEN);
                     this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.CHARACTER_SCREEN);

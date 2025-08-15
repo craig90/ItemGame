@@ -41,11 +41,14 @@ public class Gui extends JFrame {
         
 
         this.introScreen = new IntroScreen(this);
-        this.characterSelectionScreen = new CharacterSelectionScreen(this);
-        this.characterScreen = new CharacterScreen(this);
+        this.characterSelectionScreen = new CharacterSelectionScreen(this, this.game.getCharacterController());
+        this.characterScreen = new CharacterScreen(this, this.game.getCharacterController());
         this.characterCreationScreen = new CharacterCreationScreen(this);
         this.errorScreen = new ErrorScreen();
 
+        // Once the item and inventory panels have been created - give them to Item Controller
+        this.getGame().getItemController().setItemPanel(this.characterScreen.itemPanel);
+        this.getGame().getItemController().setInventoryPanel(this.characterScreen.itemPanel.inventoryPanel);
 
     }
     

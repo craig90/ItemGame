@@ -4,6 +4,9 @@ public class Character {
 
     public static final int MIN_NAME_LENGTH = 3;
 
+    private static final double INIT_LEVEL = 1.0;
+    private static final double INIT_EXPERIENCE = 0.0;
+
     private String characterName;
 
     private CharacterStat level;
@@ -116,6 +119,17 @@ public class Character {
 
     public void setExperience(double experience) {
         this.experience.setValue(experience);
+    }
+
+
+    /**
+     * Sets the character's level and experience to the defualt new character initialization values
+     */
+    public void initNewCharacter() {
+
+        this.level.setValue(Character.INIT_LEVEL);
+        this.experience.setValue(Character.INIT_EXPERIENCE);
+
     }
 
 

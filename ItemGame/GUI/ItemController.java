@@ -8,7 +8,7 @@ public class ItemController {
     private ItemGenerator itemGenerator;
 
     public ItemController() {
-        this.itemGenerator = new ItemGenerator();
+        this.itemGenerator = new ItemGenerator(); // TODO: where to put this
     }
 
     /**
@@ -94,7 +94,6 @@ public class ItemController {
         this.itemManager.addItemToGrid(item, x, y);
         this.itemManager.removeItem(sourceSlot);
 
-        System.out.println("Added item to backend.. now updating gui");
         // update GUI
         this.itemPanel.removeItemFromSlot(sourceSlot);
         this.inventoryPanel.addItem(item, x, y);
@@ -121,8 +120,6 @@ public class ItemController {
         this.itemManager.addItemToGrid(item, x, y);
         
 
-        System.out.println("Added item to backend.. now updating gui");
-        
         // update GUI
         this.inventoryPanel.addItem(item, x, y);
         this.inventoryPanel.repaint();
