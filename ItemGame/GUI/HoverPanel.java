@@ -105,27 +105,6 @@ public class HoverPanel extends JPanel {
         else {
             return; // this should never happen, but if it does, just don't draw the hover panel
         }
-        // if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
-        //     item = this.itemManager.getGeneratedItem();
-        // } else if (ItemManager.isInventory(slot)) {
-        //     try {
-        //         item = this.itemManager.getInventoryItem(slot);
-        //     } catch (Exception e) {
-        //         System.out.println(e.getMessage());
-        //     }
-        // } else {
-        //     item = this.itemManager.getUniqueItem(slot);
-        // }
-
-        // shouldn't happen but just incase the item is null we just won't bother generating the panel to avoid crashing
-        
-        // TODO: this will be put back in
-        // generate hover panel depending on the type - new vs equipped
-        // if (slot == EquipmentSlot.NEW_ITEM_SLOT || ItemManager.isInventorySlot(slot) == true) {
-        //     generateUnequippedItemHoverPanel(item);
-        // } else {
-            
-        // }
 
         this.setSize(this.getPreferredSize());
 

@@ -24,20 +24,17 @@ public class CharacterCreationScreen extends JPanel {
 
 
         submitCharNameButton.addActionListener(e -> {
-            System.out.println("Creating new Character");
-            Character newCharacter = new Character();
             
-            if (!newCharacter.setName(charNameTextField.getText()) ) {
+            // Character newCharacter = new Character();
+            if (!this.gui.getGame().getCharacterController().createCharacter(charNameTextField.getText())) {
                 this.gui.errorSequence("Name must be at least three characters", Gui.CHARACTER_CREATION_SCREEN);
                 return;
             }
 
-            newCharacter.setLevel(30); // TODO: implement this later
-            newCharacter.setExperience(123456);
-            // TODO: I don't like that these are separate calls
-            this.gui.getGame().setCharacter(newCharacter);
+            // TODO: maybe move this to character controller
             this.gui.characterScreen.loadCharacter();
             this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.CHARACTER_SCREEN);
+        
         });
 
         backToHomeScreenButtonTwo.addActionListener(e -> {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class Game {
 
     private ItemController itemController;
+    private CharacterController characterController;
     private Character character;
     // ItemGenerator itemGenerator;
     FileParcer fileParcer;
@@ -16,6 +17,7 @@ public class Game {
         this.commandLineReader = new CommandLineReader();
         this.characterSaver = new CharacterSaver();
         this.itemController = new ItemController();
+        this.characterController = new CharacterController(this);
     }
 
     public CharacterSaver getCharacterSaver() {
@@ -26,20 +28,21 @@ public class Game {
         return this.character;
     }
 
-    /**
-     * used by the GUI to set the character based on the user's choice
-     * @param character
-     */
-    public void setCharacter(Character character) {
-        this.character = character;
-        this.character.updateStats();
-        this.itemController.setItemManager(this.character.getItemManager()); // TODO: i don't like how this is being set
+    public boolean loadCharacterFromFile(CharacterFile characterFile) throws Exception {
+        
+        this.character = this.fileParcer.loadCharacterFromFile(characterFile);
+        this.itemController.setItemManager(this.character.getItemManager());
+        return true;
+
     }
 
     public ItemController getItemController() {
         return this.itemController;
     }
 
+    public CharacterController getCharacterController(){
+        return this.characterController;
+    }
 
     /**
      * Shows the intro to the game giving user option to load a character from file or create a new character
@@ -155,15 +158,29 @@ public class Game {
     }
 
 
+    public boolean createCharacter(String characterName) {
+        this.character = new Character();
+        
+        if (!this.character.setName(characterName)) {
+            return false;
+        }
+        
+        this.character.initNewCharacter();
+        this.itemController.setItemManager(this.character.getItemManager()); // TODO: this is still being set in two places
+        // which I don't like
+
+        return true;
+
+    }
+
+
     private boolean createNewCharacter() {
         
         String characterName = "";
         System.out.println("Enter a character name");
         characterName = this.commandLineReader.getLine();
-        this.character = new Character();
-        this.character.setName(characterName);
-        this.character.setLevel(20); // TODO: implement this later
-        this.character.setExperience(12345); // dummy data
+        
+        createCharacter(characterName);
         
         return true;
     }
