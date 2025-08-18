@@ -50,9 +50,8 @@ public class CharacterScreen extends JPanel {
 
     CharacterController characterController;
 
-    ItemPanel itemPanel;
-
-    JPanel statsPanel;
+    private ItemPanel itemPanel;
+    private JPanel statsPanel;
 
     public CharacterScreen(Gui gui, CharacterController characterController) {
 
@@ -125,7 +124,7 @@ public class CharacterScreen extends JPanel {
 
     public void loadCharacter() {
 
-        this.itemPanel.loadItems();    
+        this.itemPanel.loadItems();
         update();
 
     }
@@ -171,5 +170,9 @@ public class CharacterScreen extends JPanel {
     // public void setCharacter(Character character) {
     //     this.character = character;
     // }
+
+    public ItemPanel getItemPanel() {
+        return this.itemPanel;
+    }
 
 }

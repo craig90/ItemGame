@@ -37,7 +37,7 @@ public class ItemPanel extends JLayeredPane {
     final static int ITEM_WINDOW_HEIGHT = 475;
 
     private JPanel equippedItemPanel;
-    InventoryPanel inventoryPanel;
+    private InventoryPanel inventoryPanel;
     private JPanel newItemPanel;
 
     HoverPanel hoverPanel;
@@ -312,16 +312,27 @@ public class ItemPanel extends JLayeredPane {
      */
     public void loadItems() {
         
+        // panels
         clearItemPanes();
         setItemsInPanes();
         setSourceTransferHandlers();
+        
+        // inventory
+        this.inventoryPanel.removeAllItems();
+        
         setupHoverPanel();
+
 
     }
     
     // public void setItemManager(ItemManager itemManager) {
     //     this.itemManager = itemManager;
     // }
+
+
+    public InventoryPanel getInventoryPanel() {
+        return this.inventoryPanel;
+    }
 
     public ItemController getItemController() {
         return this.itemController;

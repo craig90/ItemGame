@@ -1,8 +1,10 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -49,6 +51,24 @@ public class InventoryPanel extends JPanel {
         return this.itemController.getItem(x,y);
     }
 
+    public void removeAllItems() {
+
+        Component[] children = this.getComponents();
+
+        for (Component child : children) {
+
+            if (child instanceof JLabel) {
+                remove(child);
+            }
+
+        }
+
+        revalidate();
+        repaint();
+
+    }
+
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -62,7 +82,6 @@ public class InventoryPanel extends JPanel {
             for (int j = 0; j < numCols; j++) {
 
                 if (inventorySlots[i][j].isOcuppied()) {
-    
                     Color bluishGrey = new Color(80, 90, 110);
                     g2d.setColor(bluishGrey);
                     g2d.fillRect(j*GRID_SIZE, i*GRID_SIZE, GRID_SIZE, GRID_SIZE);
