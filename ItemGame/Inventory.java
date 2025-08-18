@@ -21,6 +21,10 @@ public class Inventory {
         initGrid();
     }
 
+    public Map<Item, Point> getInventoryItems() {
+        return this.itemOrigins;
+    }
+
     public void initGrid() {
 
         for (int i = 0; i < this.rows; i++) {

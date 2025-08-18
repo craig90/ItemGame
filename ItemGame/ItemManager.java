@@ -1,3 +1,4 @@
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
@@ -46,6 +47,11 @@ public class ItemManager {
             return getUniqueItem(slotType);
         }
     }
+
+    public Map<Item, Point> getInventoryItems() {
+        return this.inventory.getInventoryItems();
+    }
+
 
     /**
      * returns an item from the grid at the specified column and row numbers
