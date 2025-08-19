@@ -12,6 +12,9 @@ import java.awt.Point;
 
 public class HoverPanel extends JPanel {
 
+    // the approximate number of pixels from the top of an image label to where Swing reports it's Y location
+    // used for calculating where to draw the hover window when the item is at the bottom of the screen
+    private static final int BASE_Y_OFFSET = 32;
     //Character character;
     ItemController itemController;
 
@@ -140,7 +143,26 @@ public class HoverPanel extends JPanel {
         } 
         
         else if (hoverdLabel.getParent().getName().equals(Gui.INVENTORY_PANEL_NAME)) {
-            this.setLocation(hoverdLabel.getX()- xOffset, locationOnScreen.y);
+            
+            // this is to prevent an Item in column 1 or 2 have a hovered panel that is not fully visible on the left
+            // if the xOffset is > than the X location it will draw it partially out of bounds and therefore won't 
+            // be visible
+            if (xOffset > hoverdLabel.getX()) {
+                xOffset = hoverdLabel.getX();
+            }
+
+            // the lowest Y position the hover panel will occupy
+            int yOffset = 0;
+            int finalY = hoverdLabel.getY() + this.getSize().height + BASE_Y_OFFSET;
+
+            // check if the finalY is lower than the parent, if so we need to offset the hover window so the bottom isn't
+            // cut off
+            if (finalY > hoverdLabel.getParent().getSize().height) {
+                yOffset = finalY - hoverdLabel.getParent().getSize().height;
+            }
+
+            this.setLocation(hoverdLabel.getX()- xOffset, locationOnScreen.y - yOffset);
+            
         }
         
         else {
