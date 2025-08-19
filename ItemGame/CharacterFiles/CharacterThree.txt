@@ -48,26 +48,25 @@ Damage:480.0
 Poison Resistance:7.0
 Lightning Resistance:10.0
 Item-End
-Equipped-Items-End
-Inventory-Start
+Item-Start
+Item Type:RING
+Item Name:Cool Ring
+Ring Slot:LEFT_RING
+Damage:64.0
+Defence:80.0
+Fire Resistance:14.0
+Lightning Resistance:14.0
+Magic Resistance:9.0
+Item-End
 Item-Start
 Item Type:RING
 Item Name:Green Ring
-Item X:3
-Item Y:2
+Ring Slot:RIGHT_RING
 Damage:27.0
 Health:50.0
 All Resistance:5.0
 Fire Resistance:14.0
 Item-End
-Item-Start
-Item Type:CHEST
-Item Name:Silver Chest
-Item X:0
-Item Y:0
-Defence:138.0
-All Resistance:9.0
-Fire Resistance:5.0
-Lightning Resistance:11.0
-Item-End
+Equipped-Items-End
+Inventory-Start
 Inventory-End
