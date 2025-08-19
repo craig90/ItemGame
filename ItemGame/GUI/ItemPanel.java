@@ -496,7 +496,7 @@ public class ItemPanel extends JLayeredPane {
          */
         private int calcX(TransferSupport support) {
 
-            System.out.println("X: " + support.getDropLocation().getDropPoint().getX());
+            // System.out.println("X: " + support.getDropLocation().getDropPoint().getX());
             int x = (int)support.getDropLocation().getDropPoint().getX();
             int gridx = x / InventoryPanel.GRID_SIZE;
 
@@ -511,7 +511,7 @@ public class ItemPanel extends JLayeredPane {
          */
         private int calcY(TransferSupport support) {
 
-            System.out.println("Y: " + support.getDropLocation().getDropPoint().getY());
+            // System.out.println("Y: " + support.getDropLocation().getDropPoint().getY());
             int y = (int)support.getDropLocation().getDropPoint().getY();
             int gridy = y / InventoryPanel.GRID_SIZE;
 
@@ -522,7 +522,7 @@ public class ItemPanel extends JLayeredPane {
         @Override
         public boolean canImport(TransferSupport support) {
 
-            System.out.println("Can import?");
+            // System.out.println("Can import?");
 
             Item item = null;
 
@@ -539,7 +539,7 @@ public class ItemPanel extends JLayeredPane {
             }
 
             if (item == null) {
-                System.out.println("Item is null here");
+                // System.out.println("Item is null here");
                 return false;
             }
 
@@ -547,7 +547,7 @@ public class ItemPanel extends JLayeredPane {
                 return false;
             }
 
-            System.out.println("Can add item");
+            // System.out.println("Can add item");
 
             return true;
 
@@ -556,7 +556,7 @@ public class ItemPanel extends JLayeredPane {
         @Override
         public boolean importData(TransferSupport support) {
             
-            System.out.println("Attempting import.. need to see where it's failing");
+            // System.out.println("Attempting import.. need to see where it's failing");
 
             Item item = null;
 

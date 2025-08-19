@@ -4,13 +4,14 @@ import java.util.Map;
 
 public class ItemController {
 
+    private Game game;
+
     private ItemManager itemManager;
     private ItemPanel itemPanel;
     private InventoryPanel inventoryPanel;
-    private ItemGenerator itemGenerator;
 
-    public ItemController() {
-        this.itemGenerator = new ItemGenerator(); // TODO: where to put this
+    public ItemController(Game game) {
+        this.game = game;
     }
 
     /**
@@ -200,7 +201,7 @@ public class ItemController {
 
     public Item generateNewItem() throws Exception {
         
-        Item newItem = this.itemGenerator.createNewItem();
+        Item newItem = this.game.getItemGenerator().createNewItem();
         this.itemManager.setGeneratedItem(newItem);
         return newItem;
         
