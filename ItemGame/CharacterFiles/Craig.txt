@@ -1,6 +1,7 @@
 Character Name:Craig
 Level:20.0
 Experience:12345.0
+Equipped-Items-Start
 Item-Start
 Item Type:AMULET
 Item Name:Green Amulet
@@ -63,3 +64,4 @@ Fire Resistance:18.0
 Poison Resistance:10.0
 Magic Resistance:13.0
 Item-End
+Equipped-Items-End

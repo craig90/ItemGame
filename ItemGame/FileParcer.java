@@ -224,23 +224,43 @@ public class FileParcer {
     }
 
     /**
-     * Returns true for item start, false for EOF, otherwise it throws an exception - it should only be called when
-     * searching for ItemStart and can find EOF if there are no items left
+     * Returns true for Item start, false for EQUIPPED_ITEMS_END, otherwise it throws an exception - it should only be called when
+     * searching for ItemStart and can find EQUIPPED_ITEMS_END
      * @param line
      * @return
      * @throws Exception
      */
-    private boolean parceItemStart(String line) throws Exception {
+    private boolean parceEquippedItemStart(String line) throws Exception {
 
         if (line.equals(FileKeywords.ITEM_START)) {
             return true;
-        } else if (line.equals(FileKeywords.END_OF_FILE)) {
+        } else if (line.equals(FileKeywords.EQUIPPED_ITEMS_END)) {
             return false;
         } else {
             throw new Exception("Unrecognized identifier at line " + this.lineNumber);
         }
 
     }
+
+/**
+     * Returns true for Item start, false for EQUIPPED_ITEMS_END, otherwise it throws an exception - it should only be called when
+     * searching for ItemStart and can find EQUIPPED_ITEMS_END
+     * @param line
+     * @return
+     * @throws Exception
+     */
+    private boolean parceInventoryItemStart(String line) throws Exception {
+
+        if (line.equals(FileKeywords.ITEM_START)) {
+            return true;
+        } else if (line.equals(FileKeywords.INVENTORY_END)) {
+            return false;
+        } else {
+            throw new Exception("Unrecognized identifier at line " + this.lineNumber);
+        }
+
+    }
+
  
     /**
      * Parces the item type from file, throws exception if item type keyword is not found
@@ -296,46 +316,36 @@ public class FileParcer {
         return lineArray;
     }
 
-    public void parceRingSlot(String[] lineArray, Item item) throws Exception {
+
+    public EquipmentSlot parceRingSlot(String[] lineArray, Item item) throws Exception {
+        
+        EquipmentSlot slot;
         
         // System.out.println(lineArray[0]);
         if (!lineArray[0].equals(FileKeywords.RING_SLOT)) {
             throw new Exception("Error reading Ring slot at line " + this.lineNumber);
         }
 
-        System.out.println(lineArray[1]);
+        // System.out.println(lineArray[1]);
 
         if (item instanceof Ring) {
             Ring ring = (Ring) item;
             try {
-                EquipmentSlot slot = EquipmentSlot.valueOf(lineArray[1]);
+                slot = EquipmentSlot.valueOf(lineArray[1]);
                 System.out.println(slot.toString());
                 ring.setRingSlot(slot);
             } catch (Exception e) {
                 throw new Exception("Error reading ring slot type at line " + this.lineNumber);
             }
+        } else {
+            throw new Exception("Only item type ring should be ssent here");
         }
         
+        return slot;
+
     }
 
-
-    private boolean parceItem(FileReader fileReader, Character character) throws Exception {
-
-        Item item = null;
-        String itemType = "";        
-        
-        if (parceItemStart(parceOneElementLine(fileReader)) == false) {
-            return false;
-        }
-
-        itemType = parceItemType(parceTwoElementLine(fileReader));
-        item = createItem(itemType);
-
-        parceItemName(parceTwoElementLine(fileReader), item);
-        
-        if (itemType.equals(ItemType.RING.toString())) {
-            parceRingSlot(parceTwoElementLine(fileReader), item);
-        }
+    private void parceItemStats(Item item, FileReader fileReader) throws Exception {
 
         ItemStat stat = null;
         String[] lineArray;
@@ -348,9 +358,123 @@ public class FileParcer {
             }
             item.addStat(stat);
         }
+    }
+
+
+    private boolean parceItem(FileReader fileReader, Character character, Item item) throws Exception {
+        
+        parceItemStats(item, fileReader);
+
+        if (item.isLegit() == false) {
+            throw new Exception("Error reading item from file at line " + this.lineNumber);
+        }
+        character.getItemManager().equipItem(item.getItemType().getEquipmentSlot(), item);
+        return true;
+    }
+
+
+    // ring is a little different because the slot is being read from file - it can't be automatically mapped
+    private boolean parceRing(FileReader fileReader, Character character, Item item) throws Exception {
+
+        EquipmentSlot ringSlot = parceRingSlot(parceTwoElementLine(fileReader), item);
+        
+        parceItemStats(item, fileReader);
+
+        if (item.isLegit() == false) {
+            throw new Exception("Error reading item from file at line " + this.lineNumber);
+        }
+
+        character.getItemManager().equipItem(ringSlot, item);
+        return true;
+    }
+
+
+    private boolean parceEquippedItems(FileReader fileReader, Character character) throws Exception {
+
+        Item item = null;
+        String itemType = "";
+
+        if (parceEquippedItemStart(parceOneElementLine(fileReader)) == false) {
+            return false;
+        }
+
+        itemType = parceItemType(parceTwoElementLine(fileReader));
+        item = createItem(itemType);
+
+        parceItemName(parceTwoElementLine(fileReader), item);
+        
+        if (itemType.equals(ItemType.RING.toString())) {
+            parceRing(fileReader, character, item);
+        } else {
+            parceItem(fileReader, character, item);
+        }
+
+        return true;
+
+    }
+
+    private int parceX(FileReader fileReader) throws Exception {
+
+        String lineArray[] = parceTwoElementLine(fileReader);
+        int x = -1;
+
+        if (!lineArray[0].equals(FileKeywords.ITEM_X)) {
+            throw new Exception("Error reading item type at line " + this.lineNumber);
+        } else {
+            try {
+                x = Integer.parseInt(lineArray[1]);
+            } catch (NumberFormatException e) {
+                System.out.println("Error converting x co-ordinate to integer at line " + this.lineNumber);
+            }
+
+            return x;
+        }
+
+    }
+
+    private int parceY(FileReader fileReader) throws Exception {
+
+        String lineArray[] = parceTwoElementLine(fileReader);
+        int y = -1;
+
+        if (!lineArray[0].equals(FileKeywords.ITEM_Y)) {
+            throw new Exception("Error reading item type at line " + this.lineNumber);
+        } else {
+            try {
+                y = Integer.parseInt(lineArray[1]);
+            } catch (NumberFormatException e) {
+                System.out.println("Error converting y co-ordinate to integer at line " + this.lineNumber);
+            }
+
+            return y;
+        }
+
+    }
+
+
+
+    private boolean parceInventoryItems(FileReader fileReader, Character character) throws Exception {
+
+        Item item = null;
+        String itemType = "";        
+        
+        if (parceInventoryItemStart(parceOneElementLine(fileReader)) == false) {
+            return false;
+        }
+
+        itemType = parceItemType(parceTwoElementLine(fileReader));
+        item = createItem(itemType);
+
+        parceItemName(parceTwoElementLine(fileReader), item);
+        
+        int x = parceX(fileReader);
+        int y = parceY(fileReader);
+
+        parceItemStats(item, fileReader);
 
         if (item.isLegit() == true) {
-            character.getItemManager().equipItem(item.getItemType().getEquipmentSlot(), item);
+            // character.getItemManager().equipItem(item.getItemType().getEquipmentSlot(), item);
+            character.getItemManager().addItemToGrid(item, x, y);
             return true;
         }
 
@@ -358,11 +482,38 @@ public class FileParcer {
 
     }
 
+
+    private boolean parceEquippedItemsStart(String line) throws Exception {
+
+        if (line.equals(FileKeywords.EQUIPPED_ITEMS_START)) {
+            return true;
+        } else if (line.equals(FileKeywords.END_OF_FILE)) {
+            return false;
+        } else {
+            throw new Exception("Unrecognized identifier at line " + this.lineNumber);
+        }
+
+    }
+
+    
+    private boolean parceInventoryStart(String line) throws Exception {
+
+        if (line.equals(FileKeywords.INVENTORY_START)) {
+            return true;
+        } else if (line.equals(FileKeywords.END_OF_FILE)) {
+            return false;
+        } else {
+            throw new Exception("Unrecognized identifier at line " + this.lineNumber);
+        }
+
+    }
+
+
+
     public Character loadCharacterFromFile(CharacterFile characterFile) throws Exception {
 
         Character character = new Character();
         FileReader fileReader;
-        boolean parceItem = true;
         
         fileReader = new FileReader();
         fileReader.openFile(characterFile.getFileName());
@@ -376,9 +527,24 @@ public class FileParcer {
 
         // System.out.println("Added name, level, exp");
 
-        // the character can have 0 items or many items, read them in one at a time
-        while (parceItem == true) { 
-            parceItem = parceItem(fileReader, character);
+        if (parceEquippedItemsStart(parceOneElementLine(fileReader)) == true) {
+        
+            boolean parceItem = true;
+            // the character can have 0 items or many items, read them in one at a time
+            while (parceItem == true) { 
+                parceItem = parceEquippedItems(fileReader, character);
+            }
+
+        }
+
+        
+        if (parceInventoryStart(parceOneElementLine(fileReader)) == true) {
+            
+            boolean parceItem = true;
+
+            while (parceItem == true) {
+                parceItem = parceInventoryItems(fileReader, character);
+            }
         }
 
         return character;
@@ -387,62 +553,6 @@ public class FileParcer {
 
 
 
-    /**
-     * intialize the character and item list from file data
-     */
-    /*public Character loadCharacterFromFile(CharacterFile characterFile) throws FileNotFoundException {
-
-        Character character = new Character();
-
-        FileReader fileReader;
-        fileReader = new FileReader();
-        fileReader.openFile(characterFile.getFileName());
-
-        String line;
-        String[] lineArray;
-        
-        IntegerWrapper lineNumber = new IntegerWrapper();
-        lineNumber.setNumber(1);
-
-        while ((line = fileReader.getLine()) != FileKeywords.END_OF_FILE) {
-            
-            lineArray = line.split(REGEX);
-            
-            // some error checking, every line should return an arguement
-            // most lines should have two, the exception is a blank line, Item-Start and Item-End
-            if (lineArray.length < 1) {
-                throw new FileNotFoundException("Error reading file, insufficient arguements on a line " + lineNumber);
-            } else if (lineArray.length < 2 && (!(lineArray[0].equals("") 
-                || lineArray[0].equals(FileKeywords.ITEM_START) || lineArray[0].equals(FileKeywords.ITEM_END)))) {
-                throw new FileNotFoundException("Error reading file, insufficient arguements on line " + lineNumber);
-            }
-
-            // we start by reading the character at the beginning of the file
-            if (lineNumber.getNumber() <= CHARACTER_FILES_LINES) {
-                if (parceCharacter(character, lineArray, lineNumber) == false ) {
-                    throw new FileNotFoundException("Error reading character at line " + lineNumber.getNumber());
-                }
-            }
-            
-            // item start - this is still ugly
-            else if (lineArray[0].equals(FileKeywords.ITEM_START)) {
-                // System.out.println(lineNumber.getNumber() + ": " + lineArray[0]);
-                lineNumber.setNumber(lineNumber.getNumber()+1);
-                if (parceItem(character.getItemManager(), fileReader, lineNumber) == false) {
-                    throw new FileNotFoundException("Error reading item at line " + lineNumber.getNumber());
-                }
-            }
-            
-            else {
-                throw new FileNotFoundException("Error in file: invalid identifier at line " + lineNumber.getNumber());
-            }
-            
-            lineNumber.setNumber(lineNumber.getNumber()+1);
-
-        }
-        
-        return character;
-    }*/
 
 
 
@@ -480,49 +590,6 @@ public class FileParcer {
 
     }
 
-    /**
-     * Reads the item type from file
-     * @param line
-     * @return
-     * @throws Exception
-     */
-    /*private String parceItemType(String line) throws Exception {
-
-        if (line == FileKeywords.END_OF_FILE) {
-            throw new Exception();
-        }
-
-        String[] lineArray = line.split(REGEX);
-
-        // first line must be item type
-        if (!lineArray[0].equals(FileKeywords.ITEM_TYPE)) {
-            throw new Exception();
-        }
-        
-        return lineArray[1];
-
-    }*/
-
-    /**
-     * Reads the item name from the file
-     * @param line
-     * @return
-     * @throws Exception
-     */
-    /*private String readItemName(String line) throws Exception {
-        
-        if (line == FileKeywords.END_OF_FILE) {
-            throw new Exception();
-        }
-
-        String[] lineArray = line.split(REGEX);
-
-        if (!lineArray[0].equals(FileKeywords.ITEM_NAME)) {
-            throw new Exception();
-        }
-    
-        return lineArray[1];
-    }*/
 
     /**
      * Reads the ring slot from the files
@@ -548,122 +615,6 @@ public class FileParcer {
     }
 
 
-    /**
-     * This method parces an item out of the character file
-     * @param fileReader
-     * @param regex
-     * @param lineNumber
-     * @return
-     */
-    /*private boolean parceItem (ItemManager itemManager, FileReader fileReader, IntegerWrapper lineNumber) {
-
-        String line;
-        String[] lineArray;
-        Item item = null;
-        String itemType, itemName, ringSlot;
-
-        // first line in the item MUST be item type
-        try {
-            itemType = parceItemType(fileReader.getLine());
-            item = createItem(itemType);
-        } catch (Exception e) {
-            System.out.println("Error reading item type");
-            return false;
-        }
-        
-        lineNumber.setNumber(lineNumber.getNumber()+1);
-
-        // second line in the item MUST be item type
-        try {
-            itemName = readItemName(fileReader.getLine());
-            item.setItemName(itemName);
-        } catch (Exception e) {
-            System.out.println("Error reading item name");
-            return false;
-        }
-
-        lineNumber.setNumber(lineNumber.getNumber()+1);
-
-        // if it's a ring the third line must be the ring slot
-        if (item instanceof Ring) {
-
-            Ring ring = (Ring) item;
-            EquipmentSlot slot;
-
-            try {
-                ringSlot = readRingSlot(fileReader.getLine());
-                slot = EquipmentSlot.valueOf(ringSlot);
-                System.out.println(slot.toString());
-            } catch (Exception e) {
-                System.out.println("Error reading ring slot");
-                return false;
-            }
-
-            ring.setRingSlot(slot);
-            lineNumber.setNumber(lineNumber.getNumber()+1);
-        } 
-
-        // now read in all the item stats
-        while ((line = fileReader.getLine()) != FileKeywords.END_OF_FILE) {
-
-            lineArray = line.split(REGEX);
-
-            // check the stat type and add it to the stat list
-            if (ItemStat.isLegitStat(lineArray[0]) == true) {
-                
-                double statValue = 0.0;
-                try {
-                    statValue = Double.parseDouble(lineArray[1]);
-                } catch (NumberFormatException e) {
-                    System.out.println("Error reading stat value at line " + lineNumber.getNumber());
-                    return false;
-                }
-
-                ItemStat stat = new ItemStat(lineArray[0], statValue);
-                item.addStat(stat);
-                
-            }
-
-            // found the end of the item - do a few error checks to make sure the item is legit
-            else if (lineArray[0].equals(FileKeywords.ITEM_END)) {
-       
-                // System.out.println("Item End");
-                if (item.isLegit() == false) {
-                   return false;
-                } else {
-                    itemManager.equipItem(item, item.getItemType().getEquipmentSlot());
-                    return true;
-                }
-            } else {
-                System.out.println("Error reading item at line " + lineNumber.getNumber());
-                return false;
-            }
-            
-            // System.out.println(lineNumber.getNumber() + ": " + lineArray[0]);
-            lineNumber.setNumber(lineNumber.getNumber()+1);
-        
-        }
-        return false;
-    }*/
-
-    /**
-     * Auxilary method - Attempts to convert a String to a double
-     * @param string
-     * @return
-     */
-    // public static boolean StringToDouble(String string, DoubleWrapper doubleWrapper) {
-
-    //     double number = 0.0;
-    //     try {
-    //         number = Double.parseDouble(string);
-    //         doubleWrapper.setNumber(number);
-    //         return true;
-    //     } catch (NumberFormatException e) {
-    //         System.out.println("Error converting string to double");
-    //         return false;
-    //     }
-
-    // }
 
     /**
      * this main method is purely for testing file parcer class

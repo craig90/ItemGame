@@ -3,6 +3,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.util.Map;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,6 +45,15 @@ public class InventoryPanel extends JPanel {
 
     }
 
+    public void addItems() {
+         Map<Item, Point> inventoryMap = this.itemController.getInventoryItems();
+
+         for (Map.Entry<Item, Point> entry : inventoryMap.entrySet()) {
+            addItem(entry.getKey(), entry.getValue().x, entry.getValue().y);
+         }
+
+    }
+
     public void removeItem(Item item) {
         this.remove(item.itemImageLabel);
     }
@@ -51,16 +62,17 @@ public class InventoryPanel extends JPanel {
         return this.itemController.getItem(x,y);
     }
 
+    /**
+     * clears all Items from the Inventory Grid
+     */
     public void removeAllItems() {
 
         Component[] children = this.getComponents();
 
         for (Component child : children) {
-
             if (child instanceof JLabel) {
                 remove(child);
             }
-
         }
 
         revalidate();
