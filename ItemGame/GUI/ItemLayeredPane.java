@@ -167,9 +167,8 @@ public class ItemLayeredPane extends JLayeredPane {
             return RING_HEIGHT;
         } else if (equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
             return NEW_SLOT_HEIGHT;
-        } else if (equipmentSlot == EquipmentSlot.INVENTORY_SLOT_ONE || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_TWO 
-            || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_THREE || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_FOUR) {
-            return INVENTORY_SLOT_HEIGHT;
+        } else if (equipmentSlot == EquipmentSlot.DELETE_ITEM_SLOT) {
+            return NEW_SLOT_HEIGHT;
         } else {
             throw new Exception("Invalid equipment slot type, cannot return slot height");
         }
@@ -206,9 +205,8 @@ public class ItemLayeredPane extends JLayeredPane {
             return BOOTS_WIDTH;
         } else if (equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
             return NEW_SLOT_WIDTH;
-        } else if (equipmentSlot == EquipmentSlot.INVENTORY_SLOT_ONE || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_TWO
-            || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_THREE || equipmentSlot == EquipmentSlot.INVENTORY_SLOT_FOUR) {
-            return INVENTORY_SLOT_WIDTH;
+        } else if (equipmentSlot == EquipmentSlot.DELETE_ITEM_SLOT) {
+            return NEW_SLOT_WIDTH;
         } else {
             throw new Exception("Invalid Equipment slot type.. cannot return equipment slot width");
         }

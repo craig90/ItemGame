@@ -100,7 +100,6 @@ public class ItemController {
         this.itemPanel.removeItemFromSlot(sourceSlot);
         this.inventoryPanel.addItem(item, x, y);
         this.inventoryPanel.repaint();
-        
 
         return true;
     }
@@ -127,6 +126,19 @@ public class ItemController {
         this.inventoryPanel.repaint();
 
         return true;
+    }
+
+    /**
+     * Removes the Item in the remove Item slot
+     */
+    public void deleteItem() {
+
+        // update backend
+        this.itemManager.removeDeleteItem();
+
+        // update GUI
+        this.itemPanel.deleteItem();
+        
     }
 
     /**
