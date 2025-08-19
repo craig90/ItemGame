@@ -1,6 +1,7 @@
 Character Name:Bob
 Level:40.0
 Experience:123456.0
+Equipped-Items-Start
 Item-Start
 Item Type:AMULET
 Item Name:Orange Amulet
@@ -54,3 +55,4 @@ Defence:28.0
 Fire Resistance:11.0
 Magic Resistance:11.0
 Item-End
+Equipped-Items-End

@@ -1,3 +1,6 @@
+import java.awt.Point;
+import java.util.Map;
+
 public class CharacterSaver {
 
     FileWrite fileWrite;
@@ -26,27 +29,10 @@ public class CharacterSaver {
         
     }
 
-    /*public void setCharacter(Character character) {
-        this.character = character;
-    }*/
+    public void saveEquippedItems(Character character) {
 
-    /**
-     * Writes the character out to file
-     */
-    public void saveCharacter(Character character) {
+        this.fileWrite.writeLine(FileKeywords.EQUIPPED_ITEMS_START);
 
-        if (character == null) {
-            System.out.println("Error saving character to file.. no character to save");
-        }
-
-        this.fileWrite.openFile(getFileName(character));
-
-        // follow the ordre Charcter Name, Level, Experience
-        this.fileWrite.writeLine(FileKeywords.CHARACTER_NAME + LINE_SEPARATOR + character.getName());
-        this.fileWrite.writeLine(CharacterStatNames.LEVEL + LINE_SEPARATOR + character.getLevel());
-        this.fileWrite.writeLine(CharacterStatNames.EXPERIENCE + LINE_SEPARATOR + character.getExperience());
-
-        // write character's items
         for (Item item : character.getItemManager().getAllEquippedItems()) {
             
             this.fileWrite.writeLine(FileKeywords.ITEM_START);
@@ -67,6 +53,62 @@ public class CharacterSaver {
 
         }
 
+        this.fileWrite.writeLine(FileKeywords.EQUIPPED_ITEMS_END);
+
+    }
+
+
+    public void saveInventoryItems(Character character) {
+
+        this.fileWrite.writeLine(FileKeywords.INVENTORY_START);
+
+        for (Map.Entry<Item, Point> entry : character.getItemManager().getInventoryItems().entrySet()) {
+
+            this.fileWrite.writeLine(FileKeywords.ITEM_START);
+
+            this.fileWrite.writeLine(FileKeywords.ITEM_TYPE + LINE_SEPARATOR + entry.getKey().getItemType());
+            this.fileWrite.writeLine(FileKeywords.ITEM_NAME + LINE_SEPARATOR + entry.getKey().getItemName());
+
+            // x, y coordinates since we're in the inventory
+            this.fileWrite.writeLine(FileKeywords.ITEM_X + LINE_SEPARATOR + entry.getValue().x);
+            this.fileWrite.writeLine(FileKeywords.ITEM_Y + LINE_SEPARATOR + entry.getValue().y);
+
+            for (int j = 0; j < entry.getKey().statListSize(); j++) {
+                this.fileWrite.writeLine(entry.getKey().getStat(j).getStatType() + LINE_SEPARATOR + entry.getKey().getStat(j).getValue());
+            }
+
+            this.fileWrite.writeLine(FileKeywords.ITEM_END);
+
+        }
+
+        this.fileWrite.writeLine(FileKeywords.INVENTORY_END);
+
+    }
+
+
+    /*public void setCharacter(Character character) {
+        this.character = character;
+    }*/
+
+    /**
+     * Writes the character out to file
+     */
+    public void saveCharacter(Character character) {
+
+        if (character == null) {
+            System.out.println("Error saving character to file.. no character to save");
+        }
+
+        this.fileWrite.openFile(getFileName(character));
+
+        // follow the ordre Charcter Name, Level, Experience
+        this.fileWrite.writeLine(FileKeywords.CHARACTER_NAME + LINE_SEPARATOR + character.getName());
+        this.fileWrite.writeLine(CharacterStatNames.LEVEL + LINE_SEPARATOR + character.getLevel());
+        this.fileWrite.writeLine(CharacterStatNames.EXPERIENCE + LINE_SEPARATOR + character.getExperience());
+
+        saveEquippedItems(character);
+        saveInventoryItems(character);
+            
         this.fileWrite.closeFile();
     }
 

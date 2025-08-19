@@ -315,11 +315,14 @@ public class ItemPanel extends JLayeredPane {
         // panels
         clearItemPanes();
         setItemsInPanes();
-        setSourceTransferHandlers();
         
-        // inventory
+        // inventory - first remove all of the items from the previous Character
+        // then load the items from the current Character
         this.inventoryPanel.removeAllItems();
-        
+        this.inventoryPanel.addItems(); 
+
+        // make these calls once everything has been set up in the right spot
+        setSourceTransferHandlers();
         setupHoverPanel();
 
 

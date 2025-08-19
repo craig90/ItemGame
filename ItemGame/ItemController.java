@@ -1,4 +1,6 @@
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ItemController {
 
@@ -156,6 +158,10 @@ public class ItemController {
         return this.itemManager.getInventoryGrid();
     }
 
+     public Map<Item, Point> getInventoryItems() {
+        return this.itemManager.getInventoryItems();
+    }
+
 
     public boolean canEquipItem(EquipmentSlot slot, Item item) {
         return this.itemManager.canEquipItem(slot, item);
@@ -163,12 +169,21 @@ public class ItemController {
 
 
     /**
-     * return all equipped Items 
-     * TODO: this might need to be rethought as its currently returning only equipped Items
+     * return all Items, including both equipped Items and inventory Items
      * @return
      */
     public ArrayList<Item> getAllItems() {
-        return (ArrayList<Item>)this.itemManager.getAllEquippedItems();
+        
+        // start with the equipped items
+        ArrayList<Item> items = (ArrayList<Item>)this.itemManager.getAllEquippedItems();
+
+        // append the inventory items
+        for (Item item : this.itemManager.getInventoryItems().keySet()) {
+            items.add(item);
+        }
+
+        return items;
+
     }
 
     public Item generateNewItem() throws Exception {

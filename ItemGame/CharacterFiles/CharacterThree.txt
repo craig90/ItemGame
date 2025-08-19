@@ -1,6 +1,28 @@
 Character Name:Character Three
 Level:20.0
 Experience:12345.0
+Equipped-Items-Start
+Item-Start
+Item Type:AMULET
+Item Name:Green Amulet
+Damage:70.0
+Fire Resistance:11.0
+Poison Resistance:9.0
+Magic Resistance:16.0
+Item-End
+Item-Start
+Item Type:BELT
+Item Name:Silver Belt
+Poison Resistance:10.0
+Magic Resistance:10.0
+Item-End
+Item-Start
+Item Type:CHEST
+Item Name:Bronze Chest
+Defence:300.0
+All Resistance:10.0
+Magic Resistance:20.0
+Item-End
 Item-Start
 Item Type:GLOVES
 Item Name:Gold Gloves
@@ -20,9 +42,41 @@ Defence:200.0
 Fire Resistance:20.0
 Item-End
 Item-Start
-Item Type:CHEST
-Item Name:Bronze Chest
-Defence:300.0
-All Resistance:10.0
-Magic Resistance:20.0
+Item Type:WEAPON
+Item Name:Yellow Weapon
+Damage:480.0
+Poison Resistance:7.0
+Lightning Resistance:10.0
 Item-End
+Equipped-Items-End
+Inventory-Start
+Item-Start
+Item Type:CHEST
+Item Name:Silver Chest
+Item X:0
+Item Y:0
+Defence:138.0
+All Resistance:9.0
+Fire Resistance:5.0
+Lightning Resistance:11.0
+Item-End
+Item-Start
+Item Type:CHEST
+Item Name:Purple Chest
+Item X:6
+Item Y:0
+Damage:98.0
+Defence:175.0
+Lightning Resistance:17.0
+Item-End
+Item-Start
+Item Type:RING
+Item Name:Green Ring
+Item X:3
+Item Y:2
+Damage:27.0
+Health:50.0
+All Resistance:5.0
+Fire Resistance:14.0
+Item-End
+Inventory-End

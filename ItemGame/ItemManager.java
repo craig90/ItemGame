@@ -155,13 +155,12 @@ public class ItemManager {
         
         if (slot != null) {
             uniqueItems.put(slot, item);
-            return;
         }
 
         // logic is slightly different for Rings since there are two of them
         if (item instanceof Ring) {
             Ring ring = (Ring) item;
-            uniqueItems.put(ring.getRingSlot(), item);
+            ring.setRingSlot(slot);
         }
     }
 
