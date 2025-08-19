@@ -73,7 +73,7 @@ public class HoverPanel extends JPanel {
                 return;
             }
 
-            if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
+            if (slot == EquipmentSlot.NEW_ITEM_SLOT || slot == EquipmentSlot.DELETE_ITEM_SLOT) {
                 generateUnequippedItemHoverPanel(item);
             } else {
                 generateEquippedItemHoverPanel(item);
@@ -128,7 +128,8 @@ public class HoverPanel extends JPanel {
         int xOffset = (this.getWidth() - hoverdLabel.getWidth()) / 2;
 
         if (hoverdLabel.getParent().getName().equals(Gui.ITEM_PANEL_NAME)) {
-            if (hoverdLabel.getName() == EquipmentSlot.NEW_ITEM_SLOT.toString()) {
+            if (hoverdLabel.getName().equals(EquipmentSlot.NEW_ITEM_SLOT.toString()) ||
+                hoverdLabel.getName().equals(EquipmentSlot.DELETE_ITEM_SLOT.toString())) {
                 // since it's to the right of the inventory, grab the inventory size and then how much the layered panel
                 // is to the right of the grid
                 int x = ((InventoryPanel.GRID_SIZE*Inventory.INVENTORY_COLUMNS)+hoverdLabel.getParent().getX())-xOffset;

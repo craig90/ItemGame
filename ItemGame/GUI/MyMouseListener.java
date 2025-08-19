@@ -9,7 +9,7 @@ public class MyMouseListener extends MouseAdapter {
 
     public MyMouseListener(ItemPanel itemPanel) {
         this.itemPanel = itemPanel;
-        this.hoverPanel = itemPanel.hoverPanel;
+        this.hoverPanel = itemPanel.getHoverPanel();
     }
 
     @Override

@@ -7,6 +7,9 @@ import javax.swing.Timer;
 
 public class Gui extends JFrame {
 
+    private static final int WINDOW_WIDTH = 975;
+    private static final int WINDOW_HEIGHT = 750;
+    
     public static final String INTRO_SCREEN = "Intro Screen";
     public static final String CHARACTER_SELECTION_SCREEN = "Character Selection Screen";
     public static final String CHARACTER_CREATION_SCREEN = "Create Character Screen";
@@ -34,7 +37,7 @@ public class Gui extends JFrame {
         // Create the main frame
         this.setTitle("Item Game");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(900, 750);
+        this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
         this.cardLayout = new CardLayout();
         this.cardLayoutPanel = new JPanel(this.cardLayout);

@@ -51,25 +51,6 @@ Item-End
 Equipped-Items-End
 Inventory-Start
 Item-Start
-Item Type:CHEST
-Item Name:Silver Chest
-Item X:0
-Item Y:0
-Defence:138.0
-All Resistance:9.0
-Fire Resistance:5.0
-Lightning Resistance:11.0
-Item-End
-Item-Start
-Item Type:CHEST
-Item Name:Purple Chest
-Item X:6
-Item Y:0
-Damage:98.0
-Defence:175.0
-Lightning Resistance:17.0
-Item-End
-Item-Start
 Item Type:RING
 Item Name:Green Ring
 Item X:3
@@ -78,5 +59,15 @@ Damage:27.0
 Health:50.0
 All Resistance:5.0
 Fire Resistance:14.0
+Item-End
+Item-Start
+Item Type:CHEST
+Item Name:Silver Chest
+Item X:0
+Item Y:0
+Defence:138.0
+All Resistance:9.0
+Fire Resistance:5.0
+Lightning Resistance:11.0
 Item-End
 Inventory-End

@@ -33,22 +33,22 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 
 public class ItemPanel extends JLayeredPane {
 
-    final static int ITEM_WINDOW_WIDTH = 700;
+    final static int ITEM_WINDOW_WIDTH = 775;
     final static int ITEM_WINDOW_HEIGHT = 475;
 
     private JPanel equippedItemPanel;
     private InventoryPanel inventoryPanel;
-    private JPanel newItemPanel;
+    private JPanel generateDeleteItemPanel;
 
-    HoverPanel hoverPanel;
+    private HoverPanel hoverPanel;
 
     private ItemLayeredPane helmPanel, weaponPanel, amuletPanel, shieldPanel, rightHandRingPanel, leftHandRingPanel;
     private ItemLayeredPane beltPanel, pantsPanel, glovesPanel, chestPanel, bootsPanel;
-    private ItemLayeredPane generatedItemPanel;
+    private ItemLayeredPane generatedItemPanel, deleteItemPanel;
     
     private JButton getNewItemButton, deleteItemButton;
     
-    private CharacterScreen characterScreen;  // TODO: I don't like that its getting this
+    private CharacterScreen characterScreen;
     
     private ItemController itemController;
 
@@ -135,49 +135,47 @@ public class ItemPanel extends JLayeredPane {
         c.gridy = 2;
         this.equippedItemPanel.add(this.bootsPanel, c);
 
-        // this.separator = new JSeparator(SwingConstants.HORIZONTAL);
-        // this.separator.setMaximumSize(new Dimension(this.equippedItemPanel.getMaximumSize().width, 10));
-        // this.separator.setAlignmentX(Component.CENTER_ALIGNMENT);
-        // this.equippedItemPanel.add(this.separator);
-        // TODO: add this back in when I Know how
-        // this.deleteItemButton = new JButton("Delete Item");
-        // c1.gridx = 3;
-        // c1.gridy = 1;
-        // this.inventoryPanel.add(this.deleteItemButton, c1);
 
 
 
-        // this panel is a little different because it's for generating new items not for deleting items
-        this.generatedItemPanel = new ItemLayeredPane(EquipmentSlot.NEW_ITEM_SLOT);
-        // c.gridx = 5;
-        // c.gridy = 2;
-        // this.equippedItemPanel.add(this.generatedItemPanel, c);
-
-        // generate new item button
-        this.getNewItemButton = new JButton("Get New Item");
-        // c.gridx = 5;
-        // c.gridy = 3;
-        // this.equippedItemPanel.add(this.getNewItemButton, c);
-        
         this.inventoryPanel = new InventoryPanel(this.itemController, InventoryPanel.GRID_SIZE, Inventory.INVENTORY_ROWS, Inventory.INVENTORY_COLUMNS);
-
         
-        this.newItemPanel = new JPanel();
-        this.newItemPanel.add(this.generatedItemPanel);
-        this.newItemPanel.add(this.getNewItemButton);
+        this.generateDeleteItemPanel = new JPanel();
+        this.generateDeleteItemPanel.setLayout(new GridBagLayout());
+        
+        this.generatedItemPanel = new ItemLayeredPane(EquipmentSlot.NEW_ITEM_SLOT);
+        c.gridx = 0;
+        c.gridy = 0;
+        this.generateDeleteItemPanel.add(this.generatedItemPanel, c);
+        
+        this.getNewItemButton = new JButton("Get New Item");
+        c.gridx = 0;
+        c.gridy = 1;
+        this.generateDeleteItemPanel.add(this.getNewItemButton, c);
+        
+        this.deleteItemPanel = new ItemLayeredPane(EquipmentSlot.DELETE_ITEM_SLOT);
+        c.gridx = 1;
+        c.gridy = 0;
+        this.generateDeleteItemPanel.add(this.deleteItemPanel, c);
+
+        this.deleteItemButton = new JButton("Delete Item");
+        c.gridx = 1;
+        c.gridy = 1;
+        this.generateDeleteItemPanel.add(this.deleteItemButton, c);
+        
 
         // the size has to be set for layered Panes 
         this.equippedItemPanel.setBounds(0, 0, ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
         this.inventoryPanel.setBounds(0, ITEM_WINDOW_HEIGHT, InventoryPanel.GRID_SIZE*Inventory.INVENTORY_COLUMNS, InventoryPanel.GRID_SIZE*Inventory.INVENTORY_ROWS);
-        this.newItemPanel.setBounds(InventoryPanel.GRID_SIZE*Inventory.INVENTORY_COLUMNS, ITEM_WINDOW_HEIGHT,ITEM_WINDOW_WIDTH-(InventoryPanel.GRID_SIZE*Inventory.INVENTORY_COLUMNS),InventoryPanel.GRID_SIZE*Inventory.INVENTORY_ROWS);
+        this.generateDeleteItemPanel.setBounds(InventoryPanel.GRID_SIZE*Inventory.INVENTORY_COLUMNS, ITEM_WINDOW_HEIGHT,ITEM_WINDOW_WIDTH-(InventoryPanel.GRID_SIZE*Inventory.INVENTORY_COLUMNS),InventoryPanel.GRID_SIZE*Inventory.INVENTORY_ROWS);
         this.setSize(ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
 
         this.hoverPanel = new HoverPanel(this.itemController);
 
         this.add(this.equippedItemPanel, 1);
         this.add(this.inventoryPanel, 1);
-        this.add(this.newItemPanel, 1);
-        this.newItemPanel.setBackground(new Color(190, 190, 190));
+        this.add(this.generateDeleteItemPanel, 1);
+        this.generateDeleteItemPanel.setBackground(new Color(190, 190, 190));
         this.inventoryPanel.setBackground(new Color(180, 180, 180));
         this.equippedItemPanel.setBackground(new Color(169, 169, 169));
 
@@ -205,16 +203,9 @@ public class ItemPanel extends JLayeredPane {
         });
 
         // delete the item
-        // this.deleteItemButton.addActionListener(e -> {
-        //     // TODO: fix up try/catch and exception throwing
-        //     try {
-        //         this.itemManager.removeItem(EquipmentSlot.INVENTORY_SLOT_FOUR);
-        //         this.inventorySlotFourPanel.removeItemFromSlot();
-        //     } catch (Exception ex) {
-        //         System.out.println(ex.getMessage());
-        //     }
-            
-        // });
+        this.deleteItemButton.addActionListener(e -> {
+            this.itemController.deleteItem();
+        });
 
         // put all the ItemLayeredPanes (slots) into a map for dynmaic access and manipulation
         slotToPanel.put(EquipmentSlot.AMULET, this.amuletPanel);
@@ -229,6 +220,7 @@ public class ItemPanel extends JLayeredPane {
         slotToPanel.put(EquipmentSlot.SHIELD, this.shieldPanel);
         slotToPanel.put(EquipmentSlot.WEAPON, this.weaponPanel);
         slotToPanel.put(EquipmentSlot.NEW_ITEM_SLOT, this.generatedItemPanel);
+        slotToPanel.put(EquipmentSlot.DELETE_ITEM_SLOT, this.deleteItemPanel);
 
         // add the transferhandlers for the panels
         Collection<ItemLayeredPane> slots = this.slotToPanel.values();
@@ -332,6 +324,10 @@ public class ItemPanel extends JLayeredPane {
     //     this.itemManager = itemManager;
     // }
 
+    public void deleteItem() {
+        this.deleteItemPanel.removeItemFromSlot();
+    }
+
 
     public InventoryPanel getInventoryPanel() {
         return this.inventoryPanel;
@@ -339,6 +335,10 @@ public class ItemPanel extends JLayeredPane {
 
     public ItemController getItemController() {
         return this.itemController;
+    }
+
+    public HoverPanel getHoverPanel() {
+        return this.hoverPanel;
     }
 
     /**
@@ -374,6 +374,17 @@ public class ItemPanel extends JLayeredPane {
             item.getItemImageLabel().addMouseListener(this.mouseListener);
         }
         
+    }
+
+    /**
+     * After the item has been sucessfully dragged, Character stats need to be updated and the hover panel should
+     * be updated and shown
+     * @param item
+     */
+    public void dragFinishUpdate(Item item) {
+        this.characterScreen.update();
+        this.hoverPanel.updateHoverWindow(item.getItemImageLabel());
+        this.hoverPanel.showHoverPanel();
     }
 
 
@@ -449,14 +460,7 @@ public class ItemPanel extends JLayeredPane {
         }
 
         @Override
-        protected void exportDone(JComponent source, Transferable data, int action) {
-            
-            // when the export is done we're going to remove the item from its old location then update stats
-            // if (action == DnDConstants.ACTION_MOVE) {
-                // this.itemPanel.removeItemSequence();
-                // this.itemPanel.characterScreen.update();
-            // }
-        }
+        protected void exportDone(JComponent source, Transferable data, int action) {}
 
         public Transferable getTransferable(JComponent c) {
             return createTransferable(c);
@@ -576,9 +580,7 @@ public class ItemPanel extends JLayeredPane {
                 return false; // Transfer failed since we don't have a correct source type
             }
 
-            this.itemPanel.characterScreen.update(); // TODO: better way for updates?
-            this.itemPanel.hoverPanel.updateHoverWindow(item.getItemImageLabel());
-            this.itemPanel.hoverPanel.showHoverPanel();
+            this.itemPanel.dragFinishUpdate(item);
 
             return true;
             
@@ -621,7 +623,6 @@ public class ItemPanel extends JLayeredPane {
 
             return this.itemController.canEquipItem(targetPanel.getEquipmentSlot(), item);
             
-            
         }
 
         @Override
@@ -643,9 +644,8 @@ public class ItemPanel extends JLayeredPane {
                     return false; // there are no other Panel types... transfer can't be completed
                 }
 
-                this.itemPanel.characterScreen.update();
-                this.itemPanel.hoverPanel.updateHoverWindow(item.getItemImageLabel());
-                this.itemPanel.hoverPanel.showHoverPanel();
+                this.itemPanel.dragFinishUpdate(item);
+                                
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();

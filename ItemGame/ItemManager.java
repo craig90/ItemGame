@@ -8,16 +8,16 @@ public class ItemManager {
 
     private static final int INVENTORY_WIDTH = 10, INVENTORY_HEIGHT = 5;
 
-    // private Map<String, Item> uniqueItems;
-    // private Map<RingSlot, Ring> rings;
     private Map<EquipmentSlot, Item> uniqueItems;
 
+    private Item deleteItem;
     private Item generatedItem;
     private Inventory inventory;
 
     public ItemManager() {
         this.uniqueItems = new EnumMap<>(EquipmentSlot.class);
         this.generatedItem = null;
+        this.deleteItem = null;
         this.inventory = new Inventory(INVENTORY_WIDTH, INVENTORY_HEIGHT);
     }
 
@@ -43,6 +43,8 @@ public class ItemManager {
 
         if (slotType == EquipmentSlot.NEW_ITEM_SLOT) {
             return this.generatedItem;
+        } else if (slotType == EquipmentSlot.DELETE_ITEM_SLOT) {
+            return this.deleteItem;
         } else {
             return getUniqueItem(slotType);
         }
@@ -81,6 +83,17 @@ public class ItemManager {
         this.generatedItem = null;
     }
 
+    public Item getDeleteItem() {
+        return this.deleteItem;
+    }
+    
+    public void setDeleteItem(Item item) {
+        this.deleteItem = item;
+    }
+    
+    public void removeDeleteItem() {
+        this.deleteItem = null;
+    }
     
 
     /**
@@ -132,9 +145,17 @@ public class ItemManager {
             return false;
         }
 
+        // delete Item slot is a special case
+        if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
+            if (this.deleteItem == null) {
+                return true;
+            }
+            return false;
+        }
+
         // make sure Item Type matches slot type
         if (item.getItemType().getEquipmentSlot() != slot) {
-            System.out.println("Wrong slot");
+            // System.out.println("Wrong slot type");
             return false;
         }
 
@@ -153,6 +174,11 @@ public class ItemManager {
      */
     public void equipItem(EquipmentSlot slot, Item item) {
         
+        if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
+            this.deleteItem = item;
+            return;
+        }
+
         if (slot != null) {
             uniqueItems.put(slot, item);
         }
@@ -173,6 +199,8 @@ public class ItemManager {
         
         if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
             this.generatedItem = null;
+        } else if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
+            this.deleteItem = null;
         } else {
             System.out.println("Removing item from " + slot.toString());
             this.uniqueItems.remove(slot);
