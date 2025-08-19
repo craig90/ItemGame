@@ -43,22 +43,22 @@ public class Inventory {
      */
     public boolean canPlaceItem(Item item, InventorySlot slot) {
 
-        System.out.println("\nChecking if we can place the item");
+        // System.out.println("\nChecking if we can place the item");
 
         int finalX = slot.getX() + item.getWidthInGridUnits();
         int finalY = slot.getY() + item.getHeightInGridUnits();
 
-        System.out.println("Final X " + finalX + " final Y " + finalY);
+        // System.out.println("Final X " + finalX + " final Y " + finalY);
 
         // make sure we're not stepping outside of the grid to the righ
         if (finalX > this.columns) {
-            System.out.println("Can't put item outside bounds " + finalX + " is beyond X axis size " + this.columns);
+            // System.out.println("Can't put item outside bounds " + finalX + " is beyond X axis size " + this.columns);
             return false;
         }
 
         // make sure we're not stepping below the grid
         if (finalY > this.rows) {
-            System.out.println("Can't put item outside bounds " + finalY + " is beyond Y axis size " + this.rows);
+            // System.out.println("Can't put item outside bounds " + finalY + " is beyond Y axis size " + this.rows);
             return false;
         }
 
@@ -66,15 +66,15 @@ public class Inventory {
         for (int i = slot.getY(); i < finalY; i++) {
             for (int j = slot.getX(); j < finalX; j++) {
                 
-                System.out.println("I: " + i + " J: " + j + " " + inventorySlots[i][j].isOcuppied());
+                // System.out.println("I: " + i + " J: " + j + " " + inventorySlots[i][j].isOcuppied());
 
                 if (inventorySlots[i][j].isOcuppied() == true) {
 
                     if (item != inventorySlots[i][j].getItem()) {
-                        System.out.println("Collision at " + j + " " + i);
+                        // System.out.println("Collision at " + j + " " + i);
                         return false;
                     } else {
-                        System.out.println("Same item, so collision is okay");
+                        // System.out.println("Same item, so collision is okay");
                     }
                 }
 
@@ -105,11 +105,11 @@ public class Inventory {
         // System.out.println("X: " + slot.getX() + " final X: " + finalX);
         // System.out.println("Y: " + slot.getY() + " final Y: " + finalY);
 
-        System.out.println("Inventory.java -> Placing item");
+        // System.out.println("Inventory.java -> Placing item");
 
         for (int i = slot.getY(); i < finalY; i++) {
             for (int j = slot.getX(); j < finalX; j++) {
-                System.out.println("Inventory.java -> Placing item at " + i + " " + j);
+                // System.out.println("Inventory.java -> Placing item at " + i + " " + j);
                 
                 this.inventorySlots[i][j].setItem(item);
                 this.inventorySlots[i][j].setIsOccupied(true);

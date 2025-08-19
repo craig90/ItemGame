@@ -55,4 +55,36 @@ Defence:28.0
 Fire Resistance:11.0
 Magic Resistance:11.0
 Item-End
+Item-Start
+Item Type:RING
+Item Name:Bronze Ring
+Ring Slot:LEFT_RING
+Health:30.0
+Lightning Resistance:18.0
+Cold Resistance:8.0
+Magic Resistance:14.0
+Item-End
 Equipped-Items-End
+Inventory-Start
+Item-Start
+Item Type:BELT
+Item Name:Green Belt
+Item X:6
+Item Y:2
+Fire Resistance:15.0
+Poison Resistance:9.0
+Lightning Resistance:10.0
+Cold Resistance:10.0
+Magic Resistance:10.0
+Item-End
+Item-Start
+Item Type:AMULET
+Item Name:Orange Amulet
+Item X:4
+Item Y:1
+Fire Resistance:5.0
+Lightning Resistance:7.0
+Cold Resistance:18.0
+Magic Resistance:10.0
+Item-End
+Inventory-End

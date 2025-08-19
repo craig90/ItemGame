@@ -6,17 +6,17 @@ public class Game {
     private ItemController itemController;
     private CharacterController characterController;
     private Character character;
-    // ItemGenerator itemGenerator;
-    FileParcer fileParcer;
-    CharacterSaver characterSaver;
-    CommandLineReader commandLineReader;
+    private ItemGenerator itemGenerator;
+    private FileParcer fileParcer;
+    private CharacterSaver characterSaver;
+    private CommandLineReader commandLineReader;
 
     public Game () {
-        // this.itemGenerator = new ItemGenerator();
+        this.itemGenerator = new ItemGenerator();
         this.fileParcer = new FileParcer();
         this.commandLineReader = new CommandLineReader();
         this.characterSaver = new CharacterSaver();
-        this.itemController = new ItemController();
+        this.itemController = new ItemController(this);
         this.characterController = new CharacterController(this);
     }
 
@@ -42,6 +42,10 @@ public class Game {
 
     public CharacterController getCharacterController(){
         return this.characterController;
+    }
+
+    public ItemGenerator getItemGenerator() {
+        return this.itemGenerator;
     }
 
     /**

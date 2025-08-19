@@ -18,17 +18,8 @@ public class CharacterController {
         // Gui call
     }
 
-
-    // public void loadCharacter() {
-    //     this.game.setCharacter();
-    //     this.characterScreen.loadCharacter();
-    // }
-    
-
     public void loadCharacterFromFile(CharacterFile characterFile) throws Exception {
-
         this.game.loadCharacterFromFile(characterFile);
-
     }
 
     public void saveCharacter() {
