@@ -1,14 +1,26 @@
 package com.craig.itemgame.model;
 
-public class CharacterStatNames {
-    public static final String HEALTH = "Health";
-    public static final String LEVEL = "Level";
-    public static final String EXPERIENCE = "Experience";
-    public static final String DAMAGE = "Damage";
-    public static final String DEFENCE = "Defence";
-    public static final String FIRE_RESISTANCE = "Fire Resistance";
-    public static final String POISON_RESISTANCE = "Poison Resistance";
-    public static final String LIGHTNING_RESISTANCE = "Lightning Resistance";
-    public static final String COLD_RESISTANCE = "Cold Resistance";
-    public static final String MAGIC_RESISTANCE = "Magic Resistance";
+public enum CharacterStatNames {
+    HEALTH("Health"),
+    LEVEL("Level"),
+    EXPERIENCE("Experience"),
+    DAMAGE("Damage"),
+    DEFENCE("Defence"),
+    FIRE_RESISTANCE("Fire Resistance"),
+    POISON_RESISTANCE("Poison Resistance"),
+    LIGHTNING_RESISTANCE("Lightning Resistance"),
+    COLD_RESISTANCE("Cold Resistance"),
+    MAGIC_RESISTANCE("Magic Resistance");
+
+    private final String type;
+
+    private CharacterStatNames(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+
 }
