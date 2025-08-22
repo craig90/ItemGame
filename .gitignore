@@ -15,6 +15,7 @@ ItemGame/bin/ItemWindow$ImageTransferable.class
 ItemGame/bin/ItemWindow$MyLabelTransferHandler.class
 ItemGame/bin/ItemWindow$MyPanelTransferHandler.class
 ItemGame/bin/MyMouseListener.class
+ItemGame/bin/*
 ItemGame/GUI/ItemWindow.java
 ItemGame/.vscode/settings.json
 ItemGame/bin/.DS_Store

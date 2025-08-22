@@ -1,6 +1,7 @@
 package com.craig.itemgame.model;
 
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Character {
 
@@ -13,17 +14,16 @@ public class Character {
 
     private CharacterStat level;
     private CharacterStat experience;
-    private CharacterStat damage;
-    private CharacterStat health;
-    private CharacterStat defence;
-    private CharacterStat fireResistance;
-    private CharacterStat coldResistance;
-    private CharacterStat lightningResistance;
-    private CharacterStat poisonResistance;
-    private CharacterStat magicResistance;
+    // private CharacterStat damage;
+    // private CharacterStat health;
+    // private CharacterStat defence;
+    // private CharacterStat fireResistance;
+    // private CharacterStat coldResistance;
+    // private CharacterStat lightningResistance;
+    // private CharacterStat poisonResistance;
+    // private CharacterStat magicResistance;
 
-    // it's probably easier if all the character stats are on a list
-    private ArrayList<CharacterStat> statList;
+    private Map<CharacterStatNames, CharacterStat> statMap;
 
     private ItemManager itemManager;
 
@@ -32,28 +32,28 @@ public class Character {
     public Character () {
         
         characterName = "";
-        level = new CharacterStat(this, CharacterStatNames.LEVEL);
-        experience = new CharacterStat(this, CharacterStatNames.EXPERIENCE);
-        damage = new CharacterStat(this, CharacterStatNames.DAMAGE);
-        health = new CharacterStat(this, CharacterStatNames.HEALTH);
-        defence = new CharacterStat(this, CharacterStatNames.DEFENCE);
+        level = new CharacterStat(CharacterStatNames.LEVEL);
+        experience = new CharacterStat(CharacterStatNames.EXPERIENCE);
+        // damage = new CharacterStat(CharacterStatNames.DAMAGE);
+        // health = new CharacterStat(CharacterStatNames.HEALTH);
+        // defence = new CharacterStat(CharacterStatNames.DEFENCE);
         
-        fireResistance = new CharacterStat(this, CharacterStatNames.FIRE_RESISTANCE);
-        coldResistance = new CharacterStat(this, CharacterStatNames.COLD_RESISTANCE);
-        lightningResistance = new CharacterStat(this, CharacterStatNames.LIGHTNING_RESISTANCE);
-        poisonResistance = new CharacterStat(this, CharacterStatNames.POISON_RESISTANCE);
-        magicResistance = new CharacterStat(this, CharacterStatNames.MAGIC_RESISTANCE);
+        // fireResistance = new CharacterStat(CharacterStatNames.FIRE_RESISTANCE);
+        // coldResistance = new CharacterStat(CharacterStatNames.COLD_RESISTANCE);
+        // lightningResistance = new CharacterStat(CharacterStatNames.LIGHTNING_RESISTANCE);
+        // poisonResistance = new CharacterStat(CharacterStatNames.POISON_RESISTANCE);
+        // magicResistance = new CharacterStat(CharacterStatNames.MAGIC_RESISTANCE);
 
-        statList = new ArrayList<CharacterStat>();
+        statMap = new HashMap<>();
 
-        statList.add(damage);
-        statList.add(health);
-        statList.add(defence);
-        statList.add(fireResistance);
-        statList.add(coldResistance);
-        statList.add(lightningResistance);
-        statList.add(poisonResistance);
-        statList.add(magicResistance);
+        statMap.put(CharacterStatNames.DAMAGE, new CharacterStat(CharacterStatNames.DAMAGE));
+        statMap.put(CharacterStatNames.HEALTH, new CharacterStat(CharacterStatNames.HEALTH));
+        statMap.put(CharacterStatNames.DEFENCE, new CharacterStat(CharacterStatNames.DEFENCE));
+        statMap.put(CharacterStatNames.FIRE_RESISTANCE, new CharacterStat(CharacterStatNames.FIRE_RESISTANCE));
+        statMap.put(CharacterStatNames.COLD_RESISTANCE, new CharacterStat(CharacterStatNames.COLD_RESISTANCE));
+        statMap.put(CharacterStatNames.LIGHTNING_RESISTANCE, new CharacterStat(CharacterStatNames.LIGHTNING_RESISTANCE));
+        statMap.put(CharacterStatNames.POISON_RESISTANCE, new CharacterStat(CharacterStatNames.POISON_RESISTANCE));
+        statMap.put(CharacterStatNames.MAGIC_RESISTANCE, new CharacterStat(CharacterStatNames.MAGIC_RESISTANCE));
 
         itemManager = new ItemManager();
 
@@ -73,35 +73,35 @@ public class Character {
     }
     
     public double getHealth() {
-        return this.health.getValue();
+        return this.statMap.get(CharacterStatNames.HEALTH).getValue();
     }
 
     public double getDamage() {
-        return this.damage.getValue();
+        return this.statMap.get(CharacterStatNames.DAMAGE).getValue();
     }
 
     public double getDefence() {
-        return this.defence.getValue();
+        return this.statMap.get(CharacterStatNames.DEFENCE).getValue();
     }
 
     public double getPoisonResistance() {
-        return this.poisonResistance.getValue();
+        return this.statMap.get(CharacterStatNames.POISON_RESISTANCE).getValue();
     }
 
     public double getLightningResistance() {
-        return this.lightningResistance.getValue();
+        return this.statMap.get(CharacterStatNames.LIGHTNING_RESISTANCE).getValue();
     }
 
     public double getFireResistance() {
-        return this.fireResistance.getValue();
+        return this.statMap.get(CharacterStatNames.FIRE_RESISTANCE).getValue();
     }
 
     public double getColdResistance() {
-        return this.coldResistance.getValue();
+        return this.statMap.get(CharacterStatNames.COLD_RESISTANCE).getValue();
     }
 
     public double getMagicResistance() {
-        return this.magicResistance.getValue();
+        return this.statMap.get(CharacterStatNames.MAGIC_RESISTANCE).getValue();
     }
 
     
@@ -140,8 +140,8 @@ public class Character {
      */
     public void updateStats() {
 
-        for (int i = 0; i < this.statList.size(); i++) {
-            this.statList.get(i).updateValue();
+        for (Map.Entry<CharacterStatNames, CharacterStat> entry : statMap.entrySet()) {
+            entry.getValue().updateValue(this.itemManager, getLevel());
         }        
 
     }
@@ -158,8 +158,8 @@ public class Character {
         
         System.out.println("Stats:");
 
-        for (int i = 0; i < this.statList.size(); i ++) {
-            System.out.println(this.statList.get(i).getStatType() + ": " + this.statList.get(i).getValue());
+        for (Map.Entry<CharacterStatNames, CharacterStat> entry : this.statMap.entrySet()) {
+            System.out.println(entry.getKey().getType() + ": " + entry.getValue().getValue());
         }
     
     }
@@ -173,8 +173,8 @@ public class Character {
         System.out.println(this.level.getStatType() + " " + this.level.getValue());
         System.out.println(this.experience.getStatType() + " " + this.experience.getValue() + "\n");
 
-        for (int i = 0; i < this.statList.size(); i++) {
-            System.out.println(this.statList.get(i).getStatType() + ": " + this.statList.get(i).getBaseValue());
+        for (Map.Entry<CharacterStatNames, CharacterStat> entry : this.statMap.entrySet()) {
+            System.out.println(entry.getKey().getType() + ": " + entry.getValue().getBaseValue());
         }
 
     }

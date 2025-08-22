@@ -4,8 +4,6 @@ import com.craig.itemgame.model.Items.Item;
 
 public class CharacterStat extends Stat {
 
-    Character character;
-
     public static final double HEALTH_LEVEL_MODIFIER = 2.0;
     public static final double RESISTANCE_LEVEL_MODIFIER = 0.5;
     public static final double DEFENCE_LEVEL_MODIFIER = 3.0;
@@ -17,27 +15,28 @@ public class CharacterStat extends Stat {
 
     public CharacterStat() { } // needed for potential subclasses
 
-    public CharacterStat(Character character, String type) {
-        this.character = character;
-        this.type = type;
+    public CharacterStat(CharacterStatNames statName) {
+        this.type = statName.getType();
         this.value = INIT_VALUE;
     }
 
     /**
      * set stats first depending on level
      */
-    private void updateBaseValue() {
+    private void updateBaseValue(double level) {
 
-        if (this.type == CharacterStatNames.HEALTH) {
-            this.baseValue = character.getLevel() * HEALTH_LEVEL_MODIFIER;
-        } else if (this.type == CharacterStatNames.DEFENCE) {
-            this.baseValue = character.getLevel() * DEFENCE_LEVEL_MODIFIER;
-        } else if (this.type == CharacterStatNames.DAMAGE) {
-            this.baseValue = character.getLevel() * DAMAGE_LEVEL_MODIFIER;
-        } else if (this.type == CharacterStatNames.COLD_RESISTANCE || this.type == CharacterStatNames.FIRE_RESISTANCE || 
-            this.type == CharacterStatNames.LIGHTNING_RESISTANCE || this.type == CharacterStatNames.MAGIC_RESISTANCE || 
-            this.type == CharacterStatNames.POISON_RESISTANCE) {
-            this.baseValue = character.getLevel() * RESISTANCE_LEVEL_MODIFIER; 
+        if (this.type.equals(CharacterStatNames.HEALTH.getType())) {
+            this.baseValue = level * HEALTH_LEVEL_MODIFIER;
+        } else if (this.type.equals(CharacterStatNames.DEFENCE.getType())) {
+            this.baseValue = level * DEFENCE_LEVEL_MODIFIER;
+        } else if (this.type.equals(CharacterStatNames.DAMAGE.getType())) {
+            this.baseValue = level * DAMAGE_LEVEL_MODIFIER;
+        } else if (this.type.equals(CharacterStatNames.COLD_RESISTANCE.getType()) 
+            || this.type.equals(CharacterStatNames.FIRE_RESISTANCE.getType()) 
+            || this.type.equals(CharacterStatNames.LIGHTNING_RESISTANCE.getType())
+            || this.type.equals(CharacterStatNames.MAGIC_RESISTANCE.getType())
+            || this.type.equals(CharacterStatNames.POISON_RESISTANCE.getType())) {
+            this.baseValue = level * RESISTANCE_LEVEL_MODIFIER; 
         }
     
     }
@@ -45,12 +44,12 @@ public class CharacterStat extends Stat {
     /**
      * updates the itemValue stat taking into account any items with this stat type
      */
-    private void updateValueWithItems() {
+    private void updateValueWithItems(ItemManager itemManager) {
         
         // reset itemValue to 0
         this.itemValue = 0.0;
 
-        for (Item item : this.character.getItemManager().getAllEquippedItems()) {
+        for (Item item : itemManager.getAllEquippedItems()) {
 
             // go through the list of stats
             for (int j = 0; j < item.statListSize(); j++) {
@@ -82,10 +81,10 @@ public class CharacterStat extends Stat {
      * 
      * This will take into acoount the character's level and any gear they are wearing
      */
-    public void updateValue() {
+    public void updateValue(ItemManager itemManager, double level) {
 
-        this.updateBaseValue();
-        this.updateValueWithItems();
+        this.updateBaseValue(level);
+        this.updateValueWithItems(itemManager);
 
         this.value = this.baseValue + this.itemValue;
 

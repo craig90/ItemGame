@@ -107,6 +107,7 @@ public class CharacterSaver {
 
         try {
             SaveManager.saveCharacter(character, (FileReader.directoryPath + "test.json"));
+            // SaveManager.saveItemManager(character.getItemManager(), (FileReader.directoryPath + "test.json"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

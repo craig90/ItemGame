@@ -114,7 +114,7 @@ public class FileParcer {
         lineArray = parceTwoElementLine(file);
 
         // check if the file line starts with Character Level keyword, if so grab the Character Name
-        if (lineArray[0].equals(CharacterStatNames.LEVEL)) {
+        if (lineArray[0].equals(CharacterStatNames.LEVEL.getType())) {
             try {
                 characterFile.setLevel(Double.parseDouble(lineArray[1]));
             } catch (Exception e) {
@@ -205,7 +205,7 @@ public class FileParcer {
      */
     public void parceCharacterLevel(String[] lineArray, Character character) throws Exception {
 
-        if (!lineArray[0].equals(CharacterStatNames.LEVEL)) {
+        if (!lineArray[0].equals(CharacterStatNames.LEVEL.getType())) {
             throw new Exception("Error reading Character level at line " + this.lineNumber);
         } else {
             try {
@@ -226,8 +226,8 @@ public class FileParcer {
      */
     public void parceCharacterExperience(String[] lineArray, Character character) throws Exception {
 
-        if (!lineArray[0].equals(CharacterStatNames.EXPERIENCE)) {
-            throw new Exception("Error reading Character level at line " + this.lineNumber);
+        if (!lineArray[0].equals(CharacterStatNames.EXPERIENCE.getType())) {
+            throw new Exception("Error reading Character experience at line " + this.lineNumber);
         } else {
             try {
                 character.setExperience(Double.parseDouble(lineArray[1]));
