@@ -44,9 +44,20 @@ public abstract class Item {
     private String itemName;
     private ArrayList<ItemStat> statList;
 
-    public Item(String itemName) {
+    protected ItemType itemType;
+
+    private String id;
+
+    /**
+     * Constructor for a new Item, will create an Item ID
+     * @param itemName
+     * @param itemType
+     */
+    public Item(String itemName, ItemType itemType) {
         this.itemName = itemName;
         this.statList = new ArrayList<ItemStat>();
+        this.itemType = itemType;
+        this.id = ItemIdGenerator.generateUniqueID();
         this.setImageLabel();
     }
 
@@ -54,7 +65,13 @@ public abstract class Item {
 
     public abstract int getHeightInGridUnits();
 
-    public abstract ItemType getItemType();
+    public ItemType getItemType() {
+        return this.itemType;
+    }
+
+    public String getID() {
+        return this.id;
+    }
 
     public abstract String getImageFile();
 
@@ -62,7 +79,7 @@ public abstract class Item {
         return this.itemName;
     }
 
-    public void setImageIcon() {
+    private void setImageIcon() {
         try {
             this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(getImageFile()),
                 ItemLayeredPane.getItemWidth(this.getItemType()), ItemLayeredPane.getItemHeight(this.getItemType()));

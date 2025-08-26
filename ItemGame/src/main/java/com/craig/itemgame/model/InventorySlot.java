@@ -1,12 +1,10 @@
 package com.craig.itemgame.model;
 
-import com.craig.itemgame.model.Items.Item;
-
 public class InventorySlot {
 
     private int x;
     private int y;
-    private Item item;
+    private String itemId;
     private boolean isOccupied;
 
     /**
@@ -18,7 +16,7 @@ public class InventorySlot {
     public InventorySlot(int x, int y) {
         this.x = x;
         this.y = y;
-        this.item = null;
+        this.itemId = null;
         this.isOccupied = false;
     }
 
@@ -30,12 +28,12 @@ public class InventorySlot {
         return this.isOccupied;
     }
 
-    public Item getItem() {
-        return this.item;
+    public String getItemId() {
+        return this.itemId;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItem(String itemId) {
+        this.itemId = itemId;
     }
 
     public int getX() {

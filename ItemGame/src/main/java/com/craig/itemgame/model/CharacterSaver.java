@@ -107,7 +107,7 @@ public class CharacterSaver {
 
         try {
             SaveManager.saveCharacter(character, (FileReader.directoryPath + "test.json"));
-            // SaveManager.saveItemManager(character.getItemManager(), (FileReader.directoryPath + "test.json"));
+            //SaveManager.saveItemManager(character.getItemManager(), (FileReader.directoryPath + "test.json"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -116,8 +116,8 @@ public class CharacterSaver {
 
         // follow the ordre Charcter Name, Level, Experience
         this.fileWrite.writeLine(FileKeywords.CHARACTER_NAME + LINE_SEPARATOR + character.getName());
-        this.fileWrite.writeLine(CharacterStatNames.LEVEL + LINE_SEPARATOR + character.getLevel());
-        this.fileWrite.writeLine(CharacterStatNames.EXPERIENCE + LINE_SEPARATOR + character.getExperience());
+        this.fileWrite.writeLine(CharacterStatNames.LEVEL.getType() + LINE_SEPARATOR + character.getLevel());
+        this.fileWrite.writeLine(CharacterStatNames.EXPERIENCE.getType() + LINE_SEPARATOR + character.getExperience());
 
         saveEquippedItems(character);
         saveInventoryItems(character);

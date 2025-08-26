@@ -3,6 +3,7 @@ package com.craig.itemgame.model;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,30 +14,23 @@ public class ItemManager {
 
     private static final int INVENTORY_WIDTH = 10, INVENTORY_HEIGHT = 5;
 
-    private Map<EquipmentSlot, Item> uniqueItems;
-
-    private Item deleteItem;
-    private Item generatedItem;
+    private Map<String, Item> itemsByID;
+    private Map<EquipmentSlot, String> equippedItems;
+    
+    private String deleteItemID;
+    private String generatedItemID;
     private Inventory inventory;
 
     public ItemManager() {
-        this.uniqueItems = new EnumMap<>(EquipmentSlot.class);
-        this.generatedItem = null;
-        this.deleteItem = null;
+        this.itemsByID = new HashMap<>();
+        this.equippedItems = new EnumMap<>(EquipmentSlot.class);
+        this.generatedItemID = null;
+        this.deleteItemID = null;
         this.inventory = new Inventory(INVENTORY_WIDTH, INVENTORY_HEIGHT);
     }
 
     public Item getGeneratedItem() {
-        return this.generatedItem;
-    }
-
-    /**
-     * Returns the item specified by item slot type
-     * @param itemType
-     * @return will return an item if it exists, otherwise returns null
-     */
-    public Item getUniqueItem(EquipmentSlot slotType) {
-        return uniqueItems.get(slotType);
+        return this.itemsByID.get(this.generatedItemID);
     }
 
     /**
@@ -47,16 +41,23 @@ public class ItemManager {
     public Item getItem(EquipmentSlot slotType) {
 
         if (slotType == EquipmentSlot.NEW_ITEM_SLOT) {
-            return this.generatedItem;
+            return this.itemsByID.get(this.generatedItemID);
         } else if (slotType == EquipmentSlot.DELETE_ITEM_SLOT) {
-            return this.deleteItem;
+            return this.itemsByID.get(this.deleteItemID);
         } else {
-            return getUniqueItem(slotType);
+            return this.itemsByID.get(this.equippedItems.get(slotType));
         }
     }
 
     public Map<Item, Point> getInventoryItems() {
-        return this.inventory.getInventoryItems();
+
+        Map<Item,Point> inventoryItems = new HashMap<>();
+
+        for (Map.Entry<String, Point> entry : this.inventory.getInventoryItems().entrySet()) {
+            inventoryItems.put(this.itemsByID.get(entry.getKey()), entry.getValue());
+        }
+
+        return inventoryItems;
     }
 
 
@@ -76,39 +77,39 @@ public class ItemManager {
         
         InventorySlot[][] inventory = this.inventory.getGrid();
         
-        return inventory[row][column].getItem();
+        return this.itemsByID.get(inventory[row][column].getItemId());
     }
 
-
     public void setGeneratedItem(Item generatedItem) {
-        this.generatedItem = generatedItem;
+        this.generatedItemID = generatedItem.getID();
+        this.itemsByID.put(generatedItem.getID(), generatedItem);
     }
 
     public void removeGeneratedItem() {
-        this.generatedItem = null;
+        this.generatedItemID = null;
     }
 
     public Item getDeleteItem() {
-        return this.deleteItem;
+        return this.itemsByID.get(this.deleteItemID);
     }
     
-    public void setDeleteItem(Item item) {
-        this.deleteItem = item;
-    }
+    // public void setDeleteItem(Item item) {
+    //     this.deleteItem = item;
+    // }
     
     public void removeDeleteItem() {
-        this.deleteItem = null;
+        this.deleteItemID = null;
     }
     
 
     /**
-     * adds and item either to the spare item slot, or equips it to an item slot
+     * adds an item either to the spare item slot, or equips it to an item slot
      * @param slot
      * @param item
      */
     public void addItem(EquipmentSlot slot, Item item) {
         if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
-            this.generatedItem = item;
+            this.generatedItemID = item.getID();
         } else {
             this.equipItem(slot, item);
         }
@@ -145,14 +146,14 @@ public class ItemManager {
         if (item.getItemType() == ItemType.RING) {
             
             if (slot == EquipmentSlot.LEFT_RING || slot == EquipmentSlot.RIGHT_RING) {
-                return !uniqueItems.containsKey(slot);    
+                return !equippedItems.containsKey(slot);    
             }
             return false;
         }
 
         // delete Item slot is a special case
         if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
-            if (this.deleteItem == null) {
+            if (this.deleteItemID == null) {
                 return true;
             }
             return false;
@@ -164,7 +165,7 @@ public class ItemManager {
             return false;
         }
 
-        return !uniqueItems.containsKey(item.getItemType().getEquipmentSlot());
+        return !equippedItems.containsKey(item.getItemType().getEquipmentSlot());
 
     }
 
@@ -180,12 +181,12 @@ public class ItemManager {
     public void equipItem(EquipmentSlot slot, Item item) {
         
         if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
-            this.deleteItem = item;
+            this.deleteItemID = item.getID();
             return;
         }
 
         if (slot != null) {
-            uniqueItems.put(slot, item);
+            this.equippedItems.put(slot, item.getID());
         }
 
         // logic is slightly different for Rings since there are two of them
@@ -203,12 +204,12 @@ public class ItemManager {
     public void removeItem(EquipmentSlot slot) {
         
         if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
-            this.generatedItem = null;
+            this.generatedItemID = null;
         } else if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
-            this.deleteItem = null;
+            this.deleteItemID = null;
         } else {
             System.out.println("Removing item from " + slot.toString());
-            this.uniqueItems.remove(slot);
+            this.equippedItems.remove(slot);
         }
     }
 
@@ -234,9 +235,49 @@ public class ItemManager {
      * @return
      */
     public List<Item> getAllEquippedItems() {
-        List<Item> allItems = new ArrayList<>(this.uniqueItems.values());
-        //allItems.addAll(rings.values());
+
+        List<Item> equippedItems = new ArrayList<>();
+
+        for (Map.Entry<EquipmentSlot, String> entry : this.equippedItems.entrySet()) {
+            equippedItems.add(this.itemsByID.get(entry.getValue()));
+        }
+
+        return equippedItems;
+    }
+
+    /**
+     * Returns an array list off all the Items
+     * @return
+     */
+    public List<Item> getAllItems() {
+
+        List<Item> allItems = getAllEquippedItems();
+
+        for (Map.Entry<Item, Point> entry : getInventoryItems().entrySet()) {
+            allItems.add(entry.getKey());
+        }
+
+        if (this.getGeneratedItem() != null) {
+            allItems.add(this.getGeneratedItem());
+        }
+
+        if (this.getDeleteItem() != null) {
+            allItems.add(this.getDeleteItem());
+        }
+
         return allItems;
+
+    }
+
+    /**
+     * Method for loading Image Labels after loading on Items since there are not stored in JSON
+     */
+    public void initAfterLoad() {
+        List<Item> allItems = getAllItems();
+
+        for (Item item: allItems) {
+            item.setImageLabel();
+        }
     }
 
 

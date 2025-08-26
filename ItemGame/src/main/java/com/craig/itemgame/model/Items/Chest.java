@@ -8,12 +8,12 @@ import com.craig.itemgame.model.ItemType;
 public class Chest extends Item {
 
     public Chest(String itemName) {
-        super(itemName);
+        super(itemName, ItemType.CHEST);
     }
 
-    public ItemType getItemType() {
-        return ItemType.CHEST;
-    }
+    // public ItemType getItemType() {
+    //     return ItemType.CHEST;
+    // }
 
     public String getImageFile() {
         return IMAGE_DIR + CHEST_FILE;

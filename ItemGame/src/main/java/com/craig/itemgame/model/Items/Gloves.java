@@ -5,12 +5,12 @@ import com.craig.itemgame.model.ItemType;
 public class Gloves extends Item {
 
     public Gloves(String itemName) {
-        super(itemName);
+        super(itemName, ItemType.GLOVES);
     }
 
-    public ItemType getItemType() {
-        return ItemType.GLOVES;
-    }
+    // public ItemType getItemType() {
+        // return ItemType.GLOVES;
+    // }
 
     public String getImageFile() {
         return IMAGE_DIR + GLOVES_FILE;

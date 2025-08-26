@@ -8,12 +8,12 @@ import com.craig.itemgame.model.ItemType;
 public class Shield extends Item {
 
     public Shield (String itemName) {
-        super(itemName);
+        super(itemName, ItemType.SHIELD);
     }
 
-    public ItemType getItemType() {
-        return ItemType.SHIELD;
-    }
+    // public ItemType getItemType() {
+        // return ItemType.SHIELD;
+    // }
 
     public String getImageFile() {
         return Item.IMAGE_DIR + Item.SHIELD_FILE;

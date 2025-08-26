@@ -8,12 +8,12 @@ import com.craig.itemgame.model.ItemType;
 public class Weapon extends Item {
 
     public Weapon(String itemName) {
-        super(itemName);
+        super(itemName, ItemType.WEAPON);
     }
 
-    public ItemType getItemType() {
-        return ItemType.WEAPON;
-    }
+    // public ItemType getItemType() {
+        // return ItemType.WEAPON;
+    // }
 
     public String getImageFile() {
         return IMAGE_DIR + WEAPON_FILE;

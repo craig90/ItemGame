@@ -5,12 +5,12 @@ import com.craig.itemgame.model.ItemType;
 public class Belt extends Item {
 
     public Belt (String itemName) {
-        super(itemName);
+        super(itemName, ItemType.BELT);
     }
 
-    public ItemType getItemType() {
-        return ItemType.BELT;
-    }
+    // public ItemType getItemType() {
+        // return ItemType.BELT;
+    // }
 
     public String getImageFile() {
         return IMAGE_DIR + BELT_FILE;

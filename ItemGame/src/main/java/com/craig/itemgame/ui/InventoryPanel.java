@@ -65,7 +65,16 @@ public class InventoryPanel extends JPanel {
     }
 
     public Item getItem(int x, int y) {
-        return this.itemController.getItem(x,y);
+        
+        Item item = null;
+        try {
+            item = this.itemController.getItem(x,y);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+
+        return item;
     }
 
     /**
