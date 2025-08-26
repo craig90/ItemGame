@@ -15,19 +15,19 @@ public class Inventory {
 
     private int rows;
     private int columns;
-    private InventorySlot[][] inventorySlots; // public for testing purposes
+    private InventorySlot[][] inventorySlots;
 
-    private Map<Item, Point> itemOrigins;
+    private Map<String, Point> itemOrigins;
 
     public Inventory(int columns, int rows) {
         this.inventorySlots = new InventorySlot[rows][columns];
         this.columns = columns;
         this.rows = rows;
-        this.itemOrigins = new HashMap<Item,Point>();
+        this.itemOrigins = new HashMap<String,Point>();
         initGrid();
     }
 
-    public Map<Item, Point> getInventoryItems() {
+    public Map<String, Point> getInventoryItems() {
         return this.itemOrigins;
     }
 
@@ -76,7 +76,7 @@ public class Inventory {
 
                 if (inventorySlots[i][j].isOcuppied() == true) {
 
-                    if (item != inventorySlots[i][j].getItem()) {
+                    if (item.getID() != inventorySlots[i][j].getItemId()) {
                         // System.out.println("Collision at " + j + " " + i);
                         return false;
                     } else {
@@ -117,12 +117,12 @@ public class Inventory {
             for (int j = slot.getX(); j < finalX; j++) {
                 // System.out.println("Inventory.java -> Placing item at " + i + " " + j);
                 
-                this.inventorySlots[i][j].setItem(item);
+                this.inventorySlots[i][j].setItem(item.getID());
                 this.inventorySlots[i][j].setIsOccupied(true);
             }
         }
 
-        this.itemOrigins.put(item, new Point(slot.getX(), slot.getY()));
+        this.itemOrigins.put(item.getID(), new Point(slot.getX(), slot.getY()));
 
         return true;
     }
@@ -134,7 +134,7 @@ public class Inventory {
      */
     public void removeItem(Item item) {
 
-        Point point = this.itemOrigins.get(item);
+        Point point = this.itemOrigins.get(item.getID());
 
         if (point == null) {
             return;
@@ -160,7 +160,7 @@ public class Inventory {
             }
         }
 
-        this.itemOrigins.remove(item);
+        this.itemOrigins.remove(item.getID());
     }
 
     /**
@@ -185,7 +185,7 @@ public class Inventory {
 
     public boolean isItemOrigin(Item item, int x, int y) {
 
-        Point point = this.itemOrigins.get(item);
+        Point point = this.itemOrigins.get(item.getID());
 
         // System.out.println("Origin X: " + point.getX() + " Origin Y: " + point.getY());
         // System.out.println("X: " + x + " Y: " + y);

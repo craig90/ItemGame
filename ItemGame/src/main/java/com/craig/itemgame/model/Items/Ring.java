@@ -8,7 +8,7 @@ public class Ring extends Item {
     EquipmentSlot slot;
 
     public Ring(String itemName) {
-        super(itemName);
+        super(itemName, ItemType.RING);
     }
 
     public void setRingSlot(EquipmentSlot slot) {
@@ -23,9 +23,9 @@ public class Ring extends Item {
         return IMAGE_DIR + RING_FILE;
     }
 
-    public ItemType getItemType() {
-        return ItemType.RING;
-    }
+    // public ItemType getItemType() {
+        // return ItemType.RING;
+    // }
 
     @Override
     public int getWidthInGridUnits() {

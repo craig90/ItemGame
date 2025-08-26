@@ -42,7 +42,7 @@ public class FileParcer {
         String[] lineArray = line.split(REGEX);
 
         if (lineArray.length != TWO_ELEMENT_LENGTH) {
-            throw new Exception("Incorrect number of elements on line " + this.lineNumber);
+            throw new Exception("Incorrect number of elements on line " + this.lineNumber + " length " + lineArray.length);
         }
 
         this.lineNumber++;
@@ -62,7 +62,7 @@ public class FileParcer {
         String[] lineArray = line.split(REGEX);
 
         if (lineArray.length != ONE_ELEMENT_LENGTH) {
-            System.out.println("Incorrect number of elements on line " + this.lineNumber);
+            System.out.println("Incorrect number of elements on line " + this.lineNumber + " length " + lineArray.length);
             throw new Exception();
         }
 
@@ -551,7 +551,7 @@ public class FileParcer {
 
         }
 
-        
+
         if (parceInventoryStart(parceOneElementLine(fileReader)) == true) {
             
             boolean parceItem = true;

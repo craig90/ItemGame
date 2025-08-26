@@ -5,16 +5,16 @@ import com.craig.itemgame.model.ItemType;
 public class Amulet extends Item {
 
     public Amulet (String itemName) {
-        super(itemName);
+        super(itemName, ItemType.AMULET);
     }
 
     public String getImageFile() {
         return IMAGE_DIR + AMULET_FILE;
     }
 
-    public ItemType getItemType() {
-        return ItemType.AMULET;
-    }
+    // public ItemType getItemType() {
+        // return ItemType.AMULET;
+    // }
 
     @Override
     public int getWidthInGridUnits() {

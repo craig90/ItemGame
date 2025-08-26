@@ -37,7 +37,10 @@ public class Game {
 
     public boolean loadCharacterFromFile(CharacterFile characterFile) throws Exception {
         
-        this.character = this.fileParcer.loadCharacterFromFile(characterFile);
+        // this.character = this.fileParcer.loadCharacterFromFile(characterFile);
+        this.character = SaveManager.loadCharacter("CharacterFiles/test.json");
+        System.out.println(this.character.getName());
+        this.character.initAfterLoad();
         this.itemController.setItemManager(this.character.getItemManager());
         return true;
 
@@ -303,7 +306,7 @@ public class Game {
         
         // check if this type of item is already equipped
         // TODO: fix this for rings
-        Item existingItem = this.character.getItemManager().getUniqueItem(newItem.getItemType().getEquipmentSlot());
+        Item existingItem = this.character.getItemManager().getItem(newItem.getItemType().getEquipmentSlot());
         if (existingItem != null) {
             Item.itemComparison(existingItem, newItem);
         }

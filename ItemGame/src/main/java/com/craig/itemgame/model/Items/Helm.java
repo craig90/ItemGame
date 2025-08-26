@@ -5,12 +5,12 @@ import com.craig.itemgame.model.ItemType;
 public class Helm extends Item {
 
     public Helm(String itemName) {
-        super(itemName);
+        super(itemName, ItemType.HELM);
     }
 
-    public ItemType getItemType() {
-        return ItemType.HELM;
-    }
+    // public ItemType getItemType() {
+        // return ItemType.HELM;
+    // }
 
     public String getImageFile() {
         return IMAGE_DIR + HELM_FILE;

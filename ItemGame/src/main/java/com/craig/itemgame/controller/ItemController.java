@@ -164,14 +164,14 @@ public class ItemController {
 
 
     /**
-     * Gets the Item from the Inventory at corresponding to the column and row numbers
+     * Gets the Item from the Inventory corresponding to the column and row numbers
      * @param column
      * @param row
      * @return
      */
-    public Item getItem(int column, int row) {
-        InventorySlot[][] slots = this.itemManager.getInventoryGrid();
-        return slots[row][column].getItem();
+    public Item getItem(int column, int row) throws Exception {
+        // InventorySlot[][] slots = this.itemManager.getInventoryGrid();
+        return this.itemManager.getItem(column, row);
     }
 
     public Inventory getInventory() {
