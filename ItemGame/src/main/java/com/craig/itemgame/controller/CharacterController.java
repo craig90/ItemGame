@@ -4,6 +4,8 @@ import com.craig.itemgame.model.CharacterFile;
 import com.craig.itemgame.model.Game;
 import com.craig.itemgame.ui.CharacterScreen;
 
+import java.util.ArrayList;
+
 public class CharacterController {
 
     Game game;
@@ -23,6 +25,11 @@ public class CharacterController {
 
         // Gui call
     }
+
+    public ArrayList<CharacterFile> getCharacterFiles() {
+        return this.game.getCharacterFiles();
+    }
+
 
     public void loadCharacterFromFile(CharacterFile characterFile) throws Exception {
         this.game.loadCharacterFromFile(characterFile);

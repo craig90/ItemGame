@@ -1,7 +1,6 @@
 package com.craig.itemgame.ui;
 
 import java.awt.Component;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -10,7 +9,6 @@ import javax.swing.JPanel;
 
 import com.craig.itemgame.controller.CharacterController;
 import com.craig.itemgame.model.CharacterFile;
-import com.craig.itemgame.model.FileReader;  // TODO: GUI should not be importing this
 
 public class CharacterSelectionScreen extends JPanel {
 
@@ -40,10 +38,9 @@ public class CharacterSelectionScreen extends JPanel {
 
         removeComponents();
 
-        try {
-            fileNames = FileReader.readFileNames();
-            characterFiles = this.gui.getGame().getCharacterNamesFromFile(fileNames);
-        } catch (FileNotFoundException e) {
+        characterFiles = this.characterController.getCharacterFiles();
+        
+        if (characterFiles.size() == 0) {
             System.out.println("No files found");
             this.gui.errorSequence("Error - no character files found", Gui.INTRO_SCREEN);
             return false;
@@ -59,7 +56,7 @@ public class CharacterSelectionScreen extends JPanel {
             button.addActionListener(e -> {
                 
                 try {
-                    // TODO: plus fix these calls a little
+                    // TODO: move to character controller once init sequience is fixed
                     this.characterController.loadCharacterFromFile(characterFile);
                     //this.gui.getGame().setCharacter(this.gui.getGame().fileParcer.loadCharacterFromFile(characterFile));
                     this.gui.characterScreen.loadCharacter();

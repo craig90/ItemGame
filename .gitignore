@@ -21,3 +21,6 @@ ItemGame/.vscode/settings.json
 ItemGame/bin/.DS_Store
 ItemGame/Gui/DragAndDropPanelExample.java
 ItemGame/Tests/*
+ItemGame/bin/com/craig/itemgame/ui/ItemPanel$InventoryTransferHandler.class
+ItemGame/bin/com/craig/itemgame/ui/ItemPanel$InventoryTransferHandler.class
+ItemGame/bin/com/craig/itemgame/ui/ItemPanel$ItemPanelTransferHandler.class
