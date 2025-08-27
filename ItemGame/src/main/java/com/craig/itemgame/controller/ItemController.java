@@ -1,7 +1,7 @@
 package com.craig.itemgame.controller;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.craig.itemgame.model.EquipmentSlot;
@@ -196,20 +196,15 @@ public class ItemController {
      * return all Items, including both equipped Items and inventory Items
      * @return
      */
-    public ArrayList<Item> getAllItems() {
-        
-        // start with the equipped items
-        ArrayList<Item> items = (ArrayList<Item>)this.itemManager.getAllEquippedItems();
-
-        // append the inventory items
-        for (Item item : this.itemManager.getInventoryItems().keySet()) {
-            items.add(item);
-        }
-
-        return items;
-
+    public List<Item> getAllItems() {
+        return this.itemManager.getAllItems();
     }
 
+    /**
+     * Generates and returns a new item
+     * @return
+     * @throws Exception
+     */
     public Item generateNewItem() throws Exception {
         
         Item newItem = this.game.getItemGenerator().createNewItem();

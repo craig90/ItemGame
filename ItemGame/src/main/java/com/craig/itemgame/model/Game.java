@@ -143,6 +143,23 @@ public class Game {
         return characterFiles.get(input);
     }
 
+    public ArrayList<CharacterFile> getCharacterFiles() {
+
+        ArrayList<String> fileNames = new ArrayList<String>();
+        ArrayList<CharacterFile> characterFiles = new ArrayList<CharacterFile>();
+
+        try {
+            // grab file names, read character names then load selected character from file
+            fileNames = FileReader.readFileNames();
+            characterFiles = getCharacterNamesFromFile(fileNames);
+        } catch (FileNotFoundException e) {
+            System.out.println("Error locating character files");
+        }
+
+        return characterFiles;
+
+    }
+
 
     /**
      * This function will call the appropriate funtions to read the possible character names from file and ask the user
