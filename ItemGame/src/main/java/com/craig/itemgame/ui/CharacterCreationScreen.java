@@ -5,13 +5,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.craig.itemgame.controller.GameController;
+
 public class CharacterCreationScreen extends JPanel {
 
     Gui gui;
+    private GameController gameController;
 
-    public CharacterCreationScreen(Gui gui) {
+    public CharacterCreationScreen(Gui gui, GameController gameController) {
 
         this.gui = gui;
+        this.gameController = gameController;
+
 
         JLabel createCharLabel = new JLabel("Create a New Character");
         JLabel enterCharNameLabel = new JLabel("Enter a character name");
@@ -27,14 +32,11 @@ public class CharacterCreationScreen extends JPanel {
 
         submitCharNameButton.addActionListener(e -> {
             
-            // Character newCharacter = new Character();
-            if (!this.gui.getGame().getCharacterController().createCharacter(charNameTextField.getText())) {
+            if (!this.gameController.createCharacter(charNameTextField.getText())) {
                 this.gui.errorSequence("Name must be at least three characters", Gui.CHARACTER_CREATION_SCREEN);
                 return;
             }
 
-            // TODO: maybe move this to character controller
-            this.gui.characterScreen.loadCharacter();
             this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.CHARACTER_SCREEN);
         
         });

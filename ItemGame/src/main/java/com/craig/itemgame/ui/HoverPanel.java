@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import com.craig.itemgame.controller.ItemController;
+import com.craig.itemgame.controller.CharacterController;
 import com.craig.itemgame.model.EquipmentSlot;
 import com.craig.itemgame.model.Inventory;
 import com.craig.itemgame.model.ItemType;
@@ -24,11 +24,11 @@ public class HoverPanel extends JPanel {
     // used for calculating where to draw the hover window when the item is at the bottom of the screen
     private static final int BASE_Y_OFFSET = 32;
     //Character character;
-    ItemController itemController;
+    CharacterController characterController;
 
-    public HoverPanel(ItemController itemController) {
+    public HoverPanel(CharacterController characterController) {
 
-        this.itemController = itemController;
+        this.characterController = characterController;
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setBackground(new Color(0,0,0,180));
@@ -78,7 +78,7 @@ public class HoverPanel extends JPanel {
             
             // System.out.println("Slot: " + slot.toString());
 
-            item = this.itemController.getItem(slot);
+            item = this.characterController.getItem(slot);
 
             if (item == null) {
                 return;
@@ -99,7 +99,7 @@ public class HoverPanel extends JPanel {
             int y = hoverdLabel.getY();
 
             try {
-                item = this.itemController.getItem(x/InventoryPanel.GRID_SIZE, y/InventoryPanel.GRID_SIZE);
+                item = this.characterController.getItem(x/InventoryPanel.GRID_SIZE, y/InventoryPanel.GRID_SIZE);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 return; // I think returning is appropriate here - just don't display hover panel if error getting item
@@ -233,8 +233,8 @@ public class HoverPanel extends JPanel {
         if (item.getItemType() == ItemType.RING) {
 
             // if we have two equipped rings we are just going to skip the comparason because I don't know which to comapare to
-            if (this.itemController.getItem(EquipmentSlot.RIGHT_RING) != null 
-                && this.itemController.getItem(EquipmentSlot.LEFT_RING) != null) {
+            if (this.characterController.getItem(EquipmentSlot.RIGHT_RING) != null 
+                && this.characterController.getItem(EquipmentSlot.LEFT_RING) != null) {
                 generateRingHoverPanel(item);
                 return;
             } else { // if there is one ring equipped or zero rings show all the stats as bonus
@@ -242,7 +242,7 @@ public class HoverPanel extends JPanel {
             }
 
         } else { // if it's not a ring, grab the item the corresponds to the correct equipemnt slot
-            equippedItem = this.itemController.getItem(item.getItemType().getEquipmentSlot());
+            equippedItem = this.characterController.getItem(item.getItemType().getEquipmentSlot());
         }
 
         ArrayList<StatDifference> statDifferences = Item.itemComparison(equippedItem, item);

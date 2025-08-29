@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import com.craig.itemgame.controller.ItemController;
+import com.craig.itemgame.controller.CharacterController;
 import com.craig.itemgame.model.InventorySlot;
 import com.craig.itemgame.model.Items.Item;
 
@@ -21,14 +21,14 @@ public class InventoryPanel extends JPanel {
 
     public static final int GRID_SIZE = 50;
 
-    private final ItemController itemController;
+    private final CharacterController characterController;
 
     private final int cellSize;
     private final int numRows;
     private final int numCols;
 
-    public InventoryPanel(ItemController itemController, int cellSize, int numRows, int numCols) {
-        this.itemController = itemController;
+    public InventoryPanel(CharacterController characterController, int cellSize, int numRows, int numCols) {
+        this.characterController = characterController;
         this.cellSize = cellSize;
         this.numRows = numRows;
         this.numCols = numCols;
@@ -48,11 +48,12 @@ public class InventoryPanel extends JPanel {
         item.getItemImageLabel().setBounds(x*cellSize, y*cellSize, 
                 item.getWidthInGridUnits()*GRID_SIZE, item.getHeightInGridUnits()*GRID_SIZE);
         this.add(item.getItemImageLabel());
+        this.repaint(); // TODO: not sure if this is the most effiecient way to do things
 
     }
 
     public void addItems() {
-         Map<Item, Point> inventoryMap = this.itemController.getInventoryItems();
+         Map<Item, Point> inventoryMap = this.characterController.getInventoryItems();
 
          for (Map.Entry<Item, Point> entry : inventoryMap.entrySet()) {
             addItem(entry.getKey(), entry.getValue().x, entry.getValue().y);
@@ -68,7 +69,7 @@ public class InventoryPanel extends JPanel {
         
         Item item = null;
         try {
-            item = this.itemController.getItem(x,y);
+            item = this.characterController.getItem(x,y);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.exit(1);
@@ -103,7 +104,7 @@ public class InventoryPanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         // System.out.println("In paint component");
-        InventorySlot[][] inventorySlots = this.itemController.getInventoryGrid();
+        InventorySlot[][] inventorySlots = this.characterController.getInventoryGrid();
 
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
@@ -132,7 +133,7 @@ public class InventoryPanel extends JPanel {
 
         //             // System.out.println("GUI -> occupied at " + i + " " + j );
 
-        //             if (itemController.getInventory().isItemOrigin(inventorySlots[i][j].getItem(), j, i) ) {
+        //             if (characterController.getInventory().isItemOrigin(inventorySlots[i][j].getItem(), j, i) ) {
 
         //                 System.out.println("Placing item");
         //                 System.out.println("x position: " + j*cellSize);

@@ -3,15 +3,11 @@ package com.craig.itemgame.model;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import com.craig.itemgame.controller.CharacterController;
-import com.craig.itemgame.controller.ItemController;
 import com.craig.itemgame.model.Items.Item;
 import com.craig.itemgame.model.Items.Ring;
 
 public class Game {
 
-    private ItemController itemController;
-    private CharacterController characterController;
     private Character character;
     private ItemGenerator itemGenerator;
     private FileParcer fileParcer;
@@ -19,39 +15,35 @@ public class Game {
     private CommandLineReader commandLineReader;
 
     public Game () {
+        this.commandLineReader = new CommandLineReader();
         this.itemGenerator = new ItemGenerator();
         this.fileParcer = new FileParcer();
-        this.commandLineReader = new CommandLineReader();
         this.characterSaver = new CharacterSaver();
-        this.itemController = new ItemController(this);
-        this.characterController = new CharacterController(this);
     }
 
     public CharacterSaver getCharacterSaver() {
         return this.characterSaver;
     }
 
-    public Character getCharacter() {
-        return this.character;
+    public boolean saveCharacter() {
+        this.characterSaver.saveCharacter(this.character);
+        // TODO: can clean this up a litle if saveCharacter returns success/fail
+        return true;
     }
 
-    public boolean loadCharacterFromFile(CharacterFile characterFile) throws Exception {
+    // public Character getCharacter() {
+    //     return this.character;
+    // }
+
+    public Character loadCharacterFromFile(CharacterFile characterFile) throws Exception {
         
         // this.character = this.fileParcer.loadCharacterFromFile(characterFile);
         this.character = SaveManager.loadCharacter("CharacterFiles/test.json");
         System.out.println(this.character.getName());
         this.character.initAfterLoad();
-        this.itemController.setItemManager(this.character.getItemManager());
-        return true;
+        // this.itemController.setItemManager(this.character.getItemManager());
+        return this.character;
 
-    }
-
-    public ItemController getItemController() {
-        return this.itemController;
-    }
-
-    public CharacterController getCharacterController(){
-        return this.characterController;
     }
 
     public ItemGenerator getItemGenerator() {
@@ -189,18 +181,22 @@ public class Game {
     }
 
 
-    public boolean createCharacter(String characterName) {
+    /**
+     * Creates a new character with the chararacterName character name.  Returns null if the name is not valid
+     * @param characterName
+     * @return
+     */
+    public Character createCharacter(String characterName) {
+        
         this.character = new Character();
         
         if (!this.character.setName(characterName)) {
-            return false;
+            return null;
         }
         
         this.character.initNewCharacter();
-        this.itemController.setItemManager(this.character.getItemManager()); // TODO: this is still being set in two places
-        // which I don't like
-
-        return true;
+        
+        return this.character;
 
     }
 
@@ -313,7 +309,7 @@ public class Game {
 
         Item newItem;
         try {
-            newItem = this.itemController.generateNewItem();
+            newItem = this.itemGenerator.createNewItem();
         } catch (Exception e) {
             return;
         }
