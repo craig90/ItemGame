@@ -13,9 +13,11 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import com.craig.itemgame.controller.CharacterController;
+import com.craig.itemgame.controller.GameController;
 
-public class CharacterScreen extends JPanel {
+import com.craig.itemgame.model.CharacterStatNames;
+
+public class CharacterScreen extends JPanel implements CharacterView {
 
     public static final String NAME_STRING = "Name: ";
     public static final String LEVEL_STRING = "Level: ";
@@ -28,7 +30,6 @@ public class CharacterScreen extends JPanel {
     public static final String LIGHTNING_RESISTANCE_STRING = "Lightning Resistance: ";
     public static final String POISON_RESISTANCE_STRING = "Poison Resistance: ";
     public static final String MAGIC_REISTANCE_STRING = "Magic Resistance: ";
-
 
     JLabel name;
     JLabel level;
@@ -48,21 +49,19 @@ public class CharacterScreen extends JPanel {
     JButton returnToHomeScreenButton;
     JButton saveChangesButton;
 
-    // Character character;
     Gui gui;
-    // CharacterSaver characterSaver;
 
-    CharacterController characterController;
-
+    private GameController gameController;
+    
     private ItemPanel itemPanel;
     private JPanel statsPanel;
 
-    public CharacterScreen(Gui gui, CharacterController characterController) {
+    public CharacterScreen(Gui gui, GameController gameController) {
 
         this.gui = gui;
-        this.characterController = characterController;
+        this.gameController = gameController;
         
-        this.itemPanel = new ItemPanel(this, this.gui.getGame().getItemController());
+        this.itemPanel = new ItemPanel(this.gameController.getCharacterController());
         
         this.statsPanel = new JPanel();
         this.statsPanel.setLayout(new BoxLayout(this.statsPanel, BoxLayout.Y_AXIS));
@@ -104,6 +103,15 @@ public class CharacterScreen extends JPanel {
         this.statsPanel.add(saveChangesButton);
         this.statsPanel.add(returnToHomeScreenButton);
 
+        this.fireResistance.setForeground(Color.RED);
+        this.coldResistance.setForeground(Color.BLUE);
+        this.lightningResistance.setForeground(Color.YELLOW);
+        this.poisonResistance.setForeground(Color.GREEN);
+        this.magicResistance.setForeground(Color.MAGENTA);
+
+        this.separator.setMaximumSize(new Dimension(this.statsPanel.getMaximumSize().width, 10));
+        this.separator.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
         this.statsPanel.setBorder(lineBorder);
 
@@ -115,7 +123,7 @@ public class CharacterScreen extends JPanel {
 
 
         this.saveChangesButton.addActionListener(e -> {
-            this.characterController.saveCharacter();
+            this.gameController.saveCharacter();
         });
 
 
@@ -129,7 +137,7 @@ public class CharacterScreen extends JPanel {
     public void loadCharacter() {
 
         this.itemPanel.loadItems();
-        update();
+        // update();
 
     }
 
@@ -139,32 +147,33 @@ public class CharacterScreen extends JPanel {
      */
     public void update() {
 
+        System.out.println("Calling old update method");
         // update all the stats on the character stats
-        this.characterController.updateStats();
-        this.name.setText(NAME_STRING + this.characterController.getName());
-        this.level.setText(LEVEL_STRING + this.characterController.getLevel());
-        this.experience.setText(EXPERIENCE_STRING + this.characterController.getExperience());
-        this.damage.setText(DAMAGE_STRING + this.characterController.getDamage());
-        this.health.setText(HEALTH_STRING + this.characterController.getHealth());
-        this.defence.setText(DEFENCE_STRING + this.characterController.getDefence());
-        this.fireResistance.setText(FIRE_RESISTANCE_STRING + this.characterController.getFireResistance());
-        this.coldResistance.setText(COLD_RESISTANCE_STRING + this.characterController.getColdResistance());
-        this.lightningResistance.setText(LIGHTNING_RESISTANCE_STRING + this.characterController.getLightningResistance());
-        this.poisonResistance.setText(POISON_RESISTANCE_STRING + this.characterController.getPoisonResistance());
-        this.magicResistance.setText(MAGIC_REISTANCE_STRING + this.characterController.getMagicResistance());
+        // this.characterController.updateStats();
+        // this.name.setText(NAME_STRING + this.characterController.getName());
+        // this.level.setText(LEVEL_STRING + this.characterController.getLevel());
+        // this.experience.setText(EXPERIENCE_STRING + this.characterController.getExperience());
+        // this.damage.setText(DAMAGE_STRING + this.characterController.getDamage());
+        // this.health.setText(HEALTH_STRING + this.characterController.getHealth());
+        // this.defence.setText(DEFENCE_STRING + this.characterController.getDefence());
+        // this.fireResistance.setText(FIRE_RESISTANCE_STRING + this.characterController.getFireResistance());
+        // this.coldResistance.setText(COLD_RESISTANCE_STRING + this.characterController.getColdResistance());
+        // this.lightningResistance.setText(LIGHTNING_RESISTANCE_STRING + this.characterController.getLightningResistance());
+        // this.poisonResistance.setText(POISON_RESISTANCE_STRING + this.characterController.getPoisonResistance());
+        // this.magicResistance.setText(MAGIC_REISTANCE_STRING + this.characterController.getMagicResistance());
 
-        this.fireResistance.setForeground(Color.RED);
-        this.coldResistance.setForeground(Color.BLUE);
-        this.lightningResistance.setForeground(Color.YELLOW);
-        this.poisonResistance.setForeground(Color.GREEN);
-        this.magicResistance.setForeground(Color.MAGENTA);
+        // this.fireResistance.setForeground(Color.RED);
+        // this.coldResistance.setForeground(Color.BLUE);
+        // this.lightningResistance.setForeground(Color.YELLOW);
+        // this.poisonResistance.setForeground(Color.GREEN);
+        // this.magicResistance.setForeground(Color.MAGENTA);
 
 
-        this.separator.setMaximumSize(new Dimension(this.statsPanel.getMaximumSize().width, 10));
-        this.separator.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // this.separator.setMaximumSize(new Dimension(this.statsPanel.getMaximumSize().width, 10));
+        // this.separator.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        this.statsPanel.revalidate();
-        this.statsPanel.repaint();
+        // this.statsPanel.revalidate();
+        // this.statsPanel.repaint();
     }
 
     // /**
@@ -178,5 +187,58 @@ public class CharacterScreen extends JPanel {
     public ItemPanel getItemPanel() {
         return this.itemPanel;
     }
+
+    public void updateCharacterName(String name) {
+        this.name.setText(NAME_STRING + name);
+
+        // TODO: I don't like doing this after each update
+        this.statsPanel.revalidate();
+        this.statsPanel.repaint();
+    }
+
+    public void updateCharacterStat(CharacterStatNames stat, double value) {
+
+        // System.out.println("Updating stats");
+        // System.out.println(stat.name() + " " + value);
+
+        switch (stat) {
+            case CharacterStatNames.LEVEL:
+                this.level.setText(LEVEL_STRING + value);
+                break;
+            case CharacterStatNames.EXPERIENCE:
+                this.experience.setText(EXPERIENCE_STRING + value);
+                break;
+            case CharacterStatNames.DAMAGE:
+                this.damage.setText(DAMAGE_STRING + value);
+                break;
+            case CharacterStatNames.DEFENCE:
+                this.defence.setText(DEFENCE_STRING + value);
+                break;
+            case CharacterStatNames.HEALTH:
+                this.health.setText(HEALTH_STRING + value);
+                break;
+            case CharacterStatNames.FIRE_RESISTANCE:
+                this.fireResistance.setText(FIRE_RESISTANCE_STRING + value);
+                break;
+            case CharacterStatNames.POISON_RESISTANCE:
+                this.poisonResistance.setText(POISON_RESISTANCE_STRING + value);
+                break;
+            case CharacterStatNames.LIGHTNING_RESISTANCE:
+                this.lightningResistance.setText(LIGHTNING_RESISTANCE_STRING + value);
+                break;
+            case CharacterStatNames.COLD_RESISTANCE:
+                this.coldResistance.setText(COLD_RESISTANCE_STRING + value);
+                break;
+            case CharacterStatNames.MAGIC_RESISTANCE:
+                this.magicResistance.setText(MAGIC_REISTANCE_STRING + value);
+                break;
+        }
+
+        // TODO: I don't think that this should be repainted after each call to this method
+        this.statsPanel.revalidate();
+        this.statsPanel.repaint();
+    
+    }
+
 
 }

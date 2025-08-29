@@ -1,90 +1,354 @@
 package com.craig.itemgame.controller;
 
-import com.craig.itemgame.model.CharacterFile;
-import com.craig.itemgame.model.Game;
-import com.craig.itemgame.ui.CharacterScreen;
+import com.craig.itemgame.model.EquipmentSlot;
+import com.craig.itemgame.model.Inventory;
+import com.craig.itemgame.model.InventorySlot;
+import com.craig.itemgame.model.ItemManager;
+import com.craig.itemgame.model.Items.Boots;
+import com.craig.itemgame.model.Items.Item;
+import com.craig.itemgame.model.Character;
+import com.craig.itemgame.model.CharacterStat;
+import com.craig.itemgame.model.CharacterStatNames;
+import com.craig.itemgame.ui.CharacterView;
+import com.craig.itemgame.ui.ItemView;
 
-import java.util.ArrayList;
+import java.awt.Point;
+import java.util.List;
+import java.util.Map;
 
 public class CharacterController {
 
-    Game game;
-
-    CharacterScreen characterScreen;
-
-    public CharacterController(Game game) {
-        this.game = game;
-    }
-
+    Character character;
+    ItemManager itemManager;
     
-    public boolean createCharacter(String characterName) {
-        System.out.println("Creating new Character");
+    CharacterView characterView;
+    ItemView itemView;
+
+    public CharacterController() {}
+
+    public void setCharacter(Character character) {
+        System.out.println("Setting character and item manager");
+        this.character = character;
+        this.itemManager = character.getItemManager();
         
-        // backend call
-        return this.game.createCharacter(characterName);
-
-        // Gui call
+        updateCharacterView();
+        
     }
 
-    public ArrayList<CharacterFile> getCharacterFiles() {
-        return this.game.getCharacterFiles();
+    /**
+     * Calls all necessary updates for the CharacterView
+     */
+    public void updateCharacterView() {
+
+        if (this.characterView != null) {
+         
+            System.out.println("Updating through the character view");
+
+            this.characterView.updateCharacterName(this.character.getName());
+            this.characterView.updateCharacterStat(CharacterStatNames.LEVEL, this.character.getLevel());
+            this.characterView.updateCharacterStat(CharacterStatNames.EXPERIENCE, this.character.getExperience());
+            
+            Map<CharacterStatNames, CharacterStat> statMap = this.character.getCharacterStats();
+
+            for (Map.Entry<CharacterStatNames, CharacterStat> entry : statMap.entrySet()) {
+                this.characterView.updateCharacterStat(entry.getKey(), entry.getValue().getValue());
+            }
+
+        } else {
+            System.out.println("Character view is null");
+        }
+    }
+
+    public void setView(CharacterView characterView, ItemView itemView) {
+        this.characterView = characterView;
+        this.itemView = itemView;
     }
 
 
-    public void loadCharacterFromFile(CharacterFile characterFile) throws Exception {
-        this.game.loadCharacterFromFile(characterFile);
-    }
-
-    public void saveCharacter() {
-        this.game.getCharacterSaver().saveCharacter(this.game.getCharacter());
-    }
-
-
-    public void updateStats() {
-        this.game.getCharacter().updateStats();
-    }
-
+    // TODO: get rid of these when new logic is fully functioning
     public String getName() {
-        return this.game.getCharacter().getName();
+        return this.character.getName();
     }
 
     public double getLevel() {
-        return this.game.getCharacter().getLevel();
+        return this.character.getLevel();
     }
 
     public double getExperience() {
-        return this.game.getCharacter().getExperience();
+        return this.character.getExperience();
     }
 
     public double getDamage() {
-        return this.game.getCharacter().getDamage();
+        return this.character.getDamage();
     }
 
     public double getHealth() {
-        return this.game.getCharacter().getHealth();
+        return this.character.getHealth();
     }
 
     public double getDefence() {
-        return this.game.getCharacter().getDefence();
+        return this.character.getDefence();
     }
 
     public double getFireResistance() {
-        return this.game.getCharacter().getFireResistance();
+        return this.character.getFireResistance();
     }
 
     public double getLightningResistance() {
-        return this.game.getCharacter().getLightningResistance();
+        return this.character.getLightningResistance();
     }
 
     public double getColdResistance() {
-        return this.game.getCharacter().getColdResistance();
+        return this.character.getColdResistance();
     }
 
     public double getPoisonResistance() {
-        return this.game.getCharacter().getPoisonResistance();
+        return this.character.getPoisonResistance();
     }
 
     public double getMagicResistance() {
-        return this.game.getCharacter().getMagicResistance();
+        return this.character.getMagicResistance();
     }
+
+
+    /**
+     * sets the item panel
+     * @param itemPanel
+     */
+    // public void setItemPanel(ItemPanel itemPanel) {
+    //     this.itemPanel = itemPanel;
+    // }
+
+    // public void setInventoryPanel(InventoryPanel inventoryPanel) {
+        // this.inventoryPanel = inventoryPanel;
+    // }
+
+    /**
+     * Resets the itemManager, this needs to be called each time a new character is created
+     * @param itemManager
+     */
+    // public void setItemManager(ItemManager itemManager) {
+    //     this.itemManager = itemManager;
+    // }
+
+    /**
+     * Moves an Item to an Equipment slot from an Equipment slot
+     * @param targetSlot
+     * @param sourceSlot
+     * @param item
+     */
+    public void moveItemToSlot(EquipmentSlot targetSlot, EquipmentSlot sourceSlot, Item item) {
+        
+        if (this.itemManager == null /*|| this.itemPanel == null*/) {
+            throw new ExceptionInInitializerError("Controller not initialized with ItemManager or ItemPanel");
+        }
+
+        // backend calls
+        this.itemManager.equipItem(targetSlot, item);
+        this.itemManager.removeItem(sourceSlot);
+        this.character.updateStats();
+
+        updateCharacterView();
+
+        if (this.itemView == null) {
+            return;
+        }
+
+        // View calls - we don't access the GUI directly
+        this.itemView.addItemToSlot(targetSlot, item);
+        this.itemView.removeItemFromSlot(sourceSlot);
+        
+
+
+        // this.itemPanel.addItemToSlot(targetSlot, item);
+        // this.itemPanel.removeItemFromSlot(sourceSlot);
+        
+    }
+
+    /**
+     * Moves an Item to an EquipmentSlot from the InventoryPanel
+     * @param targetSlot
+     * @param inventoryPanel
+     * @param item
+     */
+    public void moveItemToSlotFromInventory(EquipmentSlot targetSlot, Item item) {
+        
+        // backend calls
+        this.itemManager.equipItem(targetSlot, item);
+        this.itemManager.removeItemFromInventory(item);
+        this.character.updateStats();
+
+        updateCharacterView();
+        
+        if (this.itemView == null) {
+            return;
+        }
+
+        // View calls
+        this.itemView.addItemToSlot(targetSlot, item);
+        this.itemView.removeItemFromInventory(item);
+
+        // GUI calls
+        // this.itemPanel.addItemToSlot(targetSlot, item);
+        // this.inventoryPanel.removeItem(item);
+        
+    }
+
+
+    public boolean canAddItem(Item item, int x, int y) {
+        return this.itemManager.canAddItem(item, x, y);
+    }
+
+    /**
+     * Moves an Item to the Inventory from an Equipment Slot
+     * @param item
+     * @param x
+     * @param y
+     * @param sourceSlot
+     * @return
+     */
+    public void moveItemToInventory(Item item, int x, int y, EquipmentSlot sourceSlot) {
+
+        // update backend
+        this.itemManager.addItemToGrid(item, x, y);
+        this.itemManager.removeItem(sourceSlot);
+        this.character.updateStats();
+
+        updateCharacterView();
+
+        if (this.itemView == null) {
+            return;
+        }
+
+        // View calls
+        this.itemView.removeItemFromSlot(sourceSlot);
+        this.itemView.addItemToInventory(item, x, y);
+
+        // update GUI
+        // this.itemPanel.removeItemFromSlot(sourceSlot);
+        // this.inventoryPanel.addItem(item, x, y);
+        // this.inventoryPanel.repaint();
+
+        // return true;
+    }
+
+    /**
+     * Moves an item to an Inventory spot from an existing Inventory spot
+     * @param item
+     * @param x
+     * @param y
+     * @param inventoryPanel
+     * @return
+     */
+    public void moveItemToInventoryFromInventory(Item item, int x, int y) {
+
+        // update backend
+        this.itemManager.removeItemFromInventory(item); // must be called before readding
+        this.itemManager.addItemToGrid(item, x, y);
+        this.character.updateStats();
+
+        updateCharacterView();
+
+        if (this.itemView == null) {
+            return;
+        }
+        
+        // update view
+        this.itemView.addItemToInventory(item, x, y);
+
+        // update GUI
+        // this.inventoryPanel.addItem(item, x, y);
+        // this.inventoryPanel.repaint();
+
+    }
+
+    /**
+     * Removes the Item in the remove Item slot
+     */
+    public void deleteItem() {
+
+        // update backend
+        this.itemManager.removeDeleteItem();
+        this.character.updateStats();
+
+        updateCharacterView();
+
+        if (this.itemView == null) {
+            return;
+        }
+
+        // view call
+        this.itemView.deleteItem();
+
+        // update GUI
+        // this.itemPanel.deleteItem();
+        
+    }
+
+    /**
+     * Gets the Equipped Item from the cooresponding slot.  Returns null if slot is empty
+     * @param slot
+     * @return
+     */
+    public Item getItem(EquipmentSlot slot) {
+        return this.itemManager.getItem(slot);
+    }
+
+
+    /**
+     * Gets the Item from the Inventory corresponding to the column and row numbers
+     * @param column
+     * @param row
+     * @return
+     */
+    public Item getItem(int column, int row) throws Exception {
+        // InventorySlot[][] slots = this.itemManager.getInventoryGrid();
+        return this.itemManager.getItem(column, row);
+    }
+
+    public Inventory getInventory() {
+        return itemManager.getInventory();
+    }
+
+    public InventorySlot[][] getInventoryGrid() {
+        return this.itemManager.getInventoryGrid();
+    }
+
+     public Map<Item, Point> getInventoryItems() {
+        return this.itemManager.getInventoryItems();
+    }
+
+
+    public boolean canEquipItem(EquipmentSlot slot, Item item) {
+        return this.itemManager.canEquipItem(slot, item);
+    }
+
+
+    /**
+     * return all Items, including both equipped Items and inventory Items
+     * @return
+     */
+    public List<Item> getAllItems() {
+        return this.itemManager.getAllItems();
+    }
+
+    /**
+     * Generates and returns a new item
+     * @return
+     * @throws Exception
+     */
+    public Item generateNewItem() throws Exception {
+        
+        // Item newItem = this.game.getItemGenerator().createNewItem();
+        //this.itemManager.setGeneratedItem(newItem);
+        // return newItem;
+        // TODO: temporary
+        Item boots = new Boots("Test Boots");
+        return boots;
+        
+    }
+
 }
+
+    
+

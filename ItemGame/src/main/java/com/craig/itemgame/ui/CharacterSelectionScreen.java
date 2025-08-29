@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.craig.itemgame.controller.CharacterController;
+import com.craig.itemgame.controller.GameController;
 import com.craig.itemgame.model.CharacterFile;
 
 public class CharacterSelectionScreen extends JPanel {
@@ -17,11 +17,11 @@ public class CharacterSelectionScreen extends JPanel {
     Gui gui;
     JButton backToHomeScreenButton;
 
-    CharacterController characterController;
+    GameController gameController;
 
-    public CharacterSelectionScreen(Gui gui, CharacterController characterController) {
+    public CharacterSelectionScreen(Gui gui, GameController gameController) {
         this.gui = gui;
-        this.characterController = characterController;
+        this.gameController = gameController;
         this.characterFiles = new ArrayList<CharacterFile>();
         this.fileNames = new ArrayList<String>();
 
@@ -38,7 +38,7 @@ public class CharacterSelectionScreen extends JPanel {
 
         removeComponents();
 
-        characterFiles = this.characterController.getCharacterFiles();
+        characterFiles = this.gameController.getCharacterFiles();
         
         if (characterFiles.size() == 0) {
             System.out.println("No files found");
@@ -56,10 +56,11 @@ public class CharacterSelectionScreen extends JPanel {
             button.addActionListener(e -> {
                 
                 try {
-                    // TODO: move to character controller once init sequience is fixed
-                    this.characterController.loadCharacterFromFile(characterFile);
+                    this.gameController.loadCharacterFromFile(characterFile);
+                    
                     //this.gui.getGame().setCharacter(this.gui.getGame().fileParcer.loadCharacterFromFile(characterFile));
                     this.gui.characterScreen.loadCharacter();
+                    
                     // System.out.println("Switching to: " + Gui.CHARACTER_SCREEN);
                     this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.CHARACTER_SCREEN);
                 } catch (Exception ex) {

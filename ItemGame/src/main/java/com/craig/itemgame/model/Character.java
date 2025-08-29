@@ -112,6 +112,10 @@ public class Character {
         return this.statMap.get(CharacterStatNames.MAGIC_RESISTANCE).getValue();
     }
 
+    public Map<CharacterStatNames, CharacterStat> getCharacterStats() {
+        return this.statMap;
+    }
+
     
     public boolean setName(String name) {
         
@@ -134,11 +138,14 @@ public class Character {
 
     /**
      * Sets the character's level and experience to the defualt new character initialization values
+     * and sets all of the base stats
      */
     public void initNewCharacter() {
 
         this.level.setValue(Character.INIT_LEVEL);
         this.experience.setValue(Character.INIT_EXPERIENCE);
+
+        updateStats();
 
     }
 

@@ -30,12 +30,12 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
-import com.craig.itemgame.controller.ItemController;
+import com.craig.itemgame.controller.CharacterController;
 import com.craig.itemgame.model.EquipmentSlot;
 import com.craig.itemgame.model.Inventory;
 import com.craig.itemgame.model.Items.Item;
 
-public class ItemPanel extends JLayeredPane {
+public class ItemPanel extends JLayeredPane implements ItemView {
 
     final static int ITEM_WINDOW_WIDTH = 775;
     final static int ITEM_WINDOW_HEIGHT = 475;
@@ -52,23 +52,20 @@ public class ItemPanel extends JLayeredPane {
     
     private JButton getNewItemButton, deleteItemButton;
     
-    private CharacterScreen characterScreen;
-    
-    private ItemController itemController;
+    private CharacterController characterController;
 
     private MyMouseListener mouseListener;
 
     private final Map <EquipmentSlot, ItemLayeredPane> slotToPanel = new EnumMap<>(EquipmentSlot.class);
 
-    public ItemPanel(CharacterScreen characterScreen, ItemController itemController) {
+    public ItemPanel(CharacterController characterController) {
 
         // this.layeredPane = new JLayeredPane();
 
         this.equippedItemPanel = new JPanel();
         this.equippedItemPanel.setLayout(new GridBagLayout());
 
-        this.characterScreen = characterScreen;
-        this.itemController = itemController;
+        this.characterController = characterController;
 
         // creates a constraints object
         GridBagConstraints c = new GridBagConstraints();
@@ -142,7 +139,7 @@ public class ItemPanel extends JLayeredPane {
 
 
 
-        this.inventoryPanel = new InventoryPanel(this.itemController, InventoryPanel.GRID_SIZE, Inventory.INVENTORY_ROWS, Inventory.INVENTORY_COLUMNS);
+        this.inventoryPanel = new InventoryPanel(this.characterController, InventoryPanel.GRID_SIZE, Inventory.INVENTORY_ROWS, Inventory.INVENTORY_COLUMNS);
         
         this.generateDeleteItemPanel = new JPanel();
         this.generateDeleteItemPanel.setLayout(new GridBagLayout());
@@ -174,7 +171,7 @@ public class ItemPanel extends JLayeredPane {
         this.generateDeleteItemPanel.setBounds(InventoryPanel.GRID_SIZE*Inventory.INVENTORY_COLUMNS, ITEM_WINDOW_HEIGHT,ITEM_WINDOW_WIDTH-(InventoryPanel.GRID_SIZE*Inventory.INVENTORY_COLUMNS),InventoryPanel.GRID_SIZE*Inventory.INVENTORY_ROWS);
         this.setSize(ITEM_WINDOW_WIDTH, ITEM_WINDOW_HEIGHT);
 
-        this.hoverPanel = new HoverPanel(this.itemController);
+        this.hoverPanel = new HoverPanel(this.characterController);
 
         this.add(this.equippedItemPanel, 1);
         this.add(this.inventoryPanel, 1);
@@ -193,7 +190,7 @@ public class ItemPanel extends JLayeredPane {
             
             Item newItem;
             try {
-                newItem = this.itemController.generateNewItem();
+                newItem = this.characterController.generateNewItem();
             } catch (Exception ex) {
                 System.out.println("Error creating new item");
                 return;
@@ -208,7 +205,7 @@ public class ItemPanel extends JLayeredPane {
 
         // delete the item
         this.deleteItemButton.addActionListener(e -> {
-            this.itemController.deleteItem();
+            this.characterController.deleteItem();
         });
 
         // put all the ItemLayeredPanes (slots) into a map for dynmaic access and manipulation
@@ -292,7 +289,7 @@ public class ItemPanel extends JLayeredPane {
 
     public void setSourceTransferHandlers() {
 
-        ArrayList<Item> items = (ArrayList<Item>) this.itemController.getAllItems();
+        ArrayList<Item> items = (ArrayList<Item>) this.characterController.getAllItems();
 
         for (Item item : items) {
             setSourceTransferHandler(item);
@@ -337,8 +334,8 @@ public class ItemPanel extends JLayeredPane {
         return this.inventoryPanel;
     }
 
-    public ItemController getItemController() {
-        return this.itemController;
+    public CharacterController getcharacterController() {
+        return this.characterController;
     }
 
     public HoverPanel getHoverPanel() {
@@ -365,8 +362,8 @@ public class ItemPanel extends JLayeredPane {
     public void setItemsInPanes() {
 
         for (Map.Entry<EquipmentSlot, ItemLayeredPane> entry : slotToPanel.entrySet()) {
-            if (this.itemController.getItem(entry.getKey()) != null) {
-                entry.getValue().addItemToSlot(this.itemController.getItem(entry.getKey()));
+            if (this.characterController.getItem(entry.getKey()) != null) {
+                entry.getValue().addItemToSlot(this.characterController.getItem(entry.getKey()));
             }
         }
 
@@ -374,7 +371,7 @@ public class ItemPanel extends JLayeredPane {
 
     public void setupHoverPanel() {
         
-        for (Item item : this.itemController.getAllItems()) {
+        for (Item item : this.characterController.getAllItems()) {
             item.getItemImageLabel().addMouseListener(this.mouseListener);
         }
         
@@ -386,7 +383,7 @@ public class ItemPanel extends JLayeredPane {
      * @param item
      */
     public void dragFinishUpdate(Item item) {
-        this.characterScreen.update();
+        // this.characterScreen.update();
         this.hoverPanel.updateHoverWindow(item.getItemImageLabel());
         this.hoverPanel.showHoverPanel();
     }
@@ -414,6 +411,16 @@ public class ItemPanel extends JLayeredPane {
         sourcePanel.removeItemFromSlot();
 
     }
+
+    
+    public void addItemToInventory(Item item, int x, int y) {
+        this.inventoryPanel.addItem(item, x, y);
+    }
+    
+    public void removeItemFromInventory(Item item) {
+        this.inventoryPanel.removeItem(item);
+    }
+
 
 
     /**
@@ -485,11 +492,11 @@ public class ItemPanel extends JLayeredPane {
 
     static class InventoryTransferHandler extends TransferHandler {
 
-        ItemController itemController;
+        CharacterController characterController;
         ItemPanel itemPanel;
 
         public InventoryTransferHandler(ItemPanel itemPanel) {
-            this.itemController = itemPanel.itemController;
+            this.characterController = itemPanel.characterController;
             this.itemPanel = itemPanel;
         }
     
@@ -547,7 +554,7 @@ public class ItemPanel extends JLayeredPane {
                 return false;
             }
 
-            if (!this.itemController.canAddItem(item, calcX(support), calcY(support))) {
+            if (!this.characterController.canAddItem(item, calcX(support), calcY(support))) {
                 return false;
             }
 
@@ -576,10 +583,10 @@ public class ItemPanel extends JLayeredPane {
             }
 
             if (ItemTransferHandler.getSourceType() == ItemPanel.ItemTransferHandler.SourceTypes.ItemPanel) {
-                this.itemController.moveItemToInventory(item, calcX(support), calcY(support), 
+                this.characterController.moveItemToInventory(item, calcX(support), calcY(support), 
                 ItemTransferHandler.getItemSourcePanel().getEquipmentSlot());
             } else if (ItemTransferHandler.getSourceType() == ItemPanel.ItemTransferHandler.SourceTypes.InventoryPanel) {
-                this.itemController.moveItemToInventoryFromInventory(item, calcX(support), calcY(support));    
+                this.characterController.moveItemToInventoryFromInventory(item, calcX(support), calcY(support));    
             } else {
                 return false; // Transfer failed since we don't have a correct source type
             }
@@ -599,11 +606,11 @@ public class ItemPanel extends JLayeredPane {
     static class ItemPanelTransferHandler extends TransferHandler {
         
         ItemPanel itemPanel;
-        ItemController itemController;
+        CharacterController characterController;
 
         public ItemPanelTransferHandler(ItemPanel itemPanel) {
             this.itemPanel = itemPanel;
-            this.itemController = itemPanel.getItemController();
+            this.characterController = itemPanel.getcharacterController();
         }
 
         @Override
@@ -625,7 +632,7 @@ public class ItemPanel extends JLayeredPane {
                 return false;
             }
 
-            return this.itemController.canEquipItem(targetPanel.getEquipmentSlot(), item);
+            return this.characterController.canEquipItem(targetPanel.getEquipmentSlot(), item);
             
         }
 
@@ -640,10 +647,10 @@ public class ItemPanel extends JLayeredPane {
                 Item item = (Item) support.getTransferable().getTransferData(ItemTransferable.ITEM_FLAVOR);
 
                 if (ItemTransferHandler.getSourceType() == ItemPanel.ItemTransferHandler.SourceTypes.ItemPanel) {
-                    this.itemController.moveItemToSlot(targetPanel.getEquipmentSlot(), 
+                    this.characterController.moveItemToSlot(targetPanel.getEquipmentSlot(), 
                     ItemTransferHandler.getItemSourcePanel().getEquipmentSlot(), item);
                 } else if (ItemTransferHandler.getSourceType() == ItemPanel.ItemTransferHandler.SourceTypes.InventoryPanel) {
-                    this.itemController.moveItemToSlotFromInventory(targetPanel.getEquipmentSlot(), item);
+                    this.characterController.moveItemToSlotFromInventory(targetPanel.getEquipmentSlot(), item);
                 } else {
                     return false; // there are no other Panel types... transfer can't be completed
                 }

@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import com.craig.itemgame.controller.GameController;
 import com.craig.itemgame.model.Game;
 
 public class Gui extends JFrame {
@@ -32,11 +33,13 @@ public class Gui extends JFrame {
     private CharacterCreationScreen characterCreationScreen;
     private IntroScreen introScreen;
 
-    private Game game;
+    private GameController gameController;
 
-    public Gui () {
+    // private Game game;
 
-        this.game = new Game();
+    public Gui (GameController gameController) {
+
+        this.gameController = gameController;
 
         // Create the main frame
         this.setTitle("Item Game");
@@ -48,14 +51,14 @@ public class Gui extends JFrame {
         
 
         this.introScreen = new IntroScreen(this);
-        this.characterSelectionScreen = new CharacterSelectionScreen(this, this.game.getCharacterController());
-        this.characterScreen = new CharacterScreen(this, this.game.getCharacterController());
-        this.characterCreationScreen = new CharacterCreationScreen(this);
+        this.characterSelectionScreen = new CharacterSelectionScreen(this, this.gameController);
+        this.characterScreen = new CharacterScreen(this, this.gameController);
+        this.characterCreationScreen = new CharacterCreationScreen(this, this.gameController);
         this.errorScreen = new ErrorScreen();
 
-        // Once the item and inventory panels have been created - give them to Item Controller
-        this.getGame().getItemController().setItemPanel(this.characterScreen.getItemPanel());
-        this.getGame().getItemController().setInventoryPanel(this.characterScreen.getItemPanel().getInventoryPanel());
+        // set the view
+        // TODO: maybe pull create ItemPanel out here.. not sure
+        this.gameController.getCharacterController().setView(this.characterScreen, this.characterScreen.getItemPanel());
 
     }
     
@@ -78,9 +81,6 @@ public class Gui extends JFrame {
     }
 
 
-    public Game getGame() {
-        return this.game;
-    }
 
     public void errorSequence(String errorMessage, String fallbackScreen) {
         
@@ -105,7 +105,12 @@ public class Gui extends JFrame {
         String directory = System.getProperty("user.dir");
         System.out.println("Current directory: " + directory);
 
-        Gui gui = new Gui();
+
+        // TODO: move this to launcher class later
+        Game game = new Game();
+        GameController gameController = new GameController(game);
+        Gui gui = new Gui(gameController);
+
         gui.init();
 
     }
