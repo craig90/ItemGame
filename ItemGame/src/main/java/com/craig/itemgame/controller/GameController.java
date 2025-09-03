@@ -14,7 +14,7 @@ public class GameController {
 
     public GameController(Game game) {
         this.game = game;
-        this.characterController = new CharacterController();
+        this.characterController = new CharacterController(game);
     }
 
 

@@ -4,7 +4,7 @@ import com.craig.itemgame.model.EquipmentSlot;
 import com.craig.itemgame.model.Inventory;
 import com.craig.itemgame.model.InventorySlot;
 import com.craig.itemgame.model.ItemManager;
-import com.craig.itemgame.model.Items.Boots;
+import com.craig.itemgame.model.ItemService;
 import com.craig.itemgame.model.Items.Item;
 import com.craig.itemgame.model.Character;
 import com.craig.itemgame.model.CharacterStat;
@@ -24,7 +24,12 @@ public class CharacterController {
     CharacterView characterView;
     ItemView itemView;
 
-    public CharacterController() {}
+    ItemService itemService;
+
+    public CharacterController(ItemService itemService) {
+        this.itemService = itemService;
+
+    }
 
     public void setCharacter(Character character) {
         System.out.println("Setting character and item manager");
@@ -64,72 +69,6 @@ public class CharacterController {
         this.itemView = itemView;
     }
 
-
-    // TODO: get rid of these when new logic is fully functioning
-    public String getName() {
-        return this.character.getName();
-    }
-
-    public double getLevel() {
-        return this.character.getLevel();
-    }
-
-    public double getExperience() {
-        return this.character.getExperience();
-    }
-
-    public double getDamage() {
-        return this.character.getDamage();
-    }
-
-    public double getHealth() {
-        return this.character.getHealth();
-    }
-
-    public double getDefence() {
-        return this.character.getDefence();
-    }
-
-    public double getFireResistance() {
-        return this.character.getFireResistance();
-    }
-
-    public double getLightningResistance() {
-        return this.character.getLightningResistance();
-    }
-
-    public double getColdResistance() {
-        return this.character.getColdResistance();
-    }
-
-    public double getPoisonResistance() {
-        return this.character.getPoisonResistance();
-    }
-
-    public double getMagicResistance() {
-        return this.character.getMagicResistance();
-    }
-
-
-    /**
-     * sets the item panel
-     * @param itemPanel
-     */
-    // public void setItemPanel(ItemPanel itemPanel) {
-    //     this.itemPanel = itemPanel;
-    // }
-
-    // public void setInventoryPanel(InventoryPanel inventoryPanel) {
-        // this.inventoryPanel = inventoryPanel;
-    // }
-
-    /**
-     * Resets the itemManager, this needs to be called each time a new character is created
-     * @param itemManager
-     */
-    // public void setItemManager(ItemManager itemManager) {
-    //     this.itemManager = itemManager;
-    // }
 
     /**
      * Moves an Item to an Equipment slot from an Equipment slot
@@ -342,9 +281,15 @@ public class CharacterController {
         // Item newItem = this.game.getItemGenerator().createNewItem();
         //this.itemManager.setGeneratedItem(newItem);
         // return newItem;
-        // TODO: temporary
-        Item boots = new Boots("Test Boots");
-        return boots;
+        Item newItem = this.itemService.generateItem();
+        
+        // backend call 
+        this.itemManager.setGeneratedItem(newItem);
+        
+        // ui call
+        this.itemView.addItemToSlot(EquipmentSlot.NEW_ITEM_SLOT, newItem);
+
+        return newItem;
         
     }
 

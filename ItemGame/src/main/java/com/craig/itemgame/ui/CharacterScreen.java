@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 import com.craig.itemgame.controller.GameController;
@@ -46,15 +47,17 @@ public class CharacterScreen extends JPanel implements CharacterView {
     JSeparator separator;
 
     // JButton showItemScreenButton;
-    JButton returnToHomeScreenButton;
-    JButton saveChangesButton;
+    private JButton returnToHomeScreenButton;
+    private JButton saveChangesButton;
 
-    Gui gui;
+    private Gui gui;
 
     private GameController gameController;
     
     private ItemPanel itemPanel;
     private JPanel statsPanel;
+
+    private boolean pendingRepaint = false;
 
     public CharacterScreen(Gui gui, GameController gameController) {
 
@@ -142,64 +145,26 @@ public class CharacterScreen extends JPanel implements CharacterView {
     }
 
 
-    /**
-     * updates all the character stats in the gui
-     */
-    public void update() {
-
-        System.out.println("Calling old update method");
-        // update all the stats on the character stats
-        // this.characterController.updateStats();
-        // this.name.setText(NAME_STRING + this.characterController.getName());
-        // this.level.setText(LEVEL_STRING + this.characterController.getLevel());
-        // this.experience.setText(EXPERIENCE_STRING + this.characterController.getExperience());
-        // this.damage.setText(DAMAGE_STRING + this.characterController.getDamage());
-        // this.health.setText(HEALTH_STRING + this.characterController.getHealth());
-        // this.defence.setText(DEFENCE_STRING + this.characterController.getDefence());
-        // this.fireResistance.setText(FIRE_RESISTANCE_STRING + this.characterController.getFireResistance());
-        // this.coldResistance.setText(COLD_RESISTANCE_STRING + this.characterController.getColdResistance());
-        // this.lightningResistance.setText(LIGHTNING_RESISTANCE_STRING + this.characterController.getLightningResistance());
-        // this.poisonResistance.setText(POISON_RESISTANCE_STRING + this.characterController.getPoisonResistance());
-        // this.magicResistance.setText(MAGIC_REISTANCE_STRING + this.characterController.getMagicResistance());
-
-        // this.fireResistance.setForeground(Color.RED);
-        // this.coldResistance.setForeground(Color.BLUE);
-        // this.lightningResistance.setForeground(Color.YELLOW);
-        // this.poisonResistance.setForeground(Color.GREEN);
-        // this.magicResistance.setForeground(Color.MAGENTA);
-
-
-        // this.separator.setMaximumSize(new Dimension(this.statsPanel.getMaximumSize().width, 10));
-        // this.separator.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        // this.statsPanel.revalidate();
-        // this.statsPanel.repaint();
-    }
-
-    // /**
-    //  * Used to update the Character Screen's character since the character can change
-    //  * @param character
-    //  */
-    // public void setCharacter(Character character) {
-    //     this.character = character;
-    // }
-
     public ItemPanel getItemPanel() {
         return this.itemPanel;
     }
 
+    /**
+     * Updates the character name... should really only be called on load/reload
+     */
+    @Override
     public void updateCharacterName(String name) {
         this.name.setText(NAME_STRING + name);
 
-        // TODO: I don't like doing this after each update
         this.statsPanel.revalidate();
         this.statsPanel.repaint();
     }
 
+    /**
+     * Updates the specified Character Stat to the specified value
+     */
+    @Override
     public void updateCharacterStat(CharacterStatNames stat, double value) {
-
-        // System.out.println("Updating stats");
-        // System.out.println(stat.name() + " " + value);
 
         switch (stat) {
             case CharacterStatNames.LEVEL:
@@ -234,10 +199,24 @@ public class CharacterScreen extends JPanel implements CharacterView {
                 break;
         }
 
-        // TODO: I don't think that this should be repainted after each call to this method
-        this.statsPanel.revalidate();
-        this.statsPanel.repaint();
-    
+    }
+
+    /**
+     * used to stop multiple repaints called in succession
+     * the pending repaint methods are not really necessary for a project of this size.. could potentially
+     * push them into a class in the future but probably not worth the effort
+     */
+    public void pendingRepaint() {
+
+        if (!this.pendingRepaint) {
+            this.pendingRepaint = true;
+            SwingUtilities.invokeLater(() -> {
+                this.statsPanel.revalidate();
+                this.statsPanel.repaint();
+                this.pendingRepaint = false;
+            });
+        }
+
     }
 
 

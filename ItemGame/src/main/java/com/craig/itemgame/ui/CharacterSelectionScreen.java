@@ -12,18 +12,16 @@ import com.craig.itemgame.model.CharacterFile;
 
 public class CharacterSelectionScreen extends JPanel {
 
-    ArrayList<CharacterFile> characterFiles;
-    ArrayList<String> fileNames;
-    Gui gui;
-    JButton backToHomeScreenButton;
+    private ArrayList<CharacterFile> characterFiles;
+    private Gui gui;
+    private JButton backToHomeScreenButton;
 
-    GameController gameController;
+    private GameController gameController;
 
     public CharacterSelectionScreen(Gui gui, GameController gameController) {
         this.gui = gui;
         this.gameController = gameController;
         this.characterFiles = new ArrayList<CharacterFile>();
-        this.fileNames = new ArrayList<String>();
 
         this.backToHomeScreenButton = new JButton("Return to Home Screen");
 
@@ -58,9 +56,10 @@ public class CharacterSelectionScreen extends JPanel {
                 try {
                     this.gameController.loadCharacterFromFile(characterFile);
                     
-                    //this.gui.getGame().setCharacter(this.gui.getGame().fileParcer.loadCharacterFromFile(characterFile));
+                    // TODO: this shoudn't be done here
                     this.gui.characterScreen.loadCharacter();
                     
+                    // TODO: look into improving when/where these get swapped out
                     // System.out.println("Switching to: " + Gui.CHARACTER_SCREEN);
                     this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.CHARACTER_SCREEN);
                 } catch (Exception ex) {
