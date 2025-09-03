@@ -47,7 +47,7 @@ public class CharacterController {
 
         if (this.characterView != null) {
          
-            System.out.println("Updating through the character view");
+            // System.out.println("Updating through the character view");
 
             this.characterView.updateCharacterName(this.character.getName());
             this.characterView.updateCharacterStat(CharacterStatNames.LEVEL, this.character.getLevel());
@@ -286,7 +286,7 @@ public class CharacterController {
         // backend call 
         this.itemManager.setGeneratedItem(newItem);
         
-        // ui call
+        // view call
         this.itemView.addItemToSlot(EquipmentSlot.NEW_ITEM_SLOT, newItem);
 
         return newItem;
