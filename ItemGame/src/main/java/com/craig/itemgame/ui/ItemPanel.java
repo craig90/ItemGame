@@ -196,8 +196,7 @@ public class ItemPanel extends JLayeredPane implements ItemView {
                 return;
             }
             
-            // TODO: this should probably be moved
-            this.generatedItemPanel.addItemToSlot(newItem);
+            // TODO: move these calls
             setSourceTransferHandler(newItem);
             newItem.getItemImageLabel().addMouseListener(this.mouseListener);
 
@@ -383,7 +382,6 @@ public class ItemPanel extends JLayeredPane implements ItemView {
      * @param item
      */
     public void dragFinishUpdate(Item item) {
-        // this.characterScreen.update();
         this.hoverPanel.updateHoverWindow(item.getItemImageLabel());
         this.hoverPanel.showHoverPanel();
     }

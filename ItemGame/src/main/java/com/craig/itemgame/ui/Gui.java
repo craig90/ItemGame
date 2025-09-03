@@ -49,25 +49,14 @@ public class Gui extends JFrame {
         this.cardLayout = new CardLayout();
         this.cardLayoutPanel = new JPanel(this.cardLayout);
         
-
+        // create the panels
         this.introScreen = new IntroScreen(this);
         this.characterSelectionScreen = new CharacterSelectionScreen(this, this.gameController);
         this.characterScreen = new CharacterScreen(this, this.gameController);
         this.characterCreationScreen = new CharacterCreationScreen(this, this.gameController);
         this.errorScreen = new ErrorScreen();
 
-        // set the view
-        // TODO: maybe pull create ItemPanel out here.. not sure
-        this.gameController.getCharacterController().setView(this.characterScreen, this.characterScreen.getItemPanel());
-
-    }
-    
-    /**
-     * Mostly created this to avoid the IDE warning.. not really necessary for project of this size.. all could be
-     * done in the constructor
-     */
-    public void init() {
-
+        // add the panels to the card layout
         this.cardLayoutPanel.add(this.introScreen, INTRO_SCREEN);
         this.cardLayoutPanel.add(this.characterSelectionScreen, CHARACTER_SELECTION_SCREEN);
         this.cardLayoutPanel.add(this.characterCreationScreen, CHARACTER_CREATION_SCREEN);
@@ -78,10 +67,12 @@ public class Gui extends JFrame {
         this.add(this.cardLayoutPanel);
         this.setVisible(true);
 
+
+        // set the views
+        this.gameController.getCharacterController().setView(this.characterScreen, this.characterScreen.getItemPanel());
+
     }
-
-
-
+    
     public void errorSequence(String errorMessage, String fallbackScreen) {
         
         System.out.println("Error Sequence");
@@ -99,14 +90,16 @@ public class Gui extends JFrame {
 
     }
 
+    /**
+     * simply to get rid of IDE warning, it has no real purpose
+     */
+    public void init() {}
 
     public static void main(String[] args) {
         
         String directory = System.getProperty("user.dir");
         System.out.println("Current directory: " + directory);
 
-
-        // TODO: move this to launcher class later
         Game game = new Game();
         GameController gameController = new GameController(game);
         Gui gui = new Gui(gameController);

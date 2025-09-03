@@ -27,6 +27,8 @@ public class InventoryPanel extends JPanel {
     private final int numRows;
     private final int numCols;
 
+    private boolean pendingRepaint = false;
+
     public InventoryPanel(CharacterController characterController, int cellSize, int numRows, int numCols) {
         this.characterController = characterController;
         this.cellSize = cellSize;
@@ -48,8 +50,24 @@ public class InventoryPanel extends JPanel {
         item.getItemImageLabel().setBounds(x*cellSize, y*cellSize, 
                 item.getWidthInGridUnits()*GRID_SIZE, item.getHeightInGridUnits()*GRID_SIZE);
         this.add(item.getItemImageLabel());
-        this.repaint(); // TODO: not sure if this is the most effiecient way to do things
 
+        pendingRepaint();
+
+    }
+
+    /**
+     * used to stop multiple repaints called in succession
+     */
+    public void pendingRepaint() {
+        
+        if (!this.pendingRepaint) {
+            this.pendingRepaint = true;
+            SwingUtilities.invokeLater(() -> {
+                this.revalidate();
+                this.repaint();
+                this.pendingRepaint = false;
+            });
+        }
     }
 
     public void addItems() {

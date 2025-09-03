@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.craig.itemgame.model.Items.Item;
 import com.craig.itemgame.model.Items.Ring;
 
-public class Game {
+public class Game implements ItemService {
 
     private Character character;
     private ItemGenerator itemGenerator;
@@ -31,10 +31,6 @@ public class Game {
         return true;
     }
 
-    // public Character getCharacter() {
-    //     return this.character;
-    // }
-
     public Character loadCharacterFromFile(CharacterFile characterFile) throws Exception {
         
         // this.character = this.fileParcer.loadCharacterFromFile(characterFile);
@@ -46,9 +42,19 @@ public class Game {
 
     }
 
-    public ItemGenerator getItemGenerator() {
-        return this.itemGenerator;
+    public Item generateItem() {
+        
+        Item newItem = null;
+        
+        try {
+            newItem = this.itemGenerator.createNewItem();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return newItem;
     }
+
 
     /**
      * Shows the intro to the game giving user option to load a character from file or create a new character
