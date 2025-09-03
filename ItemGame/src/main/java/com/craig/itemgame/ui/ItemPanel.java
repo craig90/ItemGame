@@ -173,14 +173,14 @@ public class ItemPanel extends JLayeredPane implements ItemView {
 
         this.hoverPanel = new HoverPanel(this.characterController);
 
-        this.add(this.equippedItemPanel, 1);
-        this.add(this.inventoryPanel, 1);
-        this.add(this.generateDeleteItemPanel, 1);
+        this.add(this.equippedItemPanel, JLayeredPane.DEFAULT_LAYER);
+        this.add(this.inventoryPanel, JLayeredPane.DEFAULT_LAYER);
+        this.add(this.generateDeleteItemPanel, JLayeredPane.DEFAULT_LAYER);
         this.generateDeleteItemPanel.setBackground(new Color(190, 190, 190));
         this.inventoryPanel.setBackground(new Color(180, 180, 180));
         this.equippedItemPanel.setBackground(new Color(169, 169, 169));
 
-        this.add(this.hoverPanel, 0);
+        this.add(this.hoverPanel, JLayeredPane.POPUP_LAYER);
 
         this.setVisible(true);
 

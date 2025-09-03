@@ -2,6 +2,8 @@ package com.craig.itemgame.ui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -31,11 +33,23 @@ public class HoverPanel extends JPanel {
         this.characterController = characterController;
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        this.setBackground(new Color(0,0,0,180));
+        this.setOpaque(false);
         EmptyBorder paddingBorder = new EmptyBorder(3, 3, 3, 3);
         this.setBorder(paddingBorder);
         this.setVisible(true);
 
+    }
+
+    /**
+     * Have to write the paintComponent method because it won't set the transparency correct otherwise
+     */
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setColor(new Color(0, 0, 0, 180)); // semi-transparent black
+        g2.fillRect(0, 0, getWidth(), getHeight());
+        g2.dispose();
     }
 
 
@@ -64,7 +78,7 @@ public class HoverPanel extends JPanel {
         // System.out.println("Slot type: " + slotType);
 
         Item item = null;
-        
+
         // if it's on the Equipped Item Panel
         if (hoverdLabel.getParent().getName() == Gui.ITEM_PANEL_NAME) {
             EquipmentSlot slot;
@@ -248,12 +262,14 @@ public class HoverPanel extends JPanel {
         ArrayList<StatDifference> statDifferences = Item.itemComparison(equippedItem, item);
 
         for (StatDifference statDiff : statDifferences)  {
-            
+        
             if (statDiff.isOldStatOnly() == false) {
 
                 JPanel statPanel = new JPanel();
                 statPanel.setLayout(new BoxLayout(statPanel, BoxLayout.LINE_AXIS));
-                statPanel.setBackground(new Color(0,0,0,180));
+                
+                // this panel has to be set to be fully transparent 
+                statPanel.setBackground(new Color(0,0,0,0));
 
                 JLabel statLabel = new JLabel(statDiff.getStat().getStatType() + " " +
                 statDiff.getStat().getValue());
