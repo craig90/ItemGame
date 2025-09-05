@@ -2,6 +2,7 @@ package com.craig.itemgame.ui;
 
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,7 +13,7 @@ import com.craig.itemgame.model.CharacterFile;
 
 public class CharacterSelectionScreen extends JPanel {
 
-    private ArrayList<CharacterFile> characterFiles;
+    private List<CharacterFile> characterFiles;
     private Gui gui;
     private JButton backToHomeScreenButton;
 

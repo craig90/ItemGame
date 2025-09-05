@@ -2,7 +2,7 @@ package com.craig.itemgame.controller;
 
 import com.craig.itemgame.model.Game;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.craig.itemgame.model.Character;
 import com.craig.itemgame.model.CharacterFile;
@@ -46,7 +46,7 @@ public class GameController {
         return this.characterController;
     }
 
-    public ArrayList<CharacterFile> getCharacterFiles() {
+    public List<CharacterFile> getCharacterFiles() {
         return this.game.getCharacterFiles();
     }
 

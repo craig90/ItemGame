@@ -36,7 +36,7 @@ public class FileParcer {
      * @return
      * @throws Exception
      */
-    public String[] parceTwoElementLine(FileReader file) throws Exception {
+    public String[] parceTwoElementLine(MyFileReader file) throws Exception {
 
         String line = file.getLine();
         String[] lineArray = line.split(REGEX);
@@ -56,7 +56,7 @@ public class FileParcer {
      * @return
      * @throws Exception
      */
-    public String parceOneElementLine(FileReader file) throws Exception {
+    public String parceOneElementLine(MyFileReader file) throws Exception {
 
         String line = file.getLine();
         String[] lineArray = line.split(REGEX);
@@ -77,7 +77,7 @@ public class FileParcer {
      * @param lineArray
      * @return
      */
-    public String[] parceLine(FileReader file) {
+    public String[] parceLine(MyFileReader file) {
 
         String line = file.getLine();
         String[] lineArray = line.split(REGEX);
@@ -93,7 +93,7 @@ public class FileParcer {
      * @param characterName
      * @return the characterName or "" if not is found
      */
-    public void parceCharacterNameAndLevel(FileReader file, CharacterFile characterFile) throws Exception {
+    public void parceCharacterNameAndLevel(MyFileReader file, CharacterFile characterFile) throws Exception {
 
         String[] lineArray;
         this.lineNumber = 0;
@@ -359,7 +359,7 @@ public class FileParcer {
 
     }
 
-    private void parceItemStats(Item item, FileReader fileReader) throws Exception {
+    private void parceItemStats(Item item, MyFileReader fileReader) throws Exception {
 
         ItemStat stat = null;
         String[] lineArray;
@@ -375,7 +375,7 @@ public class FileParcer {
     }
 
 
-    private boolean parceItem(FileReader fileReader, Character character, Item item) throws Exception {
+    private boolean parceItem(MyFileReader fileReader, Character character, Item item) throws Exception {
         
         parceItemStats(item, fileReader);
 
@@ -388,7 +388,7 @@ public class FileParcer {
 
 
     // ring is a little different because the slot is being read from file - it can't be automatically mapped
-    private boolean parceRing(FileReader fileReader, Character character, Item item) throws Exception {
+    private boolean parceRing(MyFileReader fileReader, Character character, Item item) throws Exception {
 
         EquipmentSlot ringSlot = parceRingSlot(parceTwoElementLine(fileReader), item);
         
@@ -403,7 +403,7 @@ public class FileParcer {
     }
 
 
-    private boolean parceEquippedItems(FileReader fileReader, Character character) throws Exception {
+    private boolean parceEquippedItems(MyFileReader fileReader, Character character) throws Exception {
 
         Item item = null;
         String itemType = "";
@@ -427,7 +427,7 @@ public class FileParcer {
 
     }
 
-    private int parceX(FileReader fileReader) throws Exception {
+    private int parceX(MyFileReader fileReader) throws Exception {
 
         String lineArray[] = parceTwoElementLine(fileReader);
         int x = -1;
@@ -446,7 +446,7 @@ public class FileParcer {
 
     }
 
-    private int parceY(FileReader fileReader) throws Exception {
+    private int parceY(MyFileReader fileReader) throws Exception {
 
         String lineArray[] = parceTwoElementLine(fileReader);
         int y = -1;
@@ -467,7 +467,7 @@ public class FileParcer {
 
 
 
-    private boolean parceInventoryItems(FileReader fileReader, Character character) throws Exception {
+    private boolean parceInventoryItems(MyFileReader fileReader, Character character) throws Exception {
 
         Item item = null;
         String itemType = "";        
@@ -527,9 +527,9 @@ public class FileParcer {
     public Character loadCharacterFromFile(CharacterFile characterFile) throws Exception {
 
         Character character = new Character();
-        FileReader fileReader;
+        MyFileReader fileReader;
         
-        fileReader = new FileReader();
+        fileReader = new MyFileReader();
         fileReader.openFile(characterFile.getFileName());
 
         this.lineNumber = 0;

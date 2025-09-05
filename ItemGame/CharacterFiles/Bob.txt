@@ -3,88 +3,26 @@ Level:40.0
 Experience:123456.0
 Equipped-Items-Start
 Item-Start
-Item Type:AMULET
-Item Name:Orange Amulet
-Damage:80.0
-Health:26.0
-Defence:27.0
-All Resistance:7.0
-Item-End
-Item-Start
-Item Type:BELT
-Item Name:Blue Belt
-Damage:66.0
-Health:38.0
-All Resistance:9.0
-Lightning Resistance:18.0
+Item Type:SHIELD
+Item Name:Orange Shield
+Defence:312.0
+All Resistance:8.0
 Magic Resistance:10.0
 Item-End
 Item-Start
-Item Type:CHEST
-Item Name:Green Chest
-Defence:277.0
-Fire Resistance:19.0
-Poison Resistance:11.0
-Lightning Resistance:17.0
-Magic Resistance:19.0
-Item-End
-Item-Start
-Item Type:GLOVES
-Item Name:Blue Gloves
-Damage:53.0
-Defence:54.0
-Lightning Resistance:8.0
-Cold Resistance:15.0
-Magic Resistance:5.0
-Item-End
-Item-Start
-Item Type:SHIELD
-Item Name:Green Shield
-Damage:65.0
-Defence:404.0
-All Resistance:9.0
-Fire Resistance:7.0
-Poison Resistance:19.0
-Item-End
-Item-Start
-Item Type:WEAPON
-Item Name:Red Weapon
-Damage:352.0
-Health:48.0
-Defence:28.0
-Fire Resistance:11.0
-Magic Resistance:11.0
-Item-End
-Item-Start
-Item Type:RING
-Item Name:Bronze Ring
-Ring Slot:LEFT_RING
-Health:30.0
-Lightning Resistance:18.0
-Cold Resistance:8.0
-Magic Resistance:14.0
+Item Type:BOOTS
+Item Name:Yellow Boots
+Poison Resistance:15.0
+Lightning Resistance:9.0
 Item-End
 Equipped-Items-End
 Inventory-Start
 Item-Start
-Item Type:BELT
-Item Name:Green Belt
-Item X:6
-Item Y:2
-Fire Resistance:15.0
-Poison Resistance:9.0
-Lightning Resistance:10.0
-Cold Resistance:10.0
-Magic Resistance:10.0
-Item-End
-Item-Start
-Item Type:AMULET
-Item Name:Orange Amulet
-Item X:4
-Item Y:1
-Fire Resistance:5.0
-Lightning Resistance:7.0
-Cold Resistance:18.0
-Magic Resistance:10.0
+Item Type:RING
+Item Name:Silver Ring
+Item X:7
+Item Y:0
+Damage:73.0
+Magic Resistance:6.0
 Item-End
 Inventory-End

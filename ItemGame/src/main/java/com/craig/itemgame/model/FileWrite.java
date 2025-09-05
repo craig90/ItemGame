@@ -1,6 +1,7 @@
 package com.craig.itemgame.model;
 
 import java.io.FileWriter;
+import java.io.IOException;
 
 public class FileWrite {
 
@@ -10,30 +11,29 @@ public class FileWrite {
 
     }
     
-    public void openFile(String fileName) {
+    public void openFile(String fileName) throws IOException {
         try {
-            this.fileWriter = new FileWriter(FileReader.directoryPath + fileName);
+            this.fileWriter = new FileWriter(FileKeywords.DIRECTORY_PATH + fileName);
         } catch (java.io.IOException e) {
-            System.err.println("Error creating file: " + e.getMessage());
+            throw new IOException("Error opening file " + e.getMessage());
         }
     }
 
-    /** TODO: last line doesn't need \n -- but it's not really important - not worth implementing a  workaround */
-    public void writeLine(String line) {
+    
+    public void writeLine(String line) throws IOException {
         try {
             this.fileWriter.write(line + "\n");
         }
         catch (java.io.IOException e) {
-            System.err.println("Error writing to file: " + e.getMessage());
+            throw new IOException("Error writing to file " + e.getMessage());
         }
-
     }
     
-    public void closeFile() {
+    public void closeFile() throws IOException {
         try {
             this.fileWriter.close();
         } catch (java.io.IOException e) {
-            System.err.println("Error closing file: " + e.getMessage());
+            throw new IOException ("Error closing file" + e.getMessage());
         }
     }
 
@@ -44,11 +44,14 @@ public class FileWrite {
     public static void main(String args[]){
 
         FileWrite fileWrite = new FileWrite();
-        fileWrite.openFile("output.txt");
-        fileWrite.writeLine("Test Line 1");
-        fileWrite.writeLine("Test line 2");
-        fileWrite.closeFile();
-
+        try {
+            fileWrite.openFile("output.txt");
+            fileWrite.writeLine("Test Line 1");
+            fileWrite.writeLine("Test line 2");
+            fileWrite.closeFile();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }    
 
 

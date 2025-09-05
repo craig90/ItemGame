@@ -19,9 +19,9 @@ import java.awt.dnd.DragSourceAdapter;
 import java.awt.dnd.DragSourceDropEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -288,7 +288,7 @@ public class ItemPanel extends JLayeredPane implements ItemView {
 
     public void setSourceTransferHandlers() {
 
-        ArrayList<Item> items = (ArrayList<Item>) this.characterController.getAllItems();
+        List<Item> items = this.characterController.getAllItems();
 
         for (Item item : items) {
             setSourceTransferHandler(item);

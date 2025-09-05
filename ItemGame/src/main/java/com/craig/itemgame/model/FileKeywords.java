@@ -16,4 +16,9 @@ public class FileKeywords {
     public static final String ITEM_X = "Item X";
     public static final String ITEM_Y = "Item Y";
 
+
+    public static final String DIRECTORY_PATH = "CharacterFiles/";
+    public static final String TEXT_FILE_EXTENSTION = "txt";
+    public static final String JSON_FILE_EXTENSTION = "json";
+
 }
