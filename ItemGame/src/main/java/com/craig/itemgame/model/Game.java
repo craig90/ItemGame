@@ -2,6 +2,7 @@ package com.craig.itemgame.model;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.craig.itemgame.model.Items.Item;
 import com.craig.itemgame.model.Items.Ring;
@@ -26,17 +27,19 @@ public class Game implements ItemService {
     }
 
     public boolean saveCharacter() {
-        this.characterSaver.saveCharacter(this.character);
-        // TODO: can clean this up a litle if saveCharacter returns success/fail
-        return true;
+        return this.characterSaver.saveCharacter(this.character);
     }
 
     public Character loadCharacterFromFile(CharacterFile characterFile) throws Exception {
         
+        // load from text file - this no longer works because text files don't use Item ids..
         // this.character = this.fileParcer.loadCharacterFromFile(characterFile);
-        this.character = SaveManager.loadCharacter("CharacterFiles/test.json");
-        System.out.println(this.character.getName());
+        
+        // load from JSON
+        this.character = SaveManager.loadCharacter(characterFile.getFileName());
         this.character.initAfterLoad();
+        System.out.println(this.character.getName());
+        
         // this.itemController.setItemManager(this.character.getItemManager());
         return this.character;
 
@@ -84,10 +87,10 @@ public class Game implements ItemService {
      * @param scanner
      * @return
      */
-    public ArrayList<CharacterFile> getCharacterNamesFromFile(ArrayList<String> fileNames) throws FileNotFoundException {
+    public List<CharacterFile> getCharacterNamesFromFile(List<String> fileNames) throws FileNotFoundException {
 
-        ArrayList <CharacterFile> characterFiles = new ArrayList<CharacterFile>();
-        FileReader file = new FileReader();
+        List <CharacterFile> characterFiles = new ArrayList<CharacterFile>();
+        MyFileReader file = new MyFileReader();
 
         // load the character Names
         for (int i = 0; i < fileNames.size(); i++) {
@@ -124,7 +127,7 @@ public class Game implements ItemService {
      * @param characterNames
      * @return
      */
-    private CharacterFile chooseCharacterScreen(ArrayList<CharacterFile> characterFiles) {
+    private CharacterFile chooseCharacterScreen(List<CharacterFile> characterFiles) {
 
         int input = -1;
         System.out.println("\nPress the Number which cooresponds to the character you'd like to load");
@@ -141,18 +144,23 @@ public class Game implements ItemService {
         return characterFiles.get(input);
     }
 
-    public ArrayList<CharacterFile> getCharacterFiles() {
+    public List<CharacterFile> getCharacterFiles() {
 
-        ArrayList<String> fileNames = new ArrayList<String>();
-        ArrayList<CharacterFile> characterFiles = new ArrayList<CharacterFile>();
+        // List<String> fileNames = new ArrayList<String>();
+        List<CharacterFile> characterFiles = new ArrayList<CharacterFile>();
 
-        try {
-            // grab file names, read character names then load selected character from file
-            fileNames = FileReader.readFileNames();
-            characterFiles = getCharacterNamesFromFile(fileNames);
-        } catch (FileNotFoundException e) {
-            System.out.println("Error locating character files");
-        }
+        // get JSON files
+        characterFiles = SaveManager.getCharacterFiles();
+
+
+        // get text files
+        // try {
+        //     // grab file names, read character names then load selected character from file
+        //     fileNames = MyFileReader.readFileNames(FileKeywords.TEXT_FILE_EXTENSTION);
+        //     characterFiles = getCharacterNamesFromFile(fileNames);
+        // } catch (FileNotFoundException e) {
+        //     System.out.println("Error locating character files");
+        // }
 
         return characterFiles;
 
@@ -165,13 +173,13 @@ public class Game implements ItemService {
      */    
     private boolean loadFromFile() {
 
-        ArrayList<String> fileNames = new ArrayList<String>();
-        ArrayList<CharacterFile> characterFiles = new ArrayList<CharacterFile>();
+        List<String> fileNames = new ArrayList<String>();
+        List<CharacterFile> characterFiles = new ArrayList<CharacterFile>();
         CharacterFile characterToLoad;
 
         try {
             // grab file names, read character names then load selected character from file
-            fileNames = FileReader.readFileNames();
+            fileNames = MyFileReader.readFileNames(FileKeywords.TEXT_FILE_EXTENSTION);
             characterFiles = getCharacterNamesFromFile(fileNames);
             characterToLoad = chooseCharacterScreen(characterFiles);
             this.character = this.fileParcer.loadCharacterFromFile(characterToLoad);

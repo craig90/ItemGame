@@ -7,8 +7,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.FileWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -60,6 +64,55 @@ public class SaveManager {
         }
     }
 
-    
+    public static CharacterHeader getFileHeader(String file) {
+        
+        CharacterHeader header = null;
+
+        try (Reader reader = new FileReader(file)) {
+            Gson gson = new Gson();
+            header = gson.fromJson(reader, CharacterHeader.class);
+            // headers.add(new CharacterFile(file, header.getCharacterName(), header.getLevel()));
+        } catch (Exception e) {
+
+        }
+
+        return header;
+    }
+
+    public static List<CharacterFile> getCharacterFiles() {
+        
+        List<CharacterFile> characterFiles = new ArrayList<>();
+        List<String> files = new ArrayList<>();
+
+        try {
+            files = MyFileReader.readFileNames(FileKeywords.JSON_FILE_EXTENSTION);
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        for (String file : files) {
+            CharacterHeader header = getFileHeader(file);
+            characterFiles.add(new CharacterFile(file, header.getCharacterName(), header.getLevel().value));
+        }
+
+        return characterFiles;
+
+    }
+
+
+    public static void main (String[] args) {
+
+        // CharacterHeader characterHeader = getFileHeader(FileKeywords.DIRECTORY_PATH + "Bob.json");
+        // System.out.println(characterHeader.getCharacterName());
+        // System.out.println(characterHeader.getLevel().value);
+
+        List<CharacterFile> characterFiles = getCharacterFiles();
+
+        for (CharacterFile characterFile : characterFiles) {
+            System.out.println("File name: " + characterFile.getFileName() + " Character Name: " + 
+            characterFile.getCharacterName() + " Level: " + characterFile.getLevel());
+        }
+
+    }
 
 }

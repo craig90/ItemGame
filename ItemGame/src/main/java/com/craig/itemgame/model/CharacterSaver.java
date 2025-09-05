@@ -11,7 +11,8 @@ public class CharacterSaver {
 
     FileWrite fileWrite;
     public static final String LINE_SEPARATOR = ":";
-    public static final String FILE_EXTENSTION = ".txt";
+    public static final String TEXT_FILE_EXTENSTION = ".txt";
+    public static final String JSON_FILE_EXTENSTION = ".json";
     public static final String FILE_NAME_REGEX = "[\\s+]";
     
     public CharacterSaver() {
@@ -22,7 +23,11 @@ public class CharacterSaver {
     //     this.fileName = fileName;
     // }
 
-    private String getFileName(Character character) {
+    private String getJSONFileName(Character character) {
+        return (character.getName().replaceAll(FILE_NAME_REGEX, "") + JSON_FILE_EXTENSTION);
+    }
+
+    private String getTextFileName(Character character) {
         
         /*if (!this.fileName.equals("")) {
             return this.fileName;
@@ -31,11 +36,11 @@ public class CharacterSaver {
         //System.out.println(character.getName().replaceAll(FILE_NAME_REGEX, "") + FILE_EXTENSTION);
         
         // generate fileName
-        return (character.getName().replaceAll(FILE_NAME_REGEX, "") + FILE_EXTENSTION);
+        return (character.getName().replaceAll(FILE_NAME_REGEX, "") + TEXT_FILE_EXTENSTION);
         
     }
 
-    public void saveEquippedItems(Character character) {
+    public void saveEquippedItems(Character character) throws IOException {
 
         this.fileWrite.writeLine(FileKeywords.EQUIPPED_ITEMS_START);
 
@@ -64,7 +69,7 @@ public class CharacterSaver {
     }
 
 
-    public void saveInventoryItems(Character character) {
+    public void saveInventoryItems(Character character) throws IOException {
 
         this.fileWrite.writeLine(FileKeywords.INVENTORY_START);
 
@@ -99,30 +104,46 @@ public class CharacterSaver {
     /**
      * Writes the character out to file
      */
-    public void saveCharacter(Character character) {
+    public boolean saveCharacter(Character character) {
 
         if (character == null) {
             System.out.println("Error saving character to file.. no character to save");
         }
 
         try {
-            SaveManager.saveCharacter(character, (FileReader.directoryPath + "test.json"));
-            //SaveManager.saveItemManager(character.getItemManager(), (FileReader.directoryPath + "test.json"));
+            SaveManager.saveCharacter(character, (FileKeywords.DIRECTORY_PATH + getJSONFileName(character)));
         } catch (IOException e) {
             System.out.println(e.getMessage());
+            return false;
         }
 
-        this.fileWrite.openFile(getFileName(character));
+        // this is the old save method that was used before using JSON
+        saveToTextFile(character);
 
-        // follow the ordre Charcter Name, Level, Experience
-        this.fileWrite.writeLine(FileKeywords.CHARACTER_NAME + LINE_SEPARATOR + character.getName());
-        this.fileWrite.writeLine(CharacterStatNames.LEVEL.getType() + LINE_SEPARATOR + character.getLevel());
-        this.fileWrite.writeLine(CharacterStatNames.EXPERIENCE.getType() + LINE_SEPARATOR + character.getExperience());
+        return true;
+    }
 
-        saveEquippedItems(character);
-        saveInventoryItems(character);
-            
-        this.fileWrite.closeFile();
+    private boolean saveToTextFile(Character character) {
+        
+        try {
+            this.fileWrite.openFile(getTextFileName(character));
+
+            // follow the ordre Charcter Name, Level, Experience
+            this.fileWrite.writeLine(FileKeywords.CHARACTER_NAME + LINE_SEPARATOR + character.getName());
+            this.fileWrite.writeLine(CharacterStatNames.LEVEL.getType() + LINE_SEPARATOR + character.getLevel());
+            this.fileWrite.writeLine(CharacterStatNames.EXPERIENCE.getType() + LINE_SEPARATOR + character.getExperience());
+
+            saveEquippedItems(character);
+            saveInventoryItems(character);
+                
+            this.fileWrite.closeFile();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+
+        return true;
+
     }
 
 }

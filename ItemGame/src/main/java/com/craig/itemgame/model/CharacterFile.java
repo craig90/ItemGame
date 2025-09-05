@@ -10,6 +10,12 @@ public class CharacterFile {
 
     }
 
+    public CharacterFile(String fileName, String characterName, double level) {
+        this.fileName = fileName;
+        this.characterName = characterName;
+        this.level = level;
+    }
+
     public boolean setCharacterName(String characterName) {
         
         if (characterName.length() < Character.MIN_NAME_LENGTH) { // TODO: duplicate logic
