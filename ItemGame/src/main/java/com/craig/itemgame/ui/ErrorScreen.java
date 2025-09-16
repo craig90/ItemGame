@@ -5,7 +5,9 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ErrorScreen extends JPanel {
+public final class ErrorScreen extends JPanel {
+
+    private static final long serialVersionUID = 1L;
 
     private JLabel errorLabel;
 

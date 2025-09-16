@@ -31,7 +31,7 @@ public class Inventory {
         return this.itemOrigins;
     }
 
-    public void initGrid() {
+    public final void initGrid() {
 
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
@@ -76,7 +76,7 @@ public class Inventory {
 
                 if (inventorySlots[i][j].isOcuppied() == true) {
 
-                    if (item.getID() != inventorySlots[i][j].getItemId()) {
+                    if (item.getID().equals(inventorySlots[i][j].getItemId()) == false) {
                         // System.out.println("Collision at " + j + " " + i);
                         return false;
                     } else {

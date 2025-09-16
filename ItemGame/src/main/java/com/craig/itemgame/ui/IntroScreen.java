@@ -4,7 +4,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class IntroScreen extends JPanel {
+public final class IntroScreen extends JPanel {
+
+    private static final long serialVersionUID = 1L;
 
     Gui gui;
 

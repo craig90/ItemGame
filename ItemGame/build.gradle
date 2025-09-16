@@ -7,6 +7,7 @@
 
 plugins {
     id 'application'
+    id 'pmd'
 }
 
 group = 'com.craig.itemgame'
@@ -30,4 +31,9 @@ jar {
             'Main-Class': 'com.craig.itemgame.Launcher'
         )
     }
+}
+
+pmd {
+    toolVersion = "7.17.0"
+    ignoreFailures = true
 }

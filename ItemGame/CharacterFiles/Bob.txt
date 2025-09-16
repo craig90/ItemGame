@@ -10,19 +10,42 @@ All Resistance:8.0
 Magic Resistance:10.0
 Item-End
 Item-Start
+Item Type:RING
+Item Name:Silver Ring
+Ring Slot:RIGHT_RING
+Damage:73.0
+Magic Resistance:6.0
+Item-End
+Item-Start
+Item Type:AMULET
+Item Name:Purple Amulet
+Defence:99.0
+All Resistance:6.0
+Cold Resistance:7.0
+Item-End
+Item-Start
 Item Type:BOOTS
 Item Name:Yellow Boots
 Poison Resistance:15.0
 Lightning Resistance:9.0
 Item-End
+Item-Start
+Item Type:PANTS
+Item Name:Cool Pants
+Damage:28.0
+Health:37.0
+Defence:65.0
+Item-End
 Equipped-Items-End
 Inventory-Start
 Item-Start
-Item Type:RING
-Item Name:Silver Ring
-Item X:7
-Item Y:0
-Damage:73.0
-Magic Resistance:6.0
+Item Type:SHIELD
+Item Name:Cool Shield
+Item X:5
+Item Y:1
+Health:42.0
+Defence:281.0
+Fire Resistance:17.0
+Lightning Resistance:7.0
 Item-End
 Inventory-End

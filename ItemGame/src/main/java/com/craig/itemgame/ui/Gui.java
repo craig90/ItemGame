@@ -10,7 +10,9 @@ import javax.swing.Timer;
 import com.craig.itemgame.controller.GameController;
 import com.craig.itemgame.model.Game;
 
-public class Gui extends JFrame {
+public final class Gui extends JFrame {
+
+    private static final long serialVersionUID = 1L;
 
     private static final int WINDOW_WIDTH = 975;
     private static final int WINDOW_HEIGHT = 750;

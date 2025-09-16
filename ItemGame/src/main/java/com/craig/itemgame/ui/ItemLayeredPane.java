@@ -10,7 +10,9 @@ import com.craig.itemgame.model.EquipmentSlot;
 import com.craig.itemgame.model.ItemType;
 import com.craig.itemgame.model.Items.Item;
 
-public class ItemLayeredPane extends JLayeredPane {
+public final class ItemLayeredPane extends JLayeredPane {
+
+    private static final long serialVersionUID = 1L;
 
     public static final int WEAPON_WIDTH = 125, HELM_WIDTH = 125, CHEST_WIDTH = 125, SHIELD_WIDTH = 125;
     public static final int AMULET_WIDTH = 55, RING_WIDTH = 55, GLOVES_WIDTH = 125, BELT_WIDTH = 125;
