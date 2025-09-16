@@ -17,8 +17,10 @@ import com.craig.itemgame.model.InventorySlot;
 import com.craig.itemgame.model.Items.Item;
 
 
-public class InventoryPanel extends JPanel {
+public final class InventoryPanel extends JPanel {
 
+    private static final long serialVersionUID = 1L;
+    
     public static final int GRID_SIZE = 50;
 
     private final CharacterController characterController;
@@ -34,7 +36,7 @@ public class InventoryPanel extends JPanel {
         this.cellSize = cellSize;
         this.numRows = numRows;
         this.numCols = numCols;
-        setPreferredSize(new Dimension(numCols * cellSize + 1, numRows * cellSize + 1)); // +1 for the last line
+        this.setPreferredSize(new Dimension(numCols * cellSize + 1, numRows * cellSize + 1)); // +1 for the last line
         this.setLayout(null);
         this.setName(Gui.INVENTORY_PANEL_NAME);
     }

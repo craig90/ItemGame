@@ -18,7 +18,7 @@ import com.craig.itemgame.controller.GameController;
 
 import com.craig.itemgame.model.CharacterStatNames;
 
-public class CharacterScreen extends JPanel implements CharacterView {
+public final class CharacterScreen extends JPanel implements CharacterView {
 
     public static final String NAME_STRING = "Name: ";
     public static final String LEVEL_STRING = "Level: ";

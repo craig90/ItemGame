@@ -613,7 +613,7 @@ public class FileParcer {
      */
     public String readRingSlot(String line) throws Exception { 
         
-        if (line == FileKeywords.END_OF_FILE) {
+        if (line.equals(FileKeywords.END_OF_FILE)) {
             throw new Exception();
         }
         

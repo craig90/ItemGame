@@ -20,8 +20,10 @@ import com.craig.itemgame.model.ItemType;
 import com.craig.itemgame.model.StatDifference;
 import com.craig.itemgame.model.Items.Item;
 
-public class HoverPanel extends JPanel {
+public final class HoverPanel extends JPanel {
 
+    private static final long serialVersionUID = 1L;
+    
     // the approximate number of pixels from the top of an image label to where Swing reports it's Y location
     // used for calculating where to draw the hover window when the item is at the bottom of the screen
     private static final int BASE_Y_OFFSET = 32;
@@ -80,7 +82,7 @@ public class HoverPanel extends JPanel {
         Item item = null;
 
         // if it's on the Equipped Item Panel
-        if (hoverdLabel.getParent().getName() == Gui.ITEM_PANEL_NAME) {
+        if (hoverdLabel.getParent().getName().equals(Gui.ITEM_PANEL_NAME)) {
             EquipmentSlot slot;
             
             try {
@@ -107,7 +109,7 @@ public class HoverPanel extends JPanel {
         } 
         
         // if it's an inventory item
-        else if (hoverdLabel.getParent().getName() == Gui.INVENTORY_PANEL_NAME) {
+        else if (hoverdLabel.getParent().getName().equals(Gui.INVENTORY_PANEL_NAME)) {
 
             int x = hoverdLabel.getX();
             int y = hoverdLabel.getY();

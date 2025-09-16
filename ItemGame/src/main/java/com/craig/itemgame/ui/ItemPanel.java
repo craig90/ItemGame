@@ -35,7 +35,9 @@ import com.craig.itemgame.model.EquipmentSlot;
 import com.craig.itemgame.model.Inventory;
 import com.craig.itemgame.model.Items.Item;
 
-public class ItemPanel extends JLayeredPane implements ItemView {
+public final class ItemPanel extends JLayeredPane implements ItemView {
+
+    private static final long serialVersionUID = 1L;
 
     final static int ITEM_WINDOW_WIDTH = 775;
     final static int ITEM_WINDOW_HEIGHT = 475;
@@ -425,6 +427,8 @@ public class ItemPanel extends JLayeredPane implements ItemView {
      * This class subclasses TransferHandler and is used by labels which have the ability to be dragable
      */
     static class ItemTransferHandler extends TransferHandler {
+
+        private static final long serialVersionUID = 1L;
         
         public enum SourceTypes {
             ItemPanel,
@@ -489,6 +493,8 @@ public class ItemPanel extends JLayeredPane implements ItemView {
     }
 
     static class InventoryTransferHandler extends TransferHandler {
+
+        private static final long serialVersionUID = 1L;
 
         CharacterController characterController;
         ItemPanel itemPanel;
@@ -602,6 +608,8 @@ public class ItemPanel extends JLayeredPane implements ItemView {
      * This class sublcasses Transfer Handler and is used by any panel that may import an item via item drag
      */
     static class ItemPanelTransferHandler extends TransferHandler {
+        
+        private static final long serialVersionUID = 1L;
         
         ItemPanel itemPanel;
         CharacterController characterController;
