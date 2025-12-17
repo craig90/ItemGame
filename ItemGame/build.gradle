@@ -7,7 +7,7 @@
 
 plugins {
     id 'application'
-    id 'pmd'
+    // id 'pmd'
 }
 
 group = 'com.craig.itemgame'
@@ -33,7 +33,7 @@ jar {
     }
 }
 
-pmd {
-    toolVersion = "7.17.0"
-    ignoreFailures = true
-}
+// pmd {
+//     toolVersion = "7.17.0"
+//     ignoreFailures = true
+// }
