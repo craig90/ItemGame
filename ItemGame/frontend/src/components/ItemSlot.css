@@ -1,0 +1,36 @@
+.item-slot {
+  width: 120px;
+  height: 120px;
+  border: 2px solid #666;
+  padding: 8px;
+  margin: 8px;
+  background-color: #999;
+}
+
+.item-slot--amulet, .item-slot--ring-right, .item-slot--ring-left {
+  width: 60px;
+  height: 60px;
+}
+
+.item-slot--weapon, .item-slot--shield, .item-slot--chest, .item-slot--pants {
+  width: 120px;
+  height: 180px;
+}
+
+.item-slot--belt {
+  width: 120px;
+  height: 60px;
+}
+
+.item-name {
+  font-weight: bold;
+}
+
+.stat {
+  margin: 0;
+  padding: 0;
+}
+
+/* .empty-slot {
+  color: #999;
+} */
