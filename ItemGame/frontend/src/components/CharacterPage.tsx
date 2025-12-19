@@ -1,5 +1,6 @@
 import { ItemSlot } from "./ItemSlot";
 import type { Item } from "../models/Item";
+import "./CharacterPage.css";
 
 // Dummy data
 const weapon: Item = {
@@ -33,20 +34,27 @@ const pants: Item = {
 }
 
 export function CharacterPage() {
+    // TODO: add map or type or something for slot types
+    
     return (
-        <div>
+        <div className="characterPage">
             <h2>Character</h2>
-            <ItemSlot slotType="Helmet" />
-            <ItemSlot slotType="Amulet" />
-            <ItemSlot slotType="Weapon" item={weapon}/>
-            <ItemSlot slotType="Armor" />
-            <ItemSlot slotType="Shield" item={shield}/>
-            <ItemSlot slotType="Gloves" />
-            <ItemSlot slotType="Belt" />
-            <ItemSlot slotType="Pants" item={pants} />
-            <ItemSlot slotType="Boots" />
-            <ItemSlot slotType="Left Ring" />
-            <ItemSlot slotType="Right Ring" />
+            <div className="gear-grid">
+                <ItemSlot slotType="helmet" />
+                <ItemSlot slotType="amulet" />
+                
+                <ItemSlot slotType="weapon" item={weapon}/>
+                <ItemSlot slotType="chest" />
+                <ItemSlot slotType="shield" item={shield}/>
+                
+                <ItemSlot slotType="gloves" />
+                <ItemSlot slotType="ring-left" />
+                <ItemSlot slotType="belt" />
+                <ItemSlot slotType="ring-right" />
+                <ItemSlot slotType="boots" />
+                
+                <ItemSlot slotType="pants" item={pants}/>
+            </div>    
         </div>
     )
 }

@@ -1,0 +1,72 @@
+.characterPage {
+  background-color: #716d6d;
+}
+
+.gear-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.6fr 1fr 0.6fr 1fr;
+  gap: 0px;
+  justify-items: center;
+}
+
+.gear-grid .item-slot--helmet {
+  grid-row: 1;
+  grid-column: 3;
+}
+
+.gear-grid .item-slot--amulet {
+  grid-row: 1;
+  grid-column: 4;
+}
+
+.gear-grid .item-slot--weapon {
+  grid-row: 2;
+  grid-column: 1;
+}
+
+.gear-grid .item-slot--chest {
+  grid-row: 2;
+  grid-column: 3;
+}
+
+.gear-grid .item-slot--shield {
+  grid-row: 2;
+  grid-column: 5;
+}
+
+.gear-grid .item-slot--gloves {
+  grid-row: 3;
+  grid-column: 1;
+}
+
+.gear-grid .item-slot--ring-left {
+  grid-row: 3;
+  grid-column: 2;
+}
+
+.gear-grid .item-slot--belt {
+  grid-row: 3;
+  grid-column: 3;
+}
+
+.gear-grid .item-slot--ring-right {
+  grid-row: 3;
+  grid-column: 4;
+}
+
+.gear-grid .item-slot--boots {
+  grid-row: 3;
+  grid-column: 5;
+}
+
+.gear-grid .item-slot--pants {
+  grid-row: 4;
+  grid-column: 3;
+}
+
+
+/* .weapon-grid {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  gap: 10px;
+} */
