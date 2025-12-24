@@ -1,5 +1,6 @@
 import type { Item } from "../models/Item";
 import "./ItemSlot.css";
+// import weaponLogo from "../assets/weapon.png"
 
 type ItemSlotProps = {
     slotType: string;
@@ -11,18 +12,22 @@ export function ItemSlot({slotType, item}: ItemSlotProps) {
         // 
         
         <div className={`item-slot item-slot--${slotType}`}>
-            {slotType}
-            {item ? (
+            <div className="slot-type">{slotType}</div>
+            {item && (
                 <>
-                    <div className="item-name">{item.name}</div>
+                    {/* <div className="item-name">{item.name}</div>
                     {item.stats.map((stat) => (
-                        <p className="stat">{stat.type}: {stat.value}</p>
-                    ))}
+                        <p className="stat">{stat.type}: {stat.value}
+                        </p>
+                    ))} */}
+                    {/* <img src={weaponLogo}/> */}
+                <img 
+                    src="/src/assets/weapon.png" 
+                    alt=""
+                    className={`item-slot--${slotType} gear-image`}
+                />
                 </>
-            ) : (
-                <div>Not Equipped</div>
-            )
-            
+                )
             }
             
         </div>
