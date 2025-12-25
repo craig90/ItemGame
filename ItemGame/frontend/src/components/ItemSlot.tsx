@@ -22,7 +22,7 @@ export function ItemSlot({slotType, item}: ItemSlotProps) {
                     ))} */}
                     {/* <img src={weaponLogo}/> */}
                 <img 
-                    src="/src/assets/weapon.png" 
+                    src={`/src/assets/${item.type.toLowerCase()}.png`}
                     alt=""
                     className={`item-slot--${slotType} gear-image`}
                 />
