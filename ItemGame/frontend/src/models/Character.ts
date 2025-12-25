@@ -9,6 +9,6 @@ export interface Character {
   name: string;
   level: number;
   experience: number;
-  stats: Stat[]  // TODO: might need to be changed due to back-end subclasses
+  stats: Stat[];  // TODO: might need to be changed due to back-end subclasses
   items: Item[];
 }

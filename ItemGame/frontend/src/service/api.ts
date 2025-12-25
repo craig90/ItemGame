@@ -1,4 +1,5 @@
 import type { Character } from "../models/Character";
+import { ITEM_TYPES } from "../models/Item";
 
 // // get Character
 // export const getCharacter = async (id: string): Promise<Character> => {
@@ -29,7 +30,7 @@ export const getCharacter = async (): Promise<Character> => {
             {
                 id: "asdfasdf",
                 name: "Cool Sword",
-                type: "WEAPON",
+                type: ITEM_TYPES.WEAPON,
                 stats: [
                     { type: "Damage", value: 22 },
                     { type: "All Resistance", value: 5 }
@@ -39,7 +40,7 @@ export const getCharacter = async (): Promise<Character> => {
             {
                 id: "asdfiopi",
                 name: "Green Shield",
-                type: "SHIELD",
+                type: ITEM_TYPES.SHIELD,
                 stats: [
                     { type: "Defense", value: 75 },
                     { type: "All Resistance", value: 10 }
@@ -49,7 +50,7 @@ export const getCharacter = async (): Promise<Character> => {
             {
                 id: "aeeredfdaf",
                 name: "Silver Pants",
-                type: "PANTS",
+                type: ITEM_TYPES.PANTS,
                 stats: [
                     { type: "Defense", value: 40 },
                     { type: "Fire Resistance", value: 5 }

@@ -1,6 +1,6 @@
 import type { Item } from "../models/Item";
 import "./ItemSlot.css";
-// import weaponLogo from "../assets/weapon.png"
+import { itemTypeToImage } from "../utils/itemTypeToImage";
 
 type ItemSlotProps = {
     slotType: string;
@@ -22,7 +22,7 @@ export function ItemSlot({slotType, item}: ItemSlotProps) {
                     ))} */}
                     {/* <img src={weaponLogo}/> */}
                 <img 
-                    src={`/src/assets/${item.type.toLowerCase()}.png`}
+                    src={`/src${itemTypeToImage[item.type]}`}
                     alt=""
                     className={`item-slot--${slotType} gear-image`}
                 />
