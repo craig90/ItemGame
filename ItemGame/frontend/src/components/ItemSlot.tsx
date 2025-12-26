@@ -16,7 +16,7 @@ export function ItemSlot({slotType, item}: ItemSlotProps) {
             {item && (
                 <>
                 <img 
-                    src={`/src${itemTypeToImage[item.type]}`}
+                    src={`${itemTypeToImage[item.type]}`}
                     alt=""
                     className={`item-slot--${slotType} gear-image`}
                 />

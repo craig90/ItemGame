@@ -52,12 +52,17 @@
   background-color: rgba(39, 36, 36, 0.6);
   z-index: 3;
   position: absolute;
-  margin-left: -50%;
-  width: 100%;
+  margin-left: -70%;
+  width: 140%;
 }
 
 .item-slot:hover .item-hover {
   visibility: visible;
+}
+
+.item-slot--amulet .item-hover, .item-slot--ring-right .item-hover, .item-slot--ring-left .item-hover {
+  width: 280%;
+  margin-left: -140%;
 }
 
 .item-name, .stat {
