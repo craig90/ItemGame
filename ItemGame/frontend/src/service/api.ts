@@ -38,6 +38,16 @@ export const getCharacter = async (): Promise<Character> => {
             },
 
             {
+                id: "aarfsasdfss",
+                name: "Amulet of Beauty",
+                type: ITEM_TYPES.AMULET,
+                stats: [
+                    { type: "Health", value: 50 },
+                    { type: "Lightning Resistance", value: 15 }
+                ] 
+            },
+
+            {
                 id: "asdfiopi",
                 name: "Green Shield",
                 type: ITEM_TYPES.SHIELD,
