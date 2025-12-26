@@ -15,17 +15,17 @@ export function ItemSlot({slotType, item}: ItemSlotProps) {
             <div className="slot-type">{slotType}</div>
             {item && (
                 <>
-                    {/* <div className="item-name">{item.name}</div>
-                    {item.stats.map((stat) => (
-                        <p className="stat">{stat.type}: {stat.value}
-                        </p>
-                    ))} */}
-                    {/* <img src={weaponLogo}/> */}
                 <img 
                     src={`/src${itemTypeToImage[item.type]}`}
                     alt=""
                     className={`item-slot--${slotType} gear-image`}
                 />
+                <span className="item-hover"><div className="item-name">{item.name}</div>
+                    {item.stats.map((stat) => (
+                        <p className="stat">{stat.type}: {stat.value}
+                        </p>
+                    ))}
+                </span>
                 </>
                 )
             }

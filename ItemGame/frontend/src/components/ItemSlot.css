@@ -33,11 +33,11 @@
 }
 
 .gear-image {
-    z-index: 2;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .slot-type {
@@ -45,4 +45,22 @@
   text-align: center;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.item-hover {
+  visibility: hidden;
+  background-color: rgba(39, 36, 36, 0.6);
+  z-index: 3;
+  position: absolute;
+  margin-left: -50%;
+  width: 100%;
+}
+
+.item-slot:hover .item-hover {
+  visibility: visible;
+}
+
+.item-name, .stat {
+  opacity: 1;
+  color: azure;
 }
