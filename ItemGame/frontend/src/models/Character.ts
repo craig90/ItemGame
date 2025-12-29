@@ -1,5 +1,6 @@
 import type { Item } from "./Item";
 import type { Stat } from "./Stat";
+import type { SlotType } from "./SlotType";
 
 export interface Character {
   // TODO: come back to this - currently not being used in the backend but
@@ -10,5 +11,5 @@ export interface Character {
   level: number;
   experience: number;
   stats: Stat[];  // TODO: might need to be changed due to back-end subclasses
-  items: Item[];
+  items: Partial<Record<SlotType, Item>>;
 }

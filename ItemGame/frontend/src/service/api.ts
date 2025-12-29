@@ -1,5 +1,6 @@
 import type { Character } from "../models/Character";
 import { ITEM_TYPES } from "../models/Item";
+import { SLOT_TYPES } from "../models/SlotType";
 
 // // get Character
 // export const getCharacter = async (id: string): Promise<Character> => {
@@ -26,8 +27,8 @@ export const getCharacter = async (): Promise<Character> => {
             { type: "Lightning Resistance", value: 69},
             { type: "Health", value: 600}
         ],
-        items: [
-            {
+        items: { 
+            [SLOT_TYPES.WEAPON]: {
                 id: "asdfasdf",
                 name: "Cool Sword",
                 type: ITEM_TYPES.WEAPON,
@@ -36,28 +37,18 @@ export const getCharacter = async (): Promise<Character> => {
                     { type: "All Resistance", value: 5 }
                 ] 
             },
-
-            {
+            
+            [SLOT_TYPES.AMULET]: {
                 id: "aarfsasdfss",
                 name: "Amulet of Beauty",
                 type: ITEM_TYPES.AMULET,
                 stats: [
                     { type: "Health", value: 50 },
                     { type: "Lightning Resistance", value: 15 }
-                ] 
+                ]
             },
 
-            {
-                id: "asdfiopi",
-                name: "Green Shield",
-                type: ITEM_TYPES.SHIELD,
-                stats: [
-                    { type: "Defense", value: 75 },
-                    { type: "All Resistance", value: 10 }
-                ],
-            },
-
-            {
+            [SLOT_TYPES.PANTS]: {
                 id: "aeeredfdaf",
                 name: "Silver Pants",
                 type: ITEM_TYPES.PANTS,
@@ -66,7 +57,7 @@ export const getCharacter = async (): Promise<Character> => {
                     { type: "Fire Resistance", value: 5 }
                 ],
             }
-        ]
+        } 
     }
 
 }

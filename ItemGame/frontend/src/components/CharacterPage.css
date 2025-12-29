@@ -64,9 +64,9 @@
   grid-column: 3;
 }
 
-
-/* .weapon-grid {
+.item-manipulation-grid {
   display: grid;
-  grid-template-columns: repeat(5, auto);
-  gap: 10px;
-} */
+  grid-template-columns: 1fr 1fr;
+  gap: 0px;
+  justify-items: center;
+}
