@@ -1,0 +1,85 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launcher",
+            "request": "launch",
+            "mainClass": "com.craig.itemgame.Launcher",
+            "projectName": "backend",
+            "cwd": "${workspaceFolder}/backend"
+        },
+        {
+            "type": "java",
+            "name": "FileParcer",
+            "request": "launch",
+            "mainClass": "com.craig.itemgame.model.FileParcer",
+            "projectName": "backend"
+        },
+        {
+            "type": "java",
+            "name": "FileWrite",
+            "request": "launch",
+            "mainClass": "com.craig.itemgame.model.FileWrite",
+            "projectName": "backend"
+        },
+        {
+            "type": "java",
+            "name": "Inventory",
+            "request": "launch",
+            "mainClass": "com.craig.itemgame.model.Inventory",
+            "projectName": "backend"
+        },
+        {
+            "type": "java",
+            "name": "ItemGenerator",
+            "request": "launch",
+            "mainClass": "com.craig.itemgame.model.ItemGenerator",
+            "projectName": "backend"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "com.craig.itemgame.model.Main",
+            "projectName": "backend"
+        },
+        {
+            "type": "java",
+            "name": "MyFileReader",
+            "request": "launch",
+            "mainClass": "com.craig.itemgame.model.MyFileReader",
+            "projectName": "backend"
+        },
+        {
+            "type": "java",
+            "name": "SaveManager",
+            "request": "launch",
+            "mainClass": "com.craig.itemgame.model.SaveManager",
+            "projectName": "backend"
+        },
+        {
+            "type": "java",
+            "name": "Gui",
+            "request": "launch",
+            "mainClass": "com.craig.itemgame.ui.Gui",
+            "projectName": "backend"
+        },
+        {
+            "type": "java",
+            "name": "InventoryPanel",
+            "request": "launch",
+            "mainClass": "com.craig.itemgame.ui.InventoryPanel",
+            "projectName": "backend"
+        }
+    ]
+}
