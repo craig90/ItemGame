@@ -30,9 +30,20 @@ export function CharacterPage() {
     // const equippedItems = mapItemsToSlots(character.items);
 
     return (
-        <div className="characterPage">
-            <h2>Character</h2>
+        <div className="character-layout">
+            <div className="character-stats">
+                <div className="stat-row">{character.name}</div>
+                <div className="stat-row">Level: {character.level}</div>
+                <div className="stat-row">Experience: {character.experience}</div>
+                {character.stats.map((stat) => (
+                    <div key={stat.type} className="stat-row">
+                        {stat.type}: {stat.value}
+                    </div>
+                ))}
+            </div>
+
             <div className="gear-grid">
+                {/* <h3>Equipment</h3> */}
                 <ItemSlot slotType="helmet" item={character.items.helmet}/>
                 <ItemSlot slotType="amulet" item={character.items.amulet} />
                 <ItemSlot slotType="weapon" item={character.items.weapon} />
@@ -45,6 +56,7 @@ export function CharacterPage() {
                 <ItemSlot slotType="boots" item={character.items.boots}/>
                 <ItemSlot slotType="pants" item={character.items.pants}/>
             </div>
+
             <div className="item-manipulation-grid">
                 <ItemSlot slotType ="new-item" item={character.items["new-item"]}></ItemSlot>
                 <ItemSlot slotType ="delete-item" item={character.items["delete-item"]}></ItemSlot>
