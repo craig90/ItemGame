@@ -25,6 +25,8 @@ export const getCharacter = async (): Promise<Character> => {
             { type: "Fire Resistance", value: 55 },
             { type: "Cold Resistance", value: 45 },
             { type: "Lightning Resistance", value: 69},
+            { type: "Magic Resistance", value: 59},
+            { type: "Poison Resistance", value: 69},
             { type: "Health", value: 600}
         ],
         items: { 
@@ -62,8 +64,6 @@ export const getCharacter = async (): Promise<Character> => {
 
 }
 
-
-// get Item
 
 // update Item
 
