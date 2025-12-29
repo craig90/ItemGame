@@ -13,7 +13,8 @@
   height: 60px;
 }
 
-.item-slot--weapon, .item-slot--shield, .item-slot--chest, .item-slot--pants {
+.item-slot--weapon, .item-slot--shield, .item-slot--chest, .item-slot--pants, .item-slot--new-item,
+  .item-slot--delete-item {
   width: 120px;
   height: 180px;
 }
