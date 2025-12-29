@@ -3,20 +3,6 @@ Level:40.0
 Experience:123456.0
 Equipped-Items-Start
 Item-Start
-Item Type:SHIELD
-Item Name:Orange Shield
-Defence:312.0
-All Resistance:8.0
-Magic Resistance:10.0
-Item-End
-Item-Start
-Item Type:RING
-Item Name:Silver Ring
-Ring Slot:RIGHT_RING
-Damage:73.0
-Magic Resistance:6.0
-Item-End
-Item-Start
 Item Type:AMULET
 Item Name:Purple Amulet
 Defence:99.0
@@ -36,13 +22,52 @@ Damage:28.0
 Health:37.0
 Defence:65.0
 Item-End
+Item-Start
+Item Type:GLOVES
+Item Name:Purple Gloves
+Damage:66.0
+Poison Resistance:6.0
+Magic Resistance:12.0
+Item-End
+Item-Start
+Item Type:SHIELD
+Item Name:Orange Shield
+Defence:312.0
+All Resistance:8.0
+Magic Resistance:10.0
+Item-End
+Item-Start
+Item Type:BELT
+Item Name:Orange Belt
+Lightning Resistance:11.0
+Magic Resistance:16.0
+Item-End
 Equipped-Items-End
 Inventory-Start
 Item-Start
 Item Type:SHIELD
+Item Name:Green Shield
+Item X:4
+Item Y:0
+Health:55.0
+Defence:375.0
+Fire Resistance:6.0
+Poison Resistance:19.0
+Magic Resistance:5.0
+Item-End
+Item-Start
+Item Type:RING
+Item Name:Silver Ring
+Item X:9
+Item Y:0
+Damage:73.0
+Magic Resistance:6.0
+Item-End
+Item-Start
+Item Type:SHIELD
 Item Name:Cool Shield
-Item X:5
-Item Y:1
+Item X:2
+Item Y:0
 Health:42.0
 Defence:281.0
 Fire Resistance:17.0
