@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import com.craig.itemgame.model.FileKeywords;
 import com.craig.itemgame.model.ItemStat;
 import com.craig.itemgame.model.ItemType;
 import com.craig.itemgame.model.StatDifference;
@@ -17,7 +18,7 @@ import com.craig.itemgame.ui.ItemLayeredPane;
 public abstract class Item {
 
     // TODO: move these to Item constants file
-    protected static String IMAGE_DIR = "src/main/resources/images/";
+    protected static String IMAGE_DIR = FileKeywords.WORKING_DIR + "src/main/resources/images/";
     protected static String WEAPON_FILE = "weapon.png";
     protected static String HELM_FILE = "helm.png";
     protected static String SHIELD_FILE = "shield.png";
