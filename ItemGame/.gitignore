@@ -7,6 +7,8 @@ backend/build
 # Don't track binaries
 backend/bin
 
+desktop/build
+
 # Don't track cached vite files
 frontend/.vite
 
