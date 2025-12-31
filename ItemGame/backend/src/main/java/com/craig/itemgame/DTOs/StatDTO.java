@@ -5,8 +5,9 @@ public class StatDTO {
     private String type;
     private double value;
 
-    public StatDTO() {
-
+    public StatDTO(String type, double value) {
+        this.type = type;
+        this.value = value;
     }
     
     public void setType(String type) {
