@@ -1,7 +1,9 @@
 package com.craig.itemgame.DummyDataSets;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.craig.itemgame.DTOs.CharacterDTO;
 import com.craig.itemgame.DTOs.ItemDTO;
@@ -49,11 +51,12 @@ public class DummyCharacter {
 
         itemTwo.setStats(statListTwo);
 
-        List<ItemDTO> itemList = new ArrayList<>();
-        itemList.add(itemOne);
-        itemList.add(itemTwo);
+        Map<String, ItemDTO> itemMap = new HashMap<>();
 
-        dummyCharacter.setItems(itemList);
+        itemMap.put("weapon", itemOne);  // TODO: frontend wants lower case so this needs to be thought through a bit
+        itemMap.put("amulet", itemTwo);
+
+        dummyCharacter.setItems(itemMap);
 
         return dummyCharacter;
 

@@ -1,6 +1,6 @@
 package com.craig.itemgame.DTOs;
 
-import java.util.List;
+import java.util.Map;
 
 public class CharacterDTO {
     
@@ -8,7 +8,7 @@ public class CharacterDTO {
     private String name;
     private double level;
     private double experience;
-    private List<ItemDTO> items;
+    private Map<String, ItemDTO> items;  // TODO: change to slot type enum as key
 
     public CharacterDTO() {
 
@@ -30,7 +30,7 @@ public class CharacterDTO {
         this.experience = experience;
     }
 
-    public void setItems(List<ItemDTO> items) {
+    public void setItems(Map<String, ItemDTO> items) {
         this.items = items;
     }
 
@@ -50,7 +50,7 @@ public class CharacterDTO {
         return this.experience;
     }
 
-    public List<ItemDTO> getItems() {
+    public Map<String, ItemDTO> getItems() {
         return this.items;
     }
 
