@@ -35,11 +35,11 @@ export function CharacterPage() {
                 <div className="stat-row">{character.name}</div>
                 <div className="stat-row">Level: {character.level}</div>
                 <div className="stat-row">Experience: {character.experience}</div>
-                {character.stats.map((stat) => (
+                {/*character.stats.map((stat) => (
                     <div key={stat.type} className="stat-row">
                         {stat.type}: {stat.value}
                     </div>
-                ))}
+                ))*/}
             </div>
 
             <div className="gear-grid">
