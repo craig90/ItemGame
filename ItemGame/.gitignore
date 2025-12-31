@@ -7,7 +7,9 @@ backend/build
 # Don't track binaries
 backend/bin
 
+# Don't track build or binaries for Desktop app
 desktop/build
+desktop/bin
 
 # Don't track cached vite files
 frontend/.vite
