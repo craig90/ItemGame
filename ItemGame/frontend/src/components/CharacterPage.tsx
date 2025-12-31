@@ -35,11 +35,14 @@ export function CharacterPage() {
                 <div className="stat-row">{character.name}</div>
                 <div className="stat-row">Level: {character.level}</div>
                 <div className="stat-row">Experience: {character.experience}</div>
-                {/*character.stats.map((stat) => (
-                    <div key={stat.type} className="stat-row">
-                        {stat.type}: {stat.value}
-                    </div>
-                ))*/}
+                <div className="stat-row">Damage: {character.damage}</div>
+                <div className="stat-row">Health: {character.health}</div>
+                <div className="stat-row">Defense: {character.defense}</div>
+                <div className="stat-row">Cold Resistence: {character.coldResistence}</div>
+                <div className="stat-row">Fire Resistence: {character.fireResistence}</div>
+                <div className="stat-row">Lightning Resistence: {character.lightningResistence}</div>
+                <div className="stat-row">Magic Resistence: {character.magicResistence}</div>
+                <div className="stat-row">Poison Resistence: {character.poisonResistence}</div>
             </div>
 
             <div className="gear-grid">
