@@ -1,6 +1,6 @@
 import type { Character } from "../models/Character";
-import { ITEM_TYPES } from "../models/Item";
-import { SLOT_TYPES } from "../models/SlotType";
+// import { ITEM_TYPES } from "../models/Item";
+// import { SLOT_TYPES } from "../models/SlotType";
 
 // // get Character
 // export const getCharacter = async (id: string): Promise<Character> => {
@@ -12,55 +12,63 @@ import { SLOT_TYPES } from "../models/SlotType";
 
 // }
 
+const API_URL = "http://localhost:8080";
+
 export const getCharacter = async (): Promise<Character> => {
     
-    await new Promise((res) => setTimeout(res, 300));
-
-    return {
-        id: "char-1",
-        name: "Craig the Test Character",
-        level: 69,
-        experience: 35000,
-        stats: [
-            { type: "Fire Resistance", value: 55 },
-            { type: "Cold Resistance", value: 45 },
-            { type: "Lightning Resistance", value: 69},
-            { type: "Magic Resistance", value: 59},
-            { type: "Poison Resistance", value: 69},
-            { type: "Health", value: 600}
-        ],
-        items: { 
-            [SLOT_TYPES.WEAPON]: {
-                id: "asdfasdf",
-                name: "Cool Sword",
-                type: ITEM_TYPES.WEAPON,
-                stats: [
-                    { type: "Damage", value: 22 },
-                    { type: "All Resistance", value: 5 }
-                ] 
-            },
-            
-            [SLOT_TYPES.AMULET]: {
-                id: "aarfsasdfss",
-                name: "Amulet of Beauty",
-                type: ITEM_TYPES.AMULET,
-                stats: [
-                    { type: "Health", value: 50 },
-                    { type: "Lightning Resistance", value: 15 }
-                ]
-            },
-
-            [SLOT_TYPES.PANTS]: {
-                id: "aeeredfdaf",
-                name: "Silver Pants",
-                type: ITEM_TYPES.PANTS,
-                stats: [
-                    { type: "Defense", value: 40 },
-                    { type: "Fire Resistance", value: 5 }
-                ],
-            }
-        } 
+    const response = await fetch(`${API_URL}/character/1`); // TODO: make dynamic
+    
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
     }
+    
+    return await response.json();
+
+    // return {
+    //     id: "char-1",
+    //     name: "Craig the Test Character",
+    //     level: 69,
+    //     experience: 35000,
+    //     stats: [
+    //         { type: "Fire Resistance", value: 55 },
+    //         { type: "Cold Resistance", value: 45 },
+    //         { type: "Lightning Resistance", value: 69},
+    //         { type: "Magic Resistance", value: 59},
+    //         { type: "Poison Resistance", value: 69},
+    //         { type: "Health", value: 600}
+    //     ],
+    //     items: { 
+    //         [SLOT_TYPES.WEAPON]: {
+    //             id: "asdfasdf",
+    //             name: "Cool Sword",
+    //             type: ITEM_TYPES.WEAPON,
+    //             stats: [
+    //                 { type: "Damage", value: 22 },
+    //                 { type: "All Resistance", value: 5 }
+    //             ] 
+    //         },
+            
+    //         [SLOT_TYPES.AMULET]: {
+    //             id: "aarfsasdfss",
+    //             name: "Amulet of Beauty",
+    //             type: ITEM_TYPES.AMULET,
+    //             stats: [
+    //                 { type: "Health", value: 50 },
+    //                 { type: "Lightning Resistance", value: 15 }
+    //             ]
+    //         },
+
+    //         [SLOT_TYPES.PANTS]: {
+    //             id: "aeeredfdaf",
+    //             name: "Silver Pants",
+    //             type: ITEM_TYPES.PANTS,
+    //             stats: [
+    //                 { type: "Defense", value: 40 },
+    //                 { type: "Fire Resistance", value: 5 }
+    //             ],
+    //         }
+    //     } 
+    // }
 
 }
 
