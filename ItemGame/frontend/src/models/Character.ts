@@ -10,6 +10,14 @@ export interface Character {
   name: string;
   level: number;
   experience: number;
+  damage: number;
+  health: number;
+  defense: number;
+  coldResistence: number;
+  fireResistence: number;
+  lightningResistence: number;
+  magicResistence: number;
+  poisonResistence: number;
   stats: Stat[];  // TODO: might need to be changed due to back-end subclasses
   items: Partial<Record<SlotType, Item>>;
 }
