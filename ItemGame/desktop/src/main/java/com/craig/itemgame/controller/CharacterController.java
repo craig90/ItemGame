@@ -59,6 +59,8 @@ public class CharacterController {
                 this.characterView.updateCharacterStat(entry.getKey(), entry.getValue().getValue());
             }
 
+            this.characterView.updateCharacterItems();
+
         } else {
             System.out.println("Character view is null");
         }

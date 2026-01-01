@@ -6,5 +6,6 @@ public interface CharacterView {
 
     public void updateCharacterName(String name);
     public void updateCharacterStat(CharacterStatNames stat, double value);
+    public void updateCharacterItems();
 
 }

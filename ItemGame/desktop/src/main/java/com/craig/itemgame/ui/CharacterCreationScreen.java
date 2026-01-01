@@ -38,6 +38,7 @@ public class CharacterCreationScreen extends JPanel {
             }
 
             this.gui.cardLayout.show(this.gui.cardLayoutPanel, Gui.CHARACTER_SCREEN);
+            charNameTextField.setText("");
         
         });
 

@@ -137,7 +137,7 @@ public final class CharacterScreen extends JPanel implements CharacterView {
 
     }
 
-    public void loadCharacter() {
+    public void updateCharacterItems() {
 
         this.itemPanel.loadItems();
         // update();
