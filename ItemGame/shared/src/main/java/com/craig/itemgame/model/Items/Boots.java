@@ -8,12 +8,9 @@ public class Boots extends Item {
         super(itemName, ItemType.BOOTS);
     }
 
-    // public ItemType getItemType() {
-        // return ItemType.BOOTS;
-    // }
-
-    public String getImageFile() {
-        return Item.IMAGE_DIR + Item.BOOTS_FILE;
+    @Override
+    public String getImageKey() {
+        return "boots";
     }
 
     @Override

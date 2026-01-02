@@ -8,12 +8,9 @@ public class Pants extends Item {
         super(itemName, ItemType.PANTS);
     }
 
-    // public ItemType getItemType() {
-        // return ItemType.PANTS;
-    // }
-
-    public String getImageFile() {
-        return IMAGE_DIR + PANTS_FILE;
+    @Override
+    public String getImageKey() {
+        return "pants";
     }
 
     @Override

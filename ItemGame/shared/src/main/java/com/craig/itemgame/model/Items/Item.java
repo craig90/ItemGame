@@ -5,30 +5,40 @@ import java.util.Comparator;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-
-import com.craig.itemgame.model.FileKeywords;
+// import com.craig.itemgame.model.FileKeywords;
 import com.craig.itemgame.model.ItemStat;
 import com.craig.itemgame.model.ItemType;
 import com.craig.itemgame.model.StatDifference;
-import com.craig.itemgame.ui.ImageResizer;
-import com.craig.itemgame.ui.ItemLayeredPane;
+// import com.craig.itemgame.ui.ImageResizer;
+// import com.craig.itemgame.ui.ItemLayeredPane;
 
 public abstract class Item {
 
-    // TODO: move these to Item constants file
-    protected static String IMAGE_DIR = FileKeywords.WORKING_DIR + "src/main/resources/images/";
-    protected static String WEAPON_FILE = "weapon.png";
-    protected static String HELM_FILE = "helm.png";
-    protected static String SHIELD_FILE = "shield.png";
-    protected static String CHEST_FILE = "chest.png";
-    protected static String AMULET_FILE = "amulet.png";
-    protected static String RING_FILE = "ring.png";
-    protected static String GLOVES_FILE = "gloves.png";
-    protected static String BELT_FILE = "belt.png";
-    protected static String PANTS_FILE = "pants.png";
-    protected static String BOOTS_FILE = "boots.png";
+    // // TODO: move these to Item constants file
+    // protected static String IMAGE_DIR = FileKeywords.WORKING_DIR + "src/main/resources/images/";
+    // protected static String WEAPON_FILE = "weapon.png";
+    // protected static String HELM_FILE = "helm.png";
+    // protected static String SHIELD_FILE = "shield.png";
+    // protected static String CHEST_FILE = "chest.png";
+    // protected static String AMULET_FILE = "amulet.png";
+    // protected static String RING_FILE = "ring.png";
+    // protected static String GLOVES_FILE = "gloves.png";
+    // protected static String BELT_FILE = "belt.png";
+    // protected static String PANTS_FILE = "pants.png";
+    // protected static String BOOTS_FILE = "boots.png";
+
+    protected static String WEAPON_KEY = "weapon";
+    protected static String HELM_KEY = "helm";
+    protected static String SHIELD_KEY = "shield";
+    protected static String CHEST_KEY = "chest";
+    protected static String AMULET_KEY = "amulet";
+    protected static String RING_KEY = "ring";
+    protected static String GLOVES_KEY = "gloves";
+    protected static String BELT_KEY = "belt";
+    protected static String PANTS_KEY = "pants";
+    protected static String BOOTS_KEY = "boots";
+
+
 
     public static final int MAX_STATS = 5; // will generate MAX_STATS - 1 due to how random() method works
     public static final int MIN_STATS = 2;    
@@ -39,8 +49,8 @@ public abstract class Item {
     public static final String[] ITEM_ADJECTIVES = {"Green", "Yellow", "Red", "Purple", "Orange", "Blue", "Gold", "Silver", 
     "Bronze", "Cool"};
 
-    protected JLabel itemImageLabel;
-    protected ImageIcon itemImageIcon;
+    // protected JLabel itemImageLabel;
+    // protected ImageIcon itemImageIcon;
 
     private String itemName;
     private ArrayList<ItemStat> statList;
@@ -48,6 +58,7 @@ public abstract class Item {
     protected ItemType itemType;
 
     private String id;
+    private String imageKey;
 
     /**
      * Constructor for a new Item, will create an Item ID
@@ -56,16 +67,17 @@ public abstract class Item {
      */
     public Item(String itemName, ItemType itemType) {
         this.itemName = itemName;
-        this.statList = new ArrayList<ItemStat>();
         this.itemType = itemType;
         this.id = ItemIdGenerator.generateUniqueID();
-        this.setImageLabel();
+        this.statList = new ArrayList<ItemStat>();
     }
 
     public abstract int getWidthInGridUnits();
 
     public abstract int getHeightInGridUnits();
 
+    public abstract String getImageKey();
+    
     public ItemType getItemType() {
         return this.itemType;
     }
@@ -74,32 +86,30 @@ public abstract class Item {
         return this.id;
     }
 
-    public abstract String getImageFile();
-
     public String getItemName() {
         return this.itemName;
     }
 
-    private void setImageIcon() {
-        try {
-            this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(getImageFile()),
-                ItemLayeredPane.getItemWidth(this.getItemType()), ItemLayeredPane.getItemHeight(this.getItemType()));
-        } catch (Exception e) {
-            System.out.println("Error resizing image");
-            System.out.println(e.getMessage());
-            System.exit(1); // fairly fatal flaw if the image cannot be correctly resized - just exit
-        }
-    }
+    // private void setImageIcon() {
+    //     // try {
+    //     //     this.itemImageIcon = ImageResizer.resizeImageIcon(new ImageIcon(getImageFile()),
+    //     //         ItemLayeredPane.getItemWidth(this.getItemType()), ItemLayeredPane.getItemHeight(this.getItemType()));
+    //     // } catch (Exception e) {
+    //     //     System.out.println("Error resizing image");
+    //     //     System.out.println(e.getMessage());
+    //     //     System.exit(1); // fairly fatal flaw if the image cannot be correctly resized - just exit
+    //     // }
+    // }
 
-    public void setImageLabel() {
-        setImageIcon();
-        this.itemImageLabel = new JLabel(this.itemImageIcon);
-        // System.out.println("Setting icon for item type " + this.itemName);
-    }
+    // public void setImageLabel() {
+    //     setImageIcon();
+    //     this.itemImageLabel = new JLabel(this.itemImageIcon);
+    //     // System.out.println("Setting icon for item type " + this.itemName);
+    // }
 
-    public JLabel getItemImageLabel() {
-        return this.itemImageLabel;
-    }
+    // public JLabel getItemImageLabel() {
+    //     return this.itemImageLabel;
+    // }
 
     /**
      * verifies that the item type is one of the designated item types

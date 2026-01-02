@@ -8,12 +8,9 @@ public class Belt extends Item {
         super(itemName, ItemType.BELT);
     }
 
-    // public ItemType getItemType() {
-        // return ItemType.BELT;
-    // }
-
-    public String getImageFile() {
-        return IMAGE_DIR + BELT_FILE;
+    @Override
+    public String getImageKey() {
+        return "belt";
     }
 
     @Override

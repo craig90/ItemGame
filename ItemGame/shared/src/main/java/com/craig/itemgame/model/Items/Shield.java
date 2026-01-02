@@ -11,12 +11,19 @@ public class Shield extends Item {
         super(itemName, ItemType.SHIELD);
     }
 
-    // public ItemType getItemType() {
-        // return ItemType.SHIELD;
-    // }
+    @Override
+    public String getImageKey() {
+        return "shield";
+    }
 
-    public String getImageFile() {
-        return Item.IMAGE_DIR + Item.SHIELD_FILE;
+    @Override
+    public int getWidthInGridUnits() {
+        return ItemConstants.SHIELD_GRID_UNIT_WIDTH;
+    }
+
+    @Override
+    public int getHeightInGridUnits() {
+        return ItemConstants.SHIELD_GRID_UNIT_HEIGHT;
     }
 
     /**
@@ -32,15 +39,7 @@ public class Shield extends Item {
         super.generateItem(random);
     }
 
-    @Override
-    public int getWidthInGridUnits() {
-        return ItemConstants.SHIELD_GRID_UNIT_WIDTH;
-    }
-
-    @Override
-    public int getHeightInGridUnits() {
-        return ItemConstants.SHIELD_GRID_UNIT_HEIGHT;
-    }
+    
 
 
 }

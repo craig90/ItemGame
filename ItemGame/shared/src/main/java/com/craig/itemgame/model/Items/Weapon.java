@@ -11,12 +11,19 @@ public class Weapon extends Item {
         super(itemName, ItemType.WEAPON);
     }
 
-    // public ItemType getItemType() {
-        // return ItemType.WEAPON;
-    // }
+    @Override
+    public String getImageKey() {
+        return "weapon";
+    }
 
-    public String getImageFile() {
-        return IMAGE_DIR + WEAPON_FILE;
+    @Override
+    public int getWidthInGridUnits() {
+        return ItemConstants.WEAPON_GRID_UNIT_WIDTH;
+    }
+
+    @Override
+    public int getHeightInGridUnits() {
+        return ItemConstants.WEAPON_GRID_UNIT_HEIGHT;
     }
 
     /**
@@ -31,17 +38,6 @@ public class Weapon extends Item {
         this.addStat(stat);
         
         super.generateItem(random);
-    }
-
-
-    @Override
-    public int getWidthInGridUnits() {
-        return ItemConstants.WEAPON_GRID_UNIT_WIDTH;
-    }
-
-    @Override
-    public int getHeightInGridUnits() {
-        return ItemConstants.WEAPON_GRID_UNIT_HEIGHT;
     }
 
 }

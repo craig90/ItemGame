@@ -1,14 +1,13 @@
 # Ignore Gradle project-specific cache directory
 .gradle
 
+# Don't track build or binaries for global project
 build
 bin
 
-# Ignore Gradle build output directory
+# Don't track build or binaries for backend
 backend/build
-
-# Don't track binaries
-backend/bin
+abackend/bin
 
 # Don't track build or binaries for Desktop app
 desktop/build

@@ -11,21 +11,10 @@ public class Ring extends Item {
         super(itemName, ItemType.RING);
     }
 
-    public void setRingSlot(EquipmentSlot slot) {
-        this.slot = slot;
+    @Override
+    public String getImageKey() {
+        return "ring";
     }
-
-    public EquipmentSlot getRingSlot() {
-        return this.slot;
-    }
-
-    public String getImageFile() {
-        return IMAGE_DIR + RING_FILE;
-    }
-
-    // public ItemType getItemType() {
-        // return ItemType.RING;
-    // }
 
     @Override
     public int getWidthInGridUnits() {
@@ -36,4 +25,14 @@ public class Ring extends Item {
     public int getHeightInGridUnits() {
         return ItemConstants.RING_GRID_UNIT_HEIGHT;
     }
+
+    public void setRingSlot(EquipmentSlot slot) {
+        this.slot = slot;
+    }
+
+    public EquipmentSlot getRingSlot() {
+        return this.slot;
+    }
+
+    
 }
