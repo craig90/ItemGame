@@ -11,12 +11,9 @@ public class Chest extends Item {
         super(itemName, ItemType.CHEST);
     }
 
-    // public ItemType getItemType() {
-    //     return ItemType.CHEST;
-    // }
-
-    public String getImageFile() {
-        return IMAGE_DIR + CHEST_FILE;
+    @Override
+    public String getImageKey() {
+        return "chest";
     }
 
     /**

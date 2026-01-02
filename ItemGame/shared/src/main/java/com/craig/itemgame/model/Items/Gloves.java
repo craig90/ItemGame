@@ -8,12 +8,9 @@ public class Gloves extends Item {
         super(itemName, ItemType.GLOVES);
     }
 
-    // public ItemType getItemType() {
-        // return ItemType.GLOVES;
-    // }
-
-    public String getImageFile() {
-        return IMAGE_DIR + GLOVES_FILE;
+    @Override
+    public String getImageKey() {
+        return "gloves";
     }
 
     @Override

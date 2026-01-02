@@ -8,12 +8,9 @@ public class Helm extends Item {
         super(itemName, ItemType.HELM);
     }
 
-    // public ItemType getItemType() {
-        // return ItemType.HELM;
-    // }
-
-    public String getImageFile() {
-        return IMAGE_DIR + HELM_FILE;
+    @Override
+    public String getImageKey() {
+        return "helm";
     }
 
     @Override

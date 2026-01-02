@@ -8,13 +8,10 @@ public class Amulet extends Item {
         super(itemName, ItemType.AMULET);
     }
 
-    public String getImageFile() {
-        return IMAGE_DIR + AMULET_FILE;
+    @Override
+    public String getImageKey() {
+        return "amulet";
     }
-
-    // public ItemType getItemType() {
-        // return ItemType.AMULET;
-    // }
 
     @Override
     public int getWidthInGridUnits() {
