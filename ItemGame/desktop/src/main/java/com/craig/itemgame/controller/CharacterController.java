@@ -37,6 +37,7 @@ public class CharacterController {
         this.itemManager = character.getItemManager();
         
         updateCharacterView();
+        this.characterView.updateCharacterItems();
         
     }
 
@@ -58,8 +59,6 @@ public class CharacterController {
             for (Map.Entry<CharacterStatNames, CharacterStat> entry : statMap.entrySet()) {
                 this.characterView.updateCharacterStat(entry.getKey(), entry.getValue().getValue());
             }
-
-            this.characterView.updateCharacterItems();
 
         } else {
             System.out.println("Character view is null");
@@ -221,9 +220,6 @@ public class CharacterController {
         // view call
         this.itemView.deleteItem();
 
-        // update GUI
-        // this.itemPanel.deleteItem();
-        
     }
 
     /**
@@ -248,7 +244,7 @@ public class CharacterController {
     }
 
     public Inventory getInventory() {
-        return itemManager.getInventory();
+        return this.itemManager.getInventory();
     }
 
     public InventorySlot[][] getInventoryGrid() {
