@@ -7,7 +7,7 @@ bin
 
 # Don't track build or binaries for backend
 backend/build
-abackend/bin
+backend/bin
 
 # Don't track build or binaries for Desktop app
 desktop/build
