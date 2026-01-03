@@ -79,7 +79,7 @@ public final class HoverPanel extends JPanel {
 
         // System.out.println("Slot type: " + slotType);
 
-        Item item = null;
+        uiItem item = null;
 
         // if it's on the Equipped Item Panel
         if (hoverdLabel.getParent().getName().equals(Gui.ITEM_PANEL_NAME)) {
@@ -196,9 +196,9 @@ public final class HoverPanel extends JPanel {
     }
 
 
-    private void addName(Item item) {
+    private void addName(uiItem item) {
 
-        JLabel itemName = new JLabel(item.getItemName());
+        JLabel itemName = new JLabel(item.getItem().getItemName());
         itemName.setForeground(Color.WHITE);
         this.add(itemName);
 
@@ -208,26 +208,27 @@ public final class HoverPanel extends JPanel {
      * Generates the hover panel for an equipped item since the logic is different than that of a new item
      * @param item
      */
-    private void generateEquippedItemHoverPanel(Item item) {
+    private void generateEquippedItemHoverPanel(uiItem item) {
 
         addName(item);
 
-        for (int i = 0; i < item.statListSize(); i++) {
-            JLabel label = new JLabel(item.getStat(i).getStatType() + " " + item.getStat(i).getValue());
+        for (int i = 0; i < item.getItem().statListSize(); i++) {
+            JLabel label = new JLabel(item.getItem().getStat(i).getStatType() 
+                + " " + item.getItem().getStat(i).getValue());
             label.setForeground(Color.WHITE);
             this.add(label);
         }
     
     }
 
-    private void generateRingHoverPanel(Item item) {
+    private void generateRingHoverPanel(uiItem item) {
 
         addName(item);
 
-        System.out.println("Item type should be ring: " + item.getItemType());
+        System.out.println("Item type should be ring: " + item.getItem().getItemType());
 
-        for (int i = 0; i < item.statListSize(); i++) {
-            JLabel label = new JLabel(item.getStat(i).getStatType() + " " + item.getStat(i).getValue());
+        for (int i = 0; i < item.getItem().statListSize(); i++) {
+            JLabel label = new JLabel(item.getItem().getStat(i).getStatType() + " " + item.getItem().getStat(i).getValue());
             label.setForeground(Color.WHITE);
             this.add(label);
         }
@@ -239,14 +240,14 @@ public final class HoverPanel extends JPanel {
      * Generates the hover panel for a new item as the logic is different than for an existing item
      * @param item
      */
-    private void generateUnequippedItemHoverPanel(Item item) {
+    private void generateUnequippedItemHoverPanel(uiItem item) {
         
         addName(item);
 
-        Item equippedItem;
+        uiItem equippedItem;
         
         // logic for rings will be different because there possibly two equipped
-        if (item.getItemType() == ItemType.RING) {
+        if (item.getItem().getItemType() == ItemType.RING) {
 
             // if we have two equipped rings we are just going to skip the comparason because I don't know which to comapare to
             if (this.characterController.getItem(EquipmentSlot.RIGHT_RING) != null 
@@ -258,10 +259,17 @@ public final class HoverPanel extends JPanel {
             }
 
         } else { // if it's not a ring, grab the item the corresponds to the correct equipemnt slot
-            equippedItem = this.characterController.getItem(item.getItemType().getEquipmentSlot());
+            equippedItem = this.characterController.getItem(item.getItem().getItemType().getEquipmentSlot());
         }
 
-        ArrayList<StatDifference> statDifferences = Item.itemComparison(equippedItem, item);
+        ArrayList<StatDifference> statDifferences;
+        
+        // need to account for when the old item is null and .getItem cannot be invoked
+        if (equippedItem == null) {
+            statDifferences = Item.itemComparison(null, item.getItem());
+        } else {
+            statDifferences = Item.itemComparison(equippedItem.getItem(), item.getItem());
+        }
 
         for (StatDifference statDiff : statDifferences)  {
         
