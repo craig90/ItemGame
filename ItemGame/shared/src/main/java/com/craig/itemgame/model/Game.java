@@ -37,7 +37,7 @@ public class Game implements ItemService {
         
         // load from JSON
         this.character = SaveManager.loadCharacter(characterFile.getFileName());
-        // this.character.initAfterLoad();
+        this.character.initAfterLoad();
         System.out.println(this.character.getName());
         
         // this.itemController.setItemManager(this.character.getItemManager());

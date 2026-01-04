@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 
 import com.craig.itemgame.controller.CharacterController;
 import com.craig.itemgame.model.InventorySlot;
+import com.craig.itemgame.model.Items.Item;
 
 
 public final class InventoryPanel extends JPanel {
@@ -46,10 +47,10 @@ public final class InventoryPanel extends JPanel {
      * @param x
      * @param y
      */
-    public void addItem(uiItem item, int x, int y) {
+    public void addItem(Item item, int x, int y) {
 
         item.getItemImageLabel().setBounds(x*cellSize, y*cellSize, 
-                item.getItem().getWidthInGridUnits()*GRID_SIZE, item.getItem().getHeightInGridUnits()*GRID_SIZE);
+                item.getWidthInGridUnits()*GRID_SIZE, item.getHeightInGridUnits()*GRID_SIZE);
         this.add(item.getItemImageLabel());
 
         pendingRepaint();
@@ -72,21 +73,21 @@ public final class InventoryPanel extends JPanel {
     }
 
     public void addItems() {
-        Map<uiItem, Point> inventoryMap = this.characterController.getInventoryItems();
+         Map<Item, Point> inventoryMap = this.characterController.getInventoryItems();
 
-        for (Map.Entry<uiItem, Point> entry : inventoryMap.entrySet()) {
+         for (Map.Entry<Item, Point> entry : inventoryMap.entrySet()) {
             addItem(entry.getKey(), entry.getValue().x, entry.getValue().y);
-        }
+         }
 
     }
 
-    public void removeItem(uiItem item) {
+    public void removeItem(Item item) {
         this.remove(item.getItemImageLabel());
     }
 
-    public uiItem getItem(int x, int y) {
+    public Item getItem(int x, int y) {
         
-        uiItem item = null;
+        Item item = null;
         try {
             item = this.characterController.getItem(x,y);
         } catch (Exception e) {

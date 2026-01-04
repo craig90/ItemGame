@@ -8,6 +8,7 @@ import javax.swing.JLayeredPane;
 
 import com.craig.itemgame.model.EquipmentSlot;
 import com.craig.itemgame.model.ItemType;
+import com.craig.itemgame.model.Items.Item;
 
 public final class ItemLayeredPane extends JLayeredPane {
 
@@ -27,7 +28,7 @@ public final class ItemLayeredPane extends JLayeredPane {
     JLabel slotLabel;
     JLabel itemIconLabel;
 
-    uiItem item;
+    Item item;
     private EquipmentSlot equipmentSlot;
 
     // about how this will work
@@ -66,7 +67,7 @@ public final class ItemLayeredPane extends JLayeredPane {
      * Adds the specified item to the slot
      * @param item
      */
-    public void addItemToSlot(uiItem item) {
+    public void addItemToSlot(Item item) {
 
         this.item = item;
         
@@ -80,8 +81,8 @@ public final class ItemLayeredPane extends JLayeredPane {
 
             // get the image width and height - it shouldn't fail, but if it does exit as the image cannot be corectly drawn
             try {
-                imageWidth = getItemWidth(this.item.getItem().getItemType());
-                imageHeight = getItemHeight(this.item.getItem().getItemType());
+                imageWidth = getItemWidth(this.item.getItemType());
+                imageHeight = getItemHeight(this.item.getItemType());
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 System.exit(1);
@@ -132,11 +133,11 @@ public final class ItemLayeredPane extends JLayeredPane {
         return false;
     }
 
-    public uiItem getItem() {
+    public Item getItem() {
         return this.item;
     }
 
-    public void setItem(uiItem item) {
+    public void setItem(Item item) {
         this.item = item;
     }
 
