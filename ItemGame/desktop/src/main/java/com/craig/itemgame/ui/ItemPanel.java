@@ -190,7 +190,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
 
         this.getNewItemButton.addActionListener(e -> {
             
-            uiItem newItem;
+            Item newItem;
             try {
                 newItem = this.characterController.generateNewItem();
             } catch (Exception ex) {
@@ -239,7 +239,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
      * Sets the transfer handler on the Item image label so it can be redrawn while being dragged
      * @param item
      */
-    public void setSourceTransferHandler(uiItem item) {
+    public void setSourceTransferHandler(Item item) {
 
         item.getItemImageLabel().setTransferHandler(new ItemTransferHandler());
 
@@ -290,9 +290,9 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
 
     public void setSourceTransferHandlers() {
 
-        List<uiItem> items = this.characterController.getAllItems();
+        List<Item> items = this.characterController.getAllItems();
 
-        for (uiItem item : items) {
+        for (Item item : items) {
             setSourceTransferHandler(item);
         }
 
@@ -309,11 +309,11 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
         // panels
         clearItemPanes();
         setItemsInPanes();
-
+        
         // inventory - first remove all of the items from the previous Character
         // then load the items from the current Character
         this.inventoryPanel.removeAllItems();
-        this.inventoryPanel.addItems();
+        this.inventoryPanel.addItems(); 
 
         // make these calls once everything has been set up in the right spot
         setSourceTransferHandlers();
@@ -372,7 +372,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
 
     public void setupHoverPanel() {
         
-        for (uiItem item : this.characterController.getAllItems()) {
+        for (Item item : this.characterController.getAllItems()) {
             item.getItemImageLabel().addMouseListener(this.mouseListener);
         }
         
@@ -383,7 +383,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
      * be updated and shown
      * @param item
      */
-    public void dragFinishUpdate(uiItem item) {
+    public void dragFinishUpdate(Item item) {
         this.hoverPanel.updateHoverWindow(item.getItemImageLabel());
         this.hoverPanel.showHoverPanel();
     }
@@ -394,7 +394,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
      * @param targetSlot
      * @param item
      */
-    public void addItemToSlot(EquipmentSlot targetSlot, uiItem item) {
+    public void addItemToSlot(EquipmentSlot targetSlot, Item item) {
 
         ItemLayeredPane targetPanel = slotToPanel.get(targetSlot);
         targetPanel.addItemToSlot(item);
@@ -413,11 +413,11 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
     }
 
     
-    public void addItemToInventory(uiItem item, int x, int y) {
+    public void addItemToInventory(Item item, int x, int y) {
         this.inventoryPanel.addItem(item, x, y);
     }
     
-    public void removeItemFromInventory(uiItem item) {
+    public void removeItemFromInventory(Item item) {
         this.inventoryPanel.removeItem(item);
     }
 
@@ -445,7 +445,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
         @Override
         protected Transferable createTransferable(JComponent c) {
             // ItemLayeredPane sourcePanel = null;
-            uiItem item = null;
+            Item item = null;
             
             if (c.getParent() instanceof ItemLayeredPane) {
                 itemPanelSource = (ItemLayeredPane) c.getParent();
@@ -464,7 +464,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
             // System.out.println("Does it create a new transferablle?");
             // else if () // grid
 
-            return new uiItemTransferable(item);
+            return new ItemTransferable(item);
         }
 
         @Override
@@ -539,15 +539,15 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
 
             // System.out.println("Can import?");
 
-            uiItem item = null;
+            Item item = null;
 
-            if (support.isDataFlavorSupported(uiItemTransferable.ITEM_FLAVOR) == false) {
+            if (support.isDataFlavorSupported(ItemTransferable.ITEM_FLAVOR) == false) {
                 System.out.println("Wrong data flavor");
                 return false;
             }
 
             try {
-                item = (uiItem) support.getTransferable().getTransferData(uiItemTransferable.ITEM_FLAVOR);
+                item = (Item) support.getTransferable().getTransferData(ItemTransferable.ITEM_FLAVOR);
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
                 return false;
@@ -573,14 +573,14 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
             
             // System.out.println("Attempting import.. need to see where it's failing");
 
-            uiItem item = null;
+            Item item = null;
 
             if (!canImport(support)) {
                 return false;
             }
 
             try {
-                item = (uiItem) support.getTransferable().getTransferData(uiItemTransferable.ITEM_FLAVOR);
+                item = (Item) support.getTransferable().getTransferData(ItemTransferable.ITEM_FLAVOR);
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
                 return false;
@@ -623,16 +623,16 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
         public boolean canImport(TransferSupport support) {
 
             ItemLayeredPane targetPanel;
-            uiItem item;
+            Item item;
 
-            if (support.isDataFlavorSupported(uiItemTransferable.ITEM_FLAVOR) == false) {
+            if (support.isDataFlavorSupported(ItemTransferable.ITEM_FLAVOR) == false) {
                 System.out.println("Wrong data flavor");
                 return false;
             }
             
             try {
                 targetPanel = (ItemLayeredPane) support.getComponent();
-                item = (uiItem) support.getTransferable().getTransferData(uiItemTransferable.ITEM_FLAVOR);
+                item = (Item) support.getTransferable().getTransferData(ItemTransferable.ITEM_FLAVOR);
             } catch (Exception e) {
                 System.out.println("Failed to cast objects");
                 return false;
@@ -650,7 +650,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
             try {
                 ItemLayeredPane targetPanel = (ItemLayeredPane) support.getComponent();
                 // System.out.println("Supports drop");
-                uiItem item = (uiItem) support.getTransferable().getTransferData(uiItemTransferable.ITEM_FLAVOR);
+                Item item = (Item) support.getTransferable().getTransferData(ItemTransferable.ITEM_FLAVOR);
 
                 if (ItemTransferHandler.getSourceType() == ItemPanel.ItemTransferHandler.SourceTypes.ItemPanel) {
                     this.characterController.moveItemToSlot(targetPanel.getEquipmentSlot(), 
@@ -671,12 +671,12 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
         }
     }
 
-    static class uiItemTransferable implements Transferable {
+    static class ItemTransferable implements Transferable {
 
         public static final DataFlavor ITEM_FLAVOR = new DataFlavor(Item.class, "Item");
-        private final uiItem item;
+        private final Item item;
 
-        public uiItemTransferable(uiItem item) {
+        public ItemTransferable(Item item) {
             this.item = item;
         }
 

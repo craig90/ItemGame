@@ -10,12 +10,9 @@ import com.craig.itemgame.model.Character;
 import com.craig.itemgame.model.CharacterStat;
 import com.craig.itemgame.model.CharacterStatNames;
 import com.craig.itemgame.ui.CharacterView;
-import com.craig.itemgame.ui.uiItem;
 import com.craig.itemgame.ui.ItemView;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,14 +77,14 @@ public class CharacterController {
      * @param sourceSlot
      * @param item
      */
-    public void moveItemToSlot(EquipmentSlot targetSlot, EquipmentSlot sourceSlot, uiItem uiItem) {
+    public void moveItemToSlot(EquipmentSlot targetSlot, EquipmentSlot sourceSlot, Item item) {
         
         if (this.itemManager == null /*|| this.itemPanel == null*/) {
             throw new ExceptionInInitializerError("Controller not initialized with ItemManager or ItemPanel");
         }
 
         // backend calls
-        this.itemManager.equipItem(targetSlot, uiItem.getItem());
+        this.itemManager.equipItem(targetSlot, item);
         this.itemManager.removeItem(sourceSlot);
         this.character.updateStats();
 
@@ -98,7 +95,7 @@ public class CharacterController {
         }
 
         // View calls - we don't access the GUI directly
-        this.itemView.addItemToSlot(targetSlot, uiItem);
+        this.itemView.addItemToSlot(targetSlot, item);
         this.itemView.removeItemFromSlot(sourceSlot);
         
 
@@ -114,11 +111,11 @@ public class CharacterController {
      * @param inventoryPanel
      * @param item
      */
-    public void moveItemToSlotFromInventory(EquipmentSlot targetSlot, uiItem uiItem) {
+    public void moveItemToSlotFromInventory(EquipmentSlot targetSlot, Item item) {
         
         // backend calls
-        this.itemManager.equipItem(targetSlot, uiItem.getItem());
-        this.itemManager.removeItemFromInventory(uiItem.getItem());
+        this.itemManager.equipItem(targetSlot, item);
+        this.itemManager.removeItemFromInventory(item);
         this.character.updateStats();
 
         updateCharacterView();
@@ -128,8 +125,8 @@ public class CharacterController {
         }
 
         // View calls
-        this.itemView.addItemToSlot(targetSlot, uiItem);
-        this.itemView.removeItemFromInventory(uiItem);
+        this.itemView.addItemToSlot(targetSlot, item);
+        this.itemView.removeItemFromInventory(item);
 
         // GUI calls
         // this.itemPanel.addItemToSlot(targetSlot, item);
@@ -138,8 +135,8 @@ public class CharacterController {
     }
 
 
-    public boolean canAddItem(uiItem uiItem, int x, int y) {
-        return this.itemManager.canAddItem(uiItem.getItem(), x, y);
+    public boolean canAddItem(Item item, int x, int y) {
+        return this.itemManager.canAddItem(item, x, y);
     }
 
     /**
@@ -150,10 +147,10 @@ public class CharacterController {
      * @param sourceSlot
      * @return
      */
-    public void moveItemToInventory(uiItem uiItem, int x, int y, EquipmentSlot sourceSlot) {
+    public void moveItemToInventory(Item item, int x, int y, EquipmentSlot sourceSlot) {
 
         // update backend
-        this.itemManager.addItemToGrid(uiItem.getItem(), x, y);
+        this.itemManager.addItemToGrid(item, x, y);
         this.itemManager.removeItem(sourceSlot);
         this.character.updateStats();
 
@@ -165,7 +162,7 @@ public class CharacterController {
 
         // View calls
         this.itemView.removeItemFromSlot(sourceSlot);
-        this.itemView.addItemToInventory(uiItem, x, y);
+        this.itemView.addItemToInventory(item, x, y);
 
         // update GUI
         // this.itemPanel.removeItemFromSlot(sourceSlot);
@@ -183,11 +180,11 @@ public class CharacterController {
      * @param inventoryPanel
      * @return
      */
-    public void moveItemToInventoryFromInventory(uiItem uiItem, int x, int y) {
+    public void moveItemToInventoryFromInventory(Item item, int x, int y) {
 
         // update backend
-        this.itemManager.removeItemFromInventory(uiItem.getItem()); // must be called before readding
-        this.itemManager.addItemToGrid(uiItem.getItem(), x, y);
+        this.itemManager.removeItemFromInventory(item); // must be called before readding
+        this.itemManager.addItemToGrid(item, x, y);
         this.character.updateStats();
 
         updateCharacterView();
@@ -197,7 +194,7 @@ public class CharacterController {
         }
         
         // update view
-        this.itemView.addItemToInventory(uiItem, x, y);
+        this.itemView.addItemToInventory(item, x, y);
 
         // update GUI
         // this.inventoryPanel.addItem(item, x, y);
@@ -230,17 +227,8 @@ public class CharacterController {
      * @param slot
      * @return
      */
-    public uiItem getItem(EquipmentSlot slot) {
-        
-        Item item = this.itemManager.getItem(slot);
-
-        if (item == null) {
-            return null;
-        }
-
-        uiItem uiItem = new uiItem(this.itemManager.getItem(slot));
-        
-        return uiItem;
+    public Item getItem(EquipmentSlot slot) {
+        return this.itemManager.getItem(slot);
     }
 
 
@@ -250,9 +238,9 @@ public class CharacterController {
      * @param row
      * @return
      */
-    public uiItem getItem(int column, int row) throws Exception {
-        uiItem uiItem = new uiItem(this.itemManager.getItem(column, row));
-        return uiItem;
+    public Item getItem(int column, int row) throws Exception {
+        // InventorySlot[][] slots = this.itemManager.getInventoryGrid();
+        return this.itemManager.getItem(column, row);
     }
 
     public Inventory getInventory() {
@@ -263,21 +251,13 @@ public class CharacterController {
         return this.itemManager.getInventoryGrid();
     }
 
-     public Map<uiItem, Point> getInventoryItems() {
-        
-        Map<uiItem, Point> inventoryItems = new HashMap<uiItem,Point>();
-
-        for (Map.Entry<Item, Point> entry : this.itemManager.getInventoryItems().entrySet()) {
-            uiItem uiItem = new uiItem(entry.getKey());
-            inventoryItems.put(uiItem, entry.getValue());
-        }
-        
-        return inventoryItems;
+     public Map<Item, Point> getInventoryItems() {
+        return this.itemManager.getInventoryItems();
     }
 
 
-    public boolean canEquipItem(EquipmentSlot slot, uiItem uiItem) {
-        return this.itemManager.canEquipItem(slot, uiItem.getItem());
+    public boolean canEquipItem(EquipmentSlot slot, Item item) {
+        return this.itemManager.canEquipItem(slot, item);
     }
 
 
@@ -285,17 +265,8 @@ public class CharacterController {
      * return all Items, including both equipped Items and inventory Items
      * @return
      */
-    public List<uiItem> getAllItems() {
-        
-        List<uiItem> uiItems = new ArrayList<>();
-        
-        for (Item item : this.itemManager.getAllItems()) {
-            uiItem uiItem = new uiItem(item);
-            uiItems.add(uiItem);
-        }
-        
-        return uiItems;
-    
+    public List<Item> getAllItems() {
+        return this.itemManager.getAllItems();
     }
 
     /**
@@ -303,21 +274,20 @@ public class CharacterController {
      * @return
      * @throws Exception
      */
-    public uiItem generateNewItem() throws Exception {
+    public Item generateNewItem() throws Exception {
         
         // Item newItem = this.game.getItemGenerator().createNewItem();
         //this.itemManager.setGeneratedItem(newItem);
         // return newItem;
         Item newItem = this.itemService.generateItem();
-        uiItem newUiItem = new uiItem(newItem);
-
+        
         // backend call 
         this.itemManager.setGeneratedItem(newItem);
         
         // view call
-        this.itemView.addItemToSlot(EquipmentSlot.NEW_ITEM_SLOT, newUiItem);
+        this.itemView.addItemToSlot(EquipmentSlot.NEW_ITEM_SLOT, newItem);
 
-        return newUiItem;
+        return newItem;
         
     }
 
