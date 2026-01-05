@@ -206,7 +206,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
             // TODO: I don't like creating the Icon outside of the constructor,
             // it's very easy to create errors this way
             // Also need to do all the removal procedure stuff
-            initItemIcon(newItem);
+            createItemIcon(newItem);
             addItemToSlot(EquipmentSlot.NEW_ITEM_SLOT, newItem);
 
         });
@@ -311,7 +311,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
      * Create an itemicon and put it in the id to ItemLabel map
      * @param item
      */
-    private void initItemIcon(Item item) {
+    private void createItemIcon(Item item) {
 
         ItemLabel itemLabel = new ItemLabel();
         itemLabel.setImageIcon(item);
@@ -327,10 +327,10 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
     /**
      * Creates all the GUI owned ImageLabels and adds them to the map
      */
-    private void initItemIcons() {
+    private void createItemIcons() {
 
         for (Item item : this.characterController.getAllItems()) {
-            initItemIcon(item);
+            createItemIcon(item);
         }
 
     }
@@ -342,7 +342,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
      */
     public void loadItems() {
         
-        initItemIcons();
+        createItemIcons();
 
         // panels
         clearItemPanes();
@@ -364,10 +364,10 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
     //     this.itemManager = itemManager;
     // }
 
-    public void deleteItem() {
+    public void deleteItem(Item item) {
         this.deleteItemPanel.removeItemFromSlot();
-        // this.itemIdToItemLabel.remove();
-        // TODO: figure out how to remove this shit
+        this.itemIdToItemLabel.remove(item.getID());
+        
     }
 
 

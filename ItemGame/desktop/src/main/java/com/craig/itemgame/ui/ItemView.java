@@ -9,6 +9,6 @@ public interface ItemView {
     public void removeItemFromSlot(EquipmentSlot slot);
     public void addItemToInventory(Item item, int x, int y);
     public void removeItemFromInventory(Item item);
-    public void deleteItem();
+    public void deleteItem(Item item);
 
 }
