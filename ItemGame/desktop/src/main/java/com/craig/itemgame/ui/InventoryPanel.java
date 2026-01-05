@@ -31,8 +31,12 @@ public final class InventoryPanel extends JPanel {
 
     private boolean pendingRepaint = false;
 
-    public InventoryPanel(CharacterController characterController, int cellSize, int numRows, int numCols) {
+    private Map<String, ItemLabel> itemIdToItemLabel;
+
+    public InventoryPanel(CharacterController characterController,
+        Map<String, ItemLabel> itemIdToItemLabel, int cellSize, int numRows, int numCols) {
         this.characterController = characterController;
+        this.itemIdToItemLabel = itemIdToItemLabel;
         this.cellSize = cellSize;
         this.numRows = numRows;
         this.numCols = numCols;
@@ -49,9 +53,9 @@ public final class InventoryPanel extends JPanel {
      */
     public void addItem(Item item, int x, int y) {
 
-        item.getItemImageLabel().setBounds(x*cellSize, y*cellSize, 
+        this.itemIdToItemLabel.get(item.getID()).setBounds(x*cellSize, y*cellSize, 
                 item.getWidthInGridUnits()*GRID_SIZE, item.getHeightInGridUnits()*GRID_SIZE);
-        this.add(item.getItemImageLabel());
+        this.add(this.itemIdToItemLabel.get(item.getID()));
 
         pendingRepaint();
 
@@ -82,7 +86,7 @@ public final class InventoryPanel extends JPanel {
     }
 
     public void removeItem(Item item) {
-        this.remove(item.getItemImageLabel());
+        this.remove(itemIdToItemLabel.get(item.getID()));
     }
 
     public Item getItem(int x, int y) {

@@ -49,6 +49,10 @@ public class ItemManager {
         }
     }
 
+    public Item getItemById(String id) {
+        return this.itemsByID.get(id);
+    }
+
     public Map<Item, Point> getInventoryItems() {
 
         Map<Item,Point> inventoryItems = new HashMap<>();
@@ -272,13 +276,13 @@ public class ItemManager {
     /**
      * Method for loading Image Labels after loading on Items since there are not stored in JSON
      */
-    public void initAfterLoad() {
-        List<Item> allItems = getAllItems();
+    // public void initAfterLoad() {
+    //     List<Item> allItems = getAllItems();
 
-        for (Item item: allItems) {
-            item.setImageLabel();
-        }
-    }
+    //     for (Item item: allItems) {
+    //         item.setImageLabel();
+    //     }
+    // }
 
 
     /**

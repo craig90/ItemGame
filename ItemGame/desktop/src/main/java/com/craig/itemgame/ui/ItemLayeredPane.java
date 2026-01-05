@@ -67,7 +67,7 @@ public final class ItemLayeredPane extends JLayeredPane {
      * Adds the specified item to the slot
      * @param item
      */
-    public void addItemToSlot(Item item) {
+    public void addItemToSlot(Item item, ItemLabel itemLabel) {
 
         this.item = item;
         
@@ -89,7 +89,7 @@ public final class ItemLayeredPane extends JLayeredPane {
             }
 
             // System.out.println("Adding item " + this.item.getItemName());
-            this.itemIconLabel = this.item.getItemImageLabel();
+            this.itemIconLabel = itemLabel;
             this.itemIconLabel.setName(this.equipmentSlot.toString());
             this.itemIconLabel.setBounds(0, 0, imageWidth, imageHeight);
             this.itemIconLabel.setVerticalAlignment(JLabel.CENTER);

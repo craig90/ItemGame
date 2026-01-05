@@ -62,9 +62,9 @@ public class Character {
     /**
      * Used to initialize some fields after load from a JSON file
      */
-    public void initAfterLoad() {
-        this.itemManager.initAfterLoad();
-    }
+    // public void initAfterLoad() {
+    //     this.itemManager.initAfterLoad();
+    // }
 
 
     public double getExperience() {

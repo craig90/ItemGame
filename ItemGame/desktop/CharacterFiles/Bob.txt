@@ -3,13 +3,6 @@ Level:40.0
 Experience:123456.0
 Equipped-Items-Start
 Item-Start
-Item Type:AMULET
-Item Name:Purple Amulet
-Defence:99.0
-All Resistance:6.0
-Cold Resistance:7.0
-Item-End
-Item-Start
 Item Type:BOOTS
 Item Name:Yellow Boots
 Poison Resistance:15.0
@@ -42,18 +35,46 @@ Item Name:Orange Belt
 Lightning Resistance:11.0
 Magic Resistance:16.0
 Item-End
+Item-Start
+Item Type:WEAPON
+Item Name:Blue Weapon
+Damage:308.0
+Health:59.0
+Defence:66.0
+All Resistance:6.0
+Magic Resistance:5.0
+Item-End
 Equipped-Items-End
 Inventory-Start
 Item-Start
-Item Type:SHIELD
-Item Name:Green Shield
-Item X:4
+Item Type:CHEST
+Item Name:Cool Chest
+Item X:6
 Item Y:0
-Health:55.0
-Defence:375.0
-Fire Resistance:6.0
-Poison Resistance:19.0
-Magic Resistance:5.0
+Damage:36.0
+Health:29.0
+Defence:496.0
+All Resistance:9.0
+Cold Resistance:6.0
+Item-End
+Item-Start
+Item Type:SHIELD
+Item Name:Cool Shield
+Item X:0
+Item Y:0
+Health:42.0
+Defence:281.0
+Fire Resistance:17.0
+Lightning Resistance:7.0
+Item-End
+Item-Start
+Item Type:AMULET
+Item Name:Purple Amulet
+Item X:8
+Item Y:1
+Defence:99.0
+All Resistance:6.0
+Cold Resistance:7.0
 Item-End
 Item-Start
 Item Type:RING
@@ -65,12 +86,13 @@ Magic Resistance:6.0
 Item-End
 Item-Start
 Item Type:SHIELD
-Item Name:Cool Shield
-Item X:2
+Item Name:Green Shield
+Item X:4
 Item Y:0
-Health:42.0
-Defence:281.0
-Fire Resistance:17.0
-Lightning Resistance:7.0
+Health:55.0
+Defence:375.0
+Fire Resistance:6.0
+Poison Resistance:19.0
+Magic Resistance:5.0
 Item-End
 Inventory-End

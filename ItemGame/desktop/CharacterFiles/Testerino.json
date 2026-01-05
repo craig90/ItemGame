@@ -1,0 +1,416 @@
+{
+  "characterName": "Testerino",
+  "level": {
+    "baseValue": 0.0,
+    "itemValue": 0.0,
+    "type": "Level",
+    "value": 1.0
+  },
+  "experience": {
+    "baseValue": 0.0,
+    "itemValue": 0.0,
+    "type": "Experience",
+    "value": 0.0
+  },
+  "statMap": {
+    "HEALTH": {
+      "baseValue": 2.0,
+      "itemValue": 0.0,
+      "type": "Health",
+      "value": 2.0
+    },
+    "POISON_RESISTANCE": {
+      "baseValue": 0.5,
+      "itemValue": 17.0,
+      "type": "Poison Resistance",
+      "value": 17.5
+    },
+    "DAMAGE": {
+      "baseValue": 1.0,
+      "itemValue": 42.0,
+      "type": "Damage",
+      "value": 43.0
+    },
+    "DEFENCE": {
+      "baseValue": 3.0,
+      "itemValue": 82.0,
+      "type": "Defence",
+      "value": 85.0
+    },
+    "COLD_RESISTANCE": {
+      "baseValue": 0.5,
+      "itemValue": 8.0,
+      "type": "Cold Resistance",
+      "value": 8.5
+    },
+    "FIRE_RESISTANCE": {
+      "baseValue": 0.5,
+      "itemValue": 0.0,
+      "type": "Fire Resistance",
+      "value": 0.5
+    },
+    "LIGHTNING_RESISTANCE": {
+      "baseValue": 0.5,
+      "itemValue": 0.0,
+      "type": "Lightning Resistance",
+      "value": 0.5
+    },
+    "MAGIC_RESISTANCE": {
+      "baseValue": 0.5,
+      "itemValue": 0.0,
+      "type": "Magic Resistance",
+      "value": 0.5
+    }
+  },
+  "itemManager": {
+    "itemsByID": {
+      "c0040570-8c29-41db-a041-684d8dc3c8a2": {
+        "slot": "LEFT_RING",
+        "itemName": "Gold Ring",
+        "statList": [
+          {
+            "type": "Damage",
+            "value": 42.0
+          },
+          {
+            "type": "Defence",
+            "value": 82.0
+          },
+          {
+            "type": "Poison Resistance",
+            "value": 17.0
+          },
+          {
+            "type": "Cold Resistance",
+            "value": 8.0
+          }
+        ],
+        "itemType": "RING",
+        "id": "c0040570-8c29-41db-a041-684d8dc3c8a2"
+      },
+      "3cd37338-d0df-4bcc-9960-50fd122c4e8d": {
+        "itemName": "Silver Pants",
+        "statList": [
+          {
+            "type": "Fire Resistance",
+            "value": 19.0
+          },
+          {
+            "type": "Lightning Resistance",
+            "value": 14.0
+          }
+        ],
+        "itemType": "PANTS",
+        "id": "3cd37338-d0df-4bcc-9960-50fd122c4e8d"
+      },
+      "6501f285-83aa-49be-9a62-25e32c598784": {
+        "itemName": "Purple Gloves",
+        "statList": [
+          {
+            "type": "Fire Resistance",
+            "value": 15.0
+          },
+          {
+            "type": "Cold Resistance",
+            "value": 18.0
+          },
+          {
+            "type": "Magic Resistance",
+            "value": 15.0
+          }
+        ],
+        "itemType": "GLOVES",
+        "id": "6501f285-83aa-49be-9a62-25e32c598784"
+      }
+    },
+    "equippedItems": {
+      "LEFT_RING": "c0040570-8c29-41db-a041-684d8dc3c8a2"
+    },
+    "inventory": {
+      "rows": 5,
+      "columns": 10,
+      "inventorySlots": [
+        [
+          {
+            "x": 0,
+            "y": 0,
+            "isOccupied": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "isOccupied": false
+          },
+          {
+            "x": 0,
+            "y": 2,
+            "itemId": "3cd37338-d0df-4bcc-9960-50fd122c4e8d",
+            "isOccupied": true
+          },
+          {
+            "x": 0,
+            "y": 3,
+            "itemId": "3cd37338-d0df-4bcc-9960-50fd122c4e8d",
+            "isOccupied": true
+          },
+          {
+            "x": 0,
+            "y": 4,
+            "itemId": "6501f285-83aa-49be-9a62-25e32c598784",
+            "isOccupied": true
+          },
+          {
+            "x": 0,
+            "y": 5,
+            "itemId": "6501f285-83aa-49be-9a62-25e32c598784",
+            "isOccupied": true
+          },
+          {
+            "x": 0,
+            "y": 6,
+            "isOccupied": false
+          },
+          {
+            "x": 0,
+            "y": 7,
+            "isOccupied": false
+          },
+          {
+            "x": 0,
+            "y": 8,
+            "isOccupied": false
+          },
+          {
+            "x": 0,
+            "y": 9,
+            "isOccupied": false
+          }
+        ],
+        [
+          {
+            "x": 1,
+            "y": 0,
+            "isOccupied": false
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "isOccupied": false
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "itemId": "3cd37338-d0df-4bcc-9960-50fd122c4e8d",
+            "isOccupied": true
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "itemId": "3cd37338-d0df-4bcc-9960-50fd122c4e8d",
+            "isOccupied": true
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "itemId": "6501f285-83aa-49be-9a62-25e32c598784",
+            "isOccupied": true
+          },
+          {
+            "x": 1,
+            "y": 5,
+            "itemId": "6501f285-83aa-49be-9a62-25e32c598784",
+            "isOccupied": true
+          },
+          {
+            "x": 1,
+            "y": 6,
+            "isOccupied": false
+          },
+          {
+            "x": 1,
+            "y": 7,
+            "isOccupied": false
+          },
+          {
+            "x": 1,
+            "y": 8,
+            "isOccupied": false
+          },
+          {
+            "x": 1,
+            "y": 9,
+            "isOccupied": false
+          }
+        ],
+        [
+          {
+            "x": 2,
+            "y": 0,
+            "isOccupied": false
+          },
+          {
+            "x": 2,
+            "y": 1,
+            "isOccupied": false
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "itemId": "3cd37338-d0df-4bcc-9960-50fd122c4e8d",
+            "isOccupied": true
+          },
+          {
+            "x": 2,
+            "y": 3,
+            "itemId": "3cd37338-d0df-4bcc-9960-50fd122c4e8d",
+            "isOccupied": true
+          },
+          {
+            "x": 2,
+            "y": 4,
+            "isOccupied": false
+          },
+          {
+            "x": 2,
+            "y": 5,
+            "isOccupied": false
+          },
+          {
+            "x": 2,
+            "y": 6,
+            "isOccupied": false
+          },
+          {
+            "x": 2,
+            "y": 7,
+            "isOccupied": false
+          },
+          {
+            "x": 2,
+            "y": 8,
+            "isOccupied": false
+          },
+          {
+            "x": 2,
+            "y": 9,
+            "isOccupied": false
+          }
+        ],
+        [
+          {
+            "x": 3,
+            "y": 0,
+            "isOccupied": false
+          },
+          {
+            "x": 3,
+            "y": 1,
+            "isOccupied": false
+          },
+          {
+            "x": 3,
+            "y": 2,
+            "isOccupied": false
+          },
+          {
+            "x": 3,
+            "y": 3,
+            "isOccupied": false
+          },
+          {
+            "x": 3,
+            "y": 4,
+            "isOccupied": false
+          },
+          {
+            "x": 3,
+            "y": 5,
+            "isOccupied": false
+          },
+          {
+            "x": 3,
+            "y": 6,
+            "isOccupied": false
+          },
+          {
+            "x": 3,
+            "y": 7,
+            "isOccupied": false
+          },
+          {
+            "x": 3,
+            "y": 8,
+            "isOccupied": false
+          },
+          {
+            "x": 3,
+            "y": 9,
+            "isOccupied": false
+          }
+        ],
+        [
+          {
+            "x": 4,
+            "y": 0,
+            "isOccupied": false
+          },
+          {
+            "x": 4,
+            "y": 1,
+            "isOccupied": false
+          },
+          {
+            "x": 4,
+            "y": 2,
+            "isOccupied": false
+          },
+          {
+            "x": 4,
+            "y": 3,
+            "isOccupied": false
+          },
+          {
+            "x": 4,
+            "y": 4,
+            "isOccupied": false
+          },
+          {
+            "x": 4,
+            "y": 5,
+            "isOccupied": false
+          },
+          {
+            "x": 4,
+            "y": 6,
+            "isOccupied": false
+          },
+          {
+            "x": 4,
+            "y": 7,
+            "isOccupied": false
+          },
+          {
+            "x": 4,
+            "y": 8,
+            "isOccupied": false
+          },
+          {
+            "x": 4,
+            "y": 9,
+            "isOccupied": false
+          }
+        ]
+      ],
+      "itemOrigins": {
+        "3cd37338-d0df-4bcc-9960-50fd122c4e8d": {
+          "x": 2,
+          "y": 0
+        },
+        "6501f285-83aa-49be-9a62-25e32c598784": {
+          "x": 4,
+          "y": 0
+        }
+      }
+    }
+  }
+}
