@@ -208,18 +208,18 @@ public class CharacterController {
      */
     public void deleteItem() {
 
+        if (this.itemView == null) {
+            return;
+        }
+
+        // remove the GUI copy of the item first
+        this.itemView.deleteItem(this.itemManager.getDeleteItem());
+
         // update backend
         this.itemManager.removeDeleteItem();
         this.character.updateStats();
 
         updateCharacterView();
-
-        if (this.itemView == null) {
-            return;
-        }
-
-        // view call
-        this.itemView.deleteItem();
 
     }
 
