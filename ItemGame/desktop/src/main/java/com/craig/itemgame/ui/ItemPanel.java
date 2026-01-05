@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -207,23 +206,15 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
             // TODO: I don't like creating the Icon outside of the constructor,
             // it's very easy to create errors this way
             // Also need to do all the removal procedure stuff
-            // there are wayyy too many calls to create and setup and item right now
-
-            // TODO: move these calls - should be all done in one place with
-            // calls to init items
-            // these should be done in constructor I think
-            ItemLabel itemLabel = new ItemLabel();
-            itemLabel.setImageIcon(newItem);
-            this.itemIdToItemLabel.put(newItem.getID(), itemLabel);
+            initItemIcon(newItem);
             addItemToSlot(EquipmentSlot.NEW_ITEM_SLOT, newItem);
-            setSourceTransferHandler(newItem);
-            itemLabel.addMouseListener(this.mouseListener);
 
         });
 
         // delete the item
         this.deleteItemButton.addActionListener(e -> {
             this.characterController.deleteItem();
+            
         });
 
         // put all the ItemLayeredPanes (slots) into a map for dynmaic access and manipulation
@@ -256,9 +247,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
      * Sets the transfer handler on the Item image label so it can be redrawn while being dragged
      * @param item
      */
-    public void setSourceTransferHandler(Item item) {
-
-        ItemLabel itemLabel = itemIdToItemLabel.get(item.getID());
+    public void setSourceTransferHandler(ItemLabel itemLabel) {
 
         itemLabel.setTransferHandler(new ItemTransferHandler());
 
@@ -307,27 +296,41 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
         return image;
     }
 
-    public void setSourceTransferHandlers() {
+    // public void setSourceTransferHandlers() {
 
-        List<Item> items = this.characterController.getAllItems();
+    //     List<Item> items = this.characterController.getAllItems();
 
-        for (Item item : items) {
-            setSourceTransferHandler(item);
-        }
+    //     for (Item item : items) {
+    //         setSourceTransferHandler(item);
+    //     }
+
+    // }
+
+
+    /**
+     * Create an itemicon and put it in the id to ItemLabel map
+     * @param item
+     */
+    private void initItemIcon(Item item) {
+
+        ItemLabel itemLabel = new ItemLabel();
+        itemLabel.setImageIcon(item);
+        this.itemIdToItemLabel.put(item.getID(), itemLabel);
+
+        // setup listener and transfer handler
+        itemLabel.addMouseListener(this.mouseListener);
+        setSourceTransferHandler(itemLabel);
 
     }
+
 
     /**
      * Creates all the GUI owned ImageLabels and adds them to the map
      */
-    private void initImages() {
+    private void initItemIcons() {
 
-        List<Item> items = this.characterController.getAllItems();
-
-        for (Item item : items) {
-            ItemLabel itemLabel = new ItemLabel();
-            itemLabel.setImageIcon(item);
-            this.itemIdToItemLabel.put(item.getID(), itemLabel);
+        for (Item item : this.characterController.getAllItems()) {
+            initItemIcon(item);
         }
 
     }
@@ -339,7 +342,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
      */
     public void loadItems() {
         
-        initImages();
+        initItemIcons();
 
         // panels
         clearItemPanes();
@@ -351,8 +354,8 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
         this.inventoryPanel.addItems(); 
 
         // make these calls once everything has been set up in the right spot
-        setSourceTransferHandlers();
-        setupHoverPanel();
+        // setSourceTransferHandlers();
+        // setupHoverPanel();
 
 
     }
@@ -363,6 +366,8 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
 
     public void deleteItem() {
         this.deleteItemPanel.removeItemFromSlot();
+        // this.itemIdToItemLabel.remove();
+        // TODO: figure out how to remove this shit
     }
 
 
@@ -407,13 +412,13 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
 
     }
 
-    public void setupHoverPanel() {
+    // public void setupHoverPanel() {
         
-        for (Item item : this.characterController.getAllItems()) {
-            itemIdToItemLabel.get(item.getID()).addMouseListener(this.mouseListener);
-        }
+    //     for (Item item : this.characterController.getAllItems()) {
+    //         itemIdToItemLabel.get(item.getID()).addMouseListener(this.mouseListener);
+    //     }
         
-    }
+    // }
 
     /**
      * After the item has been sucessfully dragged, Character stats need to be updated and the hover panel should
