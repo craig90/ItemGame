@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +61,8 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
 
     private final Map <EquipmentSlot, ItemLayeredPane> slotToPanel = new EnumMap<>(EquipmentSlot.class);
 
+    private Map<String, ItemLabel> itemIdToItemLabel;
+
     public ItemPanel(CharacterController characterController) {
 
         // this.layeredPane = new JLayeredPane();
@@ -68,6 +71,8 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
         this.equippedItemPanel.setLayout(new GridBagLayout());
 
         this.characterController = characterController;
+
+        this.itemIdToItemLabel = new HashMap<>();
 
         // creates a constraints object
         GridBagConstraints c = new GridBagConstraints();
@@ -138,10 +143,8 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
         c.gridy = 2;
         this.equippedItemPanel.add(this.bootsPanel, c);
 
-
-
-
-        this.inventoryPanel = new InventoryPanel(this.characterController, InventoryPanel.GRID_SIZE, Inventory.INVENTORY_ROWS, Inventory.INVENTORY_COLUMNS);
+        this.inventoryPanel = new InventoryPanel(this.characterController, itemIdToItemLabel, 
+            InventoryPanel.GRID_SIZE, Inventory.INVENTORY_ROWS, Inventory.INVENTORY_COLUMNS);
         
         this.generateDeleteItemPanel = new JPanel();
         this.generateDeleteItemPanel.setLayout(new GridBagLayout());
@@ -195,12 +198,26 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
                 newItem = this.characterController.generateNewItem();
             } catch (Exception ex) {
                 System.out.println("Error creating new item");
+                System.out.println(ex);
                 return;
             }
             
-            // TODO: move these calls
+            // TODO: need to look at resizing/recentering for inventory
+
+            // TODO: I don't like creating the Icon outside of the constructor,
+            // it's very easy to create errors this way
+            // Also need to do all the removal procedure stuff
+            // there are wayyy too many calls to create and setup and item right now
+
+            // TODO: move these calls - should be all done in one place with
+            // calls to init items
+            // these should be done in constructor I think
+            ItemLabel itemLabel = new ItemLabel();
+            itemLabel.setImageIcon(newItem);
+            this.itemIdToItemLabel.put(newItem.getID(), itemLabel);
+            addItemToSlot(EquipmentSlot.NEW_ITEM_SLOT, newItem);
             setSourceTransferHandler(newItem);
-            newItem.getItemImageLabel().addMouseListener(this.mouseListener);
+            itemLabel.addMouseListener(this.mouseListener);
 
         });
 
@@ -241,33 +258,35 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
      */
     public void setSourceTransferHandler(Item item) {
 
-        item.getItemImageLabel().setTransferHandler(new ItemTransferHandler());
+        ItemLabel itemLabel = itemIdToItemLabel.get(item.getID());
+
+        itemLabel.setTransferHandler(new ItemTransferHandler());
 
         HoverPanel hoverPanel = this.hoverPanel;
 
         DragSource dragSource = new DragSource();
-        dragSource.createDefaultDragGestureRecognizer(item.getItemImageLabel(), DnDConstants.ACTION_MOVE, new DragGestureListener() {
+        dragSource.createDefaultDragGestureRecognizer(itemLabel, DnDConstants.ACTION_MOVE, new DragGestureListener() {
             @Override
             public void dragGestureRecognized(DragGestureEvent dge) {
                 
                 hoverPanel.hideHoverPanel(); // hide the hover panel when the drag starts
 
-                TransferHandler th = item.getItemImageLabel().getTransferHandler();
+                TransferHandler th = itemLabel.getTransferHandler();
                 if (!(th instanceof ItemTransferHandler)) return;
 
-                Transferable transferable = ((ItemTransferHandler) th).getTransferable(item.getItemImageLabel());
+                Transferable transferable = ((ItemTransferHandler) th).getTransferable(itemLabel);
                 
                 if (transferable == null) return;
 
                 // Create custom drag image
-                Image dragImage = createDragImage(item.getItemImageLabel());
+                Image dragImage = createDragImage(itemLabel);
 
                 // Start drag with image
                 dragSource.startDrag(dge, DragSource.DefaultMoveDrop, dragImage, new Point(0, 0), transferable,
                     new DragSourceAdapter() {
                         @Override
                         public void dragDropEnd(DragSourceDropEvent dsde) {
-                            ((ItemTransferHandler) th).exportDone((JComponent)item.getItemImageLabel(), transferable, 
+                            ((ItemTransferHandler) th).exportDone((JComponent)itemLabel, transferable, 
                             dsde.getDropSuccess() ? DnDConstants.ACTION_MOVE : DnDConstants.ACTION_NONE);
                         }
 
@@ -298,6 +317,20 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
 
     }
 
+    /**
+     * Creates all the GUI owned ImageLabels and adds them to the map
+     */
+    private void initImages() {
+
+        List<Item> items = this.characterController.getAllItems();
+
+        for (Item item : items) {
+            ItemLabel itemLabel = new ItemLabel();
+            itemLabel.setImageIcon(item);
+            this.itemIdToItemLabel.put(item.getID(), itemLabel);
+        }
+
+    }
 
     /**
      * Calls the vairous helper methods, clears out the panes, set the new items, set of transfer handlers,
@@ -306,6 +339,8 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
      */
     public void loadItems() {
         
+        initImages();
+
         // panels
         clearItemPanes();
         setItemsInPanes();
@@ -364,7 +399,9 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
 
         for (Map.Entry<EquipmentSlot, ItemLayeredPane> entry : slotToPanel.entrySet()) {
             if (this.characterController.getItem(entry.getKey()) != null) {
-                entry.getValue().addItemToSlot(this.characterController.getItem(entry.getKey()));
+                Item item = this.characterController.getItem(entry.getKey());
+                ItemLabel itemLabel = itemIdToItemLabel.get(item.getID());
+                entry.getValue().addItemToSlot(item, itemLabel);
             }
         }
 
@@ -373,7 +410,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
     public void setupHoverPanel() {
         
         for (Item item : this.characterController.getAllItems()) {
-            item.getItemImageLabel().addMouseListener(this.mouseListener);
+            itemIdToItemLabel.get(item.getID()).addMouseListener(this.mouseListener);
         }
         
     }
@@ -384,7 +421,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
      * @param item
      */
     public void dragFinishUpdate(Item item) {
-        this.hoverPanel.updateHoverWindow(item.getItemImageLabel());
+        this.hoverPanel.updateHoverWindow(itemIdToItemLabel.get(item.getID()));
         this.hoverPanel.showHoverPanel();
     }
 
@@ -397,7 +434,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
     public void addItemToSlot(EquipmentSlot targetSlot, Item item) {
 
         ItemLayeredPane targetPanel = slotToPanel.get(targetSlot);
-        targetPanel.addItemToSlot(item);
+        targetPanel.addItemToSlot(item, itemIdToItemLabel.get(item.getID()));
 
     }
 

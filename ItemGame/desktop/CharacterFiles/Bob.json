@@ -21,15 +21,15 @@
     },
     "DAMAGE": {
       "baseValue": 40.0,
-      "itemValue": 94.0,
+      "itemValue": 402.0,
       "type": "Damage",
-      "value": 134.0
+      "value": 442.0
     },
     "COLD_RESISTANCE": {
       "baseValue": 20.0,
-      "itemValue": 21.0,
+      "itemValue": 14.0,
       "type": "Cold Resistance",
-      "value": 41.0
+      "value": 34.0
     },
     "FIRE_RESISTANCE": {
       "baseValue": 20.0,
@@ -39,15 +39,15 @@
     },
     "MAGIC_RESISTANCE": {
       "baseValue": 20.0,
-      "itemValue": 52.0,
+      "itemValue": 57.0,
       "type": "Magic Resistance",
-      "value": 72.0
+      "value": 77.0
     },
     "HEALTH": {
       "baseValue": 80.0,
-      "itemValue": 37.0,
+      "itemValue": 96.0,
       "type": "Health",
-      "value": 117.0
+      "value": 176.0
     },
     "POISON_RESISTANCE": {
       "baseValue": 20.0,
@@ -57,9 +57,9 @@
     },
     "DEFENCE": {
       "baseValue": 120.0,
-      "itemValue": 476.0,
+      "itemValue": 443.0,
       "type": "Defence",
-      "value": 596.0
+      "value": 563.0
     }
   },
   "itemManager": {
@@ -296,15 +296,69 @@
         ],
         "itemType": "BELT",
         "id": "e3057bf3-3b79-424b-9078-a90f5013bccc"
+      },
+      "75854e2b-b621-4b0d-8ff0-797f7acd5cd5": {
+        "itemName": "Cool Chest",
+        "statList": [
+          {
+            "type": "Damage",
+            "value": 36.0
+          },
+          {
+            "type": "Health",
+            "value": 29.0
+          },
+          {
+            "type": "Defence",
+            "value": 496.0
+          },
+          {
+            "type": "All Resistance",
+            "value": 9.0
+          },
+          {
+            "type": "Cold Resistance",
+            "value": 6.0
+          }
+        ],
+        "itemType": "CHEST",
+        "id": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5"
+      },
+      "b28cffe8-a8e9-4cea-bd2f-2c357dbd20c3": {
+        "itemName": "Blue Weapon",
+        "statList": [
+          {
+            "type": "Damage",
+            "value": 308.0
+          },
+          {
+            "type": "Health",
+            "value": 59.0
+          },
+          {
+            "type": "Defence",
+            "value": 66.0
+          },
+          {
+            "type": "All Resistance",
+            "value": 6.0
+          },
+          {
+            "type": "Magic Resistance",
+            "value": 5.0
+          }
+        ],
+        "itemType": "WEAPON",
+        "id": "b28cffe8-a8e9-4cea-bd2f-2c357dbd20c3"
       }
     },
     "equippedItems": {
-      "AMULET": "ab2d71a4-5cbc-4a0e-bdd8-7e3f3b6d91b8",
       "BOOTS": "442794d4-3d55-406e-a2c4-4cc73caac9bf",
       "PANTS": "a7d5852f-c6fa-4a76-aabf-e670ad785886",
       "GLOVES": "4dd3e860-9b87-4bb2-b6ce-7721c415d701",
       "SHIELD": "e0d13810-3c70-470e-a13d-8ba40d551128",
-      "BELT": "e3057bf3-3b79-424b-9078-a90f5013bccc"
+      "BELT": "e3057bf3-3b79-424b-9078-a90f5013bccc",
+      "WEAPON": "b28cffe8-a8e9-4cea-bd2f-2c357dbd20c3"
     },
     "inventory": {
       "rows": 5,
@@ -314,24 +368,24 @@
           {
             "x": 0,
             "y": 0,
-            "isOccupied": false
+            "itemId": "242b6192-47ea-4534-8a5e-ea76bfea4786",
+            "isOccupied": true
           },
           {
             "x": 0,
             "y": 1,
-            "isOccupied": false
+            "itemId": "242b6192-47ea-4534-8a5e-ea76bfea4786",
+            "isOccupied": true
           },
           {
             "x": 0,
             "y": 2,
-            "itemId": "242b6192-47ea-4534-8a5e-ea76bfea4786",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 0,
             "y": 3,
-            "itemId": "242b6192-47ea-4534-8a5e-ea76bfea4786",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 0,
@@ -348,12 +402,14 @@
           {
             "x": 0,
             "y": 6,
-            "isOccupied": false
+            "itemId": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
+            "isOccupied": true
           },
           {
             "x": 0,
             "y": 7,
-            "isOccupied": false
+            "itemId": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
+            "isOccupied": true
           },
           {
             "x": 0,
@@ -371,24 +427,24 @@
           {
             "x": 1,
             "y": 0,
-            "isOccupied": false
+            "itemId": "242b6192-47ea-4534-8a5e-ea76bfea4786",
+            "isOccupied": true
           },
           {
             "x": 1,
             "y": 1,
-            "isOccupied": false
+            "itemId": "242b6192-47ea-4534-8a5e-ea76bfea4786",
+            "isOccupied": true
           },
           {
             "x": 1,
             "y": 2,
-            "itemId": "242b6192-47ea-4534-8a5e-ea76bfea4786",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 1,
             "y": 3,
-            "itemId": "242b6192-47ea-4534-8a5e-ea76bfea4786",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 1,
@@ -405,17 +461,20 @@
           {
             "x": 1,
             "y": 6,
-            "isOccupied": false
+            "itemId": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
+            "isOccupied": true
           },
           {
             "x": 1,
             "y": 7,
-            "isOccupied": false
+            "itemId": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
+            "isOccupied": true
           },
           {
             "x": 1,
             "y": 8,
-            "isOccupied": false
+            "itemId": "ab2d71a4-5cbc-4a0e-bdd8-7e3f3b6d91b8",
+            "isOccupied": true
           },
           {
             "x": 1,
@@ -427,24 +486,24 @@
           {
             "x": 2,
             "y": 0,
-            "isOccupied": false
+            "itemId": "242b6192-47ea-4534-8a5e-ea76bfea4786",
+            "isOccupied": true
           },
           {
             "x": 2,
             "y": 1,
-            "isOccupied": false
+            "itemId": "242b6192-47ea-4534-8a5e-ea76bfea4786",
+            "isOccupied": true
           },
           {
             "x": 2,
             "y": 2,
-            "itemId": "242b6192-47ea-4534-8a5e-ea76bfea4786",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 2,
             "y": 3,
-            "itemId": "242b6192-47ea-4534-8a5e-ea76bfea4786",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 2,
@@ -461,12 +520,14 @@
           {
             "x": 2,
             "y": 6,
-            "isOccupied": false
+            "itemId": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
+            "isOccupied": true
           },
           {
             "x": 2,
             "y": 7,
-            "isOccupied": false
+            "itemId": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
+            "isOccupied": true
           },
           {
             "x": 2,
@@ -585,10 +646,6 @@
         ]
       ],
       "itemOrigins": {
-        "242b6192-47ea-4534-8a5e-ea76bfea4786": {
-          "x": 2,
-          "y": 0
-        },
         "401493dd-17da-4c64-99a7-558f60c0b154": {
           "x": 9,
           "y": 0
@@ -596,6 +653,18 @@
         "f3ad5b92-53fb-436c-b504-e76c0dbdd57a": {
           "x": 4,
           "y": 0
+        },
+        "75854e2b-b621-4b0d-8ff0-797f7acd5cd5": {
+          "x": 6,
+          "y": 0
+        },
+        "242b6192-47ea-4534-8a5e-ea76bfea4786": {
+          "x": 0,
+          "y": 0
+        },
+        "ab2d71a4-5cbc-4a0e-bdd8-7e3f3b6d91b8": {
+          "x": 8,
+          "y": 1
         }
       }
     }

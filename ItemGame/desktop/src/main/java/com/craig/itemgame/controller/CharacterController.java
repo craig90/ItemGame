@@ -32,10 +32,10 @@ public class CharacterController {
     }
 
     public void setCharacter(Character character) {
-        System.out.println("Setting character and item manager");
+        // System.out.println("Setting character and item manager");
         this.character = character;
         this.itemManager = character.getItemManager();
-        
+
         updateCharacterView();
         this.characterView.updateCharacterItems();
         
@@ -63,6 +63,7 @@ public class CharacterController {
         } else {
             System.out.println("Character view is null");
         }
+
     }
 
     public void setView(CharacterView characterView, ItemView itemView) {
@@ -243,6 +244,10 @@ public class CharacterController {
         return this.itemManager.getItem(column, row);
     }
 
+    public Item getItemById(String id) {
+        return this.itemManager.getItemById(id);
+    }
+
     public Inventory getInventory() {
         return this.itemManager.getInventory();
     }
@@ -285,7 +290,7 @@ public class CharacterController {
         this.itemManager.setGeneratedItem(newItem);
         
         // view call
-        this.itemView.addItemToSlot(EquipmentSlot.NEW_ITEM_SLOT, newItem);
+        // this.itemView.addItemToSlot(EquipmentSlot.NEW_ITEM_SLOT, newItem);
 
         return newItem;
         
