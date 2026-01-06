@@ -16,3 +16,15 @@ Meanwhile, the compiled output files will be generated in the `bin` folder by de
 ## Dependency Management
 
 The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+
+
+## Run instructions
+There are two options:
+
+1. Run the project through the Launcher in VSCode.
+Literally open the Launcher.java program and select run.
+
+2. The project can also be run using gradlew.
+cd to project root
+run: ./gradlew build
+run: ./gradlew desktop:run
