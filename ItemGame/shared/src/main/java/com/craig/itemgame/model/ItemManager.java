@@ -102,6 +102,7 @@ public class ItemManager {
     // }
     
     public void removeDeleteItem() {
+        this.itemsByID.remove(this.deleteItemID);
         this.deleteItemID = null;
     }
     
