@@ -10,7 +10,7 @@ public class Boots extends Item {
 
     @Override
     public String getImageKey() {
-        return "boots";
+        return BOOTS_KEY;
     }
 
     @Override

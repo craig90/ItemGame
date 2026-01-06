@@ -13,7 +13,7 @@ public class Chest extends Item {
 
     @Override
     public String getImageKey() {
-        return "chest";
+        return CHEST_KEY;
     }
 
     /**

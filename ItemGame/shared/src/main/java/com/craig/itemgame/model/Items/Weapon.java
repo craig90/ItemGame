@@ -13,7 +13,7 @@ public class Weapon extends Item {
 
     @Override
     public String getImageKey() {
-        return "weapon";
+        return WEAPON_KEY;
     }
 
     @Override

@@ -13,7 +13,7 @@ public class Ring extends Item {
 
     @Override
     public String getImageKey() {
-        return "ring";
+        return RING_KEY;
     }
 
     @Override

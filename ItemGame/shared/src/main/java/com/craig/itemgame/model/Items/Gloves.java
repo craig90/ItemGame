@@ -10,7 +10,7 @@ public class Gloves extends Item {
 
     @Override
     public String getImageKey() {
-        return "gloves";
+        return GLOVES_KEY;
     }
 
     @Override

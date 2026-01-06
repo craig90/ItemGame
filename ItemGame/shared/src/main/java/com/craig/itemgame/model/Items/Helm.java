@@ -10,7 +10,7 @@ public class Helm extends Item {
 
     @Override
     public String getImageKey() {
-        return "helm";
+        return HELM_KEY;
     }
 
     @Override
