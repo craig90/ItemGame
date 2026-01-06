@@ -201,11 +201,6 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
                 return;
             }
             
-            // TODO: need to look at resizing/recentering for inventory
-
-            // TODO: I don't like creating the Icon outside of the constructor,
-            // it's very easy to create errors this way
-            // Also need to do all the removal procedure stuff
             createItemIcon(newItem);
             addItemToSlot(EquipmentSlot.NEW_ITEM_SLOT, newItem);
 
@@ -313,8 +308,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
      */
     private void createItemIcon(Item item) {
 
-        ItemLabel itemLabel = new ItemLabel();
-        itemLabel.setImageIcon(item);
+        ItemLabel itemLabel = new ItemLabel(item);
         this.itemIdToItemLabel.put(item.getID(), itemLabel);
 
         // setup listener and transfer handler
