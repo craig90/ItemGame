@@ -13,7 +13,7 @@ public class Shield extends Item {
 
     @Override
     public String getImageKey() {
-        return "shield";
+        return SHIELD_KEY;
     }
 
     @Override

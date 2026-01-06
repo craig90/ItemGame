@@ -10,7 +10,7 @@ public class Amulet extends Item {
 
     @Override
     public String getImageKey() {
-        return "amulet";
+        return AMULET_KEY;
     }
 
     @Override

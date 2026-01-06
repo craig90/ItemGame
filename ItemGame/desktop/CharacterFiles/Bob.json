@@ -15,51 +15,51 @@
   "statMap": {
     "LIGHTNING_RESISTANCE": {
       "baseValue": 20.0,
-      "itemValue": 34.0,
+      "itemValue": 72.0,
       "type": "Lightning Resistance",
-      "value": 54.0
+      "value": 92.0
     },
     "DAMAGE": {
       "baseValue": 40.0,
-      "itemValue": 402.0,
+      "itemValue": 511.0,
       "type": "Damage",
-      "value": 442.0
+      "value": 551.0
     },
     "COLD_RESISTANCE": {
       "baseValue": 20.0,
-      "itemValue": 14.0,
+      "itemValue": 55.0,
       "type": "Cold Resistance",
-      "value": 34.0
+      "value": 75.0
     },
     "FIRE_RESISTANCE": {
       "baseValue": 20.0,
-      "itemValue": 14.0,
+      "itemValue": 34.0,
       "type": "Fire Resistance",
-      "value": 34.0
+      "value": 54.0
     },
     "MAGIC_RESISTANCE": {
       "baseValue": 20.0,
-      "itemValue": 57.0,
+      "itemValue": 83.0,
       "type": "Magic Resistance",
-      "value": 77.0
+      "value": 103.0
     },
     "HEALTH": {
       "baseValue": 80.0,
-      "itemValue": 96.0,
+      "itemValue": 181.0,
       "type": "Health",
-      "value": 176.0
+      "value": 261.0
     },
     "POISON_RESISTANCE": {
       "baseValue": 20.0,
-      "itemValue": 35.0,
+      "itemValue": 55.0,
       "type": "Poison Resistance",
-      "value": 55.0
+      "value": 75.0
     },
     "DEFENCE": {
       "baseValue": 120.0,
-      "itemValue": 443.0,
+      "itemValue": 1038.0,
       "type": "Defence",
-      "value": 563.0
+      "value": 1158.0
     }
   },
   "itemManager": {
@@ -99,7 +99,7 @@
         "id": "e0d13810-3c70-470e-a13d-8ba40d551128"
       },
       "401493dd-17da-4c64-99a7-558f60c0b154": {
-        "slot": "RIGHT_RING",
+        "slot": "LEFT_RING",
         "itemName": "Silver Ring",
         "statList": [
           {
@@ -350,6 +350,117 @@
         ],
         "itemType": "WEAPON",
         "id": "b28cffe8-a8e9-4cea-bd2f-2c357dbd20c3"
+      },
+      "3f3190d2-42a7-4c16-921e-db637b417cac": {
+        "itemName": "Purple Pants",
+        "statList": [
+          {
+            "type": "Damage",
+            "value": 29.0
+          },
+          {
+            "type": "Defence",
+            "value": 97.0
+          },
+          {
+            "type": "All Resistance",
+            "value": 6.0
+          },
+          {
+            "type": "Lightning Resistance",
+            "value": 18.0
+          },
+          {
+            "type": "Cold Resistance",
+            "value": 13.0
+          }
+        ],
+        "itemType": "PANTS",
+        "id": "3f3190d2-42a7-4c16-921e-db637b417cac"
+      },
+      "1fe4bd40-7290-4d53-a0d5-b8b4e4a1d134": {
+        "itemName": "Green Gloves",
+        "statList": [
+          {
+            "type": "Damage",
+            "value": 33.0
+          },
+          {
+            "type": "Health",
+            "value": 57.0
+          },
+          {
+            "type": "All Resistance",
+            "value": 9.0
+          },
+          {
+            "type": "Fire Resistance",
+            "value": 13.0
+          },
+          {
+            "type": "Magic Resistance",
+            "value": 7.0
+          }
+        ],
+        "itemType": "GLOVES",
+        "id": "1fe4bd40-7290-4d53-a0d5-b8b4e4a1d134"
+      },
+      "2e36486c-2b22-4338-9e89-da0c7cf298d6": {
+        "itemName": "Orange Pants",
+        "statList": [
+          {
+            "type": "Damage",
+            "value": 75.0
+          },
+          {
+            "type": "Magic Resistance",
+            "value": 14.0
+          }
+        ],
+        "itemType": "PANTS",
+        "id": "2e36486c-2b22-4338-9e89-da0c7cf298d6"
+      },
+      "5712ad99-de88-48d8-ac3b-7c208ae79958": {
+        "itemName": "Gold Chest",
+        "statList": [
+          {
+            "type": "Defence",
+            "value": 297.0
+          },
+          {
+            "type": "Poison Resistance",
+            "value": 12.0
+          },
+          {
+            "type": "Lightning Resistance",
+            "value": 11.0
+          }
+        ],
+        "itemType": "CHEST",
+        "id": "5712ad99-de88-48d8-ac3b-7c208ae79958"
+      },
+      "30087224-072e-4e3f-b6e0-d9e89aad90bb": {
+        "itemName": "Yellow Helm",
+        "statList": [
+          {
+            "type": "Health",
+            "value": 56.0
+          },
+          {
+            "type": "All Resistance",
+            "value": 5.0
+          },
+          {
+            "type": "Lightning Resistance",
+            "value": 18.0
+          },
+          {
+            "type": "Cold Resistance",
+            "value": 8.0
+          }
+        ],
+        "itemType": "HELM",
+        "id": "30087224-072e-4e3f-b6e0-d9e89aad90bb"
       }
     },
     "equippedItems": {
@@ -358,7 +469,11 @@
       "GLOVES": "4dd3e860-9b87-4bb2-b6ce-7721c415d701",
       "SHIELD": "e0d13810-3c70-470e-a13d-8ba40d551128",
       "BELT": "e3057bf3-3b79-424b-9078-a90f5013bccc",
-      "WEAPON": "b28cffe8-a8e9-4cea-bd2f-2c357dbd20c3"
+      "WEAPON": "b28cffe8-a8e9-4cea-bd2f-2c357dbd20c3",
+      "CHEST": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
+      "AMULET": "ab2d71a4-5cbc-4a0e-bdd8-7e3f3b6d91b8",
+      "LEFT_RING": "401493dd-17da-4c64-99a7-558f60c0b154",
+      "HELM": "30087224-072e-4e3f-b6e0-d9e89aad90bb"
     },
     "inventory": {
       "rows": 5,
@@ -402,14 +517,12 @@
           {
             "x": 0,
             "y": 6,
-            "itemId": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 0,
             "y": 7,
-            "itemId": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 0,
@@ -419,8 +532,7 @@
           {
             "x": 0,
             "y": 9,
-            "itemId": "401493dd-17da-4c64-99a7-558f60c0b154",
-            "isOccupied": true
+            "isOccupied": false
           }
         ],
         [
@@ -461,20 +573,17 @@
           {
             "x": 1,
             "y": 6,
-            "itemId": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 1,
             "y": 7,
-            "itemId": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 1,
             "y": 8,
-            "itemId": "ab2d71a4-5cbc-4a0e-bdd8-7e3f3b6d91b8",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 1,
@@ -520,14 +629,12 @@
           {
             "x": 2,
             "y": 6,
-            "itemId": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 2,
             "y": 7,
-            "itemId": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 2,
@@ -646,25 +753,13 @@
         ]
       ],
       "itemOrigins": {
-        "401493dd-17da-4c64-99a7-558f60c0b154": {
-          "x": 9,
-          "y": 0
-        },
         "f3ad5b92-53fb-436c-b504-e76c0dbdd57a": {
           "x": 4,
-          "y": 0
-        },
-        "75854e2b-b621-4b0d-8ff0-797f7acd5cd5": {
-          "x": 6,
           "y": 0
         },
         "242b6192-47ea-4534-8a5e-ea76bfea4786": {
           "x": 0,
           "y": 0
-        },
-        "ab2d71a4-5cbc-4a0e-bdd8-7e3f3b6d91b8": {
-          "x": 8,
-          "y": 1
         }
       }
     }

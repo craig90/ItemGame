@@ -66,7 +66,4 @@ public class ItemConstants {
     public static final int WEAPON_HEIGHT = 175;
     public static final int WEAPON_WIDTH = 125;
 
-
-    // TOOD: move pixel widths here too
-
 }

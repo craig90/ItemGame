@@ -44,19 +44,39 @@ Defence:66.0
 All Resistance:6.0
 Magic Resistance:5.0
 Item-End
-Equipped-Items-End
-Inventory-Start
 Item-Start
 Item Type:CHEST
 Item Name:Cool Chest
-Item X:6
-Item Y:0
 Damage:36.0
 Health:29.0
 Defence:496.0
 All Resistance:9.0
 Cold Resistance:6.0
 Item-End
+Item-Start
+Item Type:AMULET
+Item Name:Purple Amulet
+Defence:99.0
+All Resistance:6.0
+Cold Resistance:7.0
+Item-End
+Item-Start
+Item Type:RING
+Item Name:Silver Ring
+Ring Slot:LEFT_RING
+Damage:73.0
+Magic Resistance:6.0
+Item-End
+Item-Start
+Item Type:HELM
+Item Name:Yellow Helm
+Health:56.0
+All Resistance:5.0
+Lightning Resistance:18.0
+Cold Resistance:8.0
+Item-End
+Equipped-Items-End
+Inventory-Start
 Item-Start
 Item Type:SHIELD
 Item Name:Cool Shield
@@ -66,23 +86,6 @@ Health:42.0
 Defence:281.0
 Fire Resistance:17.0
 Lightning Resistance:7.0
-Item-End
-Item-Start
-Item Type:AMULET
-Item Name:Purple Amulet
-Item X:8
-Item Y:1
-Defence:99.0
-All Resistance:6.0
-Cold Resistance:7.0
-Item-End
-Item-Start
-Item Type:RING
-Item Name:Silver Ring
-Item X:9
-Item Y:0
-Damage:73.0
-Magic Resistance:6.0
 Item-End
 Item-Start
 Item Type:SHIELD
