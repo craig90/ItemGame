@@ -10,16 +10,17 @@ public class ItemLabel extends JLabel {
     private static final String IMAGE_DIR = "desktop/src/main/resources/images/";
     private static final String IMAGE_EXTENSION = ".png";
 
-    private String itemId;
+    // private String itemId;
 
-    public ItemLabel() {
+    public ItemLabel(Item item) {
         super();
+        setImageIcon(item);
     }
 
-    public void setImageIcon(Item item) {
-        this.itemId = item.getID();
+    private void setImageIcon(Item item) {
+        // this.itemId = item.getID();
 
-        if (itemId == null) {
+        if (item.getID() == null) {
             setIcon(null);
             System.out.println("Error, item has no item id");
             System.exit(1); // exit if there is an issue with the id.  The game can't run if this happens
