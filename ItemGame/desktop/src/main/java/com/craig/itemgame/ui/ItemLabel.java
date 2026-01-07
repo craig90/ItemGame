@@ -30,9 +30,9 @@ public class ItemLabel extends JLabel {
             ImageIcon imageIcon = ImageResizer.resizeImageIcon(new ImageIcon(IMAGE_DIR + item.getImageKey() + IMAGE_EXTENSION),
             ItemLayeredPane.getItemWidth(item.getItemType()), 
             ItemLayeredPane.getItemHeight(item.getItemType()));
-            System.out.println(IMAGE_DIR + item.getImageKey() + IMAGE_EXTENSION);
+            // System.out.println(IMAGE_DIR + item.getImageKey() + IMAGE_EXTENSION);
             setIcon(imageIcon);
-            System.out.println("Successfully created image");
+            // System.out.println("Successfully created image");
         } catch (Exception e) {
             System.out.println("Error resizing image");
             System.out.println(e.getMessage());

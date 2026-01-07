@@ -54,7 +54,7 @@ public class MyFileReader {
         File[] files = directory.listFiles();
         ArrayList<String> fileNames = new ArrayList<String>();
 
-        System.out.println(FileKeywords.DIRECTORY_PATH);
+        // System.out.println(FileKeywords.DIRECTORY_PATH);
 
         if (files != null) {
             for (File file : files) {
@@ -69,7 +69,7 @@ public class MyFileReader {
                     extension = fileName.substring(dotIndex+1, fileName.length());
                 }
 
-                System.out.println(extension);
+                // System.out.println(extension);
 
                 if (extension.equals(extensionMatch)) {
                     System.out.println("Adding " + FileKeywords.DIRECTORY_PATH + file.getName());
@@ -78,9 +78,9 @@ public class MyFileReader {
 
 
                 if (extension.equals("json")) {
-                    System.out.println("Found a json file");
+                    // System.out.println("Found a json file");
                 } else if (extension.equals("txt")) {
-                    System.out.println("Found a txt file");
+                    // System.out.println("Found a txt file");
                 } else {
                     System.out.println("No files with proper extension name");
                 }
