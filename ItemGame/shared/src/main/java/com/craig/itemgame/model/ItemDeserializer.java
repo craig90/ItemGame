@@ -29,7 +29,7 @@ public class ItemDeserializer implements JsonDeserializer<Item> {
         String itemType = jsonObject.get("itemType").getAsString();
         // jsonObject.getClass().getName();
     
-        System.out.println(itemType);
+        // System.out.println(itemType);
 
         switch (itemType) {
             case "AMULET":
