@@ -45,6 +45,23 @@ public class Game implements ItemService {
 
     }
 
+    /**
+     * 
+     * @param id
+     * @return
+     * 
+     */
+    public Character getCharacter(String id) {
+        
+        // TODO: this will have to change as I work out how I want the backend to behave here
+        if (this.character == null) {
+            // loadCharacterFromFile(null);
+            return null;
+        }
+
+        return this.character;
+    }
+
     public Item generateItem() {
         
         Item newItem = null;

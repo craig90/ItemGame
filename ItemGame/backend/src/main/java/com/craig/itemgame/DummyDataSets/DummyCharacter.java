@@ -19,7 +19,7 @@ public class DummyCharacter {
 
         CharacterDTO dummyCharacter = new CharacterDTO();
         dummyCharacter.setId("asdfsaf");
-        dummyCharacter.setName("Craig the test character");
+        dummyCharacter.setName("Craig the test character!!");
         dummyCharacter.setLevel(1);
         dummyCharacter.setExperience(100);
 
