@@ -16,7 +16,8 @@ public class FileKeywords {
     public static final String ITEM_X = "Item X";
     public static final String ITEM_Y = "Item Y";
 
-    public static final String WORKING_DIR = "desktop/";
+    // TODO: this needs to be thought through since the working dir is different for each app
+    public static final String WORKING_DIR = "../desktop/";
 
     public static final String DIRECTORY_PATH = WORKING_DIR + "CharacterFiles/";
     public static final String TEXT_FILE_EXTENSTION = "txt";

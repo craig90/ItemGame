@@ -16,7 +16,7 @@ const API_URL = "http://localhost:8080";
 
 export const getCharacter = async (): Promise<Character> => {
     
-    const response = await fetch(`${API_URL}/character/1`); // TODO: make dynamic
+    const response = await fetch(`${API_URL}/character/0b6469fe-5950-469c-a397-e4ee4b4740c3`); // TODO: make dynamic
     
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

@@ -1,5 +1,6 @@
 {
   "characterName": "Bob",
+  "id": "0b6469fe-5950-469c-a397-e4ee4b4740c3",
   "level": {
     "baseValue": 0.0,
     "itemValue": 0.0,
@@ -505,24 +506,24 @@
           {
             "x": 0,
             "y": 4,
-            "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 0,
             "y": 5,
+            "isOccupied": false
+          },
+          {
+            "x": 0,
+            "y": 6,
             "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
             "isOccupied": true
           },
           {
             "x": 0,
-            "y": 6,
-            "isOccupied": false
-          },
-          {
-            "x": 0,
             "y": 7,
-            "isOccupied": false
+            "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
+            "isOccupied": true
           },
           {
             "x": 0,
@@ -561,24 +562,24 @@
           {
             "x": 1,
             "y": 4,
-            "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 1,
             "y": 5,
+            "isOccupied": false
+          },
+          {
+            "x": 1,
+            "y": 6,
             "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
             "isOccupied": true
           },
           {
             "x": 1,
-            "y": 6,
-            "isOccupied": false
-          },
-          {
-            "x": 1,
             "y": 7,
-            "isOccupied": false
+            "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
+            "isOccupied": true
           },
           {
             "x": 1,
@@ -617,24 +618,24 @@
           {
             "x": 2,
             "y": 4,
-            "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 2,
             "y": 5,
+            "isOccupied": false
+          },
+          {
+            "x": 2,
+            "y": 6,
             "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
             "isOccupied": true
           },
           {
             "x": 2,
-            "y": 6,
-            "isOccupied": false
-          },
-          {
-            "x": 2,
             "y": 7,
-            "isOccupied": false
+            "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
+            "isOccupied": true
           },
           {
             "x": 2,
@@ -753,12 +754,12 @@
         ]
       ],
       "itemOrigins": {
-        "f3ad5b92-53fb-436c-b504-e76c0dbdd57a": {
-          "x": 4,
-          "y": 0
-        },
         "242b6192-47ea-4534-8a5e-ea76bfea4786": {
           "x": 0,
+          "y": 0
+        },
+        "f3ad5b92-53fb-436c-b504-e76c0dbdd57a": {
+          "x": 6,
           "y": 0
         }
       }

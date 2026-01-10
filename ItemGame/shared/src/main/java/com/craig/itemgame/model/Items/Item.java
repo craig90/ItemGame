@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import com.craig.itemgame.model.IdGenerator;
 import com.craig.itemgame.model.ItemStat;
 import com.craig.itemgame.model.ItemType;
 import com.craig.itemgame.model.StatDifference;
@@ -46,7 +47,7 @@ public abstract class Item {
     public Item(String itemName, ItemType itemType) {
         this.itemName = itemName;
         this.itemType = itemType;
-        this.id = ItemIdGenerator.generateUniqueID();
+        this.id = IdGenerator.generateUniqueID();
         this.statList = new ArrayList<ItemStat>();
     }
 

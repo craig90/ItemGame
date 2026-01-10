@@ -14,12 +14,14 @@ public class Game implements ItemService {
     private FileParcer fileParcer;
     private CharacterSaver characterSaver;
     private CommandLineReader commandLineReader;
+    private List<CharacterFile> characterFiles;
 
     public Game () {
         this.commandLineReader = new CommandLineReader();
         this.itemGenerator = new ItemGenerator();
         this.fileParcer = new FileParcer();
         this.characterSaver = new CharacterSaver();
+        this.characterFiles = new ArrayList<CharacterFile>();
     }
 
     public CharacterSaver getCharacterSaver() {
@@ -29,6 +31,18 @@ public class Game implements ItemService {
     public boolean saveCharacter() {
         return this.characterSaver.saveCharacter(this.character);
     }
+
+    public List<CharacterFile> getCharacterFiles() {
+
+        this.characterFiles.clear();
+
+        // get JSON files
+        this.characterFiles = SaveManager.getCharacterFiles();
+
+        return this.characterFiles;
+
+    }
+
 
     public Character loadCharacterFromFile(CharacterFile characterFile) throws Exception {
         
@@ -46,20 +60,53 @@ public class Game implements ItemService {
     }
 
     /**
+     * this returns a character based on the character Id
+     * TODO: other method(s) should be cleaned up/removed because ideally the desktop app should
+     * use id as well and be ignorant of file names
+     * @param characterId
+     * @return
+     * @throws Exception
+     */
+    public Character loadCharacterFromFile(String characterId) throws Exception {
+        
+        // System.out.println("loadCharacterFromFile");
+
+        if (this.characterFiles.isEmpty()) {
+            System.out.println("File list is empty");
+            throw new Exception("Character File list is empty");
+        }
+
+        // System.out.println("Has files");
+
+        for (CharacterFile characterFile : this.characterFiles) {
+            // System.out.println("Iterating");
+            // System.out.print(characterFile.getId() + characterId);
+            
+            if (characterFile.getId().equals(characterId)) {
+                // System.out.println("Found it");
+                return this.character = SaveManager.loadCharacter(characterFile.getFileName());
+            
+            }
+        }
+
+        // System.out.println("Didn't find it");
+        throw new Exception("Character not found");
+
+    }
+
+    /**
      * 
      * @param id
      * @return
      * 
      */
-    public Character getCharacter(String id) {
-        
-        // TODO: this will have to change as I work out how I want the backend to behave here
-        if (this.character == null) {
-            // loadCharacterFromFile(null);
-            return null;
-        }
+    public Character getCharacter(String id) throws Exception {
 
-        return this.character;
+        // TODO: temporarily do this because we're not calling the character
+        // selection screen in the UI as of yet
+        getCharacterFiles();
+
+        return loadCharacterFromFile(id);
     }
 
     public Item generateItem() {
@@ -160,29 +207,6 @@ public class Game implements ItemService {
         System.out.println("\nLoading character: " + characterFiles.get(input).getCharacterName());
         return characterFiles.get(input);
     }
-
-    public List<CharacterFile> getCharacterFiles() {
-
-        // List<String> fileNames = new ArrayList<String>();
-        List<CharacterFile> characterFiles = new ArrayList<CharacterFile>();
-
-        // get JSON files
-        characterFiles = SaveManager.getCharacterFiles();
-
-
-        // get text files
-        // try {
-        //     // grab file names, read character names then load selected character from file
-        //     fileNames = MyFileReader.readFileNames(FileKeywords.TEXT_FILE_EXTENSTION);
-        //     characterFiles = getCharacterNamesFromFile(fileNames);
-        // } catch (FileNotFoundException e) {
-        //     System.out.println("Error locating character files");
-        // }
-
-        return characterFiles;
-
-    }
-
 
     /**
      * This function will call the appropriate funtions to read the possible character names from file and ask the user

@@ -1,8 +1,8 @@
-package com.craig.itemgame.model.Items;
+package com.craig.itemgame.model;
 
 import java.util.UUID;
 
-public class ItemIdGenerator {
+public class IdGenerator {
 
     public static String generateUniqueID() {
         return UUID.randomUUID().toString();
