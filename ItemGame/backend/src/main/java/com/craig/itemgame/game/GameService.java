@@ -18,14 +18,15 @@ public class GameService {
         return this.game;
     }
 
-    public CharacterDTO getCharacter(String id) {
-        Character character = this.game.getCharacter(id);
+    public CharacterDTO getCharacter(String id) throws CharacterNotFoundException {
 
-        // turn Character into DTO
-        CharacterDTO characterDTO = this.characterMapper.mapCharacterToDTO(character);
+        try {
+            Character character = this.game.getCharacter(id);
+            return this.characterMapper.mapCharacterToDTO(character);
+        } catch (Exception e) {
+            throw new CharacterNotFoundException("Character not found in game: " + id);
+        }
 
-        // return
-        return characterDTO;
     }
 
 }

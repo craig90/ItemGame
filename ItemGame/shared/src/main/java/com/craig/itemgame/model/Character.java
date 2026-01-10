@@ -11,6 +11,7 @@ public class Character {
     private static final double INIT_EXPERIENCE = 0.0;
 
     private String characterName;
+    private String id;
 
     private CharacterStat level;
     private CharacterStat experience;
@@ -31,6 +32,7 @@ public class Character {
     // eventually this should be read in from a file
     public Character () {
         
+        this.id = IdGenerator.generateUniqueID();
         characterName = "";
         level = new CharacterStat(CharacterStatNames.LEVEL);
         experience = new CharacterStat(CharacterStatNames.EXPERIENCE);
@@ -66,6 +68,9 @@ public class Character {
     //     this.itemManager.initAfterLoad();
     // }
 
+    public String getId() {
+        return this.id;
+    }
 
     public double getExperience() {
         return this.experience.getValue();
@@ -116,6 +121,9 @@ public class Character {
         return this.statMap;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
     
     public boolean setName(String name) {
         

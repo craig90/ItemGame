@@ -11,17 +11,15 @@ Defence:82.0
 Poison Resistance:17.0
 Cold Resistance:8.0
 Item-End
-Equipped-Items-End
-Inventory-Start
 Item-Start
 Item Type:GLOVES
 Item Name:Purple Gloves
-Item X:4
-Item Y:0
 Fire Resistance:15.0
 Cold Resistance:18.0
 Magic Resistance:15.0
 Item-End
+Equipped-Items-End
+Inventory-Start
 Item-Start
 Item Type:PANTS
 Item Name:Silver Pants

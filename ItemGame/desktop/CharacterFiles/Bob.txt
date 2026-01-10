@@ -90,7 +90,7 @@ Item-End
 Item-Start
 Item Type:SHIELD
 Item Name:Green Shield
-Item X:4
+Item X:6
 Item Y:0
 Health:55.0
 Defence:375.0

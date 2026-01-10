@@ -3,6 +3,7 @@ package com.craig.itemgame.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.craig.itemgame.DTOs.CharacterDTO;
+import com.craig.itemgame.game.CharacterNotFoundException;
 import com.craig.itemgame.game.GameService;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,10 +22,8 @@ public class CharacterController {
 
 
     @GetMapping("/character/{id}")
-    public CharacterDTO getCharacterByID(@PathVariable String id) {
-        
+    public CharacterDTO getCharacterByID(@PathVariable String id) throws CharacterNotFoundException {
         return this.gameService.getCharacter(id);
-        
     }
 
     // get Characaters

@@ -79,6 +79,12 @@ public class SaveManager {
         return header;
     }
 
+    /**
+     * TODO: clean up how this is done.  I feel like I have an unessary class, plus I'm wondering if there
+     * should be a parent class that these subclass from.  There is some duplication of class
+     * variables accorss Character, CharacterFile, and CharacterHeader
+     * @return
+     */
     public static List<CharacterFile> getCharacterFiles() {
         
         List<CharacterFile> characterFiles = new ArrayList<>();
@@ -92,7 +98,7 @@ public class SaveManager {
 
         for (String file : files) {
             CharacterHeader header = getFileHeader(file);
-            characterFiles.add(new CharacterFile(file, header.getCharacterName(), header.getLevel().value));
+            characterFiles.add(new CharacterFile(file, header.getCharacterName(), header.getLevel().value, header.getId()));
         }
 
         return characterFiles;
