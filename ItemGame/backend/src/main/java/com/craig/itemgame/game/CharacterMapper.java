@@ -1,16 +1,15 @@
 package com.craig.itemgame.game;
 
 import com.craig.itemgame.DTOs.CharacterDTO;
-import com.craig.itemgame.DummyDataSets.DummyCharacter;
 
 import com.craig.itemgame.model.Character;
 
 public class CharacterMapper {
 
-    private final DummyCharacter dummy;
+    // private final DummyCharacter dummy;
 
     public CharacterMapper() {
-        dummy = new DummyCharacter();
+        // dummy = new DummyCharacter();
     }
 
     /**
@@ -19,7 +18,24 @@ public class CharacterMapper {
      * @return
      */
     public CharacterDTO mapCharacterToDTO(Character character) {
-        return dummy.generate();  // TODO: this is just temporary until the converter is written
+
+        CharacterDTO characterDTO = new CharacterDTO();
+
+        characterDTO.setId(character.getId());
+        characterDTO.setName(character.getName());
+        characterDTO.setLevel(character.getLevel());
+        characterDTO.setExperience(character.getExperience());
+        characterDTO.setHealth(character.getHealth());
+        characterDTO.setDamage(character.getDamage());
+        characterDTO.setDefence(character.getDefence());
+        characterDTO.setColdResistance(character.getColdResistance());
+        characterDTO.setFireResistence(character.getFireResistance());
+        characterDTO.setLightningResistance(character.getLightningResistance());
+        characterDTO.setPoisonResistance(character.getPoisonResistance());
+        characterDTO.setMagicResistance(character.getMagicResistance());
+
+        return characterDTO;
+
     }
 
 }
