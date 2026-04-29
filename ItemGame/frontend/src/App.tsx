@@ -3,6 +3,7 @@
 // import viteLogo from '/vite.svg'
 import './App.css'
 import { CharacterPage } from "./components/CharacterPage";
+import { CharacterSelectionPage } from "./components/CharacterSelectionPage";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -10,7 +11,7 @@ function App() {
   return (
     <>
       <div>
-        <CharacterPage />
+        <CharacterSelectionPage />
       </div>
       {/* <div>
         <a href="https://vite.dev" target="_blank">
