@@ -1,4 +1,5 @@
 import type { Character } from "../models/Character";
+import type { CharacterSummary } from "../models/CharacterSummary";
 // import { ITEM_TYPES } from "../models/Item";
 // import { SLOT_TYPES } from "../models/SlotType";
 
@@ -24,54 +25,32 @@ export const getCharacter = async (): Promise<Character> => {
     
     return await response.json();
 
-    // return {
-    //     id: "char-1",
-    //     name: "Craig the Test Character",
-    //     level: 69,
-    //     experience: 35000,
-    //     stats: [
-    //         { type: "Fire Resistance", value: 55 },
-    //         { type: "Cold Resistance", value: 45 },
-    //         { type: "Lightning Resistance", value: 69},
-    //         { type: "Magic Resistance", value: 59},
-    //         { type: "Poison Resistance", value: 69},
-    //         { type: "Health", value: 600}
-    //     ],
-    //     items: { 
-    //         [SLOT_TYPES.WEAPON]: {
-    //             id: "asdfasdf",
-    //             name: "Cool Sword",
-    //             type: ITEM_TYPES.WEAPON,
-    //             stats: [
-    //                 { type: "Damage", value: 22 },
-    //                 { type: "All Resistance", value: 5 }
-    //             ] 
-    //         },
-            
-    //         [SLOT_TYPES.AMULET]: {
-    //             id: "aarfsasdfss",
-    //             name: "Amulet of Beauty",
-    //             type: ITEM_TYPES.AMULET,
-    //             stats: [
-    //                 { type: "Health", value: 50 },
-    //                 { type: "Lightning Resistance", value: 15 }
-    //             ]
-    //         },
-
-    //         [SLOT_TYPES.PANTS]: {
-    //             id: "aeeredfdaf",
-    //             name: "Silver Pants",
-    //             type: ITEM_TYPES.PANTS,
-    //             stats: [
-    //                 { type: "Defense", value: 40 },
-    //                 { type: "Fire Resistance", value: 5 }
-    //             ],
-    //         }
-    //     } 
-    // }
-
 }
 
+export const getCharacters = async(): Promise<CharacterSummary[]> => {
+
+    // const response = await fetch(`${API_URL}/characters`);
+
+    // if (!response.ok) {
+    //     throw new Error(`HTTP error! Status: ${response.status}`);
+    // }
+
+    // return await response.json();
+
+    return [
+            { 
+                id: "herp-a-derp",
+                name: "Test Character 1",
+                level: 69,
+            },
+            
+            {
+                id: "herp-a-derp-a-derp",
+                name: "Test Character 2",
+                level: 420,
+            }
+        ]
+}
 
 // update Item
 
