@@ -57,10 +57,6 @@ public class CharacterMapper {
         
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             
-            if (slot.equals(EquipmentSlot.RIGHT_RING) || slot.equals(EquipmentSlot.LEFT_RING)) {
-                continue;
-            }
-
             Item item = character.getItemManager().getItem(slot);
         
             if (item != null) {
@@ -75,7 +71,19 @@ public class CharacterMapper {
                 statList = mapStatsToDTO(item);
                 itemDTO.setStats(statList);
                 
-                itemMap.put(slot.toString().toLowerCase(), itemDTO);
+                // some of these have different names in the front-end compared to the back-end
+                if (slot.equals(EquipmentSlot.RIGHT_RING)) {
+                    itemMap.put("ring-right", itemDTO);
+                } else if (slot.equals(EquipmentSlot.LEFT_RING)) {
+                    itemMap.put("ring-left", itemDTO);
+                } else if (slot.equals(EquipmentSlot.DELETE_ITEM_SLOT)) {
+                    itemMap.put("delete-item", itemDTO);
+                } else if (slot.equals(EquipmentSlot.NEW_ITEM_SLOT)) {
+                    itemMap.put("new-item", itemDTO);
+                } else {
+                    itemMap.put(slot.toString().toLowerCase(), itemDTO);
+                }
+                
                 // System.out.println(slot.toString().toLowerCase());
             
             }
