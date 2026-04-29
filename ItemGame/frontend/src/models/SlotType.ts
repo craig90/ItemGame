@@ -4,7 +4,7 @@ export const SLOT_TYPES = {
     BOOTS: "boots",
     CHEST: "chest",
     GLOVES: "gloves",
-    HELMET: "helmet",
+    HELM: "helm",
     PANTS: "pants",
     SHIELD: "shield",
     RING_RIGHT: "ring-right",

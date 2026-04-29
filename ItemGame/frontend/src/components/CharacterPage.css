@@ -29,7 +29,7 @@
   justify-items: center;
 }
 
-.gear-grid .item-slot--helmet {
+.gear-grid .item-slot--helm {
   grid-row: 1;
   grid-column: 3;
 }

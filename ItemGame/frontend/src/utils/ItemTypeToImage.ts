@@ -6,7 +6,7 @@ export const itemTypeToImage: Record<ItemType, string> = {
     BOOTS: "src/assets/images/boots.png",
     CHEST: "src/assets/images/chest.png",
     GLOVES: "src/assets/images/gloves.png",
-    HELMET: "src/assets/images/helm.png",
+    HELM: "src/assets/images/helm.png",
     PANTS: "src/assets/images/pants.png",
     RING: "src/assets/images/ring.png",
     SHIELD: "src/assets/images/shield.png",
