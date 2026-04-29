@@ -17,7 +17,8 @@ public class CharacterDTO {
     private double poisonResistance;
     private double magicResistance;
 
-    private Map<String, ItemDTO> items;  // TODO: change to slot type enum as key
+    // TODO: saving as String.. at least for now because the front-end wants strings
+    private Map<String, ItemDTO> items;
 
     public CharacterDTO() { }
 
