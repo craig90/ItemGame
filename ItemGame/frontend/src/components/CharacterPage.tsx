@@ -12,7 +12,7 @@ export function CharacterPage() {
     useEffect(() => {
         async function loadCharacter() {
             const data = await getCharacter();
-            console.log(data)
+            console.log(data);
             setCharacter(data);
             setLoading(false);
         }
@@ -55,9 +55,9 @@ export function CharacterPage() {
                 <ItemSlot slotType="chest" item={character.items.chest} />
                 <ItemSlot slotType="shield" item={character.items.shield} />
                 <ItemSlot slotType="gloves" item={character.items.gloves} />
-                <ItemSlot slotType="ring-left" item={character.items["ring-left"]} />
+                <ItemSlot slotType="ring-left" item={character.items["ring-right"]} />
                 <ItemSlot slotType="belt" item={character.items.belt} />
-                <ItemSlot slotType="ring-right" item={character.items["ring-right"]} />
+                <ItemSlot slotType="ring-right" item={character.items["ring-left"]} />
                 <ItemSlot slotType="boots" item={character.items.boots}/>
                 <ItemSlot slotType="pants" item={character.items.pants}/>
             </div>
