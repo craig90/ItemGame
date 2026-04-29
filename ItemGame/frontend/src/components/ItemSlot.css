@@ -19,6 +19,11 @@
   height: 150px;
 }
 
+.item-slot--gloves, .item-slot--boots, .item-slot--helm {
+  width: 100px;
+  height: 100px;
+}
+
 .item-slot--belt {
   width: 100px;
   height: 50px;

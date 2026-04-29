@@ -15,7 +15,7 @@ export const ITEM_TYPES = {
   BOOTS: "BOOTS",
   CHEST: "CHEST",
   GLOVES: "GLOVES",
-  HEMLET: "HELMET",
+  HELM: "HELM",
   PANTS: "PANTS",
   RING: "RING",
   SHIELD: "SHIELD",

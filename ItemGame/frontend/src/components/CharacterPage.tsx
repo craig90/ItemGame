@@ -49,7 +49,7 @@ export function CharacterPage() {
 
             <div className="gear-grid">
                 <h3>Equipment</h3>
-                <ItemSlot slotType="helmet" item={character.items.helmet}/>
+                <ItemSlot slotType="helm" item={character.items.helm}/>
                 <ItemSlot slotType="amulet" item={character.items.amulet} />
                 <ItemSlot slotType="weapon" item={character.items.weapon} />
                 <ItemSlot slotType="chest" item={character.items.chest} />
