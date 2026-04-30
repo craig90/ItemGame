@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.craig.itemgame.DTOs.CharacterDTO;
+import com.craig.itemgame.DTOs.CharacterSummaryDTO;
 import com.craig.itemgame.DTOs.ItemDTO;
 import com.craig.itemgame.DTOs.StatDTO;
 import com.craig.itemgame.model.Character;
+import com.craig.itemgame.model.CharacterFile;
 import com.craig.itemgame.model.EquipmentSlot;
 import com.craig.itemgame.model.Items.Item;
 
@@ -107,6 +109,22 @@ public class CharacterMapper {
         }
         
         return statList;
+
+    }
+
+    public List<CharacterSummaryDTO> mapCharactersToDTO(List<CharacterFile> characterFiles) {
+
+        List<CharacterSummaryDTO> characterSummaries = new ArrayList<>();
+
+        for (CharacterFile file : characterFiles) {
+            CharacterSummaryDTO charSummary = new CharacterSummaryDTO();
+            charSummary.setId(file.getId());
+            charSummary.setLevel(file.getLevel());
+            charSummary.setName(file.getCharacterName());
+            characterSummaries.add(charSummary);
+        }
+
+        return characterSummaries;
 
     }
 

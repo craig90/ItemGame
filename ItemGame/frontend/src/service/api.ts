@@ -29,27 +29,15 @@ export const getCharacter = async (): Promise<Character> => {
 
 export const getCharacters = async(): Promise<CharacterSummary[]> => {
 
-    // const response = await fetch(`${API_URL}/characters`);
+    const response = await fetch(`${API_URL}/characters`);
 
-    // if (!response.ok) {
-    //     throw new Error(`HTTP error! Status: ${response.status}`);
-    // }
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
 
-    // return await response.json();
+    return await response.json();
 
-    return [
-            { 
-                id: "herp-a-derp",
-                name: "Test Character 1",
-                level: 69,
-            },
-            
-            {
-                id: "herp-a-derp-a-derp",
-                name: "Test Character 2",
-                level: 420,
-            }
-        ]
+    
 }
 
 // update Item

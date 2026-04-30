@@ -3,8 +3,11 @@ package com.craig.itemgame.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.craig.itemgame.DTOs.CharacterDTO;
+import com.craig.itemgame.DTOs.CharacterSummaryDTO;
 import com.craig.itemgame.game.CharacterNotFoundException;
 import com.craig.itemgame.game.GameService;
+
+import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +29,10 @@ public class CharacterController {
         return this.gameService.getCharacter(id);
     }
 
-    // get Characaters
+    @GetMapping("/characters")
+    public List<CharacterSummaryDTO> getCharacters() {
+        return this.gameService.getCharacters();
+    }
 
     // generate item
 
