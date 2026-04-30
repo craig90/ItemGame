@@ -4,14 +4,18 @@ import type { Character } from "../models/Character";
 import "./CharacterPage.css";
 import { getCharacter } from "../service/api";
 
-export function CharacterPage() {
+type Props = {
+    characterId: string
+};
+
+export function CharacterPage({ characterId }: Props) {
     
     const [character, setCharacter] = useState<Character | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function loadCharacter() {
-            const data = await getCharacter();
+            const data = await getCharacter(characterId);
             console.log(data);
             setCharacter(data);
             setLoading(false);
@@ -45,6 +49,7 @@ export function CharacterPage() {
                 <div className="stat-row">Lightning Resistence: {character.lightningResistance}</div>
                 <div className="stat-row">Magic Resistence: {character.magicResistance}</div>
                 <div className="stat-row">Poison Resistence: {character.poisonResistance}</div>
+                
             </div>
 
             <div className="gear-grid">
@@ -69,5 +74,7 @@ export function CharacterPage() {
                 <button>Delete Item</button>
             </div> 
         </div>
+            
     )
+
 }
