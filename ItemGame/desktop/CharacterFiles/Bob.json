@@ -462,6 +462,25 @@
         ],
         "itemType": "HELM",
         "id": "30087224-072e-4e3f-b6e0-d9e89aad90bb"
+      },
+      "c3cf9fe4-0fd7-4f02-83ca-369086d7f050": {
+        "itemName": "Gold Helm",
+        "statList": [
+          {
+            "type": "Damage",
+            "value": 38.0
+          },
+          {
+            "type": "Health",
+            "value": 26.0
+          },
+          {
+            "type": "All Resistance",
+            "value": 5.0
+          }
+        ],
+        "itemType": "HELM",
+        "id": "c3cf9fe4-0fd7-4f02-83ca-369086d7f050"
       }
     },
     "equippedItems": {
@@ -476,6 +495,8 @@
       "LEFT_RING": "401493dd-17da-4c64-99a7-558f60c0b154",
       "HELM": "30087224-072e-4e3f-b6e0-d9e89aad90bb"
     },
+    "deleteItemID": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
+    "generatedItemID": "c3cf9fe4-0fd7-4f02-83ca-369086d7f050",
     "inventory": {
       "rows": 5,
       "columns": 10,
@@ -516,14 +537,12 @@
           {
             "x": 0,
             "y": 6,
-            "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 0,
             "y": 7,
-            "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 0,
@@ -572,14 +591,12 @@
           {
             "x": 1,
             "y": 6,
-            "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 1,
             "y": 7,
-            "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 1,
@@ -628,14 +645,12 @@
           {
             "x": 2,
             "y": 6,
-            "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 2,
             "y": 7,
-            "itemId": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",
-            "isOccupied": true
+            "isOccupied": false
           },
           {
             "x": 2,
@@ -756,10 +771,6 @@
       "itemOrigins": {
         "242b6192-47ea-4534-8a5e-ea76bfea4786": {
           "x": 0,
-          "y": 0
-        },
-        "f3ad5b92-53fb-436c-b504-e76c0dbdd57a": {
-          "x": 6,
           "y": 0
         }
       }

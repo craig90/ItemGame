@@ -1,4 +1,5 @@
-import { useState } from 'react'
+// import { useState } from 'react'
+import { Routes, Route } from "react-router-dom"
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 import './App.css'
@@ -6,19 +7,13 @@ import { CharacterPage } from "./components/CharacterPage";
 import { CharacterSelectionPage } from "./components/CharacterSelectionPage";
 
 function App() {
-  // const [count, setCount] = useState(0)
-  const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(null);
 
   return (
     <>
-      <div>
-        {selectedCharacterId === null ? (
-          <CharacterSelectionPage onSelect={setSelectedCharacterId} />
-        ) : (
-          <CharacterPage characterId={selectedCharacterId}/>
-        )}
-        
-      </div>
+      <Routes>
+        <Route path="/" element={<CharacterSelectionPage />} />
+        <Route path="/character/:id" element={<CharacterPage />} />
+      </Routes>
       {/* <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />

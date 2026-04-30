@@ -87,15 +87,4 @@ Defence:281.0
 Fire Resistance:17.0
 Lightning Resistance:7.0
 Item-End
-Item-Start
-Item Type:SHIELD
-Item Name:Green Shield
-Item X:6
-Item Y:0
-Health:55.0
-Defence:375.0
-Fire Resistance:6.0
-Poison Resistance:19.0
-Magic Resistance:5.0
-Item-End
 Inventory-End

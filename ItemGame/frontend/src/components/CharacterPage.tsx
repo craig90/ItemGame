@@ -3,25 +3,25 @@ import { ItemSlot } from "./ItemSlot";
 import type { Character } from "../models/Character";
 import "./CharacterPage.css";
 import { getCharacter } from "../service/api";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-type Props = {
-    characterId: string
-};
-
-export function CharacterPage({ characterId }: Props) {
+export function CharacterPage() {
     
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [character, setCharacter] = useState<Character | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function loadCharacter() {
-            const data = await getCharacter(characterId);
+            const data = await getCharacter(String(id));
             console.log(data);
             setCharacter(data);
             setLoading(false);
         }
         loadCharacter();
-    }, []);
+    }, [id]);
     
     if (loading) {
         return <div>Loading character...</div>;
@@ -53,16 +53,16 @@ export function CharacterPage({ characterId }: Props) {
             </div>
 
             <div className="gear-grid">
-                <h3>Equipment</h3>
+                {/* <h3>Equipment</h3> */}
                 <ItemSlot slotType="helm" item={character.items.helm}/>
                 <ItemSlot slotType="amulet" item={character.items.amulet} />
                 <ItemSlot slotType="weapon" item={character.items.weapon} />
                 <ItemSlot slotType="chest" item={character.items.chest} />
                 <ItemSlot slotType="shield" item={character.items.shield} />
                 <ItemSlot slotType="gloves" item={character.items.gloves} />
-                <ItemSlot slotType="ring-left" item={character.items["ring-right"]} />
+                <ItemSlot slotType="ring-right" item={character.items["ring-right"]} />
                 <ItemSlot slotType="belt" item={character.items.belt} />
-                <ItemSlot slotType="ring-right" item={character.items["ring-left"]} />
+                <ItemSlot slotType="ring-left" item={character.items["ring-left"]} />
                 <ItemSlot slotType="boots" item={character.items.boots}/>
                 <ItemSlot slotType="pants" item={character.items.pants}/>
             </div>
@@ -72,7 +72,12 @@ export function CharacterPage({ characterId }: Props) {
                 <ItemSlot slotType ="delete-item" item={character.items["delete-item"]}></ItemSlot>
                 <button>Generate Item</button>
                 <button>Delete Item</button>
-            </div> 
+            </div>
+            <div>
+                <button onClick={() => navigate(`/`)}>
+                    Character Selection
+                </button>
+            </div>
         </div>
             
     )
