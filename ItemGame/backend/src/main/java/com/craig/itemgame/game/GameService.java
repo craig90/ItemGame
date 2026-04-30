@@ -1,8 +1,12 @@
 package com.craig.itemgame.game;
 
+import java.util.List;
+
 import com.craig.itemgame.DTOs.CharacterDTO;
+import com.craig.itemgame.DTOs.CharacterSummaryDTO;
 import com.craig.itemgame.model.Game;
 import com.craig.itemgame.model.Character;
+import com.craig.itemgame.model.CharacterFile;
 
 public class GameService {
 
@@ -27,6 +31,13 @@ public class GameService {
             throw new CharacterNotFoundException("Character not found in game: " + id);
         }
 
+    }
+
+    public List<CharacterSummaryDTO> getCharacters() {
+    
+        List<CharacterFile> characterFiles = this.game.getCharacterFiles();
+        return this.characterMapper.mapCharactersToDTO(characterFiles);
+    
     }
 
 }
