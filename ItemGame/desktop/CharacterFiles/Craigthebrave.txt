@@ -1,0 +1,38 @@
+Character Name:Craig the brave
+Level:1.0
+Experience:0.0
+Equipped-Items-Start
+Item-Start
+Item Type:BELT
+Item Name:Cool Belt
+Damage:77.0
+Health:36.0
+Lightning Resistance:18.0
+Magic Resistance:17.0
+Item-End
+Item-Start
+Item Type:GLOVES
+Item Name:Orange Gloves
+Health:58.0
+All Resistance:8.0
+Fire Resistance:5.0
+Item-End
+Item-Start
+Item Type:SHIELD
+Item Name:Green Shield
+Defence:515.0
+All Resistance:9.0
+Fire Resistance:8.0
+Poison Resistance:17.0
+Lightning Resistance:14.0
+Item-End
+Item-Start
+Item Type:WEAPON
+Item Name:Cool Weapon
+Damage:250.0
+Defence:88.0
+Lightning Resistance:16.0
+Item-End
+Equipped-Items-End
+Inventory-Start
+Inventory-End
