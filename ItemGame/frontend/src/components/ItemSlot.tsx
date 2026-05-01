@@ -12,7 +12,7 @@ export function ItemSlot({slotType, item}: ItemSlotProps) {
         // 
         
         <div className={`item-slot item-slot--${slotType}`}>
-            <div className="slot-type">{slotType}</div>
+            <div className="slot-type">{slotType.startsWith("ring") ? "ring" : slotType}</div>
             {item && (
                 <>
                 <img 

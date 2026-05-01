@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import type { CharacterSummary } from "../models/CharacterSummary";
-// import "./CharacterPage.css";
 import { getCharacters } from "../service/api";
 import { useNavigate } from "react-router-dom";
+import "./CharacterSelectionPage.css";
 
 export function CharacterSelectionPage() {
     
@@ -30,7 +30,8 @@ export function CharacterSelectionPage() {
     }
 
     return (
-        <div>
+        <div className="character-selection">
+            <h2>Select Character</h2>
             {characters.map((char) => (
                 <div key={char.id}>
                     <p>{char.name} (Level {char.level})</p>
