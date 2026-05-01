@@ -1,5 +1,7 @@
 .character-selection {
-  background-color: #716d6d;
+  /* background-color: #716d6d; */
   padding: 0px 10px 10px 10px;
   border-radius: 6px;
+  /* opacity: .9; */
+  background: rgba(113, 109, 109, 0.9);
 }
