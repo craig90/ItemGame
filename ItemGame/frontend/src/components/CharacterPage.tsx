@@ -75,7 +75,7 @@ export function CharacterPage() {
             </div>
             <div>
                 <button onClick={() => navigate(`/`)}>
-                    Character Selection
+                    Character Selection Screen
                 </button>
             </div>
         </div>
