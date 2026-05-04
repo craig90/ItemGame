@@ -18,7 +18,8 @@ public class CharacterDTO {
     private double magicResistance;
 
     // TODO: saving as String.. at least for now because the front-end wants strings
-    private Map<String, ItemDTO> items;
+    private Map<String, String> equippedItems;
+    private Map<String, ItemDTO> itemsById;
 
     public CharacterDTO() { }
 
@@ -70,8 +71,12 @@ public class CharacterDTO {
         this.poisonResistance = poisonResistance;
     }
 
-    public void setItems(Map<String, ItemDTO> items) {
-        this.items = items;
+    public void setEquippedItems(Map<String, String> equippedItems) {
+        this.equippedItems = equippedItems;
+    }
+
+    public void setItemsById(Map<String, ItemDTO> itemsById) {
+        this.itemsById = itemsById;
     }
 
     public String getId() {
@@ -122,8 +127,12 @@ public class CharacterDTO {
         return this.magicResistance;
     }
 
-    public Map<String, ItemDTO> getItems() {
-        return this.items;
+    public Map<String, String> getEquippedItems() {
+        return this.equippedItems;
+    }
+
+    public Map<String, ItemDTO> getItemsById() {
+        return this.itemsById;
     }
 
 }

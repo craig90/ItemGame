@@ -8,6 +8,7 @@ import java.util.Map;
 import com.craig.itemgame.DTOs.CharacterDTO;
 import com.craig.itemgame.DTOs.ItemDTO;
 import com.craig.itemgame.DTOs.StatDTO;
+import com.craig.itemgame.model.ItemType;
 
 public class DummyCharacter {
 
@@ -26,7 +27,7 @@ public class DummyCharacter {
         ItemDTO itemOne = new ItemDTO();
         itemOne.setId("adfasdf");
         itemOne.setName("Cool Sword");
-        itemOne.setType("WEAPON");
+        itemOne.setType(ItemType.WEAPON);
 
         StatDTO statOne = new StatDTO("Damage", 22);
         StatDTO statTwo = new StatDTO("All Resistence", 5);
@@ -40,7 +41,7 @@ public class DummyCharacter {
         ItemDTO itemTwo = new ItemDTO();
         itemTwo.setId("adfasdfaaa");
         itemTwo.setName("Amulet of Beauty");
-        itemTwo.setType("AMULET");
+        itemTwo.setType(ItemType.AMULET);
 
         StatDTO itemTwoStatOne = new StatDTO("Health", 50);
         StatDTO itemTwoStatTwo = new StatDTO("Lightning Resistence", 15);
@@ -56,7 +57,7 @@ public class DummyCharacter {
         itemMap.put("weapon", itemOne);  // TODO: frontend wants lower case so this needs to be thought through a bit
         itemMap.put("amulet", itemTwo);
 
-        dummyCharacter.setItems(itemMap);
+        // dummyCharacter.setItems(itemMap);
 
         return dummyCharacter;
 

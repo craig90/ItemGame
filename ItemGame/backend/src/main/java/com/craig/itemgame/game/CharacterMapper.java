@@ -30,7 +30,8 @@ public class CharacterMapper {
     public CharacterDTO mapCharacterToDTO(Character character) {
 
         CharacterDTO characterDTO = new CharacterDTO();
-        Map<String, ItemDTO> itemMap = this.mapItemsToDTO(character);
+        Map<String, String> equippedItems = this.mapEquippedItems(character);
+        Map<String, ItemDTO> itemsById = this.mapItemsByID(character);
 
         characterDTO.setId(character.getId());
         characterDTO.setName(character.getName());
@@ -45,7 +46,8 @@ public class CharacterMapper {
         characterDTO.setPoisonResistance(character.getPoisonResistance());
         characterDTO.setMagicResistance(character.getMagicResistance());
 
-        characterDTO.setItems(itemMap);
+        characterDTO.setEquippedItems(equippedItems);
+        characterDTO.setItemsById(itemsById);
 
         // System.out.println(characterDTO.toString());
 
@@ -53,9 +55,35 @@ public class CharacterMapper {
 
     }
 
-    private Map<String, ItemDTO> mapItemsToDTO(Character character) {
+    private Map<String, ItemDTO> mapItemsByID(Character character) {
 
         Map<String, ItemDTO> itemMap = new HashMap<>();
+        List<Item> items = character.getItemManager().getAllItems();
+
+        for (Item item: items) {
+            
+            ItemDTO itemDTO = new ItemDTO();
+            List<StatDTO> statList = new ArrayList<>();
+            
+            itemDTO.setId(item.getID());
+            itemDTO.setName(item.getItemName());
+            itemDTO.setType(item.getItemType());
+            statList = mapStatsToDTO(item);
+
+            itemDTO.setStats(statList);
+
+            itemMap.put(item.getID(), itemDTO);
+
+        }
+
+        return itemMap;
+
+    }
+
+
+    private Map<String, String> mapEquippedItems(Character character) {
+
+        Map<String, String> equippedItemMap = new HashMap<>();
         
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             
@@ -63,27 +91,27 @@ public class CharacterMapper {
         
             if (item != null) {
 
-                ItemDTO itemDTO = new ItemDTO();
-                List<StatDTO> statList = new ArrayList<>();
+                // ItemDTO itemDTO = new ItemDTO();
+                // List<StatDTO> statList = new ArrayList<>();
 
-                itemDTO.setId(item.getID());
-                itemDTO.setName(item.getItemName());
-                itemDTO.setType(item.getItemType().toString());
+                // itemDTO.setId(item.getID());
+                // itemDTO.setName(item.getItemName());
+                // itemDTO.setType(item.getItemType());
                 
-                statList = mapStatsToDTO(item);
-                itemDTO.setStats(statList);
+                // statList = mapStatsToDTO(item);
+                // itemDTO.setStats(statList);
                 
                 // some of these have different names in the front-end compared to the back-end
                 if (slot.equals(EquipmentSlot.RIGHT_RING)) {
-                    itemMap.put("ring-right", itemDTO);
+                    equippedItemMap.put("ring-right", item.getID());
                 } else if (slot.equals(EquipmentSlot.LEFT_RING)) {
-                    itemMap.put("ring-left", itemDTO);
+                    equippedItemMap.put("ring-left", item.getID());
                 } else if (slot.equals(EquipmentSlot.DELETE_ITEM_SLOT)) {
-                    itemMap.put("delete-item", itemDTO);
+                    equippedItemMap.put("delete-item", item.getID());
                 } else if (slot.equals(EquipmentSlot.NEW_ITEM_SLOT)) {
-                    itemMap.put("new-item", itemDTO);
+                    equippedItemMap.put("new-item", item.getID());
                 } else {
-                    itemMap.put(slot.toString().toLowerCase(), itemDTO);
+                    equippedItemMap.put(slot.toString().toLowerCase(), item.getID());
                 }
                 
                 // System.out.println(slot.toString().toLowerCase());
@@ -94,7 +122,7 @@ public class CharacterMapper {
 
         }
 
-        return itemMap;
+        return equippedItemMap;
 
     }
 

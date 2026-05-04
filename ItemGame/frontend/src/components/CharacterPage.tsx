@@ -31,8 +31,17 @@ export function CharacterPage() {
         return <div>No character found</div>;
     }
 
-    // map items to slot type
-    // const equippedItems = mapItemsToSlots(character.items);
+    const helmId = character.equippedItems.helm;
+    const amuletId = character.equippedItems.amulet;
+    const weaponId = character.equippedItems.weapon;
+    const chestId = character.equippedItems.chest;
+    const shieldId = character.equippedItems.shield;
+    const glovesId = character.equippedItems.gloves;
+    const ringRightId = character.equippedItems["ring-right"];
+    const beltId = character.equippedItems.belt;
+    const ringLeftId = character.equippedItems["ring-left"];
+    const bootsId = character.equippedItems.boots;
+    // const pantsId = character.equippedItems.pants;
 
     return (
         
@@ -50,22 +59,21 @@ export function CharacterPage() {
                     <div className="stat-row">Lightning Resistence: {character.lightningResistance}</div>
                     <div className="stat-row">Magic Resistence: {character.magicResistance}</div>
                     <div className="stat-row">Poison Resistence: {character.poisonResistance}</div>
-                    
                 </div>
 
                 <div className="gear-grid">
                     {/* <h3>Equipment</h3> */}
-                    <ItemSlot slotType="helm" item={character.items.helm}/>
-                    <ItemSlot slotType="amulet" item={character.items.amulet} />
-                    <ItemSlot slotType="weapon" item={character.items.weapon} />
-                    <ItemSlot slotType="chest" item={character.items.chest} />
-                    <ItemSlot slotType="shield" item={character.items.shield} />
-                    <ItemSlot slotType="gloves" item={character.items.gloves} />
-                    <ItemSlot slotType="ring-right" item={character.items["ring-right"]} />
-                    <ItemSlot slotType="belt" item={character.items.belt} />
-                    <ItemSlot slotType="ring-left" item={character.items["ring-left"]} />
-                    <ItemSlot slotType="boots" item={character.items.boots}/>
-                    {/* <ItemSlot slotType="pants" item={character.items.pants}/> */}
+                    <ItemSlot slotType="helm" item={helmId !== undefined ? character.itemsById[helmId]: undefined}/>
+                    <ItemSlot slotType="amulet" item={amuletId !== undefined ? character.itemsById[amuletId]: undefined}/>
+                    <ItemSlot slotType="weapon" item={weaponId !== undefined ? character.itemsById[weaponId]: undefined}/>
+                    <ItemSlot slotType="chest" item={chestId !== undefined ? character.itemsById[chestId]: undefined}/>
+                    <ItemSlot slotType="shield" item={shieldId !== undefined ? character.itemsById[shieldId]: undefined}/>
+                    <ItemSlot slotType="gloves" item={glovesId !== undefined ? character.itemsById[glovesId]: undefined}/>
+                    <ItemSlot slotType="ring-right" item={ringRightId !== undefined ? character.itemsById[ringRightId]: undefined}/>
+                    <ItemSlot slotType="belt" item={beltId !== undefined ? character.itemsById[beltId]: undefined}/>
+                    <ItemSlot slotType="ring-left" item={ringLeftId !== undefined ? character.itemsById[ringLeftId]: undefined}/>
+                    <ItemSlot slotType="boots" item={bootsId !== undefined ? character.itemsById[bootsId]: undefined}/>
+                    {/* <ItemSlot slotType="pants" item={pantsId !== undefined ? character.itemsById[pantsId]: undefined}/> */}
                 </div>
 
                 {/* <div className="item-manipulation-grid">
