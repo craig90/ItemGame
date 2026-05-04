@@ -2,11 +2,13 @@ package com.craig.itemgame.DTOs;
 
 import java.util.List;
 
+import com.craig.itemgame.model.ItemType;
+
 public class ItemDTO {
 
     private String id;
     private String name;
-    private String type; // TODO: update to use enum
+    private ItemType type;
     private List<StatDTO> stats;
 
     public ItemDTO() {
@@ -21,7 +23,7 @@ public class ItemDTO {
         this.name = name;
     }
 
-    public void setType(String type) {
+    public void setType(ItemType type) {
         this.type = type;
     }
 
@@ -37,7 +39,7 @@ public class ItemDTO {
         return this.name;
     }
 
-    public String getType() {
+    public ItemType getType() {
         return this.type;
     }
 

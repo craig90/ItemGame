@@ -1,5 +1,5 @@
 import type { Item } from "./Item";
-import type { Stat } from "./Stat";
+// import type { Stat } from "./Stat";
 import type { SlotType } from "./SlotType";
 
 export interface Character {
@@ -18,6 +18,6 @@ export interface Character {
   lightningResistance: number;
   magicResistance: number;
   poisonResistance: number;
-  stats: Stat[];  // TODO: might need to be changed due to back-end subclasses
-  items: Partial<Record<SlotType, Item>>;
+  equippedItems: Partial<Record<SlotType, string>>;
+  itemsById: Record<string, Item>;
 }
