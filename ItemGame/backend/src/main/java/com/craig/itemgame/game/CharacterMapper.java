@@ -7,12 +7,16 @@ import java.util.Map;
 
 import com.craig.itemgame.DTOs.CharacterDTO;
 import com.craig.itemgame.DTOs.CharacterSummaryDTO;
+import com.craig.itemgame.DTOs.InventoryItemDTO;
 import com.craig.itemgame.DTOs.ItemDTO;
 import com.craig.itemgame.DTOs.StatDTO;
 import com.craig.itemgame.model.Character;
 import com.craig.itemgame.model.CharacterFile;
 import com.craig.itemgame.model.EquipmentSlot;
+import com.craig.itemgame.model.ItemManager;
 import com.craig.itemgame.model.Items.Item;
+
+import java.awt.Point;
 
 public class CharacterMapper {
 
@@ -32,6 +36,7 @@ public class CharacterMapper {
         CharacterDTO characterDTO = new CharacterDTO();
         Map<String, String> equippedItems = this.mapEquippedItems(character);
         Map<String, ItemDTO> itemsById = this.mapItemsByID(character);
+        List<InventoryItemDTO> inventoryItemDTOs = this.mapInventoryItems(character.getItemManager());
 
         characterDTO.setId(character.getId());
         characterDTO.setName(character.getName());
@@ -48,6 +53,7 @@ public class CharacterMapper {
 
         characterDTO.setEquippedItems(equippedItems);
         characterDTO.setItemsById(itemsById);
+        characterDTO.setInventoryItems(inventoryItemDTOs);
 
         // System.out.println(characterDTO.toString());
 
@@ -77,6 +83,31 @@ public class CharacterMapper {
         }
 
         return itemMap;
+
+    }
+
+    private List<InventoryItemDTO> mapInventoryItems(ItemManager itemManager) {
+
+        List<InventoryItemDTO> inventoryItemDTOs = new ArrayList<>();
+
+        for (Map.Entry<String,Point> entry: itemManager.getInventory().getInventoryItems().entrySet()) {
+
+            InventoryItemDTO inventoryItemDTO = new InventoryItemDTO();
+            inventoryItemDTO.setId(entry.getKey());
+
+            // TODO: these should be stored as whole numbers so the cast should be safe
+            // but may want to double check
+            inventoryItemDTO.setX((int)entry.getValue().getX());
+            inventoryItemDTO.setY((int)entry.getValue().getY());
+
+            inventoryItemDTO.setHeight(itemManager.getItemById(entry.getKey()).getHeightInGridUnits());
+            inventoryItemDTO.setWidth(itemManager.getItemById(entry.getKey()).getWidthInGridUnits());
+
+            inventoryItemDTOs.add(inventoryItemDTO);
+
+        }
+
+        return inventoryItemDTOs;
 
     }
 

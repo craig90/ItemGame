@@ -1,5 +1,6 @@
 package com.craig.itemgame.DTOs;
 
+import java.util.List;
 import java.util.Map;
 
 public class CharacterDTO {
@@ -20,6 +21,7 @@ public class CharacterDTO {
     // TODO: saving as String.. at least for now because the front-end wants strings
     private Map<String, String> equippedItems;
     private Map<String, ItemDTO> itemsById;
+    private List<InventoryItemDTO> inventoryItemDTOs;
 
     public CharacterDTO() { }
 
@@ -79,6 +81,10 @@ public class CharacterDTO {
         this.itemsById = itemsById;
     }
 
+    public void setInventoryItems(List<InventoryItemDTO> inventoryItemDTOs) {
+        this.inventoryItemDTOs = inventoryItemDTOs;
+    }
+
     public String getId() {
         return this.id;
     }
@@ -133,6 +139,10 @@ public class CharacterDTO {
 
     public Map<String, ItemDTO> getItemsById() {
         return this.itemsById;
+    }
+
+    public List<InventoryItemDTO> getInventoryItems() {
+        return this.inventoryItemDTOs;
     }
 
 }
