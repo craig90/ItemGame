@@ -5,6 +5,7 @@ import "./CharacterPage.css";
 import { getCharacter } from "../service/api";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Inventory } from "./Inventory";
 
 export function CharacterPage() {
     
@@ -60,20 +61,23 @@ export function CharacterPage() {
                     <div className="stat-row">Magic Resistence: {character.magicResistance}</div>
                     <div className="stat-row">Poison Resistence: {character.poisonResistance}</div>
                 </div>
-
-                <div className="gear-grid">
-                    {/* <h3>Equipment</h3> */}
-                    <ItemSlot slotType="helm" item={helmId !== undefined ? character.itemsById[helmId]: undefined}/>
-                    <ItemSlot slotType="amulet" item={amuletId !== undefined ? character.itemsById[amuletId]: undefined}/>
-                    <ItemSlot slotType="weapon" item={weaponId !== undefined ? character.itemsById[weaponId]: undefined}/>
-                    <ItemSlot slotType="chest" item={chestId !== undefined ? character.itemsById[chestId]: undefined}/>
-                    <ItemSlot slotType="shield" item={shieldId !== undefined ? character.itemsById[shieldId]: undefined}/>
-                    <ItemSlot slotType="gloves" item={glovesId !== undefined ? character.itemsById[glovesId]: undefined}/>
-                    <ItemSlot slotType="ring-right" item={ringRightId !== undefined ? character.itemsById[ringRightId]: undefined}/>
-                    <ItemSlot slotType="belt" item={beltId !== undefined ? character.itemsById[beltId]: undefined}/>
-                    <ItemSlot slotType="ring-left" item={ringLeftId !== undefined ? character.itemsById[ringLeftId]: undefined}/>
-                    <ItemSlot slotType="boots" item={bootsId !== undefined ? character.itemsById[bootsId]: undefined}/>
-                    {/* <ItemSlot slotType="pants" item={pantsId !== undefined ? character.itemsById[pantsId]: undefined}/> */}
+                
+                <div>
+                    <div className="gear-grid">
+                        {/* <h3>Equipment</h3> */}
+                        <ItemSlot slotType="helm" item={helmId !== undefined ? character.itemsById[helmId]: undefined}/>
+                        <ItemSlot slotType="amulet" item={amuletId !== undefined ? character.itemsById[amuletId]: undefined}/>
+                        <ItemSlot slotType="weapon" item={weaponId !== undefined ? character.itemsById[weaponId]: undefined}/>
+                        <ItemSlot slotType="chest" item={chestId !== undefined ? character.itemsById[chestId]: undefined}/>
+                        <ItemSlot slotType="shield" item={shieldId !== undefined ? character.itemsById[shieldId]: undefined}/>
+                        <ItemSlot slotType="gloves" item={glovesId !== undefined ? character.itemsById[glovesId]: undefined}/>
+                        <ItemSlot slotType="ring-right" item={ringRightId !== undefined ? character.itemsById[ringRightId]: undefined}/>
+                        <ItemSlot slotType="belt" item={beltId !== undefined ? character.itemsById[beltId]: undefined}/>
+                        <ItemSlot slotType="ring-left" item={ringLeftId !== undefined ? character.itemsById[ringLeftId]: undefined}/>
+                        <ItemSlot slotType="boots" item={bootsId !== undefined ? character.itemsById[bootsId]: undefined}/>
+                        {/* <ItemSlot slotType="pants" item={pantsId !== undefined ? character.itemsById[pantsId]: undefined}/> */}
+                    </div>
+                    <Inventory cols={10} rows={5} itemsById={character.itemsById} inventoryItems={character.inventoryItems}></Inventory>
                 </div>
 
                 {/* <div className="item-manipulation-grid">

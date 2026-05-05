@@ -1,6 +1,7 @@
 import type { Item } from "./Item";
 // import type { Stat } from "./Stat";
 import type { SlotType } from "./SlotType";
+import type { InventoryItem } from "./InventoryItem";
 
 export interface Character {
   // TODO: come back to this - currently not being used in the backend but
@@ -20,4 +21,5 @@ export interface Character {
   poisonResistance: number;
   equippedItems: Partial<Record<SlotType, string>>;
   itemsById: Record<string, Item>;
+  inventoryItems: InventoryItem[];
 }
