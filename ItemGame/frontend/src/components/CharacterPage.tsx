@@ -43,6 +43,8 @@ export function CharacterPage() {
     const ringLeftId = character.equippedItems["ring-left"];
     const bootsId = character.equippedItems.boots;
     // const pantsId = character.equippedItems.pants;
+    // const newItemId = character.equippedItems["new-item"];
+    // const deleteItemId = character.equippedItems["delete-item"];
 
     return (
         
@@ -81,8 +83,8 @@ export function CharacterPage() {
                 </div>
 
                 {/* <div className="item-manipulation-grid">
-                    <ItemSlot slotType ="new-item" item={character.items["new-item"]}></ItemSlot>
-                    <ItemSlot slotType ="delete-item" item={character.items["delete-item"]}></ItemSlot>
+                    <ItemSlot slotType ="new-item" item={newItemId !== undefined ? character.itemsById[newItemId]: undefined}></ItemSlot>
+                    <ItemSlot slotType ="delete-item" item={deleteItemId !== undefined ? character.itemsById[deleteItemId]: undefined}></ItemSlot>
                     <button>Generate Item</button>
                     <button>Delete Item</button>
                 </div> */}
