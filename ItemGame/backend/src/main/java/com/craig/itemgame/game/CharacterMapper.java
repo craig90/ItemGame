@@ -34,8 +34,8 @@ public class CharacterMapper {
     public CharacterDTO mapCharacterToDTO(Character character) {
 
         CharacterDTO characterDTO = new CharacterDTO();
-        Map<String, String> equippedItems = this.mapEquippedItems(character);
-        Map<String, ItemDTO> itemsById = this.mapItemsByID(character);
+        Map<String, String> equippedItems = this.mapEquippedItems(character.getItemManager());
+        Map<String, ItemDTO> itemsById = this.mapItemsByID(character.getItemManager());
         List<InventoryItemDTO> inventoryItemDTOs = this.mapInventoryItems(character.getItemManager());
 
         characterDTO.setId(character.getId());
@@ -61,10 +61,10 @@ public class CharacterMapper {
 
     }
 
-    private Map<String, ItemDTO> mapItemsByID(Character character) {
+    private Map<String, ItemDTO> mapItemsByID(ItemManager itemManager) {
 
         Map<String, ItemDTO> itemMap = new HashMap<>();
-        List<Item> items = character.getItemManager().getAllItems();
+        List<Item> items = itemManager.getAllItems();
 
         for (Item item: items) {
             
@@ -112,13 +112,13 @@ public class CharacterMapper {
     }
 
 
-    private Map<String, String> mapEquippedItems(Character character) {
+    private Map<String, String> mapEquippedItems(ItemManager itemManager) {
 
         Map<String, String> equippedItemMap = new HashMap<>();
         
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             
-            Item item = character.getItemManager().getItem(slot);
+            Item item = itemManager.getItem(slot);
         
             if (item != null) {
 
