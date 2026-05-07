@@ -1,0 +1,44 @@
+.item-hover {
+  visibility: hidden;
+  background-color: rgba(39, 36, 36, 0.6);
+  z-index: 3;
+  position: absolute;
+  margin-left: -70%;
+  width: 140%;
+}
+
+.item-slot:hover .item-hover {
+  visibility: visible;
+}
+
+/** inventory items are not currently the same size as equipped so the hovering has to be sized
+differently - this is not really ideal - maybe change */
+.item:hover .item-hover {
+    visibility: visible;
+    width: 160%;
+    margin-left: -120%;
+}
+
+.item-name {
+  font-weight: bold;
+}
+
+.item-name, .stat {
+  opacity: 1;
+  color: azure;
+}
+
+.stat {
+  margin: 0;
+  padding: 0;
+}
+
+.item-slot--amulet .item-hover, .item-slot--ring-right .item-hover, .item-slot--ring-left .item-hover {
+  width: 280%;
+  margin-left: -140%;
+}
+
+.item:hover .item--AMULET, .item:hover .item--RING {
+    width: 320%;
+    margin-left: -210%;
+}
