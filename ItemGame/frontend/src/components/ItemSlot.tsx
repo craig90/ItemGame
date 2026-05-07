@@ -1,5 +1,6 @@
 import type { Item } from "../models/Item";
 import "./ItemSlot.css";
+import "./hover.css";
 import { itemTypeToImage } from "../utils/ItemTypeToImage";
 
 type ItemSlotProps = {
@@ -22,7 +23,6 @@ export function ItemSlot({slotType, item}: ItemSlotProps) {
                 />
                 <span className="item-hover"><div className="item-name">{item.name}</div>
                     {item.stats.map((stat) => (
-                        // <p key={`${stat.type}-${stat.value}`} className="stat">{stat.type}: {stat.value}
                         <p key={stat.type} className="stat">{stat.type}: {stat.value}
                         </p>
                     ))}

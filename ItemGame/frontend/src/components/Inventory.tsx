@@ -1,4 +1,5 @@
 import "./Inventory.css";
+import "./hover.css";
 import type { InventoryItem } from "../models/InventoryItem";
 import type { Item } from "../models/Item";
 import { itemTypeToImage } from "../utils/ItemTypeToImage";
@@ -49,6 +50,12 @@ export function Inventory ({itemsById, inventoryItems, cols, rows}: InventoryPro
                             }
                         >
                             <img src={`${itemTypeToImage[item.type]}`} alt="" />
+                            <span className={`item-hover item--${item.type}`}><div className="item-name">{item.name}</div>
+                                {item.stats.map((stat) => (
+                                <p key={stat.type} className="stat">{stat.type}: {stat.value}
+                                </p>
+                                ))}
+                            </span>
                         </div> 
                     );
 
