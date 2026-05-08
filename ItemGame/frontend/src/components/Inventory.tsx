@@ -37,26 +37,28 @@ export function Inventory ({itemsById, inventoryItems, cols, rows}: InventoryPro
                     if (!item) return null;
 
                     return (
-                        <div
-                            key={invItem.id}
-                            className="item"
-                            style={
-                                {
-                                    "--x": invItem.x,
-                                    "--y": invItem.y,
-                                    "--w": invItem.width,
-                                    "--h": invItem.height,
-                                } as React.CSSProperties
-                            }
-                        >
-                            <img src={`${itemTypeToImage[item.type]}`} alt="" />
-                            <span className={`item-hover item--${item.type}`}><div className="item-name">{item.name}</div>
-                                {item.stats.map((stat) => (
-                                <p key={stat.type} className="stat">{stat.type}: {stat.value}
-                                </p>
-                                ))}
-                            </span>
-                        </div> 
+                        <div className="item-container">
+                            <div
+                                key={invItem.id}
+                                className="item"
+                                style={
+                                    {
+                                        "--x": invItem.x,
+                                        "--y": invItem.y,
+                                        "--w": invItem.width,
+                                        "--h": invItem.height,
+                                    } as React.CSSProperties
+                                }
+                            >
+                                <img src={`${itemTypeToImage[item.type]}`} alt="" />
+                                <span className={`item-hover item--${item.type}`}><div className="item-name">{item.name}</div>
+                                    {item.stats.map((stat) => (
+                                    <p key={stat.type} className="stat">{stat.type}: {stat.value}
+                                    </p>
+                                    ))}
+                                </span>
+                            </div>
+                        </div>
                     );
 
                 })}

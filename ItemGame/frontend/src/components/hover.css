@@ -1,49 +1,33 @@
 .item-hover {
   visibility: hidden;
-  background-color: rgba(39, 36, 36, 0.6);
-  z-index: 3;
   position: absolute;
-  margin-left: -70%;
-  width: 140%;
+  z-index: 3;
+
+  background-color: rgba(39, 36, 36, 0.6);
+  color: azure;
+  
+  width: max-content;
+  white-space: nowrap;
+  
+  padding: 6px;
+
+  left:50%;
+
+  transform: translateX(-50%);
+
   pointer-events:none;
+
 }
 
-.item-slot:hover .item-hover {
+.item-container:hover .item-hover {
   visibility: visible;
-}
-
-.item:hover .item-hover {
-    visibility: visible;
 }
 
 .item-name {
   font-weight: bold;
 }
 
-.item-name, .stat {
-  opacity: 1;
-  color: azure;
-}
-
 .stat {
   margin: 0;
   padding: 0;
-}
-
-.item-slot--amulet .item-hover, .item-slot--ring-right .item-hover, .item-slot--ring-left .item-hover {
-  width: 280%;
-  margin-left: -140%;
-}
-
-/** inventory items are not currently the same size as equipped so the hovering has to be sized
-differently - this is not really ideal - maybe change */
-.item--HELM, .item--WEAPON, .item--BOOTS, .item--SHIELD, .item--BELT, .item--CHEST, .item--GLOVES {
-    width: 160%;
-    margin-left: -130%;
-}
-
-
-.item--AMULET, .item--RING {
-    width: 320%;
-    margin-left: -210%;
 }
