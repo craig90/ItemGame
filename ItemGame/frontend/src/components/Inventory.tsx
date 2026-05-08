@@ -13,6 +13,17 @@ type InventoryProps = {
 
 export function Inventory ({itemsById, inventoryItems, cols, rows}: InventoryProps) {
 
+    const occupiedCells = new Set();
+
+    inventoryItems.forEach(item=> {
+        for (let dx = 0; dx < item.width; dx++) {
+            for (let dy = 0; dy < item.height; dy++) {
+                occupiedCells.add(`${item.x + dx},${item.y + dy}`)
+            }
+        }
+    })
+
+    console.log(occupiedCells);
     // const cols = 10;
     // const rows = 5;
 
@@ -23,12 +34,22 @@ export function Inventory ({itemsById, inventoryItems, cols, rows}: InventoryPro
                 className="grid"
                 style={{ 
                     gridTemplateColumns: `repeat(${cols}, 50px)`,
-                    gridTemplateRows: `repeat(${rows}), 50px)`,
+                    gridTemplateRows: `repeat(${rows}, 50px)`,
                 }}
             >
-            {Array.from({ length: cols*rows }).map((_, i) => (
-                <div key={i} className="cell" />
-            ))}
+            {Array.from({ length: cols*rows }).map((_, i) => {
+
+                const x = i % cols;
+                const y = Math.floor(i/cols);
+
+                console.log(x, y);
+                const occupied = occupiedCells.has(`${x},${y}`);
+                console.log(occupied);
+
+                return (
+                    <div key={i} className={`cell ${occupied ? "cell--occupied" : ""}`} />
+                );
+            })}
             </div>
             
             <div className="items">

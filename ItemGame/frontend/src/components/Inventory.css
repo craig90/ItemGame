@@ -18,6 +18,10 @@
     border: 1px solid 2a2a2a;
 }
 
+.cell--occupied {
+    background-color: rgba(120, 90, 30, 0.35);
+}
+
 .items {
     position: absolute;
     top: 4px;
