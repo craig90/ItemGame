@@ -5,18 +5,15 @@
   position: absolute;
   margin-left: -70%;
   width: 140%;
+  pointer-events:none;
 }
 
 .item-slot:hover .item-hover {
   visibility: visible;
 }
 
-/** inventory items are not currently the same size as equipped so the hovering has to be sized
-differently - this is not really ideal - maybe change */
 .item:hover .item-hover {
     visibility: visible;
-    width: 160%;
-    margin-left: -120%;
 }
 
 .item-name {
@@ -38,7 +35,15 @@ differently - this is not really ideal - maybe change */
   margin-left: -140%;
 }
 
-.item:hover .item--AMULET, .item:hover .item--RING {
+/** inventory items are not currently the same size as equipped so the hovering has to be sized
+differently - this is not really ideal - maybe change */
+.item--HELM, .item--WEAPON, .item--BOOTS, .item--SHIELD, .item-BELT, .item--CHEST, .item--GLOVES {
+    width: 160%;
+    margin-left: -120%;
+}
+
+
+.item--AMULET, .item--RING {
     width: 320%;
     margin-left: -210%;
 }
