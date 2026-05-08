@@ -37,9 +37,9 @@
 
 /** inventory items are not currently the same size as equipped so the hovering has to be sized
 differently - this is not really ideal - maybe change */
-.item--HELM, .item--WEAPON, .item--BOOTS, .item--SHIELD, .item-BELT, .item--CHEST, .item--GLOVES {
+.item--HELM, .item--WEAPON, .item--BOOTS, .item--SHIELD, .item--BELT, .item--CHEST, .item--GLOVES {
     width: 160%;
-    margin-left: -120%;
+    margin-left: -130%;
 }
 
 
