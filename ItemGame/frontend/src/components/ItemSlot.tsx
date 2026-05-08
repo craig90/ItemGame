@@ -15,19 +15,20 @@ export function ItemSlot({slotType, item}: ItemSlotProps) {
         <div className={`item-slot item-slot--${slotType}`}>
             <div className="slot-type">{slotType.startsWith("ring") ? "ring" : slotType}</div>
             {item && (
-                <>
-                <img 
-                    src={`${itemTypeToImage[item.type]}`}
-                    alt=""
-                    className={`item-slot--${slotType} gear-image`}
-                />
-                <span className="item-hover"><div className="item-name">{item.name}</div>
-                    {item.stats.map((stat) => (
-                        <p key={stat.type} className="stat">{stat.type}: {stat.value}
-                        </p>
-                    ))}
-                </span>
-                </>
+                <div className="item-container">
+                    <img 
+                        src={`${itemTypeToImage[item.type]}`}
+                        alt=""
+                        className={`item-slot--${slotType} gear-image`}
+                    />
+                    <span className="item-hover"><div className="item-name">{item.name}</div>
+                        {item.stats.map((stat) => (
+                            <p key={stat.type} className="stat">{stat.type}: {stat.value}
+                            </p>
+                        ))}
+                    </span>
+                </div>
+
                 )
             }
             
