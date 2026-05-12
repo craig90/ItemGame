@@ -33,8 +33,8 @@
     left: calc(var(--x)*52px);
     top: calc(var(--y)*52px);
 
-    width: calc(var(--w)*50px);
-    height: calc(var(--h)*50px);
+    width: calc(var(--w)*52px);
+    height: calc(var(--h)*52px);
 }
 
 .item img {
