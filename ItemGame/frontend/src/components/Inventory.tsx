@@ -84,11 +84,13 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
                       (y >= item.y && y <= (item.y+item.height-1))
         );
 
-        // TODO: add ability to cover same item
-        
         if (occupyingItem) {
-            console.log("Occupied by item", itemsById[occupyingItem.id].name);
-            return;
+            // if item id is different don't allow move - if it's the same allow move
+            if (occupyingItem.id !== item.id) {
+                console.log("Occupied by item", itemsById[occupyingItem.id].name);
+                return;
+            }
+            console.log("Same item", itemsById[occupyingItem.id].name);
         }
 
         // bounds detection - right
