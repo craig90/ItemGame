@@ -12,7 +12,7 @@
   padding: 6px;
 
   left:50%;
-  bottom:100%;
+  /* bottom:100%; */
 
   transform: translateX(-50%);
 
