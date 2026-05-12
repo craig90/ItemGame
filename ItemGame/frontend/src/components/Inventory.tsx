@@ -63,11 +63,11 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
         
         itemsById[draggedItem.itemId]
 
-        const item = inventoryItems.find(
+        const movedItem = inventoryItems.find(
             (item) => item.id === draggedItem?.itemId
         );
         
-        if (!item) return;
+        if (!movedItem) return;
 
         const rect = gridRef.current.getBoundingClientRect();
         console.log(e.clientX, rect.left);
@@ -80,13 +80,20 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
 
         // item detection
         const occupyingItem = inventoryItems.find(
-            (item) => (x >= item.x && x <= (item.x+item.width-1)) && 
+            (item) => ((x >= item.x && x <= (item.x+item.width-1)) && 
                       (y >= item.y && y <= (item.y+item.height-1))
+                    || ((x <= item.x && x + (movedItem.width-1) >= item.x) && 
+                      (y >= item.y && y <= (item.y+item.height-1)))
+                   || ((x >= item.x && x <= (item.x+item.width-1)) && 
+                      (y <= item.y && y + (movedItem.height-1) >= item.y))
+                   || ((x <= item.x && x + (movedItem.width-1) >= item.x) && 
+                      (y <= item.y && y + (movedItem.height-1) >= item.y))
+                    )
         );
 
         if (occupyingItem) {
             // if item id is different don't allow move - if it's the same allow move
-            if (occupyingItem.id !== item.id) {
+            if (occupyingItem.id !== movedItem.id) {
                 console.log("Occupied by item", itemsById[occupyingItem.id].name);
                 return;
             }
@@ -94,13 +101,13 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
         }
 
         // bounds detection - right
-        if (x + item.width > cols) {
+        if (x + movedItem.width > cols) {
             console.log("Out of bounds.. too far right");
             return;
         }
 
         // bounds detection - left
-        if (y + item.height > rows) {
+        if (y + movedItem.height > rows) {
             console.log("Out of bounds.. too low");
             return;
         }
