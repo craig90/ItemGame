@@ -52,7 +52,7 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
 
 
     const gridRef = useRef<HTMLDivElement>(null);
-    const CELL_SIZE = 50;
+    const CELL_SIZE = 52; // 50 + 2 for border
 
 
     const handleMouseUp = (e: React.MouseEvent) => {
@@ -70,13 +70,13 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
         if (!movedItem) return;
 
         const rect = gridRef.current.getBoundingClientRect();
-        console.log(e.clientX, rect.left);
-        console.log(e.clientY, rect.top);
+        // console.log(e.clientX, rect.left);
+        // console.log(e.clientY, rect.top);
 
         const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
         const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
 
-        const key = (y * cols) + x;
+        // const key = (y * cols) + x;
 
         // item detection
         const occupyingItem = inventoryItems.find(
@@ -164,9 +164,8 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
                     if (!item) return null;
 
                     return (
-                        <div className="item-container">
+                        <div className="item-container" key={invItem.id}>
                             <div
-                                key={invItem.id}
                                 className="item"
                                 style={
                                     {
@@ -180,7 +179,7 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
                                     setDraggedItem({itemId: invItem.id, x: invItem.x, y: invItem.y});
                                 }}
                             >
-                                <img className="item-image" src={`${itemTypeToImage[item.type]}`} alt="" />
+                                <img className="item-image" src={`${itemTypeToImage[item.type]}`} alt="" draggable={false} onDragStart={(e) => e.preventDefault()}/>
                                 <span className={`item-hover item--${item.type}`}><div className="item-name">{item.name}</div>
                                     {item.stats.map((stat) => (
                                     <p key={stat.type} className="stat">{stat.type}: {stat.value}

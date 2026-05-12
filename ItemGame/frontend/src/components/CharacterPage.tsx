@@ -24,6 +24,22 @@ export function CharacterPage() {
             setInventoryItems(character.inventoryItems);
         }
     }, [character]);
+
+
+    // resets dragged item to null after mouseup
+    useEffect(() => {
+        
+        const handleMouseUp = () => {
+            setDraggedItem(null);
+        };
+
+        window.addEventListener("mouseup", handleMouseUp);
+
+        return () => {
+            window.removeEventListener("mouseup", handleMouseUp);
+        }
+
+    }, [])
     
     
     const [draggedItem, setDraggedItem] = useState<{
