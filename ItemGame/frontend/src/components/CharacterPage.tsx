@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
 import { ItemSlot } from "./ItemSlot";
 import type { Character } from "../models/Character";
+import type { InventoryItem } from "../models/InventoryItem";
 import "./CharacterPage.css";
 import { getCharacter } from "../service/api";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Inventory } from "./Inventory";
+
 
 export function CharacterPage() {
     
@@ -13,6 +15,22 @@ export function CharacterPage() {
     const navigate = useNavigate();
     const [character, setCharacter] = useState<Character | null>(null);
     const [loading, setLoading] = useState(true);
+
+    const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
+    
+    useEffect(() => {
+
+        if (character) {
+            setInventoryItems(character.inventoryItems);
+        }
+    }, [character]);
+    
+    
+    const [draggedItem, setDraggedItem] = useState<{
+        itemId: string;
+        x: number;
+        y: number;
+    } | null>(null);
 
     useEffect(() => {
         async function loadCharacter() {
@@ -79,7 +97,8 @@ export function CharacterPage() {
                         <ItemSlot slotType="boots" item={bootsId !== undefined ? character.itemsById[bootsId]: undefined}/>
                         {/* <ItemSlot slotType="pants" item={pantsId !== undefined ? character.itemsById[pantsId]: undefined}/> */}
                     </div>
-                    <Inventory cols={10} rows={5} itemsById={character.itemsById} inventoryItems={character.inventoryItems}></Inventory>
+                        <Inventory cols={10} rows={5} itemsById={character.itemsById} 
+                        inventoryItems={inventoryItems} setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}></Inventory>
                 </div>
 
                 {/* <div className="item-manipulation-grid">
