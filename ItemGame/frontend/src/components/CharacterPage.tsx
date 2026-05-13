@@ -41,12 +41,10 @@ export function CharacterPage() {
 
     }, [])
     
-    
     const [draggedItem, setDraggedItem] = useState<{
         itemId: string;
-        x: number;
-        y: number;
     } | null>(null);
+
 
     useEffect(() => {
         async function loadCharacter() {
@@ -101,20 +99,31 @@ export function CharacterPage() {
                 <div>
                     <div className="gear-grid">
                         {/* <h3>Equipment</h3> */}
-                        <ItemSlot slotType="helm" item={helmId !== undefined ? character.itemsById[helmId]: undefined}/>
-                        <ItemSlot slotType="amulet" item={amuletId !== undefined ? character.itemsById[amuletId]: undefined}/>
-                        <ItemSlot slotType="weapon" item={weaponId !== undefined ? character.itemsById[weaponId]: undefined}/>
-                        <ItemSlot slotType="chest" item={chestId !== undefined ? character.itemsById[chestId]: undefined}/>
-                        <ItemSlot slotType="shield" item={shieldId !== undefined ? character.itemsById[shieldId]: undefined}/>
-                        <ItemSlot slotType="gloves" item={glovesId !== undefined ? character.itemsById[glovesId]: undefined}/>
-                        <ItemSlot slotType="ring-right" item={ringRightId !== undefined ? character.itemsById[ringRightId]: undefined}/>
-                        <ItemSlot slotType="belt" item={beltId !== undefined ? character.itemsById[beltId]: undefined}/>
-                        <ItemSlot slotType="ring-left" item={ringLeftId !== undefined ? character.itemsById[ringLeftId]: undefined}/>
-                        <ItemSlot slotType="boots" item={bootsId !== undefined ? character.itemsById[bootsId]: undefined}/>
+                        <ItemSlot slotType="helm" item={helmId !== undefined ? character.itemsById[helmId]: undefined} 
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        <ItemSlot slotType="amulet" item={amuletId !== undefined ? character.itemsById[amuletId]: undefined}
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        <ItemSlot slotType="weapon" item={weaponId !== undefined ? character.itemsById[weaponId]: undefined}
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        <ItemSlot slotType="chest" item={chestId !== undefined ? character.itemsById[chestId]: undefined}
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        <ItemSlot slotType="shield" item={shieldId !== undefined ? character.itemsById[shieldId]: undefined}
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        <ItemSlot slotType="gloves" item={glovesId !== undefined ? character.itemsById[glovesId]: undefined}
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        <ItemSlot slotType="ring-right" item={ringRightId !== undefined ? character.itemsById[ringRightId]: undefined}
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        <ItemSlot slotType="belt" item={beltId !== undefined ? character.itemsById[beltId]: undefined}
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        <ItemSlot slotType="ring-left" item={ringLeftId !== undefined ? character.itemsById[ringLeftId]: undefined}
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        <ItemSlot slotType="boots" item={bootsId !== undefined ? character.itemsById[bootsId]: undefined}
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
                         {/* <ItemSlot slotType="pants" item={pantsId !== undefined ? character.itemsById[pantsId]: undefined}/> */}
                     </div>
                         <Inventory cols={10} rows={5} itemsById={character.itemsById} 
-                        inventoryItems={inventoryItems} setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}></Inventory>
+                        inventoryItems={inventoryItems} setInventoryItems={setInventoryItems} equippedItems={character.equippedItems}
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}></Inventory>
                 </div>
 
                 {/* <div className="item-manipulation-grid">
