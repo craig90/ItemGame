@@ -1,7 +1,8 @@
 import "./Inventory.css";
 import "./hover.css";
 import type { InventoryItem } from "../models/InventoryItem";
-import type { Item } from "../models/Item";
+import { ITEM_TYPES, type Item, type ItemType } from "../models/Item";
+import type { SlotType } from "../models/SlotType";
 import { itemTypeToImage } from "../utils/ItemTypeToImage";
 import { useRef } from "react";
 
@@ -10,18 +11,17 @@ type InventoryProps = {
     inventoryItems: InventoryItem[];
     cols: number;
     rows: number;
+    equippedItems: Partial<Record<SlotType, string>>;
 
     draggedItem: {
         itemId: string;
-        x: number;
-        y: number;
     } | null;
 
     setDraggedItem: React.Dispatch<
         React.SetStateAction<{
             itemId: string;
-            x: number;
-            y: number;
+            // x: number;
+            // y: number;
         } | null>
     >;
 
@@ -34,7 +34,8 @@ type InventoryProps = {
 
 
 
-export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, setDraggedItem, setInventoryItems}: InventoryProps) {
+export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, equippedItems, 
+    setDraggedItem, setInventoryItems}: InventoryProps) {
 
     const occupiedCells = new Set();
 
@@ -55,19 +56,138 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
     const CELL_SIZE = 52; // 50 + 2 for border
 
 
+    function canOccupy(x: number, y: number, invItem: InventoryItem) {
+        
+        console.log(x, y, invItem.height, invItem.width);
+
+        // item detection
+        const occupyingItem = inventoryItems.find(
+            (item) => ((x >= item.x && x <= (item.x+item.width-1)) && 
+                      (y >= item.y && y <= (item.y+item.height-1))
+                    || ((x <= item.x && x + (invItem.width-1) >= item.x) && 
+                      (y >= item.y && y <= (item.y+item.height-1)))
+                   || ((x >= item.x && x <= (item.x+item.width-1)) && 
+                      (y <= item.y && y + (invItem.height-1) >= item.y))
+                   || ((x <= item.x && x + (invItem.width-1) >= item.x) && 
+                      (y <= item.y && y + (invItem.height-1) >= item.y))
+                    )
+        );
+
+        if (occupyingItem) {
+            // if item id is different don't allow move - if it's the same allow move
+            if (occupyingItem.id !== invItem.id) {
+                console.log("Occupied by item", itemsById[occupyingItem.id].name);
+                return false;
+            }
+            console.log("Same item", itemsById[occupyingItem.id].name);
+        }
+
+        return true;
+
+    }
+
+    function invDimensions(type: ItemType, invItem: InventoryItem) {
+
+        console.log(type);
+
+        switch (type) {
+            case ITEM_TYPES.AMULET:
+                invItem.height = 1;
+                invItem.width = 1;
+                break;
+            case ITEM_TYPES.BELT:
+                invItem.height = 1;
+                invItem.width = 2;
+                break;
+            case ITEM_TYPES.BOOTS:
+                invItem.height = 2;
+                invItem.width = 2;
+                break;
+            case ITEM_TYPES.CHEST:
+                invItem.height = 3;
+                invItem.width = 2;
+                break;
+            case ITEM_TYPES.GLOVES:
+                invItem.height = 2;
+                invItem.width = 2;
+                break;
+            case ITEM_TYPES.HELM:
+                invItem.height = 2;
+                invItem.width = 2;
+                break;
+            case ITEM_TYPES.PANTS:
+                invItem.height = 3;
+                invItem.width = 2;
+                break;
+            case ITEM_TYPES.RING:
+                invItem.height = 1;
+                invItem.width = 1;
+                break;
+            case ITEM_TYPES.SHIELD:
+                invItem.height = 3;
+                invItem.width = 2;
+                break;
+            case ITEM_TYPES.WEAPON:
+                invItem.height = 3;
+                invItem.width = 2;
+                break;
+        
+        }
+
+    }
+
+    function inBounds(x: number, y: number, invItem: InventoryItem) {
+
+        // bounds detection - right
+        if (x + invItem.width > cols) {
+            console.log("Out of bounds.. too far right");
+            return false;
+        }
+
+        // bounds detection - left
+        if (y + invItem.height > rows) {
+            console.log("Out of bounds.. too low");
+            return false;
+        }
+
+        return true;
+
+    }
+
+
     const handleMouseUp = (e: React.MouseEvent) => {
         
         if (!gridRef.current || !draggedItem) return;
 
         console.log(draggedItem.itemId);
         
-        itemsById[draggedItem.itemId]
+        // itemsById[draggedItem.itemId]
 
-        const movedItem = inventoryItems.find(
+        let item: InventoryItem;
+
+        const invItem = inventoryItems.find(
             (item) => item.id === draggedItem?.itemId
         );
-        
-        if (!movedItem) return;
+
+        const equippedItem = itemsById[draggedItem.itemId];
+
+        if (invItem) {
+            item = invItem;
+        } else if (equippedItem) {
+            
+            item = {
+                id: equippedItem.id,
+                width: 0,
+                height: 0,
+                x: 0,
+                y: 0,
+            }
+            
+            invDimensions(equippedItem.type, item);
+            console.log(item);
+        } else {
+            return;
+        }
 
         const rect = gridRef.current.getBoundingClientRect();
         // console.log(e.clientX, rect.left);
@@ -77,44 +197,13 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
         const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
 
         // const key = (y * cols) + x;
+        if (!canOccupy(x, y, item)) return;
+        if (!inBounds(x, y, item)) return;
 
-        // item detection
-        const occupyingItem = inventoryItems.find(
-            (item) => ((x >= item.x && x <= (item.x+item.width-1)) && 
-                      (y >= item.y && y <= (item.y+item.height-1))
-                    || ((x <= item.x && x + (movedItem.width-1) >= item.x) && 
-                      (y >= item.y && y <= (item.y+item.height-1)))
-                   || ((x >= item.x && x <= (item.x+item.width-1)) && 
-                      (y <= item.y && y + (movedItem.height-1) >= item.y))
-                   || ((x <= item.x && x + (movedItem.width-1) >= item.x) && 
-                      (y <= item.y && y + (movedItem.height-1) >= item.y))
-                    )
-        );
-
-        if (occupyingItem) {
-            // if item id is different don't allow move - if it's the same allow move
-            if (occupyingItem.id !== movedItem.id) {
-                console.log("Occupied by item", itemsById[occupyingItem.id].name);
-                return;
-            }
-            console.log("Same item", itemsById[occupyingItem.id].name);
-        }
-
-        // bounds detection - right
-        if (x + movedItem.width > cols) {
-            console.log("Out of bounds.. too far right");
-            return;
-        }
-
-        // bounds detection - left
-        if (y + movedItem.height > rows) {
-            console.log("Out of bounds.. too low");
-            return;
-        }
-
-        if (!draggedItem) return;
+        // if (!draggedItem) return;
 
         setInventoryItems(prev => 
+            
             prev.map(item => {
 
                 if (item.id !== draggedItem.itemId) {
@@ -176,7 +265,7 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
                                     } as React.CSSProperties
                                 }
                                 onMouseDown={() => {
-                                    setDraggedItem({itemId: invItem.id, x: invItem.x, y: invItem.y});
+                                    setDraggedItem({itemId: invItem.id});
                                 }}
                             >
                                 <img className="item-image" src={`${itemTypeToImage[item.type]}`} alt="" draggable={false} onDragStart={(e) => e.preventDefault()}/>

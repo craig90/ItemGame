@@ -6,9 +6,19 @@ import { itemTypeToImage } from "../utils/ItemTypeToImage";
 type ItemSlotProps = {
     slotType: string;
     item?: Item;
+
+    draggedItem: {
+        itemId: string;
+    } | null;
+
+    setDraggedItem: React.Dispatch<
+        React.SetStateAction<{
+            itemId: string;
+        } | null>
+    >;
 }
 
-export function ItemSlot({slotType, item}: ItemSlotProps) {
+export function ItemSlot({slotType, item, draggedItem, setDraggedItem}: ItemSlotProps) {
     return (
         // 
         
@@ -20,6 +30,9 @@ export function ItemSlot({slotType, item}: ItemSlotProps) {
                         src={`${itemTypeToImage[item.type]}`}
                         alt=""
                         className={`item-slot--${slotType} gear-image`}
+                        onMouseDown={() => {
+                            setDraggedItem({itemId: item.id});
+                        }}
                     />
                     <span className="item-hover"><div className="item-name">{item.name}</div>
                         {item.stats.map((stat) => (
