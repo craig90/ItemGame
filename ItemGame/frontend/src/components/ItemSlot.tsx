@@ -33,6 +33,8 @@ export function ItemSlot({slotType, item, draggedItem, setDraggedItem}: ItemSlot
                         onMouseDown={() => {
                             setDraggedItem({itemId: item.id});
                         }}
+                        draggable={false}
+                        onDragStart={(e) => e.preventDefault()}
                     />
                     <span className="item-hover"><div className="item-name">{item.name}</div>
                         {item.stats.map((stat) => (
