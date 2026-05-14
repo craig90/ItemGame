@@ -11,11 +11,16 @@ type InventoryProps = {
     inventoryItems: InventoryItem[];
     cols: number;
     rows: number;
-    equippedItems: Partial<Record<SlotType, string>>;
 
     draggedItem: {
         itemId: string;
     } | null;
+
+    setEquippedItems: React.Dispatch<
+        React.SetStateAction<
+            Partial<Record<SlotType, string>>
+        >
+    >;
 
     setDraggedItem: React.Dispatch<
         React.SetStateAction<{
@@ -34,7 +39,7 @@ type InventoryProps = {
 
 
 
-export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, equippedItems, 
+export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, setEquippedItems, 
     setDraggedItem, setInventoryItems}: InventoryProps) {
 
     const occupiedCells = new Set();
@@ -202,22 +207,61 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
 
         // if (!draggedItem) return;
 
-        setInventoryItems(prev => 
-            
-            prev.map(item => {
+        setInventoryItems(prev => {
 
-                if (item.id !== draggedItem.itemId) {
-                    return item;
+            const existingItem = prev.find(
+                item => item.id === draggedItem.itemId
+            );
+
+            if (existingItem) {
+                
+                return prev.map(item => {
+
+                    if (item.id !== draggedItem.itemId) {
+                        return item;
+                    }
+
+                    return {
+                        ...item,
+                        x: x,
+                        y: y
+                    };
+
+                });
+            }
+
+            setEquippedItems(prevEquipped => {
+
+                const updated = { ...prevEquipped };
+
+                for (const slot in updated) {
+                    // console.log("Looping through slots");
+                    if (updated[slot as SlotType] === draggedItem.itemId) {
+                        delete updated[slot as SlotType];
+                        // console.log("Found dragged item with slot", slot);
+                        break;
+                    }
                 }
+                
+                // console.log(updated.size);
 
-                return {
-                    ...item,
-                    x: x,
-                    y: y
-                };
+                return updated;
 
-            })
-        );
+            });
+
+            return [
+                ...prev,
+                {
+                    id: draggedItem.itemId,
+                    x,
+                    y,
+                    width:item.width,
+                    height:item.height
+                }
+            ]
+
+        });
+
 
     }
 
