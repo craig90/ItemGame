@@ -59,7 +59,10 @@ export function ItemSlot({slotType, item, itemsById, equippedItems, setEquippedI
             // console.log("Type matches");
         } else if (movedItem.type === ITEM_TYPES.RING && (slotType === SLOT_TYPES.RING_LEFT || slotType === SLOT_TYPES.RING_RIGHT)) {
             // console.log("Type matches");
+        } else if (slotType === SLOT_TYPES.DELETE_ITEM) {
+            // console.log("Type matches");
         } else {
+            // console.log("Type doesn't match");
             return;
         }
 
