@@ -85,8 +85,8 @@ export function CharacterPage() {
     const ringLeftId = equippedItems["ring-left"];
     const bootsId = equippedItems.boots;
     // const pantsId = equippedItems.pants;
-    // const newItemId = equippedItems["new-item"];
-    // const deleteItemId = equippedItems["delete-item"];
+    const newItemId = equippedItems["new-item"];
+    const deleteItemId = equippedItems["delete-item"];
 
     return (
         
@@ -146,12 +146,18 @@ export function CharacterPage() {
                         draggedItem={draggedItem} setEquippedItems={setEquippedItems} setDraggedItem={setDraggedItem}></Inventory>
                 </div>
 
-                {/* <div className="item-manipulation-grid">
-                    <ItemSlot slotType ="new-item" item={newItemId !== undefined ? character.itemsById[newItemId]: undefined}></ItemSlot>
-                    <ItemSlot slotType ="delete-item" item={deleteItemId !== undefined ? character.itemsById[deleteItemId]: undefined}></ItemSlot>
+                <div className="item-manipulation-grid">
+                    <ItemSlot slotType ="new-item" item={newItemId !== undefined ? character.itemsById[newItemId]: undefined}
+                    itemsById={character.itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
+                    setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}
+                    ></ItemSlot>
+                    <ItemSlot slotType ="delete-item" item={deleteItemId !== undefined ? character.itemsById[deleteItemId]: undefined}
+                    itemsById={character.itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
+                    setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}
+                    ></ItemSlot>
                     <button>Generate Item</button>
                     <button>Delete Item</button>
-                </div> */}
+                </div>
             
                 
             </div>
