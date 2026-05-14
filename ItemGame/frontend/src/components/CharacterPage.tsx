@@ -2,11 +2,13 @@ import { useEffect, useState } from "react"
 import { ItemSlot } from "./ItemSlot";
 import type { Character } from "../models/Character";
 import type { InventoryItem } from "../models/InventoryItem";
+import type { SlotType } from "../models/SlotType";
 import "./CharacterPage.css";
 import { getCharacter } from "../service/api";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Inventory } from "./Inventory";
+// import { EquippedItems } from "../utils/SlotMapper";
 
 
 export function CharacterPage() {
@@ -17,7 +19,15 @@ export function CharacterPage() {
     const [loading, setLoading] = useState(true);
 
     const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
+    const [equippedItems, setEquippedItems] = useState<Partial<Record<SlotType, string>>>({});
     
+    useEffect(() => {
+
+        if (character) {
+            setEquippedItems(character.equippedItems);
+        }
+    }, [character]);
+
     useEffect(() => {
 
         if (character) {
@@ -64,19 +74,19 @@ export function CharacterPage() {
         return <div>No character found</div>;
     }
 
-    const helmId = character.equippedItems.helm;
-    const amuletId = character.equippedItems.amulet;
-    const weaponId = character.equippedItems.weapon;
-    const chestId = character.equippedItems.chest;
-    const shieldId = character.equippedItems.shield;
-    const glovesId = character.equippedItems.gloves;
-    const ringRightId = character.equippedItems["ring-right"];
-    const beltId = character.equippedItems.belt;
-    const ringLeftId = character.equippedItems["ring-left"];
-    const bootsId = character.equippedItems.boots;
-    // const pantsId = character.equippedItems.pants;
-    // const newItemId = character.equippedItems["new-item"];
-    // const deleteItemId = character.equippedItems["delete-item"];
+    const helmId = equippedItems.helm;
+    const amuletId = equippedItems.amulet;
+    const weaponId = equippedItems.weapon;
+    const chestId = equippedItems.chest;
+    const shieldId = equippedItems.shield;
+    const glovesId = equippedItems.gloves;
+    const ringRightId = equippedItems["ring-right"];
+    const beltId = equippedItems.belt;
+    const ringLeftId = equippedItems["ring-left"];
+    const bootsId = equippedItems.boots;
+    // const pantsId = equippedItems.pants;
+    // const newItemId = equippedItems["new-item"];
+    // const deleteItemId = equippedItems["delete-item"];
 
     return (
         
@@ -122,8 +132,8 @@ export function CharacterPage() {
                         {/* <ItemSlot slotType="pants" item={pantsId !== undefined ? character.itemsById[pantsId]: undefined}/> */}
                     </div>
                         <Inventory cols={10} rows={5} itemsById={character.itemsById} 
-                        inventoryItems={inventoryItems} setInventoryItems={setInventoryItems} equippedItems={character.equippedItems}
-                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}></Inventory>
+                        inventoryItems={inventoryItems} setInventoryItems={setInventoryItems}
+                        draggedItem={draggedItem} setEquippedItems={setEquippedItems} setDraggedItem={setDraggedItem}></Inventory>
                 </div>
 
                 {/* <div className="item-manipulation-grid">
