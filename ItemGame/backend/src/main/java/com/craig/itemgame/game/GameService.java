@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.craig.itemgame.DTOs.CharacterDTO;
 import com.craig.itemgame.DTOs.CharacterSummaryDTO;
+import com.craig.itemgame.DTOs.ItemDTO;
 import com.craig.itemgame.model.Game;
+import com.craig.itemgame.model.Items.Item;
 import com.craig.itemgame.model.Character;
 import com.craig.itemgame.model.CharacterFile;
 
@@ -38,6 +40,13 @@ public class GameService {
         List<CharacterFile> characterFiles = this.game.getCharacterFiles();
         return this.characterMapper.mapCharactersToDTO(characterFiles);
     
+    }
+
+    public ItemDTO generateItem() {
+
+        Item generatedItem = this.game.generateItem();
+        return this.characterMapper.mapItemToDTO(generatedItem);
+        
     }
 
 }

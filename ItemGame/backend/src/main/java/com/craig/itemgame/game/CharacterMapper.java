@@ -61,6 +61,22 @@ public class CharacterMapper {
 
     }
 
+    public ItemDTO mapItemToDTO(Item item) {
+
+        ItemDTO itemDTO = new ItemDTO();
+        List<StatDTO> statList = new ArrayList<>();
+            
+        itemDTO.setId(item.getID());
+        itemDTO.setName(item.getItemName());
+        itemDTO.setType(item.getItemType());
+        statList = mapStatsToDTO(item);
+
+        itemDTO.setStats(statList);
+
+        return itemDTO;
+
+    }
+
     private Map<String, ItemDTO> mapItemsByID(ItemManager itemManager) {
 
         Map<String, ItemDTO> itemMap = new HashMap<>();
@@ -68,15 +84,16 @@ public class CharacterMapper {
 
         for (Item item: items) {
             
-            ItemDTO itemDTO = new ItemDTO();
-            List<StatDTO> statList = new ArrayList<>();
+            ItemDTO itemDTO = mapItemToDTO(item);
+            // ItemDTO itemDTO = new ItemDTO();
+            // List<StatDTO> statList = new ArrayList<>();
             
-            itemDTO.setId(item.getID());
-            itemDTO.setName(item.getItemName());
-            itemDTO.setType(item.getItemType());
-            statList = mapStatsToDTO(item);
+            // itemDTO.setId(item.getID());
+            // itemDTO.setName(item.getItemName());
+            // itemDTO.setType(item.getItemType());
+            // statList = mapStatsToDTO(item);
 
-            itemDTO.setStats(statList);
+            // itemDTO.setStats(statList);
 
             itemMap.put(item.getID(), itemDTO);
 
@@ -110,6 +127,7 @@ public class CharacterMapper {
         return inventoryItemDTOs;
 
     }
+
 
 
     private Map<String, String> mapEquippedItems(ItemManager itemManager) {
