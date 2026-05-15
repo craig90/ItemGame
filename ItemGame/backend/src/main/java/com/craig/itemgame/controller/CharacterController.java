@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.craig.itemgame.DTOs.CharacterDTO;
 import com.craig.itemgame.DTOs.CharacterSummaryDTO;
+import com.craig.itemgame.DTOs.ItemDTO;
 import com.craig.itemgame.game.CharacterNotFoundException;
 import com.craig.itemgame.game.GameService;
 
@@ -35,6 +36,10 @@ public class CharacterController {
     }
 
     // generate item
+    @GetMapping("/items/generate")
+    public ItemDTO generateItem() {
+        return this.gameService.generateItem();
+    }
 
     // delete item
 
