@@ -49,4 +49,16 @@ public class GameService {
         
     }
 
+    public CharacterDTO deleteItem(String characterId, String itemId) {
+
+        try {
+            Character character = this.game.getCharacter(characterId);
+            character.getItemManager().removeDeleteItem();
+            return this.characterMapper.mapCharacterToDTO(character);
+        } catch (Exception e) {
+            throw new CharacterNotFoundException("Character not found in game: " + characterId);
+        }
+
+    }
+
 }

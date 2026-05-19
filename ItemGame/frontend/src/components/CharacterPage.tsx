@@ -5,7 +5,7 @@ import type { InventoryItem } from "../models/InventoryItem";
 import type { Item } from "../models/Item";
 import { SLOT_TYPES, type SlotType } from "../models/SlotType";
 import "./CharacterPage.css";
-import { getCharacter, generateItem } from "../service/api";
+import { getCharacter, generateItem, deleteItem } from "../service/api";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Inventory } from "./Inventory";
@@ -139,6 +139,15 @@ export function CharacterPage() {
 
     };
 
+    const handleDeleteItem = async () => {
+
+        if (deleteItemId) {
+            const updatedCharacter = await deleteItem(character.id, deleteItemId);
+            setItemsById(updatedCharacter.itemsById);
+            setEquippedItems(updatedCharacter.equippedItems);
+        }
+    }
+
     return (
         
         <div className="character-page">
@@ -207,7 +216,7 @@ export function CharacterPage() {
                     setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}
                     ></ItemSlot>
                     <button onClick={handleGenerateItem}>Generate Item</button>
-                    <button>Delete Item</button>
+                    <button onClick={handleDeleteItem}>Delete Item</button>
                 </div>
             
                 

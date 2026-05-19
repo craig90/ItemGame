@@ -11,6 +11,7 @@ import com.craig.itemgame.game.GameService;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -42,6 +43,11 @@ public class CharacterController {
     }
 
     // delete item
+    @DeleteMapping("/character/{characterId}/items/{itemId}")
+    public CharacterDTO deleteItem(@PathVariable String characterId, @PathVariable String itemId) {
+        return this.gameService.deleteItem(characterId, itemId);
+    }
+
 
     // move item
 
