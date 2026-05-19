@@ -54,6 +54,23 @@ export const generateItem = async(): Promise<Item> => {
 
 }
 
+// delete Item
+export const deleteItem = async(characterId:string, itemId:string): Promise<Character> => {
+
+    console.log(characterId, itemId);
+
+    const response = await fetch(`${API_URL}/character/${characterId}/items/${itemId}`, {
+        method: 'DELETE',
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+
+}
+
+
 // update Item
 
-// delete Item
