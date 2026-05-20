@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -37,7 +38,7 @@ public class CharacterController {
     }
 
     // generate item
-    @GetMapping("/items/generate")
+    @PostMapping("/items/generate")
     public ItemDTO generateItem() {
         return this.gameService.generateItem();
     }
