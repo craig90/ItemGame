@@ -44,7 +44,9 @@ export const getCharacters = async(): Promise<CharacterSummary[]> => {
 // new item
 export const generateItem = async(): Promise<Item> => {
 
-    const response = await fetch(`${API_URL}/items/generate`);
+    const response = await fetch(`${API_URL}/items/generate`, {
+        method: 'POST',
+    });
 
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -56,8 +58,6 @@ export const generateItem = async(): Promise<Item> => {
 
 // delete Item
 export const deleteItem = async(characterId:string, itemId:string): Promise<Character> => {
-
-    console.log(characterId, itemId);
 
     const response = await fetch(`${API_URL}/character/${characterId}/items/${itemId}`, {
         method: 'DELETE',
