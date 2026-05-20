@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { ItemSlot } from "./ItemSlot";
 import type { Character } from "../models/Character";
 import type { InventoryItem } from "../models/InventoryItem";
-import type { Item } from "../models/Item";
+import { ITEM_TYPES, type Item } from "../models/Item";
 import { SLOT_TYPES, type SlotType } from "../models/SlotType";
 import "./CharacterPage.css";
 import { getCharacter, generateItem, deleteItem } from "../service/api";
@@ -148,6 +148,64 @@ export function CharacterPage() {
         }
     }
 
+    const itemSlotDrop = (itemId:string, slotType:string) => {
+    
+        const movedItem = itemsById[itemId];
+
+        if (!movedItem) return;
+
+        // check if the slot is already occupied
+        if (equippedItems[slotType as SlotType] != null) {
+            // console.log("Occupied");
+            return;
+        }
+
+        // console.log(movedItem.type, slotType);
+
+        // check if it's correct type for slot
+        if (movedItem.type === slotType.toUpperCase()) {
+            // console.log("Type matches");
+        } else if (movedItem.type === ITEM_TYPES.RING && (slotType === SLOT_TYPES.RING_LEFT || slotType === SLOT_TYPES.RING_RIGHT)) {
+            // console.log("Type matches");
+        } else if (slotType === SLOT_TYPES.DELETE_ITEM) {
+            // console.log("Type matches");
+        } else {
+            // console.log("Type doesn't match");
+            return;
+        }
+
+        setEquippedItems(prevEquipped => {
+
+            const updated = { ...prevEquipped };
+
+            // case 1 - check if it's already equipped - slot to slot
+            for (const slot in updated) {
+                if (updated[slot as SlotType] === movedItem.id) {
+                    // console.log("Currently equipped");
+                    delete updated[slot as SlotType];
+                }
+            }
+
+            // case 2 - check if it's in the inventory - inv to slot
+            setInventoryItems(prev => {
+
+                return prev.filter(
+                    item => item.id !== movedItem.id
+                );
+            
+            });
+
+            updated[slotType as SlotType] = movedItem.id;
+            
+            return updated;
+
+        });
+
+        console.log(movedItem.id, slotType);
+        // equipItem(character.id, movedItem.id, slotType);
+
+    }
+
     return (
         
         <div className="character-page">
@@ -170,35 +228,25 @@ export function CharacterPage() {
                     <div className="gear-grid">
                         {/* <h3>Equipment</h3> */}
                         <ItemSlot slotType="helm" item={helmId !== undefined ? itemsById[helmId]: undefined} 
-                        itemsById={itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
-                        setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}/>
                         <ItemSlot slotType="amulet" item={amuletId !== undefined ? itemsById[amuletId]: undefined}
-                        itemsById={itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
-                        setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}/>
                         <ItemSlot slotType="weapon" item={weaponId !== undefined ? itemsById[weaponId]: undefined}
-                        itemsById={itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
-                        setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}/>
                         <ItemSlot slotType="chest" item={chestId !== undefined ? itemsById[chestId]: undefined}
-                        itemsById={itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
-                        setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}/>
                         <ItemSlot slotType="shield" item={shieldId !== undefined ? itemsById[shieldId]: undefined}
-                        itemsById={itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
-                        setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}/>
                         <ItemSlot slotType="gloves" item={glovesId !== undefined ? itemsById[glovesId]: undefined}
-                        itemsById={itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
-                        setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}/>
                         <ItemSlot slotType="ring-right" item={ringRightId !== undefined ? itemsById[ringRightId]: undefined}
-                        itemsById={itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
-                        setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}/>
                         <ItemSlot slotType="belt" item={beltId !== undefined ? itemsById[beltId]: undefined}
-                        itemsById={itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
-                        setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}/>
                         <ItemSlot slotType="ring-left" item={ringLeftId !== undefined ? itemsById[ringLeftId]: undefined}
-                        itemsById={itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
-                        setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}/>
                         <ItemSlot slotType="boots"  item={bootsId !== undefined ? itemsById[bootsId]: undefined} 
-                        itemsById={itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
-                        setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}/>
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}/>
                         {/* <ItemSlot slotType="pants" item={pantsId !== undefined ? character.itemsById[pantsId]: undefined}/> */}
                     </div>
                         <Inventory cols={10} rows={5} itemsById={itemsById} 
@@ -208,13 +256,9 @@ export function CharacterPage() {
 
                 <div className="item-manipulation-grid">
                     <ItemSlot slotType ="new-item" item={newItemId !== undefined ? itemsById[newItemId]: undefined}
-                    itemsById={itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
-                    setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}
-                    ></ItemSlot>
+                    draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}></ItemSlot>
                     <ItemSlot slotType ="delete-item" item={deleteItemId !== undefined ? itemsById[deleteItemId]: undefined}
-                    itemsById={itemsById} equippedItems={equippedItems} setEquippedItems={setEquippedItems}
-                    setInventoryItems={setInventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}
-                    ></ItemSlot>
+                    draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}></ItemSlot>
                     <button onClick={handleGenerateItem}>Generate Item</button>
                     <button onClick={handleDeleteItem}>Delete Item</button>
                 </div>
@@ -233,3 +277,4 @@ export function CharacterPage() {
     )
 
 }
+
