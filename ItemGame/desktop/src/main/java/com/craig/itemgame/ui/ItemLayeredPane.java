@@ -169,13 +169,13 @@ public final class ItemLayeredPane extends JLayeredPane {
             return PANTS_HEIGHT;
         } else if (equipmentSlot == EquipmentSlot.BOOTS) {
             return BOOTS_HEIGHT;
-        } else if (equipmentSlot == EquipmentSlot.RIGHT_RING) {
+        } else if (equipmentSlot == EquipmentSlot.RING_RIGHT) {
             return RING_HEIGHT;
-        } else if (equipmentSlot == EquipmentSlot.LEFT_RING) {
+        } else if (equipmentSlot == EquipmentSlot.RING_LEFT) {
             return RING_HEIGHT;
-        } else if (equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
+        } else if (equipmentSlot == EquipmentSlot.NEW_ITEM) {
             return NEW_SLOT_HEIGHT;
-        } else if (equipmentSlot == EquipmentSlot.DELETE_ITEM_SLOT) {
+        } else if (equipmentSlot == EquipmentSlot.DELETE_ITEM) {
             return NEW_SLOT_HEIGHT;
         } else {
             throw new Exception("Invalid equipment slot type, cannot return slot height");
@@ -189,9 +189,9 @@ public final class ItemLayeredPane extends JLayeredPane {
      */
     public static int getItemSlotWidth(EquipmentSlot equipmentSlot) throws Exception {
 
-        if (equipmentSlot == EquipmentSlot.LEFT_RING) {
+        if (equipmentSlot == EquipmentSlot.RING_LEFT) {
             return RING_WIDTH;
-        } else if (equipmentSlot == EquipmentSlot.RIGHT_RING) {
+        } else if (equipmentSlot == EquipmentSlot.RING_RIGHT) {
             return RING_WIDTH;
         } else if (equipmentSlot == EquipmentSlot.WEAPON) {
             return WEAPON_WIDTH;
@@ -211,9 +211,9 @@ public final class ItemLayeredPane extends JLayeredPane {
             return PANTS_WIDTH;
         } else if (equipmentSlot == EquipmentSlot.BOOTS) {
             return BOOTS_WIDTH;
-        } else if (equipmentSlot == EquipmentSlot.NEW_ITEM_SLOT) {
+        } else if (equipmentSlot == EquipmentSlot.NEW_ITEM) {
             return NEW_SLOT_WIDTH;
-        } else if (equipmentSlot == EquipmentSlot.DELETE_ITEM_SLOT) {
+        } else if (equipmentSlot == EquipmentSlot.DELETE_ITEM) {
             return NEW_SLOT_WIDTH;
         } else {
             throw new Exception("Invalid Equipment slot type.. cannot return equipment slot width");

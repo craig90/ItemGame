@@ -100,7 +100,7 @@
         "id": "e0d13810-3c70-470e-a13d-8ba40d551128"
       },
       "401493dd-17da-4c64-99a7-558f60c0b154": {
-        "slot": "LEFT_RING",
+        "slot": "RING_LEFT",
         "itemName": "Silver Ring",
         "statList": [
           {
@@ -492,7 +492,7 @@
       "WEAPON": "b28cffe8-a8e9-4cea-bd2f-2c357dbd20c3",
       "CHEST": "75854e2b-b621-4b0d-8ff0-797f7acd5cd5",
       "AMULET": "ab2d71a4-5cbc-4a0e-bdd8-7e3f3b6d91b8",
-      "LEFT_RING": "401493dd-17da-4c64-99a7-558f60c0b154",
+      "RING_LEFT": "401493dd-17da-4c64-99a7-558f60c0b154",
       "HELM": "30087224-072e-4e3f-b6e0-d9e89aad90bb"
     },
     "deleteItemID": "f3ad5b92-53fb-436c-b504-e76c0dbdd57a",

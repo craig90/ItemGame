@@ -72,5 +72,34 @@ export const deleteItem = async(characterId:string, itemId:string): Promise<Char
 }
 
 
-// update Item
+// equip Item
+export const equipItem = async(characterId:string, itemId:string, itemSlot:string): Promise<Character> => {
+
+    const response = await fetch(`${API_URL}/character/${characterId}/equip/${itemId}/${itemSlot}`, {
+        method: 'POST',
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+
+}
+
+// move Item
+export const moveItem = async(characterId:string, itemId:string, x:number, y:number): Promise<Character> => {
+    
+    const response = await fetch(`${API_URL}/character/${characterId}/equip/${itemId},${x},${y}`, {
+        method: 'POST',
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+
+}
+
 

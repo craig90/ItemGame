@@ -384,7 +384,7 @@ public class Game implements ItemService {
         
         if (commandLineReader.getInteger() == 1) {
             if (newItem instanceof Ring) {
-                this.character.getItemManager().equipItem(EquipmentSlot.LEFT_RING, (Ring)newItem);// TODO: ring slot
+                this.character.getItemManager().equipItem(EquipmentSlot.RING_LEFT, (Ring)newItem);// TODO: ring slot
             } else {
                 this.character.getItemManager().equipItem(newItem.getItemType().getEquipmentSlot(), newItem);
             }
