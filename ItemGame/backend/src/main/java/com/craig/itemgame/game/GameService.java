@@ -80,8 +80,11 @@ public class GameService {
             if (sourceSlot != null) {
                 character.getItemManager().removeItem(sourceSlot);
                 character.getItemManager().equipItem(targetSlot, item);
+            } else if (character.getItemManager().getInventory().isInInventory(itemId) == true) {
+                character.getItemManager().getInventory().removeItem(item);
+                character.getItemManager().equipItem(targetSlot, item);
             } else {
-                // TODO: check inv
+                throw new CharacterNotFoundException("Item not found and therefore can't be moved: " + characterId);    
             }
 
             return this.characterMapper.mapCharacterToDTO(character);

@@ -229,5 +229,14 @@ public class Inventory {
 
     }
 
+    public boolean isInInventory(String itemId) {
+
+        if (this.itemOrigins.containsKey(itemId)) {
+            return true;
+        }
+        return false;
+
+    }
+
 
 }
