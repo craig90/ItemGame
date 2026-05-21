@@ -40,9 +40,9 @@ public class ItemManager {
      */
     public Item getItem(EquipmentSlot slotType) {
 
-        if (slotType == EquipmentSlot.NEW_ITEM_SLOT) {
+        if (slotType == EquipmentSlot.NEW_ITEM) {
             return this.itemsByID.get(this.generatedItemID);
-        } else if (slotType == EquipmentSlot.DELETE_ITEM_SLOT) {
+        } else if (slotType == EquipmentSlot.DELETE_ITEM) {
             return this.itemsByID.get(this.deleteItemID);
         } else {
             return this.itemsByID.get(this.equippedItems.get(slotType));
@@ -113,7 +113,7 @@ public class ItemManager {
      * @param item
      */
     public void addItem(EquipmentSlot slot, Item item) {
-        if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
+        if (slot == EquipmentSlot.NEW_ITEM) {
             this.generatedItemID = item.getID();
         } else {
             this.equipItem(slot, item);
@@ -150,14 +150,14 @@ public class ItemManager {
         // rings are a special case
         if (item.getItemType() == ItemType.RING) {
             
-            if (slot == EquipmentSlot.LEFT_RING || slot == EquipmentSlot.RIGHT_RING) {
+            if (slot == EquipmentSlot.RING_LEFT || slot == EquipmentSlot.RING_RIGHT) {
                 return !equippedItems.containsKey(slot);    
             }
             return false;
         }
 
         // delete Item slot is a special case
-        if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
+        if (slot == EquipmentSlot.DELETE_ITEM) {
             if (this.deleteItemID == null) {
                 return true;
             }
@@ -185,7 +185,7 @@ public class ItemManager {
      */
     public void equipItem(EquipmentSlot slot, Item item) {
         
-        if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
+        if (slot == EquipmentSlot.DELETE_ITEM) {
             this.deleteItemID = item.getID();
             return;
         }
@@ -208,9 +208,9 @@ public class ItemManager {
      */
     public void removeItem(EquipmentSlot slot) {
         
-        if (slot == EquipmentSlot.NEW_ITEM_SLOT) {
+        if (slot == EquipmentSlot.NEW_ITEM) {
             this.generatedItemID = null;
-        } else if (slot == EquipmentSlot.DELETE_ITEM_SLOT) {
+        } else if (slot == EquipmentSlot.DELETE_ITEM) {
             this.deleteItemID = null;
         } else {
             System.out.println("Removing item from " + slot.toString());
@@ -273,6 +273,19 @@ public class ItemManager {
         return allItems;
 
     }
+
+    public EquipmentSlot findEquipmentSlot(String itemId) {
+
+        for (Map.Entry<EquipmentSlot, String> entry: equippedItems.entrySet()) {
+            if (itemId.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+
+        return null;
+
+    }
+
 
     /**
      * Method for loading Image Labels after loading on Items since there are not stored in JSON

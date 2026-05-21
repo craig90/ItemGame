@@ -96,12 +96,12 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
         this.equippedItemPanel.add(this.amuletPanel, c);
         
         // ring
-        this.rightHandRingPanel = new ItemLayeredPane(EquipmentSlot.RIGHT_RING);
+        this.rightHandRingPanel = new ItemLayeredPane(EquipmentSlot.RING_RIGHT);
         c.gridx = 1;
         c.gridy = 2;
         this.equippedItemPanel.add(this.rightHandRingPanel, c);
         
-        this.leftHandRingPanel = new ItemLayeredPane(EquipmentSlot.LEFT_RING);
+        this.leftHandRingPanel = new ItemLayeredPane(EquipmentSlot.RING_LEFT);
         c.gridx = 3;
         c.gridy = 2;
         this.equippedItemPanel.add(this.leftHandRingPanel, c);
@@ -148,7 +148,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
         this.generateDeleteItemPanel = new JPanel();
         this.generateDeleteItemPanel.setLayout(new GridBagLayout());
         
-        this.generatedItemPanel = new ItemLayeredPane(EquipmentSlot.NEW_ITEM_SLOT);
+        this.generatedItemPanel = new ItemLayeredPane(EquipmentSlot.NEW_ITEM);
         c.gridx = 0;
         c.gridy = 0;
         this.generateDeleteItemPanel.add(this.generatedItemPanel, c);
@@ -158,7 +158,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
         c.gridy = 1;
         this.generateDeleteItemPanel.add(this.getNewItemButton, c);
         
-        this.deleteItemPanel = new ItemLayeredPane(EquipmentSlot.DELETE_ITEM_SLOT);
+        this.deleteItemPanel = new ItemLayeredPane(EquipmentSlot.DELETE_ITEM);
         c.gridx = 1;
         c.gridy = 0;
         this.generateDeleteItemPanel.add(this.deleteItemPanel, c);
@@ -202,7 +202,7 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
             }
             
             createItemIcon(newItem);
-            addItemToSlot(EquipmentSlot.NEW_ITEM_SLOT, newItem);
+            addItemToSlot(EquipmentSlot.NEW_ITEM, newItem);
 
         });
 
@@ -219,13 +219,13 @@ public final class ItemPanel extends JLayeredPane implements ItemView {
         slotToPanel.put(EquipmentSlot.CHEST, this.chestPanel);
         slotToPanel.put(EquipmentSlot.GLOVES, this.glovesPanel);
         slotToPanel.put(EquipmentSlot.HELM, this.helmPanel);
-        slotToPanel.put(EquipmentSlot.LEFT_RING, this.leftHandRingPanel);
+        slotToPanel.put(EquipmentSlot.RING_LEFT, this.leftHandRingPanel);
         slotToPanel.put(EquipmentSlot.PANTS, this.pantsPanel);
-        slotToPanel.put(EquipmentSlot.RIGHT_RING, this.rightHandRingPanel);
+        slotToPanel.put(EquipmentSlot.RING_RIGHT, this.rightHandRingPanel);
         slotToPanel.put(EquipmentSlot.SHIELD, this.shieldPanel);
         slotToPanel.put(EquipmentSlot.WEAPON, this.weaponPanel);
-        slotToPanel.put(EquipmentSlot.NEW_ITEM_SLOT, this.generatedItemPanel);
-        slotToPanel.put(EquipmentSlot.DELETE_ITEM_SLOT, this.deleteItemPanel);
+        slotToPanel.put(EquipmentSlot.NEW_ITEM, this.generatedItemPanel);
+        slotToPanel.put(EquipmentSlot.DELETE_ITEM, this.deleteItemPanel);
 
         // add the transferhandlers for the panels
         Collection<ItemLayeredPane> slots = this.slotToPanel.values();

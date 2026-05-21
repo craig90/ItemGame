@@ -100,7 +100,7 @@ public final class HoverPanel extends JPanel {
                 return;
             }
 
-            if (slot == EquipmentSlot.NEW_ITEM_SLOT || slot == EquipmentSlot.DELETE_ITEM_SLOT) {
+            if (slot == EquipmentSlot.NEW_ITEM || slot == EquipmentSlot.DELETE_ITEM) {
                 generateUnequippedItemHoverPanel(item);
             } else {
                 generateEquippedItemHoverPanel(item);
@@ -155,8 +155,8 @@ public final class HoverPanel extends JPanel {
         int xOffset = (this.getWidth() - hoverdLabel.getWidth()) / 2;
 
         if (hoverdLabel.getParent().getName().equals(Gui.ITEM_PANEL_NAME)) {
-            if (hoverdLabel.getName().equals(EquipmentSlot.NEW_ITEM_SLOT.toString()) ||
-                hoverdLabel.getName().equals(EquipmentSlot.DELETE_ITEM_SLOT.toString())) {
+            if (hoverdLabel.getName().equals(EquipmentSlot.NEW_ITEM.toString()) ||
+                hoverdLabel.getName().equals(EquipmentSlot.DELETE_ITEM.toString())) {
                 // since it's to the right of the inventory, grab the inventory size and then how much the layered panel
                 // is to the right of the grid
                 int x = ((InventoryPanel.GRID_SIZE*Inventory.INVENTORY_COLUMNS)+hoverdLabel.getParent().getX())-xOffset;
@@ -249,8 +249,8 @@ public final class HoverPanel extends JPanel {
         if (item.getItemType() == ItemType.RING) {
 
             // if we have two equipped rings we are just going to skip the comparason because I don't know which to comapare to
-            if (this.characterController.getItem(EquipmentSlot.RIGHT_RING) != null 
-                && this.characterController.getItem(EquipmentSlot.LEFT_RING) != null) {
+            if (this.characterController.getItem(EquipmentSlot.RING_RIGHT) != null 
+                && this.characterController.getItem(EquipmentSlot.RING_LEFT) != null) {
                 generateRingHoverPanel(item);
                 return;
             } else { // if there is one ring equipped or zero rings show all the stats as bonus

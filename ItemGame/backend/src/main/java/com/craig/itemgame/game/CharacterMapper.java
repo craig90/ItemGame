@@ -151,13 +151,13 @@ public class CharacterMapper {
                 // itemDTO.setStats(statList);
                 
                 // some of these have different names in the front-end compared to the back-end
-                if (slot.equals(EquipmentSlot.RIGHT_RING)) {
+                if (slot.equals(EquipmentSlot.RING_RIGHT)) {
                     equippedItemMap.put("ring-right", item.getID());
-                } else if (slot.equals(EquipmentSlot.LEFT_RING)) {
+                } else if (slot.equals(EquipmentSlot.RING_LEFT)) {
                     equippedItemMap.put("ring-left", item.getID());
-                } else if (slot.equals(EquipmentSlot.DELETE_ITEM_SLOT)) {
+                } else if (slot.equals(EquipmentSlot.DELETE_ITEM)) {
                     equippedItemMap.put("delete-item", item.getID());
-                } else if (slot.equals(EquipmentSlot.NEW_ITEM_SLOT)) {
+                } else if (slot.equals(EquipmentSlot.NEW_ITEM)) {
                     equippedItemMap.put("new-item", item.getID());
                 } else {
                     equippedItemMap.put(slot.toString().toLowerCase(), item.getID());

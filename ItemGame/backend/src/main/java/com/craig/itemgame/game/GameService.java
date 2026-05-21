@@ -1,6 +1,8 @@
 package com.craig.itemgame.game;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.craig.itemgame.DTOs.CharacterDTO;
 import com.craig.itemgame.DTOs.CharacterSummaryDTO;
@@ -9,6 +11,7 @@ import com.craig.itemgame.model.Game;
 import com.craig.itemgame.model.Items.Item;
 import com.craig.itemgame.model.Character;
 import com.craig.itemgame.model.CharacterFile;
+import com.craig.itemgame.model.EquipmentSlot;
 
 public class GameService {
 
@@ -58,6 +61,36 @@ public class GameService {
         } catch (Exception e) {
             throw new CharacterNotFoundException("Character not found in game: " + characterId);
         }
+
+    }
+
+    public CharacterDTO equipItem(String characterId, String itemId, String slotType) {
+
+        EquipmentSlot targetSlot;
+
+        // TODO: it's not ideal to have to change the formatting like this
+        String targetSlotString = slotType.replace("-", "_").toUpperCase();
+        targetSlot = EquipmentSlot.valueOf(targetSlotString);
+ 
+        try {
+            Character character = this.game.getCharacter(characterId);
+            Item item = character.getItemManager().getItemById(itemId);
+            EquipmentSlot sourceSlot = character.getItemManager().findEquipmentSlot(itemId);
+
+            if (sourceSlot != null) {
+                character.getItemManager().removeItem(sourceSlot);
+                character.getItemManager().equipItem(targetSlot, item);
+            } else {
+                // TODO: check inv
+            }
+
+            return this.characterMapper.mapCharacterToDTO(character);
+        
+        } catch (Exception e) {
+            throw new CharacterNotFoundException("Could not move item for character with: " + characterId);
+        }
+
+        
 
     }
 

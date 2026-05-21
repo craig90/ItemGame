@@ -10,10 +10,10 @@ public enum EquipmentSlot {
     PANTS("Pants"),
     SHIELD("Shield"),
     WEAPON("Weapon"),
-    LEFT_RING("Ring"),
-    RIGHT_RING("Ring"),
-    NEW_ITEM_SLOT("New Item"),
-    DELETE_ITEM_SLOT("Delete Item");
+    RING_LEFT("Ring"),
+    RING_RIGHT("Ring"),
+    NEW_ITEM("New Item"),
+    DELETE_ITEM("Delete Item");
 
     private final String displayName;
 

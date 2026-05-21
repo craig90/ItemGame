@@ -5,7 +5,7 @@ import type { InventoryItem } from "../models/InventoryItem";
 import { ITEM_TYPES, type Item } from "../models/Item";
 import { SLOT_TYPES, type SlotType } from "../models/SlotType";
 import "./CharacterPage.css";
-import { getCharacter, generateItem, deleteItem } from "../service/api";
+import { getCharacter, generateItem, deleteItem, equipItem } from "../service/api";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Inventory } from "./Inventory";
@@ -148,7 +148,7 @@ export function CharacterPage() {
         }
     }
 
-    const itemSlotDrop = (itemId:string, slotType:string) => {
+    const itemSlotDrop = async (itemId:string, slotType:string) => {
     
         const movedItem = itemsById[itemId];
 
@@ -201,8 +201,13 @@ export function CharacterPage() {
 
         });
 
-        console.log(movedItem.id, slotType);
-        // equipItem(character.id, movedItem.id, slotType);
+        // console.log(movedItem.id, slotType);
+        const updatedCharacter = await equipItem(character.id, movedItem.id, slotType);
+        // console.log(updatedCharacter);
+
+        setItemsById(updatedCharacter.itemsById);
+        setEquippedItems(updatedCharacter.equippedItems);
+        setInventoryItems(updatedCharacter.inventoryItems);
 
     }
 
