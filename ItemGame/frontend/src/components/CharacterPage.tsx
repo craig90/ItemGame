@@ -5,7 +5,7 @@ import type { InventoryItem } from "../models/InventoryItem";
 import { ITEM_TYPES, type Item } from "../models/Item";
 import { SLOT_TYPES, type SlotType } from "../models/SlotType";
 import "./CharacterPage.css";
-import { getCharacter, generateItem, deleteItem, equipItem } from "../service/api";
+import { getCharacter, generateItem, deleteItem, equipItem, inventoryMove } from "../service/api";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Inventory } from "./Inventory";
@@ -203,11 +203,77 @@ export function CharacterPage() {
 
         // console.log(movedItem.id, slotType);
         const updatedCharacter = await equipItem(character.id, movedItem.id, slotType);
-        // console.log(updatedCharacter);
+        console.log(updatedCharacter);
 
         setItemsById(updatedCharacter.itemsById);
         setEquippedItems(updatedCharacter.equippedItems);
         setInventoryItems(updatedCharacter.inventoryItems);
+
+    }
+
+    const inventoryDrop = async(item:InventoryItem, x: number, y:number, itemId:string) => {
+        
+        // if (!draggedItem) return;
+
+        setInventoryItems(prev => {
+
+            const existingItem = prev.find(
+                item => item.id === itemId
+            );
+
+            if (existingItem) {
+                
+                return prev.map(item => {
+
+                    if (item.id !== itemId) {
+                        return item;
+                    }
+
+                    return {
+                        ...item,
+                        x: x,
+                        y: y
+                    };
+
+                });
+            }
+
+            setEquippedItems(prevEquipped => {
+
+                const updated = { ...prevEquipped };
+
+                for (const slot in updated) {
+                    // console.log("Looping through slots");
+                    if (updated[slot as SlotType] === itemId) {
+                        delete updated[slot as SlotType];
+                        // console.log("Found dragged item with slot", slot);
+                        break;
+                    }
+                }
+                
+                // console.log(updated.size);
+
+                return updated;
+
+            });
+
+            return [
+                ...prev,
+                {
+                    id: itemId,
+                    x,
+                    y,
+                    width:item.width,
+                    height:item.height
+                }
+            ]
+
+        });
+
+        console.log("Herp a derp a derp");
+        
+
+
 
     }
 
@@ -255,8 +321,8 @@ export function CharacterPage() {
                         {/* <ItemSlot slotType="pants" item={pantsId !== undefined ? character.itemsById[pantsId]: undefined}/> */}
                     </div>
                         <Inventory cols={10} rows={5} itemsById={itemsById} 
-                        inventoryItems={inventoryItems} setInventoryItems={setInventoryItems}
-                        draggedItem={draggedItem} setEquippedItems={setEquippedItems} setDraggedItem={setDraggedItem}></Inventory>
+                        inventoryItems={inventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}
+                        inventoryDrop={inventoryDrop}></Inventory>
                 </div>
 
                 <div className="item-manipulation-grid">

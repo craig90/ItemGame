@@ -2,7 +2,6 @@ import "./Inventory.css";
 import "./hover.css";
 import type { InventoryItem } from "../models/InventoryItem";
 import { ITEM_TYPES, type Item, type ItemType } from "../models/Item";
-import type { SlotType } from "../models/SlotType";
 import { itemTypeToImage } from "../utils/ItemTypeToImage";
 import { useRef } from "react";
 
@@ -16,31 +15,19 @@ type InventoryProps = {
         itemId: string;
     } | null;
 
-    setEquippedItems: React.Dispatch<
-        React.SetStateAction<
-            Partial<Record<SlotType, string>>
-        >
-    >;
-
     setDraggedItem: React.Dispatch<
         React.SetStateAction<{
             itemId: string;
-            // x: number;
-            // y: number;
         } | null>
     >;
 
-    setInventoryItems: React.Dispatch<
-        React.SetStateAction<InventoryItem[]
-        >
-    >;
+    inventoryDrop: (item: InventoryItem, x:number, y:number, itemId: string) => void;
 }
 
 
 
 
-export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, setEquippedItems, 
-    setDraggedItem, setInventoryItems}: InventoryProps) {
+export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, setDraggedItem, inventoryDrop}: InventoryProps) {
 
     const occupiedCells = new Set();
 
@@ -165,7 +152,7 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
         if (!gridRef.current || !draggedItem) return;
 
         console.log(draggedItem.itemId);
-        
+
         // itemsById[draggedItem.itemId]
 
         let item: InventoryItem;
@@ -207,60 +194,62 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
 
         // if (!draggedItem) return;
 
-        setInventoryItems(prev => {
+        inventoryDrop(item, x, y, draggedItem.itemId);
 
-            const existingItem = prev.find(
-                item => item.id === draggedItem.itemId
-            );
+        // setInventoryItems(prev => {
 
-            if (existingItem) {
+        //     const existingItem = prev.find(
+        //         item => item.id === draggedItem.itemId
+        //     );
+
+        //     if (existingItem) {
                 
-                return prev.map(item => {
+        //         return prev.map(item => {
 
-                    if (item.id !== draggedItem.itemId) {
-                        return item;
-                    }
+        //             if (item.id !== draggedItem.itemId) {
+        //                 return item;
+        //             }
 
-                    return {
-                        ...item,
-                        x: x,
-                        y: y
-                    };
+        //             return {
+        //                 ...item,
+        //                 x: x,
+        //                 y: y
+        //             };
 
-                });
-            }
+        //         });
+        //     }
 
-            setEquippedItems(prevEquipped => {
+        //     setEquippedItems(prevEquipped => {
 
-                const updated = { ...prevEquipped };
+        //         const updated = { ...prevEquipped };
 
-                for (const slot in updated) {
-                    // console.log("Looping through slots");
-                    if (updated[slot as SlotType] === draggedItem.itemId) {
-                        delete updated[slot as SlotType];
-                        // console.log("Found dragged item with slot", slot);
-                        break;
-                    }
-                }
+        //         for (const slot in updated) {
+        //             // console.log("Looping through slots");
+        //             if (updated[slot as SlotType] === draggedItem.itemId) {
+        //                 delete updated[slot as SlotType];
+        //                 // console.log("Found dragged item with slot", slot);
+        //                 break;
+        //             }
+        //         }
                 
-                // console.log(updated.size);
+        //         // console.log(updated.size);
 
-                return updated;
+        //         return updated;
 
-            });
+        //     });
 
-            return [
-                ...prev,
-                {
-                    id: draggedItem.itemId,
-                    x,
-                    y,
-                    width:item.width,
-                    height:item.height
-                }
-            ]
+        //     return [
+        //         ...prev,
+        //         {
+        //             id: draggedItem.itemId,
+        //             x,
+        //             y,
+        //             width:item.width,
+        //             height:item.height
+        //         }
+        //     ]
 
-        });
+        // });
 
 
     }
