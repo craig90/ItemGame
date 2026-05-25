@@ -16,3 +16,5 @@ desktop/bin
 # Don't track cached vite files
 frontend/.vite
 
+desktop/CharacterFiles/*.txt
+desktop/CharacterFiles/*.json
