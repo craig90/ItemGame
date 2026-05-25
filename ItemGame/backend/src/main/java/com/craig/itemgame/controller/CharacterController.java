@@ -49,12 +49,18 @@ public class CharacterController {
         return this.gameService.deleteItem(characterId, itemId);
     }
 
-    // move item
+    // equip item
     @PostMapping("/character/{characterId}/equip/{itemId}/{itemSlot}")
     public CharacterDTO equipItem(@PathVariable String characterId, @PathVariable String itemId, 
         @PathVariable String itemSlot) {
             return this.gameService.equipItem(characterId, itemId, itemSlot);
     }
-    
+
+    // inventory move
+    @PostMapping("/character/{characterId}/inventory/{itemId}/{x}/{y}")
+    public CharacterDTO moveItem(@PathVariable String characterId, @PathVariable String itemId, 
+        @PathVariable int x, @PathVariable int y) {
+            return this.gameService.moveItem(characterId, itemId, x, y);
+    }
 
 }

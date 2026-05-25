@@ -127,7 +127,8 @@ public class ItemManager {
      * @param y
      */
     public void addItemToGrid(Item item, int x, int y) {
-        InventorySlot inventorySlot = new InventorySlot(x, y);
+        // TODO: why make a new one each time?
+        InventorySlot inventorySlot = new InventorySlot(y, x);
         this.inventory.placeItem(item, inventorySlot);
     }
 
@@ -174,8 +175,9 @@ public class ItemManager {
 
     }
 
+    // TODO: why am I creating a new inventory slot here?
     public boolean canAddItem(Item item, int x, int y) {
-        return (this.inventory.canPlaceItem(item, new InventorySlot(x, y)));
+        return (this.inventory.canPlaceItem(item, new InventorySlot(y, x)));
     }
 
 

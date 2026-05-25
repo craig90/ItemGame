@@ -13,9 +13,9 @@ public class InventorySlot {
      * @param x
      * @param y
      */
-    public InventorySlot(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public InventorySlot(int y, int x) {
+        this.x = x; // column
+        this.y = y; // row
         this.itemId = null;
         this.isOccupied = false;
     }
