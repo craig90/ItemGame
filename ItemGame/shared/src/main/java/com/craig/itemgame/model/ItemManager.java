@@ -136,6 +136,10 @@ public class ItemManager {
         return this.inventory.getGrid();
     }
 
+    public InventorySlot getGridSlot(int x, int y) {
+        return this.inventory.getGridSlot(x, y);
+    }
+
     public Inventory getInventory() {
         return this.inventory;
     }

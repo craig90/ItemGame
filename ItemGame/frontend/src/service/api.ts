@@ -71,7 +71,6 @@ export const deleteItem = async(characterId:string, itemId:string): Promise<Char
 
 }
 
-
 // equip Item
 export const equipItem = async(characterId:string, itemId:string, itemSlot:string): Promise<Character> => {
 
@@ -79,11 +78,11 @@ export const equipItem = async(characterId:string, itemId:string, itemSlot:strin
         method: 'POST',
     });
 
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+    // if (!response.ok) {
+        // handleResponse(response);
+    // }
 
-    return await response.json();
+    return handleResponse(response);
 
 }
 
@@ -94,12 +93,33 @@ export const inventoryMove = async(characterId:string, itemId:string, x:number, 
         method: 'POST',
     });
 
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+    // if (!response.ok) {
+        // handleResponse(response);
+    // }
 
-    return await response.json();
+    // return await response.json();
+    return handleResponse(response);
 
 }
 
+/**
+ * helper function for error response handling
+ * @param response 
+ */
+export const handleResponse = async(response: Response) => {
 
+    let errorData;
+
+    try {
+        errorData = await response.json();
+    } catch {
+        
+        throw {
+            errorCode: "UNKOWN_ERROR",
+            message: "Unknown server error"
+        };
+
+    }
+    throw errorData;
+
+}

@@ -201,14 +201,21 @@ export function CharacterPage() {
 
         });
 
-        // console.log(movedItem.id, slotType);
-        const updatedCharacter = await equipItem(character.id, movedItem.id, slotType);
-        console.log(updatedCharacter);
+        console.log(movedItem.id, slotType);
+        try {
+            const updatedCharacter = await equipItem(character.id, movedItem.id, slotType);
+            setItemsById(updatedCharacter.itemsById);
+            setEquippedItems(updatedCharacter.equippedItems);
+            setInventoryItems(updatedCharacter.inventoryItems);
+            setCharacter(updatedCharacter);
+        } catch (errData: any) {
 
-        setItemsById(updatedCharacter.itemsById);
-        setEquippedItems(updatedCharacter.equippedItems);
-        setInventoryItems(updatedCharacter.inventoryItems);
-        setCharacter(updatedCharacter);
+            console.log(errData);
+            const errorCode = errData.errorCode;
+            console.log(errorCode);
+            // console.log(errorCode);
+
+        }
 
     }
 
@@ -271,12 +278,15 @@ export function CharacterPage() {
 
         });
 
-        const updatedCharacter = await inventoryMove(character.id, itemId, x, y);
-
-        setItemsById(updatedCharacter.itemsById);
-        setEquippedItems(updatedCharacter.equippedItems);
-        setInventoryItems(updatedCharacter.inventoryItems);
-        setCharacter(updatedCharacter);
+        try {
+            const updatedCharacter = await inventoryMove(character.id, itemId, x, y);
+            setItemsById(updatedCharacter.itemsById);
+            setEquippedItems(updatedCharacter.equippedItems);
+            setInventoryItems(updatedCharacter.inventoryItems);
+            setCharacter(updatedCharacter);
+        } catch (errData:any) {
+            console.log(errData);
+        }
 
     }
 
