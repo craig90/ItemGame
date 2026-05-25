@@ -1,12 +1,12 @@
 package com.craig.itemgame.game;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.craig.itemgame.DTOs.CharacterDTO;
 import com.craig.itemgame.DTOs.CharacterSummaryDTO;
 import com.craig.itemgame.DTOs.ItemDTO;
+import com.craig.itemgame.exceptions.InvalidItemMoveException;
+import com.craig.itemgame.exceptions.CharacterNotFoundException;
 import com.craig.itemgame.model.Game;
 import com.craig.itemgame.model.InventorySlot;
 import com.craig.itemgame.model.Items.Item;
@@ -67,84 +67,77 @@ public class GameService {
 
     public CharacterDTO equipItem(String characterId, String itemId, String slotType) {
 
-        EquipmentSlot targetSlot;
+        Character character;
 
         // TODO: it's not ideal to have to change the formatting like this
         String targetSlotString = slotType.replace("-", "_").toUpperCase();
-        targetSlot = EquipmentSlot.valueOf(targetSlotString);
+        EquipmentSlot targetSlot = EquipmentSlot.valueOf(targetSlotString);
  
         try {
-            Character character = this.game.getCharacter(characterId);
-            Item item = character.getItemManager().getItemById(itemId);
-            EquipmentSlot sourceSlot = character.getItemManager().findEquipmentSlot(itemId);
-
-            if (sourceSlot != null) {
-                character.getItemManager().removeItem(sourceSlot);
-                character.getItemManager().equipItem(targetSlot, item);
-            } else if (character.getItemManager().getInventory().isInInventory(itemId) == true) {
-                character.getItemManager().getInventory().removeItem(item);
-                character.getItemManager().equipItem(targetSlot, item);
-            } else {
-                throw new CharacterNotFoundException("Item not found and therefore can't be moved: " + characterId);    
-            }
-
-            character.updateStats();
-
-            return this.characterMapper.mapCharacterToDTO(character);
-        
+            character = this.game.getCharacter(characterId+"d");
         } catch (Exception e) {
-            throw new CharacterNotFoundException("Could not move item for character with: " + characterId);
+            throw new CharacterNotFoundException("Could not find character with id: " + characterId);
         }
+
+        Item item = character.getItemManager().getItemById(itemId);
+        EquipmentSlot sourceSlot = character.getItemManager().findEquipmentSlot(itemId);
+
+        if (character.getItemManager().canEquipItem(targetSlot, item) == false) {
+            throw new InvalidItemMoveException("Cannot move " + item.getItemName() + " to " + targetSlot.getDisplayName());
+        }
+
+        if (sourceSlot != null) {
+            character.getItemManager().removeItem(sourceSlot);
+            character.getItemManager().equipItem(targetSlot, item);
+        } else if (character.getItemManager().getInventory().isInInventory(itemId) == true) {
+            character.getItemManager().getInventory().removeItem(item);
+            character.getItemManager().equipItem(targetSlot, item);
+        // no source slot and it's not in the inventory so the item can't be found
+        } else {
+            throw new InvalidItemMoveException("Item " + item.getItemName() + " not found and therefore can't be moved");    
+        }
+
+        character.updateStats();
+
+        return this.characterMapper.mapCharacterToDTO(character);
+        
+        
 
     }
 
     public CharacterDTO moveItem(String characterId, String itemId, int x, int y) {
 
-        
-        // System.out.println("Column: " + x + " row: " + y);
+        Character character;
+
         try {
-            Character character = this.game.getCharacter(characterId);
-            Item item = character.getItemManager().getItemById(itemId);
-            EquipmentSlot sourceSlot = character.getItemManager().findEquipmentSlot(itemId);
-
-            InventorySlot destInvSlot = character.getItemManager().getInventoryGrid()[y][x];
-            // System.out.println("Dest slot x: " + destInvSlot.getX());
-            // System.out.println("Dest slot y: " + destInvSlot.getY());
-
-            InventorySlot destSlots[][] = character.getItemManager().getInventoryGrid();
-            // for (int i = 0; i < 5; i ++) {
-            //     for (int j = 0; j < 10; j++) {
-            //         System.out.println("Row: " + i + " Column " + j + " X: " + destSlots[i][j].getX() + " Y: " + destSlots[i][j].getY());
-            //     }
-            // }
-
-
-            if (destInvSlot == null) {
-                // System.out.println("Dest inv slot null");
-                throw new Exception("Error with destination slot");
-            }
-
-            if (sourceSlot != null) {
-                // System.out.println(sourceSlot);
-                character.getItemManager().removeItem(sourceSlot);
-                character.getItemManager().getInventory().placeItem(item, destInvSlot);
-            } else if (character.getItemManager().getInventory().isInInventory(itemId) == true) {
-                // System.out.println("In inventory");
-                character.getItemManager().getInventory().removeItem(item);
-                character.getItemManager().getInventory().placeItem(item, destInvSlot);
-            } else {
-                // System.out.println("Item not found");
-                throw new CharacterNotFoundException("Item not found and therefore can't be moved: " + characterId);    
-            }
-
-            character.updateStats();
-
-            return this.characterMapper.mapCharacterToDTO(character);
-
+            character = this.game.getCharacter(characterId);
         } catch (Exception e) {
-            throw new CharacterNotFoundException("Could not move item for character with: " + characterId);
+            throw new CharacterNotFoundException("Could not find character with id: " + characterId);
+        }
+        
+        Item item = character.getItemManager().getItemById(itemId);
+        EquipmentSlot sourceSlot = character.getItemManager().findEquipmentSlot(itemId);
+
+        InventorySlot destInvSlot = character.getItemManager().getGridSlot(x, y);
+
+        if (destInvSlot == null) {
+            throw new InvalidItemMoveException("Can't find destination inventory slot (x,y): (" + x + "," + y +")");
         }
 
+        if (sourceSlot != null) {
+            character.getItemManager().removeItem(sourceSlot);
+            character.getItemManager().getInventory().placeItem(item, destInvSlot);
+        } else if (character.getItemManager().getInventory().isInInventory(itemId) == true) {
+            character.getItemManager().getInventory().removeItem(item);
+            character.getItemManager().getInventory().placeItem(item, destInvSlot);
+        // no source slot and it's not in the inventory so the item can't be found
+        } else {
+            throw new InvalidItemMoveException("Item not found and therefore can't be moved: " + characterId);    
+        }
+
+        character.updateStats();
+
+        return this.characterMapper.mapCharacterToDTO(character);
 
     }
 

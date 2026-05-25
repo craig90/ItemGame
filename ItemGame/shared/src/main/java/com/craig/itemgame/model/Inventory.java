@@ -49,7 +49,7 @@ public class Inventory {
      */
     public boolean canPlaceItem(Item item, InventorySlot slot) {
 
-        // System.out.println("\nChecking if we can place the item");
+        System.out.println("\nChecking if we can place the item");
 
         int finalX = slot.getX() + item.getWidthInGridUnits();
         int finalY = slot.getY() + item.getHeightInGridUnits();
@@ -196,6 +196,19 @@ public class Inventory {
         }
 
         return false;
+    }
+
+    public InventorySlot getGridSlot(int x, int y) {
+        
+        if (x < 0 || x >= INVENTORY_COLUMNS) {
+            return null;
+        }
+
+        if (y < 0 || y >= INVENTORY_ROWS) {
+            return null;
+        }
+        
+        return this.inventorySlots[y][x];
     }
 
     public InventorySlot[][] getGrid() {
