@@ -270,10 +270,11 @@ export function CharacterPage() {
 
         });
 
-        console.log("Herp a derp a derp");
-        
+        const updatedCharacter = await inventoryMove(character.id, itemId, x, y);
 
-
+        setItemsById(updatedCharacter.itemsById);
+        setEquippedItems(updatedCharacter.equippedItems);
+        setInventoryItems(updatedCharacter.inventoryItems);
 
     }
 

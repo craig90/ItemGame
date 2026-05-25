@@ -88,9 +88,9 @@ export const equipItem = async(characterId:string, itemId:string, itemSlot:strin
 }
 
 // move Item
-export const moveItem = async(characterId:string, itemId:string, x:number, y:number): Promise<Character> => {
+export const inventoryMove = async(characterId:string, itemId:string, x:number, y:number): Promise<Character> => {
     
-    const response = await fetch(`${API_URL}/character/${characterId}/equip/${itemId},${x},${y}`, {
+    const response = await fetch(`${API_URL}/character/${characterId}/inventory/${itemId}/${x}/${y}`, {
         method: 'POST',
     });
 
