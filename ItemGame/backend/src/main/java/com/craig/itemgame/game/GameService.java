@@ -88,6 +88,8 @@ public class GameService {
                 throw new CharacterNotFoundException("Item not found and therefore can't be moved: " + characterId);    
             }
 
+            character.updateStats();
+
             return this.characterMapper.mapCharacterToDTO(character);
         
         } catch (Exception e) {
@@ -134,6 +136,8 @@ public class GameService {
                 // System.out.println("Item not found");
                 throw new CharacterNotFoundException("Item not found and therefore can't be moved: " + characterId);    
             }
+
+            character.updateStats();
 
             return this.characterMapper.mapCharacterToDTO(character);
 

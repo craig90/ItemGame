@@ -22,7 +22,7 @@ export function CharacterPage() {
     const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
     const [equippedItems, setEquippedItems] = useState<Partial<Record<SlotType, string>>>({});
     const [itemsById, setItemsById] = useState<Record<string, Item>>({});
-    
+
     useEffect(() => {
 
         if (character) {
@@ -208,6 +208,7 @@ export function CharacterPage() {
         setItemsById(updatedCharacter.itemsById);
         setEquippedItems(updatedCharacter.equippedItems);
         setInventoryItems(updatedCharacter.inventoryItems);
+        setCharacter(updatedCharacter);
 
     }
 
@@ -275,6 +276,7 @@ export function CharacterPage() {
         setItemsById(updatedCharacter.itemsById);
         setEquippedItems(updatedCharacter.equippedItems);
         setInventoryItems(updatedCharacter.inventoryItems);
+        setCharacter(updatedCharacter);
 
     }
 
