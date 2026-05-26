@@ -6,6 +6,7 @@ import com.craig.itemgame.DTOs.CharacterDTO;
 import com.craig.itemgame.DTOs.CharacterSummaryDTO;
 import com.craig.itemgame.DTOs.ItemDTO;
 import com.craig.itemgame.exceptions.InvalidItemMoveException;
+import com.craig.itemgame.exceptions.ItemNotFoundException;
 import com.craig.itemgame.exceptions.CharacterNotFoundException;
 import com.craig.itemgame.model.Game;
 import com.craig.itemgame.model.InventorySlot;
@@ -34,7 +35,7 @@ public class GameService {
             Character character = this.game.getCharacter(id);
             return this.characterMapper.mapCharacterToDTO(character);
         } catch (Exception e) {
-            throw new CharacterNotFoundException("Character not found in game: " + id);
+            throw new CharacterNotFoundException(id);
         }
 
     }
@@ -46,6 +47,7 @@ public class GameService {
     
     }
 
+    // TODO: this should probably be tied to the character somehow
     public ItemDTO generateItem() {
 
         Item generatedItem = this.game.generateItem();
@@ -53,6 +55,7 @@ public class GameService {
         
     }
 
+    // TODO: If the back-end has no "delete item", it will still report success
     public CharacterDTO deleteItem(String characterId, String itemId) {
 
         try {
@@ -60,7 +63,7 @@ public class GameService {
             character.getItemManager().removeDeleteItem();
             return this.characterMapper.mapCharacterToDTO(character);
         } catch (Exception e) {
-            throw new CharacterNotFoundException("Character not found in game: " + characterId);
+            throw new CharacterNotFoundException(characterId);
         }
 
     }
@@ -68,19 +71,24 @@ public class GameService {
     public CharacterDTO equipItem(String characterId, String itemId, String slotType) {
 
         Character character;
+        Item item;
+        EquipmentSlot sourceSlot, targetSlot;
 
-        // TODO: it's not ideal to have to change the formatting like this
-        String targetSlotString = slotType.replace("-", "_").toUpperCase();
-        EquipmentSlot targetSlot = EquipmentSlot.valueOf(targetSlotString);
- 
         try {
-            character = this.game.getCharacter(characterId+"d");
+            character = this.game.getCharacter(characterId);
         } catch (Exception e) {
             throw new CharacterNotFoundException("Could not find character with id: " + characterId);
         }
 
-        Item item = character.getItemManager().getItemById(itemId);
-        EquipmentSlot sourceSlot = character.getItemManager().findEquipmentSlot(itemId);
+        item = character.getItemManager().getItemById(itemId);
+        
+        if (item == null) {
+            throw new ItemNotFoundException(character.getName(), itemId);
+        }
+
+        // TODO: it's not ideal to have to change the formatting like this
+        targetSlot = EquipmentSlot.valueOf(slotType.replace("-", "_").toUpperCase());
+        sourceSlot = character.getItemManager().findEquipmentSlot(itemId);
 
         if (character.getItemManager().canEquipItem(targetSlot, item) == false) {
             throw new InvalidItemMoveException("Cannot move " + item.getItemName() + " to " + targetSlot.getDisplayName());
@@ -108,17 +116,24 @@ public class GameService {
     public CharacterDTO moveItem(String characterId, String itemId, int x, int y) {
 
         Character character;
+        Item item;
+        EquipmentSlot sourceSlot;
+        InventorySlot destInvSlot;
 
         try {
             character = this.game.getCharacter(characterId);
         } catch (Exception e) {
-            throw new CharacterNotFoundException("Could not find character with id: " + characterId);
+            throw new CharacterNotFoundException(characterId);
         }
         
-        Item item = character.getItemManager().getItemById(itemId);
-        EquipmentSlot sourceSlot = character.getItemManager().findEquipmentSlot(itemId);
-
-        InventorySlot destInvSlot = character.getItemManager().getGridSlot(x, y);
+        item = character.getItemManager().getItemById(itemId);
+        
+        if (item == null) {
+            throw new ItemNotFoundException(character.getName(), itemId);
+        }
+        
+        sourceSlot = character.getItemManager().findEquipmentSlot(itemId);
+        destInvSlot = character.getItemManager().getGridSlot(x, y);
 
         if (destInvSlot == null) {
             throw new InvalidItemMoveException("Can't find destination inventory slot (x,y): (" + x + "," + y +")");

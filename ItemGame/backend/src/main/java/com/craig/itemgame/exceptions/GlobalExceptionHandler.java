@@ -24,5 +24,13 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(ItemNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleItemNotFound(ItemNotFoundException ex) {
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+            new ErrorResponse("ITEM_NOT_FOUND", ex.getMessage())
+        );
+    }
+
 
 }
