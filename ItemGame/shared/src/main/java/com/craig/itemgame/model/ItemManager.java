@@ -280,12 +280,18 @@ public class ItemManager {
 
     }
 
-    public EquipmentSlot findEquipmentSlot(String itemId) {
+    public EquipmentSlot findEquipmentSlotGenerateDeleteInclusive(String itemId) {
 
         for (Map.Entry<EquipmentSlot, String> entry: equippedItems.entrySet()) {
             if (itemId.equals(entry.getValue())) {
                 return entry.getKey();
             }
+        }
+
+        if (itemId.equals(this.generatedItemID)) {
+            return EquipmentSlot.NEW_ITEM;
+        } else if (itemId.equals(this.deleteItemID)) {
+            return EquipmentSlot.DELETE_ITEM;
         }
 
         return null;

@@ -42,9 +42,9 @@ export const getCharacters = async(): Promise<CharacterSummary[]> => {
 }
 
 // new item
-export const generateItem = async(): Promise<Item> => {
+export const generateItem = async(characterId: string): Promise<Item> => {
 
-    const response = await fetch(`${API_URL}/items/generate`, {
+    const response = await fetch(`${API_URL}/character/${characterId}/items/generate`, {
         method: 'POST',
     });
 
@@ -69,6 +69,7 @@ export const deleteItem = async(characterId:string, itemId:string): Promise<Char
 
     return await response.json();
 
+
 }
 
 // equip Item
@@ -77,10 +78,6 @@ export const equipItem = async(characterId:string, itemId:string, itemSlot:strin
     const response = await fetch(`${API_URL}/character/${characterId}/equip/${itemId}/${itemSlot}`, {
         method: 'POST',
     });
-
-    // if (!response.ok) {
-        // handleResponse(response);
-    // }
 
     return handleResponse(response);
 
@@ -93,11 +90,6 @@ export const inventoryMove = async(characterId:string, itemId:string, x:number, 
         method: 'POST',
     });
 
-    // if (!response.ok) {
-        // handleResponse(response);
-    // }
-
-    // return await response.json();
     return handleResponse(response);
 
 }

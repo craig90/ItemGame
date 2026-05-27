@@ -38,9 +38,9 @@ public class CharacterController {
     }
 
     // generate item
-    @PostMapping("/items/generate")
-    public ItemDTO generateItem() {
-        return this.gameService.generateItem();
+    @PostMapping("/character/{characterId}/items/generate")
+    public ItemDTO generateItem(@PathVariable String characterId) {
+        return this.gameService.generateItem(characterId);
     }
 
     // delete item
