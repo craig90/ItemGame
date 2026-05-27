@@ -49,7 +49,7 @@ public class Inventory {
      */
     public boolean canPlaceItem(Item item, InventorySlot slot) {
 
-        System.out.println("\nChecking if we can place the item");
+        // System.out.println("\nChecking if we can place the item");
 
         int finalX = slot.getX() + item.getWidthInGridUnits();
         int finalY = slot.getY() + item.getHeightInGridUnits();

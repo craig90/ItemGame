@@ -48,9 +48,22 @@ public class GameService {
     }
 
     // TODO: this should probably be tied to the character somehow
-    public ItemDTO generateItem() {
+    // I don't like how it's currently being done, I don't like how the character is saved either
+    public ItemDTO generateItem(String id) {
 
-        Item generatedItem = this.game.generateItem();
+        Character character;
+        Item generatedItem;
+
+        try {
+            character = this.game.getCharacter(id);
+        } catch (Exception e) {
+            throw new CharacterNotFoundException(id);
+        }
+        
+        generatedItem = this.game.generateItem();
+        character.getItemManager().setGeneratedItem(generatedItem);
+        this.game.saveCharacter();
+
         return this.characterMapper.mapItemToDTO(generatedItem);
         
     }
@@ -58,14 +71,19 @@ public class GameService {
     // TODO: If the back-end has no "delete item", it will still report success
     public CharacterDTO deleteItem(String characterId, String itemId) {
 
+        Character character;
+
         try {
-            Character character = this.game.getCharacter(characterId);
-            character.getItemManager().removeDeleteItem();
-            return this.characterMapper.mapCharacterToDTO(character);
+            character = this.game.getCharacter(characterId);
         } catch (Exception e) {
             throw new CharacterNotFoundException(characterId);
         }
 
+        character.getItemManager().removeDeleteItem();
+        this.game.saveCharacter();
+
+        return this.characterMapper.mapCharacterToDTO(character);
+    
     }
 
     public CharacterDTO equipItem(String characterId, String itemId, String slotType) {
@@ -88,7 +106,7 @@ public class GameService {
 
         // TODO: it's not ideal to have to change the formatting like this
         targetSlot = EquipmentSlot.valueOf(slotType.replace("-", "_").toUpperCase());
-        sourceSlot = character.getItemManager().findEquipmentSlot(itemId);
+        sourceSlot = character.getItemManager().findEquipmentSlotGenerateDeleteInclusive(itemId);
 
         if (character.getItemManager().canEquipItem(targetSlot, item) == false) {
             throw new InvalidItemMoveException("Cannot move " + item.getItemName() + " to " + targetSlot.getDisplayName());
@@ -106,10 +124,9 @@ public class GameService {
         }
 
         character.updateStats();
+        this.game.saveCharacter();
 
         return this.characterMapper.mapCharacterToDTO(character);
-        
-        
 
     }
 
@@ -132,7 +149,7 @@ public class GameService {
             throw new ItemNotFoundException(character.getName(), itemId);
         }
         
-        sourceSlot = character.getItemManager().findEquipmentSlot(itemId);
+        sourceSlot = character.getItemManager().findEquipmentSlotGenerateDeleteInclusive(itemId);
         destInvSlot = character.getItemManager().getGridSlot(x, y);
 
         if (destInvSlot == null) {
@@ -151,6 +168,7 @@ public class GameService {
         }
 
         character.updateStats();
+        this.game.saveCharacter();
 
         return this.characterMapper.mapCharacterToDTO(character);
 

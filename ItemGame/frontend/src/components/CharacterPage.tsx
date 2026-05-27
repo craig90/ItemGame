@@ -101,7 +101,7 @@ export function CharacterPage() {
 
         try {
             
-            const newItem = await generateItem();
+            const newItem = await generateItem(character.id);
             console.log(newItem);
             const oldGeneratedItemId = equippedItems[SLOT_TYPES.NEW_ITEM];
 
@@ -129,12 +129,8 @@ export function CharacterPage() {
                 [SLOT_TYPES.NEW_ITEM]: newItem.id
             }));
 
-            console.log(equippedItems[SLOT_TYPES.NEW_ITEM]);
-            console.log(equippedItems);
-            console.log(itemsById);
-
-        } catch (err) {
-            console.error(err);
+        } catch (err: any) {
+            // console.error(err);
         }
 
     };
