@@ -20,24 +20,15 @@ export const getCharacter = async (characterId:string): Promise<Character> => {
     
     const response = await fetch(`${API_URL}/character/${characterId}`);
     
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+    return handleResponse(response);
     
-    return await response.json();
-
 }
 
 export const getCharacters = async(): Promise<CharacterSummary[]> => {
 
     const response = await fetch(`${API_URL}/characters`);
 
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    return await response.json();
-
+    return handleResponse(response);
     
 }
 
@@ -48,11 +39,7 @@ export const generateItem = async(characterId: string): Promise<Item> => {
         method: 'POST',
     });
 
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    return await response.json();
+    return handleResponse(response);
 
 }
 
@@ -63,12 +50,7 @@ export const deleteItem = async(characterId:string, itemId:string): Promise<Char
         method: 'DELETE',
     });
 
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    return await response.json();
-
+    return handleResponse(response);
 
 }
 
@@ -100,10 +82,10 @@ export const inventoryMove = async(characterId:string, itemId:string, x:number, 
  */
 export const handleResponse = async(response: Response) => {
 
-    let errorData;
+    let data;
 
     try {
-        errorData = await response.json();
+        data = await response.json();
     } catch {
         
         throw {
@@ -112,6 +94,11 @@ export const handleResponse = async(response: Response) => {
         };
 
     }
-    throw errorData;
+
+    if (!response.ok) {
+        throw data;
+    }
+    
+    return data;
 
 }

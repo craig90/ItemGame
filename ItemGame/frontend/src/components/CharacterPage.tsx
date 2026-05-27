@@ -197,7 +197,7 @@ export function CharacterPage() {
 
         });
 
-        console.log(movedItem.id, slotType);
+        // console.log(movedItem.id, slotType);
         try {
             const updatedCharacter = await equipItem(character.id, movedItem.id, slotType);
             setItemsById(updatedCharacter.itemsById);
@@ -205,20 +205,13 @@ export function CharacterPage() {
             setInventoryItems(updatedCharacter.inventoryItems);
             setCharacter(updatedCharacter);
         } catch (errData: any) {
-
             console.log(errData);
-            const errorCode = errData.errorCode;
-            console.log(errorCode);
-            // console.log(errorCode);
-
         }
 
     }
 
     const inventoryDrop = async(item:InventoryItem, x: number, y:number, itemId:string) => {
         
-        // if (!draggedItem) return;
-
         setInventoryItems(prev => {
 
             const existingItem = prev.find(
