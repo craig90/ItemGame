@@ -8,6 +8,7 @@ import com.craig.itemgame.DTOs.ItemDTO;
 import com.craig.itemgame.exceptions.InvalidItemMoveException;
 import com.craig.itemgame.exceptions.ItemNotFoundException;
 import com.craig.itemgame.exceptions.CharacterNotFoundException;
+import com.craig.itemgame.exceptions.InvalidCharacterNameException;
 import com.craig.itemgame.model.Game;
 import com.craig.itemgame.model.InventorySlot;
 import com.craig.itemgame.model.Items.Item;
@@ -27,6 +28,21 @@ public class GameService {
 
     public Game getGame() {
         return this.game;
+    }
+
+    public CharacterDTO createCharacter(String characterName) {
+        
+        Character character;
+        character = this.game.createCharacter(characterName);
+
+        if (character == null) {
+            throw new InvalidCharacterNameException(characterName);
+        }
+
+        this.game.saveCharacter();
+
+        return this.characterMapper.mapCharacterToDTO(character);
+
     }
 
     public CharacterDTO getCharacter(String id) throws CharacterNotFoundException {

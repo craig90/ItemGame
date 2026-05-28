@@ -26,6 +26,11 @@ public class CharacterController {
         this.gameService = new GameService();
     }
 
+    @PostMapping("/create-character/{characterName}")
+    public CharacterDTO createCharacter(@PathVariable String characterName) {
+        return this.gameService.createCharacter(characterName);
+    }
+
 
     @GetMapping("/character/{id}")
     public CharacterDTO getCharacterByID(@PathVariable String id) throws CharacterNotFoundException {
