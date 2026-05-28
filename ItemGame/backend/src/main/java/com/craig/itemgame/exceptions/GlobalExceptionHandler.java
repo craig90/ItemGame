@@ -1,5 +1,7 @@
 package com.craig.itemgame.exceptions;
 
+import javax.naming.InvalidNameException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,6 +32,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
             new ErrorResponse("ITEM_NOT_FOUND", ex.getMessage())
         );
+    }
+
+    @ExceptionHandler(InvalidNameException.class)
+    public ResponseEntity<ErrorResponse> handleInvalideName(InvalidNameException ex) {
+
+        return ResponseEntity.badRequest().body(
+            new ErrorResponse("INVALID_NAME", ex.getMessage())
+        );
+
     }
 
 
