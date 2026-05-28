@@ -7,7 +7,6 @@ import { SLOT_TYPES, type SlotType } from "../models/SlotType";
 import "./CharacterPage.css";
 import { getCharacter, generateItem, deleteItem, equipItem, inventoryMove } from "../service/api";
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { Inventory } from "./Inventory";
 // import { EquippedItems } from "../utils/SlotMapper";
 
@@ -15,7 +14,6 @@ import { Inventory } from "./Inventory";
 export function CharacterPage() {
     
     const { id } = useParams();
-    const navigate = useNavigate();
     const [character, setCharacter] = useState<Character | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -340,9 +338,6 @@ export function CharacterPage() {
             </div>
             <hr></hr>
             <div>
-                <button onClick={() => navigate(`/`)}>
-                    Character Selection Screen
-                </button>
             </div>
             
         </div>

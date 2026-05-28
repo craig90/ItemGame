@@ -5,13 +5,19 @@ import { Routes, Route } from "react-router-dom"
 import './App.css'
 import { CharacterPage } from "./components/CharacterPage";
 import { CharacterSelectionPage } from "./components/CharacterSelectionPage";
+import { CharacterCreationPage } from "./components/CharacterCreationPage";
+import { LandingPage } from "./components/LandingPage";
+import  Navbar from "./components/Navbar";
 
 function App() {
 
   return (
     <>
+      <Navbar></Navbar>
       <Routes>
-        <Route path="/" element={<CharacterSelectionPage />} />
+        <Route path="/" element={<LandingPage />}></Route>
+        <Route path="/create-character" element={<CharacterCreationPage />} />
+        <Route path="/select-character" element={<CharacterSelectionPage />} />
         <Route path="/character/:id" element={<CharacterPage />} />
       </Routes>
       {/* <div>

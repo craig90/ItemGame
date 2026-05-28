@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 import type { CharacterSummary } from "../models/CharacterSummary";
 import { getCharacters } from "../service/api";
 import { useNavigate } from "react-router-dom";
-import "./CharacterSelectionPage.css";
+// import "./CharacterSelectionPage.css";
+import "./General.css";
 
 export function CharacterSelectionPage() {
     
@@ -30,7 +31,7 @@ export function CharacterSelectionPage() {
     }
 
     return (
-        <div className="character-selection">
+        <div className="standard-background">
             <h2>Select Character</h2>
             {characters.map((char) => (
                 <div key={char.id}>
