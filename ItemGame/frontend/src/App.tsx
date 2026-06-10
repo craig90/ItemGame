@@ -14,12 +14,14 @@ function App() {
   return (
     <>
       <Navbar></Navbar>
-      <Routes>
-        <Route path="/" element={<LandingPage />}></Route>
-        <Route path="/create-character" element={<CharacterCreationPage />} />
-        <Route path="/select-character" element={<CharacterSelectionPage />} />
-        <Route path="/character/:id" element={<CharacterPage />} />
-      </Routes>
+      <main className="content">
+        <Routes>
+          <Route path="/" element={<LandingPage/>}></Route>
+          <Route path="/create-character" element={<CharacterCreationPage />} />
+          <Route path="/select-character" element={<CharacterSelectionPage />} />
+          <Route path="/character/:id" element={<CharacterPage />} />
+        </Routes>
+      </main>
       {/* <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
