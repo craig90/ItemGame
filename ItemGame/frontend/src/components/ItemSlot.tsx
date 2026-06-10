@@ -42,7 +42,7 @@ export function ItemSlot({slotType, item, draggedItem, setDraggedItem, itemSlotD
                     <img 
                         src={`${itemTypeToImage[item.type]}`}
                         alt=""
-                        className={`item-slot--${item.type.toLowerCase()} gear-image`}
+                        className={`item-image--${item.type.toLowerCase()} gear-image`}
                         onMouseDown={() => {
                             setDraggedItem({itemId: item.id});
                         }}
