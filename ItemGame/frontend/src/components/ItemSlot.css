@@ -11,23 +11,27 @@
   /* background: rgba(153, 153, 153, 0.6); */
 }
 
-.item-slot--amulet, .item-slot--ring-right, .item-slot--ring-left {
+.item-slot--amulet, .item-slot--ring-right, .item-slot--ring-left, 
+.item-image--amulet, .item-image--ring {
   width: 50px;
   height: 50px;
 }
 
 .item-slot--weapon, .item-slot--shield, .item-slot--chest, .item-slot--pants, .item-slot--new-item,
-  .item-slot--delete-item {
+.item-slot--delete-item,
+.item-image--weapon, .item-image--shield, .item-image--chest, .item-image--pants {
   width: 100px;
   height: 150px;
 }
 
-.item-slot--gloves, .item-slot--boots, .item-slot--helm {
+.item-slot--gloves, .item-slot--boots, .item-slot--helm,
+.item-image--gloves, .item-image--boots, .item-image--helm {
   width: 100px;
   height: 100px;
 }
 
-.item-slot--belt {
+.item-slot--belt,
+.item-image--belt {
   width: 100px;
   height: 50px;
 }
