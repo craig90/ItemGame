@@ -48,3 +48,11 @@ body {
 .read-the-docs {
   color: #888;
 }
+
+.content {
+  padding-top: 60px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0px;
+}

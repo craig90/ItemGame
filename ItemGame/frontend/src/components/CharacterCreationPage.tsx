@@ -1,5 +1,6 @@
 // import "./CharacterCreationPage.css";
 import "./General.css";
+import "./CharacterCreationPage.css";
 import { createCharacter } from "../service/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +32,7 @@ export function CharacterCreationPage() {
                 <h2>Create Character</h2>
                 <p>Enter Character Name</p>
                 <input 
+                    className="character-input"
                     type="text"
                     name="charactername"
                     value={characterName}

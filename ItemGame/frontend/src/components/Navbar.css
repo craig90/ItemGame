@@ -1,14 +1,22 @@
 .navbar {
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    padding: 0.75rem 1.5rem;
+    border-bottom: 2px solid #444;
+    padding: 1.5rem 2rem;
+    box-sizing: border-box;
 
     background-color: #222;
     color: white;
 
-    border-bottom: 2px solid #444;
+    z-index: 100;
 }
 
 .nav-links {
