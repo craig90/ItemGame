@@ -198,12 +198,11 @@ export function CharacterPage() {
         // console.log(movedItem.id, slotType);
         try {
             const updatedCharacter = await equipItem(character.id, movedItem.id, slotType);
-            setItemsById(updatedCharacter.itemsById);
-            setEquippedItems(updatedCharacter.equippedItems);
-            setInventoryItems(updatedCharacter.inventoryItems);
             setCharacter(updatedCharacter);
         } catch (errData: any) {
-            console.log(errData);
+            // console.log(errData);
+            const freshCharacter = await getCharacter(character.id);
+            setCharacter(freshCharacter);
         }
 
     }
@@ -267,12 +266,11 @@ export function CharacterPage() {
 
         try {
             const updatedCharacter = await inventoryMove(character.id, itemId, x, y);
-            setItemsById(updatedCharacter.itemsById);
-            setEquippedItems(updatedCharacter.equippedItems);
-            setInventoryItems(updatedCharacter.inventoryItems);
             setCharacter(updatedCharacter);
         } catch (errData:any) {
-            console.log(errData);
+            // console.log(errData);
+            const freshCharacter = await getCharacter(character.id);
+            setCharacter(freshCharacter);
         }
 
     }

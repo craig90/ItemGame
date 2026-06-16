@@ -189,11 +189,15 @@ public class ItemManager {
      * this will add the item to the list and remove any existing item of the same item type
      * @param item
      */
-    public void equipItem(EquipmentSlot slot, Item item) {
+    public boolean equipItem(EquipmentSlot slot, Item item) {
         
+        if (!canEquipItem(slot, item)) {
+            return false;
+        }
+
         if (slot == EquipmentSlot.DELETE_ITEM) {
             this.deleteItemID = item.getID();
-            return;
+            return true;
         }
 
         if (slot != null) {
@@ -205,6 +209,8 @@ public class ItemManager {
             Ring ring = (Ring) item;
             ring.setRingSlot(slot);
         }
+
+        return true;
     }
 
 
