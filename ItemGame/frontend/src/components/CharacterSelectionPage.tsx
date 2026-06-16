@@ -32,7 +32,7 @@ export function CharacterSelectionPage() {
 
     return (
         <div className="standard-background">
-            <h2>Select Character</h2>
+            <h1>Select Character</h1>
             {characters.map((char) => (
                 <div key={char.id}>
                     <p>{char.name} (Level {char.level})</p>

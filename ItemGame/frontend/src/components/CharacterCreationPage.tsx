@@ -29,7 +29,7 @@ export function CharacterCreationPage() {
     return (
         <div className="standard-background">
             <div>
-                <h2>Create Character</h2>
+                <h1>Create Character</h1>
                 <p>Enter Character Name</p>
                 <input 
                     className="character-input"
