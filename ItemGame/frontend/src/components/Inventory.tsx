@@ -54,7 +54,9 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
 
         // item detection
         const occupyingItem = inventoryItems.find(
-            (item) => ((x >= item.x && x <= (item.x+item.width-1)) && 
+            (item) => (
+                    item.id !== invItem.id && (
+                    (x >= item.x && x <= (item.x+item.width-1)) && 
                       (y >= item.y && y <= (item.y+item.height-1))
                     || ((x <= item.x && x + (invItem.width-1) >= item.x) && 
                       (y >= item.y && y <= (item.y+item.height-1)))
@@ -62,7 +64,7 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
                       (y <= item.y && y + (invItem.height-1) >= item.y))
                    || ((x <= item.x && x + (invItem.width-1) >= item.x) && 
                       (y <= item.y && y + (invItem.height-1) >= item.y))
-                    )
+                    ))
         );
 
         if (occupyingItem) {
@@ -71,6 +73,7 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
                 console.log("Occupied by item", itemsById[occupyingItem.id].name);
                 return false;
             }
+            // this shouldn't happen since it's excluded in the .find above
             console.log("Same item", itemsById[occupyingItem.id].name);
         }
 

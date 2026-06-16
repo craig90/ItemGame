@@ -130,10 +130,14 @@ public class GameService {
 
         if (sourceSlot != null) {
             character.getItemManager().removeItem(sourceSlot);
-            character.getItemManager().equipItem(targetSlot, item);
+            if (!character.getItemManager().equipItem(targetSlot, item)) {
+                throw new InvalidItemMoveException("Item " + item.getItemName() + " cannot be moved to: " + targetSlot);
+            }
         } else if (character.getItemManager().getInventory().isInInventory(itemId) == true) {
             character.getItemManager().getInventory().removeItem(item);
-            character.getItemManager().equipItem(targetSlot, item);
+            if (!character.getItemManager().equipItem(targetSlot, item)) {
+                throw new InvalidItemMoveException("Item " + item.getItemName() + " cannot be moved to: " + targetSlot);
+            }
         // no source slot and it's not in the inventory so the item can't be found
         } else {
             throw new InvalidItemMoveException("Item " + item.getItemName() + " not found and therefore can't be moved");    
@@ -174,10 +178,14 @@ public class GameService {
 
         if (sourceSlot != null) {
             character.getItemManager().removeItem(sourceSlot);
-            character.getItemManager().getInventory().placeItem(item, destInvSlot);
+            if (!character.getItemManager().getInventory().placeItem(item, destInvSlot)) {
+                throw new InvalidItemMoveException("Item cannot be moved to: " + destInvSlot.getX() + " " + destInvSlot.getY());
+            }
         } else if (character.getItemManager().getInventory().isInInventory(itemId) == true) {
             character.getItemManager().getInventory().removeItem(item);
-            character.getItemManager().getInventory().placeItem(item, destInvSlot);
+            if (!character.getItemManager().getInventory().placeItem(item, destInvSlot)) {
+                throw new InvalidItemMoveException("Item cannot be moved to: " + destInvSlot.getX() + " " + destInvSlot.getY());
+            }
         // no source slot and it's not in the inventory so the item can't be found
         } else {
             throw new InvalidItemMoveException("Item not found and therefore can't be moved: " + characterId);    
