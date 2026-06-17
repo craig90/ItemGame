@@ -2,11 +2,14 @@ import "./Inventory.css";
 import "./hover.css";
 import type { InventoryItem } from "../models/InventoryItem";
 import { ITEM_TYPES, type Item, type ItemType } from "../models/Item";
+import type { SlotType } from "../models/SlotType";
 import { itemTypeToImage } from "../utils/ItemTypeToImage";
+import { statCompare } from "../utils/StatCompare";
 import { useRef } from "react";
 
 type InventoryProps = {
     itemsById: Record<string, Item>
+    equippedItems: Partial<Record<SlotType, string>>
     inventoryItems: InventoryItem[];
     cols: number;
     rows: number;
@@ -27,7 +30,7 @@ type InventoryProps = {
 
 
 
-export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, setDraggedItem, inventoryDrop}: InventoryProps) {
+export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows, draggedItem, setDraggedItem, inventoryDrop}: InventoryProps) {
 
     const occupiedCells = new Set();
 
@@ -307,7 +310,9 @@ export function Inventory ({itemsById, inventoryItems, cols, rows, draggedItem, 
                                 <img className="item-image" src={`${itemTypeToImage[item.type]}`} alt="" draggable={false} onDragStart={(e) => e.preventDefault()}/>
                                 <span className={`item-hover item--${item.type}`}><div className="item-name">{item.name}</div>
                                     {item.stats.map((stat) => (
-                                    <p key={stat.type} className="stat">{stat.type}: {stat.value}
+                                    <p key={stat.type} className="stat">
+                                        {stat.type}: {stat.value}
+                                        {statCompare(equippedItems, itemsById, item, stat)}
                                     </p>
                                     ))}
                                 </span>

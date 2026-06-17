@@ -319,7 +319,8 @@ export function CharacterPage() {
                         {/* <ItemSlot slotType="pants" item={pantsId !== undefined ? character.itemsById[pantsId]: undefined}/> */}
                     </div>
                         <Inventory cols={10} rows={5} itemsById={itemsById} 
-                        inventoryItems={inventoryItems} draggedItem={draggedItem} setDraggedItem={setDraggedItem}
+                        inventoryItems={inventoryItems} equippedItems={equippedItems} 
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}
                         inventoryDrop={inventoryDrop}></Inventory>
                 </div>
 
