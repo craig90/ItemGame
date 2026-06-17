@@ -3,12 +3,15 @@ import "./ItemSlot.css";
 import "./hover.css";
 import { itemTypeToImage } from "../utils/ItemTypeToImage";
 import type { SlotType } from "../models/SlotType";
+import { hoverTip } from "./HoverTip";
 // import type { InventoryItem } from "../models/InventoryItem";
 
 type ItemSlotProps = {
     slotType: string;
     item?: Item;
     itemSlotDrop: (itemId: string, slotType: SlotType) => void;
+    itemsById: Record<string, Item>
+    equippedItems: Partial<Record<SlotType, string>>
 
     draggedItem: {
         itemId: string;
@@ -22,7 +25,7 @@ type ItemSlotProps = {
 
 }
 
-export function ItemSlot({slotType, item, draggedItem, setDraggedItem, itemSlotDrop}: ItemSlotProps) {
+export function ItemSlot({slotType, item, draggedItem, equippedItems, itemsById, setDraggedItem, itemSlotDrop}: ItemSlotProps) {
     
     const handleMouseUp = () => {
         
@@ -49,12 +52,14 @@ export function ItemSlot({slotType, item, draggedItem, setDraggedItem, itemSlotD
                         draggable={false}
                         onDragStart={(e) => e.preventDefault()}
                     />
-                    <span className="item-hover"><div className="item-name">{item.name}</div>
+
+                    {hoverTip(item, equippedItems, itemsById)};
+                    {/* <span className="item-hover"><div className="item-name">{item.name}</div>
                         {item.stats.map((stat) => (
                             <p key={stat.type} className="stat">{stat.type}: {stat.value}
                             </p>
                         ))}
-                    </span>
+                    </span> */}
                 </div>
 
                 )
