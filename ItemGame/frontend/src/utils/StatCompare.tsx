@@ -36,8 +36,6 @@ export function statCompare(equippedItems: Partial<Record<SlotType, string>>,
     if (item.type == ITEM_TYPES.RING) {
         return "";
     }
-
-        
     const itemId = equippedItems[itemToSlot(item.type)];
         
     if (itemId == null) {
@@ -73,7 +71,46 @@ export function statCompare(equippedItems: Partial<Record<SlotType, string>>,
         </span>
         );
     }
-     
+
     return "";
 
+}
+
+export function missingStats(equippedItems: Partial<Record<SlotType, string>>, 
+    itemsByID: Record<string, Item> , unequippedItem: Item) {
+
+    if (unequippedItem.type == ITEM_TYPES.RING) {
+        return "";
+    }
+    
+    const itemId = equippedItems[itemToSlot(unequippedItem.type)];
+        
+    if (!itemId) {
+        return "";
+    }
+
+    const equippedItem = itemsByID[itemId];
+
+    const missingStats = equippedItem.stats.filter(
+        equippedStat => 
+            !unequippedItem.stats.some(
+                itemStat => itemStat.type === equippedStat.type
+            )
+    )
+    
+    if (missingStats.length > 0) {
+        return (
+            <>
+            <hr></hr>
+            {missingStats.map(missingStat => 
+                <div className="negative-hover-stat">
+                     {missingStat.type}: -{missingStat.value}
+                </div>
+            )}
+            </>
+        )
+
+    }
+
+    return ""
 }
