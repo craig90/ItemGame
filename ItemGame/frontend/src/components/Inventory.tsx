@@ -4,8 +4,8 @@ import type { InventoryItem } from "../models/InventoryItem";
 import { ITEM_TYPES, type Item, type ItemType } from "../models/Item";
 import type { SlotType } from "../models/SlotType";
 import { itemTypeToImage } from "../utils/ItemTypeToImage";
-import { statCompare } from "../utils/StatCompare";
 import { useRef } from "react";
+import { hoverTip } from "./HoverTip";
 
 type InventoryProps = {
     itemsById: Record<string, Item>
@@ -308,14 +308,7 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
                                 }}
                             >
                                 <img className="item-image" src={`${itemTypeToImage[item.type]}`} alt="" draggable={false} onDragStart={(e) => e.preventDefault()}/>
-                                <span className={`item-hover item--${item.type}`}><div className="item-name">{item.name}</div>
-                                    {item.stats.map((stat) => (
-                                    <p key={stat.type} className="stat">
-                                        {stat.type}: {stat.value}
-                                        {statCompare(equippedItems, itemsById, item, stat)}
-                                    </p>
-                                    ))}
-                                </span>
+                                {hoverTip(item, equippedItems, itemsById)};
                             </div>
                         </div>
                     );
