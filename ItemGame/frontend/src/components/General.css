@@ -3,3 +3,11 @@
   border-radius: 6px;
   background: rgba(113, 109, 109, 0.9);
 }
+
+.positive-hover-stat {
+  color: green;
+}
+
+.negative-hover-stat {
+  color: red;
+}

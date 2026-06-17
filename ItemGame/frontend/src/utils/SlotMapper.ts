@@ -24,8 +24,8 @@ export function mapItemsToSlots(items: Item[]): EquippedItems {
             case "GLOVES":
                 equippedItems.gloves = item;
                 break;    
-            case "HELMET":
-                equippedItems.helmet = item;
+            case "HELM":
+                equippedItems.helm = item;
                 break;
             case "PANTS":
                 equippedItems.pants = item;
