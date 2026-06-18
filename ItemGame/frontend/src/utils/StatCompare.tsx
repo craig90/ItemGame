@@ -29,21 +29,33 @@ export function itemToSlot(type: ItemType) {
 
 }
 
+export function positiveStat(stat: Stat) {
+
+    return (
+        <span className="positive-hover-stat">
+            &nbsp;(+{stat.value})
+        </span>
+    );
+
+}
+
 
 export function statCompare(equippedItems: Partial<Record<SlotType, string>>, 
     itemsByID: Record<string, Item> , item: Item, stat: Stat) {
 
     if (item.type == ITEM_TYPES.RING) {
+        
+        if ((equippedItems[SLOT_TYPES.RING_LEFT] == null || equippedItems[SLOT_TYPES.RING_RIGHT] == null)) {
+            return positiveStat(stat);
+        }
         return "";
+        
     }
+    
     const itemId = equippedItems[itemToSlot(item.type)];
         
     if (itemId == null) {
-        return (
-        <span className="positive-hover-stat">
-            &nbsp;(+{stat.value})
-        </span>
-        );
+        return positiveStat(stat);
     }
     
     const compareItem = itemsByID[itemId];
@@ -51,11 +63,7 @@ export function statCompare(equippedItems: Partial<Record<SlotType, string>>,
     const compareStat = compareItem.stats.find(searchStat => searchStat.type === stat.type);
 
     if (compareStat == null) {
-        return (
-        <span className="positive-hover-stat">
-            &nbsp;(+{stat.value})
-        </span>
-        );
+        return positiveStat(stat);
     }
 
     if (compareStat.value < stat.value) {
