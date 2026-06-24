@@ -53,7 +53,7 @@ export function ItemSlot({slotType, item, draggedItem, equippedItems, itemsById,
                         onDragStart={(e) => e.preventDefault()}
                     />
 
-                    {hoverTip(item, equippedItems, itemsById, slotType as SlotType)};
+                    {hoverTip(item, equippedItems, itemsById, slotType as SlotType)}
                     {/* <span className="item-hover"><div className="item-name">{item.name}</div>
                         {item.stats.map((stat) => (
                             <p key={stat.type} className="stat">{stat.type}: {stat.value}
