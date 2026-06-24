@@ -308,8 +308,7 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
                                 }}
                             >
                                 <img className="item-image" src={`${itemTypeToImage[item.type]}`} alt="" draggable={false} onDragStart={(e) => e.preventDefault()}/>
-                                {hoverTip(item, equippedItems, itemsById, 
-                                    "new-item")};
+                                {hoverTip(item, equippedItems, itemsById, "new-item")}
                             </div>
                         </div>
                     );
