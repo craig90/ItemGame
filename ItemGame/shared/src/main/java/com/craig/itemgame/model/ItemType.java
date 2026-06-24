@@ -8,10 +8,10 @@ public enum ItemType {
     CHEST(EquipmentSlot.CHEST.getDisplayName(), EquipmentSlot.CHEST),
     GLOVES(EquipmentSlot.GLOVES.getDisplayName(), EquipmentSlot.GLOVES),
     HELM(EquipmentSlot.HELM.getDisplayName(), EquipmentSlot.HELM),
-    PANTS(EquipmentSlot.PANTS.getDisplayName(), EquipmentSlot.PANTS),
     SHIELD(EquipmentSlot.SHIELD.getDisplayName(), EquipmentSlot.SHIELD),
     WEAPON(EquipmentSlot.WEAPON.getDisplayName(), EquipmentSlot.WEAPON),
-    RING(EquipmentSlot.RING_RIGHT.getDisplayName(), null); // Rings are special: no specific EquipmentSlot - also
+    RING(EquipmentSlot.RING_RIGHT.getDisplayName(), null), // Rings are special: no specific EquipmentSlot - also
+    PANTS(EquipmentSlot.PANTS.getDisplayName(), EquipmentSlot.PANTS);
     // both ring slots have the name Ring so either can be used here
 
     private final String name;

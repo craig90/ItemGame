@@ -9,7 +9,7 @@ import com.craig.itemgame.model.Items.Chest;
 import com.craig.itemgame.model.Items.Gloves;
 import com.craig.itemgame.model.Items.Helm;
 import com.craig.itemgame.model.Items.Item;
-import com.craig.itemgame.model.Items.Pants;
+// import com.craig.itemgame.model.Items.Pants;
 import com.craig.itemgame.model.Items.Ring;
 import com.craig.itemgame.model.Items.Shield;
 import com.craig.itemgame.model.Items.Weapon;
@@ -32,7 +32,11 @@ public class ItemGenerator {
 
         // decide the item type
         ItemType[] types = ItemType.values();
-        ItemType itemType = types[random.nextInt(types.length)];
+        // TODO: the -1 is a bit of a workaround to avoid creating pants without chaning the rest of the code incase I want
+        // to re-add them later
+        ItemType itemType = types[random.nextInt(types.length-1)];
+
+        System.out.println(itemType);
 
         if (itemType == ItemType.AMULET) {
             newItem = new Amulet("");
@@ -46,8 +50,8 @@ public class ItemGenerator {
             newItem = new Gloves("");
         } else if (itemType == ItemType.HELM) {
             newItem = new Helm("");
-        } else if (itemType == ItemType.PANTS) {
-            newItem = new Pants("");
+        // } else if (itemType == ItemType.PANTS) {
+            // newItem = new Pants("");
         } else if (itemType == ItemType.SHIELD) {
             newItem = new Shield("");
         } else if (itemType == ItemType.WEAPON) {
