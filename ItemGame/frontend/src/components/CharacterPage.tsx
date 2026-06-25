@@ -8,6 +8,7 @@ import "./CharacterPage.css";
 import { getCharacter, generateItem, deleteItem, equipItem, inventoryMove } from "../service/api";
 import { useParams } from "react-router-dom";
 import { Inventory } from "./Inventory";
+import { itemTypeToImage } from "../utils/ItemTypeToImage";
 // import { EquippedItems } from "../utils/SlotMapper";
 
 
@@ -20,6 +21,25 @@ export function CharacterPage() {
     const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
     const [equippedItems, setEquippedItems] = useState<Partial<Record<SlotType, string>>>({});
     const [itemsById, setItemsById] = useState<Record<string, Item>>({});
+
+    const [mousePos, setMousePos] = useState({
+        x: 0,
+        y: 0
+    });
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            setMousePos({
+                x: e.clientX,
+                y: e.clientY
+            });
+        };
+
+        window.addEventListener("mousemove", handleMouseMove);
+
+        return () =>
+            window.removeEventListener("mousemove", handleMouseMove);
+    }, []);
 
     useEffect(() => {
 
@@ -61,7 +81,6 @@ export function CharacterPage() {
     const [draggedItem, setDraggedItem] = useState<{
         itemId: string;
     } | null>(null);
-
 
     useEffect(() => {
         async function loadCharacter() {
@@ -277,81 +296,98 @@ export function CharacterPage() {
 
     return (
         
-        <div className="character-page">
-            <div className="character-layout">
-                <div className="character-stats">
-                    <div className="stat-row">{character.name}</div>
-                    <div className="stat-row">Level: {character.level}</div>
-                    <div className="stat-row">Experience: {character.experience}</div>
-                    <div className="stat-row">Damage: {character.damage}</div>
-                    <div className="stat-row">Health: {character.health}</div>
-                    <div className="stat-row">Defense: {character.defence}</div>
-                    <div className="stat-row">Cold Resistence: {character.coldResistance}</div>
-                    <div className="stat-row">Fire Resistence: {character.fireResistance}</div>
-                    <div className="stat-row">Lightning Resistence: {character.lightningResistance}</div>
-                    <div className="stat-row">Magic Resistence: {character.magicResistance}</div>
-                    <div className="stat-row">Poison Resistence: {character.poisonResistance}</div>
-                </div>
+        // console.log("RENDER INVENTORY", draggedItem);
+        <>
+            {draggedItem && (
                 
-                <div>
-                    <div className="gear-grid">
-                        {/* <h3>Equipment</h3> */}
-                        <ItemSlot slotType="helm" item={helmId !== undefined ? itemsById[helmId]: undefined} 
-                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                        equippedItems={equippedItems} itemsById={itemsById}/>
-                        <ItemSlot slotType="amulet" item={amuletId !== undefined ? itemsById[amuletId]: undefined}
-                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                        equippedItems={equippedItems} itemsById={itemsById}/>
-                        <ItemSlot slotType="weapon" item={weaponId !== undefined ? itemsById[weaponId]: undefined}
-                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                        equippedItems={equippedItems} itemsById={itemsById}/>
-                        <ItemSlot slotType="chest" item={chestId !== undefined ? itemsById[chestId]: undefined}
-                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                        equippedItems={equippedItems} itemsById={itemsById}/>
-                        <ItemSlot slotType="shield" item={shieldId !== undefined ? itemsById[shieldId]: undefined}
-                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                        equippedItems={equippedItems} itemsById={itemsById}/>
-                        <ItemSlot slotType="gloves" item={glovesId !== undefined ? itemsById[glovesId]: undefined}
-                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                        equippedItems={equippedItems} itemsById={itemsById}/>
-                        <ItemSlot slotType="ring-right" item={ringRightId !== undefined ? itemsById[ringRightId]: undefined}
-                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                        equippedItems={equippedItems} itemsById={itemsById}/>
-                        <ItemSlot slotType="belt" item={beltId !== undefined ? itemsById[beltId]: undefined}
-                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                        equippedItems={equippedItems} itemsById={itemsById}/>
-                        <ItemSlot slotType="ring-left" item={ringLeftId !== undefined ? itemsById[ringLeftId]: undefined}
-                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                        equippedItems={equippedItems} itemsById={itemsById}/>
-                        <ItemSlot slotType="boots"  item={bootsId !== undefined ? itemsById[bootsId]: undefined} 
-                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                        equippedItems={equippedItems} itemsById={itemsById}/>
-                        {/* <ItemSlot slotType="pants" item={pantsId !== undefined ? character.itemsById[pantsId]: undefined}/> */}
-                    </div>
-                        <Inventory cols={10} rows={5} itemsById={itemsById} 
-                        inventoryItems={inventoryItems} equippedItems={equippedItems} 
-                        draggedItem={draggedItem} setDraggedItem={setDraggedItem}
-                        inventoryDrop={inventoryDrop}></Inventory>
-                </div>
+                <img
+                    src={itemTypeToImage[itemsById[draggedItem.itemId].type]}
+                    className={`drag-preview item-image--${itemsById[draggedItem.itemId].type.toLowerCase()}`}
+                    style={{
+                        left: mousePos.x - 10,
+                        top: mousePos.y - 10
+                    }}
+                    alt=""
+                ></img>
+            )}
 
-                <div className="item-manipulation-grid">
-                    <ItemSlot slotType ="new-item" item={newItemId !== undefined ? itemsById[newItemId]: undefined}
-                    draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                    equippedItems={equippedItems} itemsById={itemsById}></ItemSlot>
-                    <ItemSlot slotType ="delete-item" item={deleteItemId !== undefined ? itemsById[deleteItemId]: undefined}
-                    draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                    equippedItems={equippedItems} itemsById={itemsById}></ItemSlot>
-                    <button onClick={handleGenerateItem}>Generate Item</button>
-                    <button onClick={handleDeleteItem}>Delete Item</button>
+
+            <div className="character-page">
+                <div className="character-layout">
+                    <div className="character-stats">
+                        <div className="stat-row">{character.name}</div>
+                        <div className="stat-row">Level: {character.level}</div>
+                        <div className="stat-row">Experience: {character.experience}</div>
+                        <div className="stat-row">Damage: {character.damage}</div>
+                        <div className="stat-row">Health: {character.health}</div>
+                        <div className="stat-row">Defense: {character.defence}</div>
+                        <div className="stat-row">Cold Resistence: {character.coldResistance}</div>
+                        <div className="stat-row">Fire Resistence: {character.fireResistance}</div>
+                        <div className="stat-row">Lightning Resistence: {character.lightningResistance}</div>
+                        <div className="stat-row">Magic Resistence: {character.magicResistance}</div>
+                        <div className="stat-row">Poison Resistence: {character.poisonResistance}</div>
+                    </div>
+                    
+                    <div>
+                        <div className="gear-grid">
+                            {/* <h3>Equipment</h3> */}
+                            <ItemSlot slotType="helm" item={helmId !== undefined ? itemsById[helmId]: undefined} 
+                            draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
+                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            <ItemSlot slotType="amulet" item={amuletId !== undefined ? itemsById[amuletId]: undefined}
+                            draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
+                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            <ItemSlot slotType="weapon" item={weaponId !== undefined ? itemsById[weaponId]: undefined}
+                            draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
+                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            <ItemSlot slotType="chest" item={chestId !== undefined ? itemsById[chestId]: undefined}
+                            draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
+                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            <ItemSlot slotType="shield" item={shieldId !== undefined ? itemsById[shieldId]: undefined}
+                            draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
+                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            <ItemSlot slotType="gloves" item={glovesId !== undefined ? itemsById[glovesId]: undefined}
+                            draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
+                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            <ItemSlot slotType="ring-right" item={ringRightId !== undefined ? itemsById[ringRightId]: undefined}
+                            draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
+                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            <ItemSlot slotType="belt" item={beltId !== undefined ? itemsById[beltId]: undefined}
+                            draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
+                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            <ItemSlot slotType="ring-left" item={ringLeftId !== undefined ? itemsById[ringLeftId]: undefined}
+                            draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
+                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            <ItemSlot slotType="boots"  item={bootsId !== undefined ? itemsById[bootsId]: undefined} 
+                            draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
+                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            {/* <ItemSlot slotType="pants" item={pantsId !== undefined ? character.itemsById[pantsId]: undefined}/> */}
+                        </div>
+                            <Inventory cols={10} rows={5} itemsById={itemsById} 
+                            inventoryItems={inventoryItems} equippedItems={equippedItems} 
+                            draggedItem={draggedItem} setDraggedItem={setDraggedItem}
+                            inventoryDrop={inventoryDrop}></Inventory>
+                    </div>
+
+                    <div className="item-manipulation-grid">
+                        <ItemSlot slotType ="new-item" item={newItemId !== undefined ? itemsById[newItemId]: undefined}
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
+                        equippedItems={equippedItems} itemsById={itemsById}></ItemSlot>
+                        <ItemSlot slotType ="delete-item" item={deleteItemId !== undefined ? itemsById[deleteItemId]: undefined}
+                        draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
+                        equippedItems={equippedItems} itemsById={itemsById}></ItemSlot>
+                        <button onClick={handleGenerateItem}>Generate Item</button>
+                        <button onClick={handleDeleteItem}>Delete Item</button>
+                    </div>
+                
+                    
                 </div>
-            
+                <hr></hr>
+                <div>
+                </div>
                 
             </div>
-            <hr></hr>
-            <div>
-            </div>
-            
-        </div>
+        </>
             
     )
 
