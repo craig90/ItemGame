@@ -292,7 +292,11 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
                     if (!item) return null;
 
                     return (
-                        <div className="item-container" key={invItem.id}>
+                        <div 
+                            className="item-container"
+                            key={invItem.id}
+                            style={{opacity: draggedItem?.itemId === item.id ? 0.3 : 1}}
+                        >
                             <div
                                 className="item"
                                 style={
@@ -307,7 +311,13 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
                                     setDraggedItem({itemId: invItem.id});
                                 }}
                             >
-                                <img className="item-image" src={`${itemTypeToImage[item.type]}`} alt="" draggable={false} onDragStart={(e) => e.preventDefault()}/>
+                                <img 
+                                    className="item-image"
+                                    src={`${itemTypeToImage[item.type]}`}
+                                    alt=""
+                                    draggable={false}
+                                    onDragStart={(e) => e.preventDefault()}
+                                />
                                 {hoverTip(item, equippedItems, itemsById, "new-item")}
                             </div>
                         </div>
