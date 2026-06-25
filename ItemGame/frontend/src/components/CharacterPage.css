@@ -101,3 +101,9 @@
   gap: 0px;
   justify-items: center;
 }
+
+.drag-preview {
+  position: fixed;
+  pointer-events: none;
+  z-index: 999;
+}
