@@ -41,7 +41,10 @@ export function ItemSlot({slotType, item, draggedItem, equippedItems, itemsById,
         <div className={`item-slot item-slot--${slotType} ${item ? "slot--occupied" : ""}`} onMouseUp={handleMouseUp}>
             <div className="slot-type">{slotType.startsWith("ring") ? "ring" : slotType}</div>
             {item && (
-                <div className="item-container">
+                <div 
+                    className="item-container" 
+                    style={{opacity: draggedItem?.itemId === item.id ? 0.3 : 1}}
+                >
                     <img 
                         src={`${itemTypeToImage[item.type]}`}
                         alt=""
@@ -54,12 +57,6 @@ export function ItemSlot({slotType, item, draggedItem, equippedItems, itemsById,
                     />
 
                     {hoverTip(item, equippedItems, itemsById, slotType as SlotType)}
-                    {/* <span className="item-hover"><div className="item-name">{item.name}</div>
-                        {item.stats.map((stat) => (
-                            <p key={stat.type} className="stat">{stat.type}: {stat.value}
-                            </p>
-                        ))}
-                    </span> */}
                 </div>
 
                 )
