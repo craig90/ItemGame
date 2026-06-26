@@ -2,13 +2,15 @@ import { useEffect, useState } from "react"
 import { ItemSlot } from "./ItemSlot";
 import type { Character } from "../models/Character";
 import type { InventoryItem } from "../models/InventoryItem";
-import { ITEM_TYPES, type Item } from "../models/Item";
+import type { Item } from "../models/Item";
 import { SLOT_TYPES, type SlotType } from "../models/SlotType";
 import "./CharacterPage.css";
 import { getCharacter, generateItem, deleteItem, equipItem, inventoryMove } from "../service/api";
 import { useParams } from "react-router-dom";
 import { Inventory } from "./Inventory";
 import { itemTypeToImage } from "../utils/ItemTypeToImage";
+import { itemTypeMatchesSlotType } from "../utils/SlotMapper";
+import type { HoveredDropTarget } from "../models/HoveredDropTarget";
 // import { EquippedItems } from "../utils/SlotMapper";
 
 
@@ -21,6 +23,8 @@ export function CharacterPage() {
     const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
     const [equippedItems, setEquippedItems] = useState<Partial<Record<SlotType, string>>>({});
     const [itemsById, setItemsById] = useState<Record<string, Item>>({});
+
+    const [hoveredDropTarget, setHoveredDropTarget] = useState<HoveredDropTarget|null>(null);
 
     const [mousePos, setMousePos] = useState({
         x: 0,
@@ -175,15 +179,7 @@ export function CharacterPage() {
 
         // console.log(movedItem.type, slotType);
 
-        // check if it's correct type for slot
-        if (movedItem.type === slotType.toUpperCase()) {
-            // console.log("Type matches");
-        } else if (movedItem.type === ITEM_TYPES.RING && (slotType === SLOT_TYPES.RING_LEFT || slotType === SLOT_TYPES.RING_RIGHT)) {
-            // console.log("Type matches");
-        } else if (slotType === SLOT_TYPES.DELETE_ITEM) {
-            // console.log("Type matches");
-        } else {
-            // console.log("Type doesn't match");
+        if (!itemTypeMatchesSlotType(movedItem.type, slotType)) {
             return;
         }
 
@@ -333,34 +329,44 @@ export function CharacterPage() {
                             {/* <h3>Equipment</h3> */}
                             <ItemSlot slotType="helm" item={helmId !== undefined ? itemsById[helmId]: undefined} 
                             draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            equippedItems={equippedItems} itemsById={itemsById}
+                            hoveredDropTarget={hoveredDropTarget} setHoveredDropTarget={setHoveredDropTarget}/>
                             <ItemSlot slotType="amulet" item={amuletId !== undefined ? itemsById[amuletId]: undefined}
                             draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            equippedItems={equippedItems} itemsById={itemsById}
+                            hoveredDropTarget={hoveredDropTarget} setHoveredDropTarget={setHoveredDropTarget}/>
                             <ItemSlot slotType="weapon" item={weaponId !== undefined ? itemsById[weaponId]: undefined}
                             draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            equippedItems={equippedItems} itemsById={itemsById}
+                            hoveredDropTarget={hoveredDropTarget} setHoveredDropTarget={setHoveredDropTarget}/>
                             <ItemSlot slotType="chest" item={chestId !== undefined ? itemsById[chestId]: undefined}
                             draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            equippedItems={equippedItems} itemsById={itemsById}
+                            hoveredDropTarget={hoveredDropTarget} setHoveredDropTarget={setHoveredDropTarget}/>
                             <ItemSlot slotType="shield" item={shieldId !== undefined ? itemsById[shieldId]: undefined}
                             draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            equippedItems={equippedItems} itemsById={itemsById}
+                            hoveredDropTarget={hoveredDropTarget} setHoveredDropTarget={setHoveredDropTarget}/>
                             <ItemSlot slotType="gloves" item={glovesId !== undefined ? itemsById[glovesId]: undefined}
                             draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            equippedItems={equippedItems} itemsById={itemsById}
+                            hoveredDropTarget={hoveredDropTarget} setHoveredDropTarget={setHoveredDropTarget}/>
                             <ItemSlot slotType="ring-right" item={ringRightId !== undefined ? itemsById[ringRightId]: undefined}
                             draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            equippedItems={equippedItems} itemsById={itemsById}
+                            hoveredDropTarget={hoveredDropTarget} setHoveredDropTarget={setHoveredDropTarget}/>
                             <ItemSlot slotType="belt" item={beltId !== undefined ? itemsById[beltId]: undefined}
                             draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            equippedItems={equippedItems} itemsById={itemsById}
+                            hoveredDropTarget={hoveredDropTarget} setHoveredDropTarget={setHoveredDropTarget}/>
                             <ItemSlot slotType="ring-left" item={ringLeftId !== undefined ? itemsById[ringLeftId]: undefined}
                             draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            equippedItems={equippedItems} itemsById={itemsById}
+                            hoveredDropTarget={hoveredDropTarget} setHoveredDropTarget={setHoveredDropTarget}/>
                             <ItemSlot slotType="boots"  item={bootsId !== undefined ? itemsById[bootsId]: undefined} 
                             draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                            equippedItems={equippedItems} itemsById={itemsById}/>
+                            equippedItems={equippedItems} itemsById={itemsById}
+                            hoveredDropTarget={hoveredDropTarget} setHoveredDropTarget={setHoveredDropTarget}/>
                             {/* <ItemSlot slotType="pants" item={pantsId !== undefined ? character.itemsById[pantsId]: undefined}/> */}
                         </div>
                             <Inventory cols={10} rows={5} itemsById={itemsById} 
@@ -372,10 +378,12 @@ export function CharacterPage() {
                     <div className="item-manipulation-grid">
                         <ItemSlot slotType ="new-item" item={newItemId !== undefined ? itemsById[newItemId]: undefined}
                         draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                        equippedItems={equippedItems} itemsById={itemsById}></ItemSlot>
+                        equippedItems={equippedItems} itemsById={itemsById}
+                        hoveredDropTarget={hoveredDropTarget} setHoveredDropTarget={setHoveredDropTarget}></ItemSlot>
                         <ItemSlot slotType ="delete-item" item={deleteItemId !== undefined ? itemsById[deleteItemId]: undefined}
                         draggedItem={draggedItem} setDraggedItem={setDraggedItem} itemSlotDrop={itemSlotDrop}
-                        equippedItems={equippedItems} itemsById={itemsById}></ItemSlot>
+                        equippedItems={equippedItems} itemsById={itemsById}
+                        hoveredDropTarget={hoveredDropTarget} setHoveredDropTarget={setHoveredDropTarget}></ItemSlot>
                         <button onClick={handleGenerateItem}>Generate Item</button>
                         <button onClick={handleDeleteItem}>Delete Item</button>
                     </div>
