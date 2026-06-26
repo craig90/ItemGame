@@ -55,3 +55,7 @@
 .slot--occupied {
   background-color: rgba(120, 90, 30, 0.35);
 }
+
+.item-slot-highlight {
+  background-color: green;
+}

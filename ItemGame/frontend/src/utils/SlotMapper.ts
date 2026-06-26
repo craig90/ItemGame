@@ -1,5 +1,5 @@
-import type { Item } from "../models/Item";
-import type { SlotType } from "../models/SlotType";
+import { ITEM_TYPES, type Item, type ItemType } from "../models/Item";
+import { SLOT_TYPES, type SlotType } from "../models/SlotType";
 
 export type EquippedItems = Partial<Record<SlotType, Item>>;
 
@@ -43,5 +43,20 @@ export function mapItemsToSlots(items: Item[]): EquippedItems {
     }
 
     return equippedItems;
+
+}
+
+export function itemTypeMatchesSlotType(itemType:ItemType, slotType: string) {
+
+    if (itemType === slotType.toUpperCase()) {
+        return true;
+    } else if (itemType === ITEM_TYPES.RING && 
+        (slotType === SLOT_TYPES.RING_LEFT || slotType === SLOT_TYPES.RING_RIGHT)) {
+        return true;
+    } else if (slotType === SLOT_TYPES.DELETE_ITEM) {
+        return true;
+    }
+
+    return false;
 
 }
