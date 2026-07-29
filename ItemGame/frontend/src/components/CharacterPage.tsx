@@ -372,7 +372,8 @@ export function CharacterPage() {
                             <Inventory cols={10} rows={5} itemsById={itemsById} 
                             inventoryItems={inventoryItems} equippedItems={equippedItems} 
                             draggedItem={draggedItem} setDraggedItem={setDraggedItem}
-                            inventoryDrop={inventoryDrop}></Inventory>
+                            inventoryDrop={inventoryDrop} hoveredDropTarget={hoveredDropTarget}
+                            setHoveredDropTarget={setHoveredDropTarget}></Inventory>
                     </div>
 
                     <div className="item-manipulation-grid">

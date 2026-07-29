@@ -48,7 +48,7 @@ export function ItemSlot({slotType, item, draggedItem, equippedItems, itemsById,
         <div className={`item-slot item-slot--${slotType} ${item ? "slot--occupied" : ""}
             ${hoveredDropTarget?.slot===slotType && draggedItem && !item 
                 && itemTypeMatchesSlotType(itemsById[draggedItem.itemId].type, slotType)? 
-                "item-slot-highlight" : ""}`} onMouseUp={handleMouseUp}
+                "slot-highlight" : ""}`} onMouseUp={handleMouseUp}
             onMouseEnter={()=>
                 setHoveredDropTarget({
                     type: "equipment",
