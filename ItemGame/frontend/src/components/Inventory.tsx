@@ -6,6 +6,7 @@ import type { SlotType } from "../models/SlotType";
 import { itemTypeToImage } from "../utils/ItemTypeToImage";
 import { useRef } from "react";
 import { hoverTip } from "./HoverTip";
+import type { HoveredDropTarget } from "../models/HoveredDropTarget";
 
 type InventoryProps = {
     itemsById: Record<string, Item>
@@ -25,12 +26,17 @@ type InventoryProps = {
     >;
 
     inventoryDrop: (item: InventoryItem, x:number, y:number, itemId: string) => void;
+
+    hoveredDropTarget: HoveredDropTarget|null;
+    setHoveredDropTarget: React.Dispatch<HoveredDropTarget|null>
+
 }
 
 
 
 
-export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows, draggedItem, setDraggedItem, inventoryDrop}: InventoryProps) {
+export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows, draggedItem, 
+    setDraggedItem, inventoryDrop, hoveredDropTarget, setHoveredDropTarget}: InventoryProps) {
 
     const occupiedCells = new Set();
 
@@ -281,7 +287,20 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
                 // console.log(occupied);
 
                 return (
-                    <div key={i} className={`cell ${occupied ? "cell--occupied" : ""}`}/>
+                    <div key={i} className={`cell ${occupied ? "cell--occupied" : ""}
+                        ${hoveredDropTarget?.x===x && hoveredDropTarget?.y===y && draggedItem && !occupied 
+                        /*&& noCollision()*/ ? "slot-highlight" : ""}`}
+                        onMouseEnter={()=>setHoveredDropTarget({
+                            type: "inventory",
+                            x: x,
+                            y: y
+                            })
+                        }
+                        onMouseLeave={()=>
+                            setHoveredDropTarget(null)
+                        }
+                    />
+                    
                 );
             })}
             </div>
