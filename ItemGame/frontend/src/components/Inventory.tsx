@@ -38,8 +38,11 @@ type InventoryProps = {
 export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows, draggedItem, 
     setDraggedItem, inventoryDrop, hoveredDropTarget, setHoveredDropTarget}: InventoryProps) {
 
-    const occupiedCells = new Set();
+    const occupiedCells = new Set<string>();
+    const highlightedCells = new Set<string>();
 
+    calculateHighlightedSquares(highlightedCells);
+    
     // window.addEventListener("mouseup", (e) => {
     //     // console.log("GLOBAL UP:", e.target);
     // });
@@ -59,6 +62,10 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
 
     function canOccupy(x: number, y: number, invItem: InventoryItem) {
         
+        if (!invItem) {
+            return false;
+        }
+
         console.log(x, y, invItem.height, invItem.width);
 
         // item detection
@@ -140,6 +147,35 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
 
     }
 
+    function calculateHighlightedSquares(highlightedCells: Set<string>) {
+
+        const inDragInventoryItem = getInvItemFromDragged();
+
+        highlightedCells.clear();
+
+        if (!inDragInventoryItem) return;
+        if (!hoveredDropTarget) return;
+
+        for (let dx = 0; dx < cols; dx++) {
+            for (let dy = 0; dy < rows; dy++) {
+                if (hoveredDropTarget.x===dx && hoveredDropTarget.y===dy
+                    && canOccupy(hoveredDropTarget.x, hoveredDropTarget.y, inDragInventoryItem)
+                    && inBounds(hoveredDropTarget.x, hoveredDropTarget.y, inDragInventoryItem)) {
+                        
+                        for (let xWidth = dx; xWidth < dx + inDragInventoryItem.width; xWidth++) {
+                            for (let yHeight = dy; yHeight < dy + inDragInventoryItem.height; yHeight++) {
+                                // console.log("Highlight " + xWidth + " " + yHeight);
+                                highlightedCells.add(`${xWidth},${yHeight}`)
+                            }
+                        }
+                        
+                        break;
+                }
+            }
+        }        
+
+    }
+
     function inBounds(x: number, y: number, invItem: InventoryItem) {
 
         // bounds detection - right
@@ -158,14 +194,11 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
 
     }
 
+    function getInvItemFromDragged() {
 
-    const handleMouseUp = (e: React.MouseEvent) => {
-        
-        if (!gridRef.current || !draggedItem) return;
-
-        console.log(draggedItem.itemId);
-
-        // itemsById[draggedItem.itemId]
+        if (!draggedItem) {
+            return null;
+        }
 
         let item: InventoryItem;
 
@@ -190,6 +223,24 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
             invDimensions(equippedItem.type, item);
             console.log(item);
         } else {
+            return null;
+        }
+
+        return item;
+    }
+
+
+    const handleMouseUp = (e: React.MouseEvent) => {
+        
+        if (!gridRef.current || !draggedItem) return;
+
+        console.log(draggedItem.itemId);
+
+        // itemsById[draggedItem.itemId]
+
+        const item = getInvItemFromDragged();
+
+        if (!item) {
             return;
         }
 
@@ -207,62 +258,6 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
         // if (!draggedItem) return;
 
         inventoryDrop(item, x, y, draggedItem.itemId);
-
-        // setInventoryItems(prev => {
-
-        //     const existingItem = prev.find(
-        //         item => item.id === draggedItem.itemId
-        //     );
-
-        //     if (existingItem) {
-                
-        //         return prev.map(item => {
-
-        //             if (item.id !== draggedItem.itemId) {
-        //                 return item;
-        //             }
-
-        //             return {
-        //                 ...item,
-        //                 x: x,
-        //                 y: y
-        //             };
-
-        //         });
-        //     }
-
-        //     setEquippedItems(prevEquipped => {
-
-        //         const updated = { ...prevEquipped };
-
-        //         for (const slot in updated) {
-        //             // console.log("Looping through slots");
-        //             if (updated[slot as SlotType] === draggedItem.itemId) {
-        //                 delete updated[slot as SlotType];
-        //                 // console.log("Found dragged item with slot", slot);
-        //                 break;
-        //             }
-        //         }
-                
-        //         // console.log(updated.size);
-
-        //         return updated;
-
-        //     });
-
-        //     return [
-        //         ...prev,
-        //         {
-        //             id: draggedItem.itemId,
-        //             x,
-        //             y,
-        //             width:item.width,
-        //             height:item.height
-        //         }
-        //     ]
-
-        // });
-
 
     }
 
@@ -285,11 +280,11 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
                 // console.log(x, y);
                 const occupied = occupiedCells.has(`${x},${y}`);
                 // console.log(occupied);
+                const highlighted = highlightedCells.has(`${x},${y}`);
 
                 return (
                     <div key={i} className={`cell ${occupied ? "cell--occupied" : ""}
-                        ${hoveredDropTarget?.x===x && hoveredDropTarget?.y===y && draggedItem && !occupied 
-                        /*&& noCollision()*/ ? "slot-highlight" : ""}`}
+                        ${highlighted ? "slot-highlight" : ""}`}    
                         onMouseEnter={()=>setHoveredDropTarget({
                             type: "inventory",
                             x: x,
