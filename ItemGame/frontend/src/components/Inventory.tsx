@@ -66,7 +66,7 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
             return false;
         }
 
-        console.log(x, y, invItem.height, invItem.width);
+        // console.log(x, y, invItem.height, invItem.width);
 
         // item detection
         const occupyingItem = inventoryItems.find(
@@ -86,11 +86,11 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
         if (occupyingItem) {
             // if item id is different don't allow move - if it's the same allow move
             if (occupyingItem.id !== invItem.id) {
-                console.log("Occupied by item", itemsById[occupyingItem.id].name);
+                // console.log("Occupied by item", itemsById[occupyingItem.id].name);
                 return false;
             }
             // this shouldn't happen since it's excluded in the .find above
-            console.log("Same item", itemsById[occupyingItem.id].name);
+            // console.log("Same item", itemsById[occupyingItem.id].name);
         }
 
         return true;
@@ -99,7 +99,7 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
 
     function invDimensions(type: ItemType, invItem: InventoryItem) {
 
-        console.log(type);
+        // console.log(type);
 
         switch (type) {
             case ITEM_TYPES.AMULET:
@@ -181,13 +181,13 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
 
         // bounds detection - right
         if (x + invItem.width > cols) {
-            console.log("Out of bounds.. too far right");
+            // console.log("Out of bounds.. too far right");
             return false;
         }
 
         // bounds detection - left
         if (y + invItem.height > rows) {
-            console.log("Out of bounds.. too low");
+            // console.log("Out of bounds.. too low");
             return false;
         }
 
@@ -251,7 +251,7 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
             }
             
             invDimensions(equippedItem.type, item);
-            console.log(item);
+            // console.log(item);
         } else {
             return null;
         }
@@ -264,7 +264,7 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
         
         if (!gridRef.current || !draggedItem) return;
 
-        console.log(draggedItem.itemId);
+        // console.log(draggedItem.itemId);
 
         // itemsById[draggedItem.itemId]
 
