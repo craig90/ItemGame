@@ -160,7 +160,8 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
             for (let dy = 0; dy < rows; dy++) {
                 if (hoveredDropTarget.x===dx && hoveredDropTarget.y===dy
                     && canOccupy(hoveredDropTarget.x, hoveredDropTarget.y, inDragInventoryItem)
-                    && inBounds(hoveredDropTarget.x, hoveredDropTarget.y, inDragInventoryItem)) {
+                    && inBounds(hoveredDropTarget.x, hoveredDropTarget.y, inDragInventoryItem)
+                    && !(getDragStartX() ===dx && getDragStartY() === dy)) {
                         
                         for (let xWidth = dx; xWidth < dx + inDragInventoryItem.width; xWidth++) {
                             for (let yHeight = dy; yHeight < dy + inDragInventoryItem.height; yHeight++) {
@@ -191,6 +192,35 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
         }
 
         return true;
+
+    }
+
+    function getDragStartX() {
+
+        if (!draggedItem) {
+            return null;
+        }
+
+        const invItem = inventoryItems.find(
+            (item) => item.id === draggedItem?.itemId
+        );
+
+        return invItem?.x;
+
+
+    }
+
+    function getDragStartY() {
+
+        if (!draggedItem) {
+            return null;
+        }
+
+        const invItem = inventoryItems.find(
+            (item) => item.id === draggedItem?.itemId
+        );
+
+        return invItem?.y;
 
     }
 
@@ -312,7 +342,7 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
                             style={{opacity: draggedItem?.itemId === item.id ? 0.3 : 1}}
                         >
                             <div
-                                className="item"
+                                className={`item ${draggedItem?.itemId === item.id ? "dragging" : ""}`}
                                 style={
                                     {
                                         "--x": invItem.x,
@@ -326,7 +356,7 @@ export function Inventory ({itemsById, inventoryItems, equippedItems, cols, rows
                                 }}
                             >
                                 <img 
-                                    className="item-image"
+                                    className={`item-image ${draggedItem?.itemId === item.id ? "dragging" : ""}`}
                                     src={`${itemTypeToImage[item.type]}`}
                                     alt=""
                                     draggable={false}

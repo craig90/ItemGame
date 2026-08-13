@@ -43,3 +43,8 @@
     object-fit: contain;
     pointer-events: auto;
 }
+
+.item.dragging,
+.item-image.dragging {
+    pointer-events: none !important;
+}
