@@ -26,3 +26,4 @@ ItemGame/bin/com/craig/itemgame/ui/ItemPanel$InventoryTransferHandler.class
 ItemGame/bin/com/craig/itemgame/ui/ItemPanel$ItemPanelTransferHandler.class
 
 .DS_Store
+ItemGame/frontend/src/assets/unused_images/

@@ -24,3 +24,7 @@ Literally open the Launcher.java program and select run.
 cd to project root
 ./gradlew build
 ./gradlew desktop:run
+
+### Credits
+
+See [CREDITS.md](CREDITS.md) for third-party art attributions.
