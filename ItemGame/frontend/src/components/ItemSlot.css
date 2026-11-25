@@ -1,0 +1,57 @@
+.item-slot {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border: 2px solid #2a2a2a;
+  /* border: 2px solid #666; */
+  padding: 8px;
+  margin: 4px;
+  /* background-color: #999; */
+  background: rgba(44, 44, 44, 0.6);
+  /* background: rgba(153, 153, 153, 0.6); */
+}
+
+.item-slot--amulet, .item-slot--ring-right, .item-slot--ring-left, 
+.item-image--amulet, .item-image--ring {
+  width: 50px;
+  height: 50px;
+}
+
+.item-slot--weapon, .item-slot--shield, .item-slot--chest, .item-slot--pants, .item-slot--new-item,
+.item-slot--delete-item,
+.item-image--weapon, .item-image--shield, .item-image--chest, .item-image--pants {
+  width: 100px;
+  height: 150px;
+}
+
+.item-slot--gloves, .item-slot--boots, .item-slot--helm,
+.item-image--gloves, .item-image--boots, .item-image--helm {
+  width: 100px;
+  height: 100px;
+}
+
+.item-slot--belt,
+.item-image--belt {
+  width: 100px;
+  height: 50px;
+}
+
+.gear-image {
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.slot-type {
+  position: absolute;
+  text-align: center;
+  left: 50%;
+  transform: translateX(-50%);
+  color: grey;
+}
+
+.slot--occupied {
+  background-color: rgba(120, 90, 30, 0.35);
+}

@@ -1,0 +1,9 @@
+.standard-background {
+  padding: 0px 10px 10px 10px;
+  border-radius: 6px;
+  background: rgba(113, 109, 109, 0.9);
+}
+
+.slot-highlight {
+  background-color: green;
+}

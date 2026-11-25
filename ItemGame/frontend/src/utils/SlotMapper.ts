@@ -1,0 +1,62 @@
+import { ITEM_TYPES, type Item, type ItemType } from "../models/Item";
+import { SLOT_TYPES, type SlotType } from "../models/SlotType";
+
+export type EquippedItems = Partial<Record<SlotType, Item>>;
+
+export function mapItemsToSlots(items: Item[]): EquippedItems {
+
+    const equippedItems: EquippedItems = {}
+
+    for (const item of items) {
+        switch(item.type) {
+            case "AMULET":
+                equippedItems.amulet = item;
+                break;
+            case "BELT":
+                equippedItems.belt = item;
+                break;    
+            case "BOOTS":
+                equippedItems.boots = item;
+                break;
+            case "CHEST":
+                equippedItems.chest = item;
+                break;
+            case "GLOVES":
+                equippedItems.gloves = item;
+                break;    
+            case "HELM":
+                equippedItems.helm = item;
+                break;
+            case "PANTS":
+                equippedItems.pants = item;
+                break;
+            case "SHIELD":
+                equippedItems.shield = item;
+                break;
+            case "WEAPON":
+                equippedItems.weapon = item;
+                break;
+            case "RING": // TODO: come back to this because rings are a special case
+                break;
+        
+        }
+    }
+
+    return equippedItems;
+
+}
+
+export function itemTypeMatchesSlotType(itemType:ItemType, slotType: string) {
+
+    if (itemType === slotType.toUpperCase()) {
+        return true;
+    } else if (itemType === ITEM_TYPES.RING && 
+        (slotType === SLOT_TYPES.RING_LEFT || slotType === SLOT_TYPES.RING_RIGHT)) {
+        return true;
+    } else if (slotType === SLOT_TYPES.DELETE_ITEM) {
+        return true;
+    }
+
+    return false;
+
+}

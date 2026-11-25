@@ -1,1 +1,5 @@
 rootProject.name = 'ItemGame'
+
+include("shared")
+include("desktop")
+include("backend")

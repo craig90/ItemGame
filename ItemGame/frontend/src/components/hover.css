@@ -1,0 +1,42 @@
+.item-hover {
+  visibility: hidden;
+  position: absolute;
+  z-index: 3;
+
+  background-color: rgba(39, 36, 36, 0.6);
+  color: azure;
+  
+  width: max-content;
+  white-space: nowrap;
+  
+  padding: 6px;
+
+  left:50%;
+  /* bottom:100%; */
+
+  transform: translateX(-50%);
+
+  pointer-events:none;
+
+}
+
+.item-container:hover .item-hover {
+  visibility: visible;
+}
+
+.item-name {
+  font-weight: bold;
+}
+
+.stat {
+  margin: 0;
+  padding: 0;
+}
+
+.positive-hover-stat {
+  color: green;
+}
+
+.negative-hover-stat {
+  color: red;
+}

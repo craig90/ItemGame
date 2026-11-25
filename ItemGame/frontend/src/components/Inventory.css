@@ -1,0 +1,50 @@
+.inventory {
+    position: relative;
+    width: fit-content;
+    margin: 5px;
+}
+
+.grid {
+    display: grid;
+    gap: 2px;
+    background: #222;
+    padding: 4px;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    background: #444;
+    border: 1px solid 2a2a2a;
+}
+
+.cell--occupied {
+    background-color: rgba(120, 90, 30, 0.35);
+}
+
+.items {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+}
+
+.item {
+    position: absolute;
+    left: calc(var(--x)*52px);
+    top: calc(var(--y)*52px);
+
+    width: calc(var(--w)*52px);
+    height: calc(var(--h)*52px);
+}
+
+.item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: auto;
+}
+
+.item.dragging,
+.item-image.dragging {
+    pointer-events: none !important;
+}

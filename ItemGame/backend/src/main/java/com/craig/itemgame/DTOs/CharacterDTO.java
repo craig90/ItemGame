@@ -1,0 +1,148 @@
+package com.craig.itemgame.DTOs;
+
+import java.util.List;
+import java.util.Map;
+
+public class CharacterDTO {
+    
+    private String id;
+    private String name;
+    private double level;
+    private double experience;
+    private double health;
+    private double damage;
+    private double defence;
+    private double fireResistance;
+    private double lightningResistance;
+    private double coldResistance;
+    private double poisonResistance;
+    private double magicResistance;
+
+    // TODO: saving as String.. at least for now because the front-end wants strings
+    private Map<String, String> equippedItems;
+    private Map<String, ItemDTO> itemsById;
+    private List<InventoryItemDTO> inventoryItemDTOs;
+
+    public CharacterDTO() { }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLevel(double level) {
+        this.level = level;
+    }
+
+    public void setExperience(double experience) {
+        this.experience = experience;
+    }
+
+    public void setHealth(double health) {
+        this.health = health;
+    }
+
+    public void setDefence(double defence) {
+        this.defence = defence;
+    }
+
+    public void setDamage(double damage) {
+        this.damage = damage;
+    }
+
+    public void setFireResistence(double fireResistance) {
+        this.fireResistance = fireResistance;
+    }
+
+    public void setLightningResistance(double lightningResistance) {
+        this.lightningResistance = lightningResistance;
+    }
+
+    public void setColdResistance(double coldResistance) {
+        this.coldResistance = coldResistance;
+    }
+
+    public void setMagicResistance(double magicResistance) {
+        this.magicResistance = magicResistance;
+    }
+
+    public void setPoisonResistance(double poisonResistance) {
+        this.poisonResistance = poisonResistance;
+    }
+
+    public void setEquippedItems(Map<String, String> equippedItems) {
+        this.equippedItems = equippedItems;
+    }
+
+    public void setItemsById(Map<String, ItemDTO> itemsById) {
+        this.itemsById = itemsById;
+    }
+
+    public void setInventoryItems(List<InventoryItemDTO> inventoryItemDTOs) {
+        this.inventoryItemDTOs = inventoryItemDTOs;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public double getLevel() {
+        return this.level;
+    }
+
+    public double getExperience() {
+        return this.experience;
+    }
+
+    public double getHealth() {
+        return this.health;
+    }
+
+    public double getDamage() {
+        return this.damage;
+    }
+
+    public double getDefence() {
+        return this.defence;
+    }
+
+    public double getFireResistance() {
+        return this.fireResistance;
+    }
+
+    public double getLightningResistance() {
+        return this.lightningResistance;
+    }
+
+    public double getPoisonResistance() {
+        return this.poisonResistance;
+    }
+
+    public double getColdResistance() {
+        return this.coldResistance;
+    }
+
+    public double getMagicResistance() {
+        return this.magicResistance;
+    }
+
+    public Map<String, String> getEquippedItems() {
+        return this.equippedItems;
+    }
+
+    public Map<String, ItemDTO> getItemsById() {
+        return this.itemsById;
+    }
+
+    public List<InventoryItemDTO> getInventoryItems() {
+        return this.inventoryItemDTOs;
+    }
+
+}
