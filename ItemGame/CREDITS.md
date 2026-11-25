@@ -4,13 +4,14 @@ Third-party art used in ItemGame.
 
 ## Kite Shield
 
-- **File:** `frontend/src/assets/images/shield.png`
+- **File:** `frontend/src/assets/images/shield.png`, `desktop/src/main/resources/images/shield.png`
 - **Author:** Hansjörg Malthaner
 - **Source:** http://opengameart.org/users/varkalandar
 
 ## Flare Armor Icons
 
-- **Files:** `frontend/src/images/chest.png`, `frontend/src/images/gloves.png`, `frontend/src/images/boots.png`, `frontend/src/images/helm.png`
+- **Files:** `frontend/src/images/chest.png`, `frontend/src/images/gloves.png`, `frontend/src/images/boots.png`, `frontend/src/images/helm.png`,
+`desktop/src/main/resources/chest.png`, `desktop/src/main/resources/gloves.png`, `desktop/src/main/resources/boots.png`, `desktop/src/main/resources/helm.png`
 - **Authors:**
   - Clint Bellanger: original models and raw renders
   - crowline (CrowLineStudio): Cloth set
@@ -23,13 +24,13 @@ Created for [Flare](https://flarerpg.org/); an extension of the OSARE weapon ico
 
 ## Flare Weapon Icons 2
 
-- **Files:** `frontend/src/assets/images/weapon.png`
+- **Files:** `frontend/src/assets/images/weapon.png`, `desktop/src/main/resources/weapon.png`
 - **Authors:** Clint Bellanger (models), Justin Nichol (paint finish)
 - **Changes:** black background and painted glow made transparent.
 
 ## Studded Belt
 
-- **File:** `frontend/src/assets/images/belt.png`
+- **File:** `frontend/src/assets/images/belt.png`, `desktop/src/main/resources/belt.png`
 - **Leather texture:** D. Sharon Pruitt ([Pink Sherbet Photography](https://www.flickr.com/photos/pinksherbet/)), licensed [CC-BY 2.0](https://creativecommons.org/licenses/by/2.0/). Original photo: http://www.flickr.com/photos/pinksherbet/3005071597/ (no longer online)
 - **Metal texture:** Public domain (Blender Texture Disc)
 - **Changes:** rendered to PNG from the original .blend model, background made transparent, cropped.
