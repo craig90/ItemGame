@@ -1,10 +1,7 @@
-GUI/.DS_Store
-GUI/ItemWindow.java
 .vscode/settings.json
-Gui/DragAndDropPanelExample.java
 
 .DS_Store
-ItemGame/frontend/src/assets/unused_images/
+frontend/src/assets/unused_images/
 
 # Ignore Gradle project-specific cache directory
 .gradle
@@ -12,8 +9,6 @@ ItemGame/frontend/src/assets/unused_images/
 # Don't track build or binaries for global project
 build
 bin
-
-
 
 # Don't track build or binaries for backend
 backend/build
