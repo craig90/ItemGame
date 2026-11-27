@@ -1,29 +1,31 @@
-ItemGame/.DS_Store
-ItemGame/GUI/.DS_Store
-TestsInC/stack
-ItemGame/bin/CharacterScreen.class
-ItemGame/bin/DragAndDropPanelExample.class
-ItemGame/bin/DragAndDropPanelExample$1.class
-ItemGame/bin/DragAndDropPanelExample$MyLabelTransferHandler.class
-ItemGame/bin/DragAndDropPanelExample$MyPanelTransferHandler.class
-ItemGame/bin/Gui.class
-ItemGame/bin/HoverPanel.class
-ItemGame/bin/ImageResizer.class
-ItemGame/bin/ItemLayeredPane.class
-ItemGame/bin/ItemWindow.class
-ItemGame/bin/ItemWindow$ImageTransferable.class
-ItemGame/bin/ItemWindow$MyLabelTransferHandler.class
-ItemGame/bin/ItemWindow$MyPanelTransferHandler.class
-ItemGame/bin/MyMouseListener.class
-ItemGame/bin/*
-ItemGame/GUI/ItemWindow.java
-ItemGame/.vscode/settings.json
-ItemGame/bin/.DS_Store
-ItemGame/Gui/DragAndDropPanelExample.java
-ItemGame/Tests/*
-ItemGame/bin/com/craig/itemgame/ui/ItemPanel$InventoryTransferHandler.class
-ItemGame/bin/com/craig/itemgame/ui/ItemPanel$InventoryTransferHandler.class
-ItemGame/bin/com/craig/itemgame/ui/ItemPanel$ItemPanelTransferHandler.class
+GUI/.DS_Store
+GUI/ItemWindow.java
+.vscode/settings.json
+Gui/DragAndDropPanelExample.java
 
 .DS_Store
 ItemGame/frontend/src/assets/unused_images/
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Don't track build or binaries for global project
+build
+bin
+
+
+
+# Don't track build or binaries for backend
+backend/build
+backend/bin
+
+# Don't track build or binaries for Desktop app
+desktop/build
+desktop/bin
+
+# Don't track cached vite files
+frontend/.vite
+
+frontend/src/assets/unused_images/
+
+desktop/CharacterFiles
